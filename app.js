@@ -204,7 +204,6 @@ function applyI18n() {
   renderAyah();
   renderTimes();
   renderMonth();
-  if (monthView === "ramadan") { ramadan = []; showRamadan().catch(() => toast(t("loadFail"))); }
   renderQibla();
   renderChapters();
   const audio = document.getElementById("audio");
@@ -310,16 +309,22 @@ function kaabaKm(lat, lon) {
   const a = Math.sin(dφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(dλ / 2) ** 2;
   return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
 }
+function monthName(day) {
+  const n = +day.date.gregorian.month.number;
+  return MONTHS[state.lang][n - 1] || day.date.gregorian.month.en;
+}
 function renderMonth() {
   const now = zoneParts(state.place.tz);
   const rows = monthView === "ramadan" ? ramadan : calendar.filter(d => +d.date.gregorian.month.number === now.m);
-  document.getElementById("monthHeading").textContent = monthView === "ramadan" ? t("nextRamadan") : t("monthTitle");
-  document.getElementById("monthNote").textContent = monthView === "ramadan" ? `${t("ramadanNote")} ${ramadanStartLabel()}` : "";
+  const heading = document.getElementById("monthHeading");
+  const note = document.getElementById("monthNote");
+  if (heading) heading.textContent = monthView === "ramadan" ? t("nextRamadan") : t("monthTitle");
+  if (note) note.textContent = monthView === "ramadan" ? `${t("ramadanNote")} ${ramadanStartLabel()}` : "";
   document.getElementById("monthBody").innerHTML = rows.map(d => {
     const tm = d.timings;
     const today = +d.date.gregorian.day === now.d && +d.date.gregorian.month.number === now.m;
     const date = monthView === "ramadan"
-      ? `${d.date.gregorian.day} ${localMonth(d.date.gregorian.month.en).slice(0, 3)}`
+      ? `${d.date.gregorian.day} ${monthName(d)}`
       : `${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}`;
     return `<tr class="${today ? "today" : ""}"><td>${date}</td><td>${cleanTime(tm.Fajr)}</td><td>${cleanTime(tm.Sunrise)}</td><td>${cleanTime(tm.Dhuhr)}</td><td>${cleanTime(tm.Asr)}</td><td>${cleanTime(tm.Maghrib)}</td><td>${cleanTime(tm.Isha)}</td></tr>`;
   }).join("");
@@ -521,11 +526,12 @@ document.getElementById("gpsBtn").onclick = () => {
     choosePlace({ name, latitude: lat, longitude: lon, timezone: tz });
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
 };
-async function setLanguage(lang) {
+function setLanguage(lang) {
   if (state.lang === lang) return;
   state.lang = lang;
   save();
   applyI18n();
+  renderMonth();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
 }
 document.getElementById("langEn").onclick = () => setLanguage("en");
