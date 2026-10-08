@@ -36,7 +36,8 @@ const AYAH = [
 const I18N = {
   en: {
     tag: "Prayer times", next: "Next prayer", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
-    monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan",
+    monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
+    ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
     thDate: "Date",
     fajr: "Fajr", sun: "Sunrise", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
@@ -61,7 +62,8 @@ const I18N = {
   },
   tr: {
     tag: "Namaz vakitleri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
-    monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan",
+    monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
+    ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
     thDate: "Tarih",
     fajr: "İmsak", sun: "Güneş", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı",
@@ -112,6 +114,7 @@ let currentChapter = 1;
 let startingAudio = false;
 let monthView = "month";
 let ramadan = [];
+let ramadanStart = "";
 let station = "mishary";
 const STATIONS = [
   ["mishary", "Al-Afasy", "https://backup.qurango.net/radio/mishary_alafasi"],
@@ -306,10 +309,15 @@ function kaabaKm(lat, lon) {
 function renderMonth() {
   const now = zoneParts(state.place.tz);
   const rows = monthView === "ramadan" ? ramadan : calendar.filter(d => +d.date.gregorian.month.number === now.m);
+  document.getElementById("monthHeading").textContent = monthView === "ramadan" ? t("nextRamadan") : t("monthTitle");
+  document.getElementById("monthNote").textContent = monthView === "ramadan" ? `${t("ramadanNote")} ${ramadanStart}` : "";
   document.getElementById("monthBody").innerHTML = rows.map(d => {
     const tm = d.timings;
     const today = +d.date.gregorian.day === now.d && +d.date.gregorian.month.number === now.m;
-    return `<tr class="${today ? "today" : ""}"><td>${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}</td><td>${cleanTime(tm.Fajr)}</td><td>${cleanTime(tm.Sunrise)}</td><td>${cleanTime(tm.Dhuhr)}</td><td>${cleanTime(tm.Asr)}</td><td>${cleanTime(tm.Maghrib)}</td><td>${cleanTime(tm.Isha)}</td></tr>`;
+    const date = monthView === "ramadan"
+      ? `${d.date.gregorian.day} ${localMonth(d.date.gregorian.month.en).slice(0, 3)}`
+      : `${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}`;
+    return `<tr class="${today ? "today" : ""}"><td>${date}</td><td>${cleanTime(tm.Fajr)}</td><td>${cleanTime(tm.Sunrise)}</td><td>${cleanTime(tm.Dhuhr)}</td><td>${cleanTime(tm.Asr)}</td><td>${cleanTime(tm.Maghrib)}</td><td>${cleanTime(tm.Isha)}</td></tr>`;
   }).join("");
   document.getElementById("monthMode").classList.toggle("on", monthView !== "ramadan");
   document.getElementById("ramadanMode").classList.toggle("on", monthView === "ramadan");
@@ -460,6 +468,8 @@ async function showRamadan() {
     const ramadanYear = month > 9 ? year + 1 : year;
     const res = await fetch(`https://api.aladhan.com/v1/hijriCalendar/${ramadanYear}/9?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`);
     ramadan = (await res.json()).data || [];
+    const first = ramadan[0];
+    ramadanStart = first ? `${first.date.gregorian.day} ${localMonth(first.date.gregorian.month.en)} ${first.date.gregorian.year}` : "";
   }
   renderMonth();
 }

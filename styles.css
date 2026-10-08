@@ -117,7 +117,8 @@ tr.today td { color: var(--gold-2); background: color-mix(in srgb, var(--gold) 1
 .compass { width: 220px; height: 220px; margin: 8px auto; }
 .radio { margin-top: 16px; }
 .stations { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.stations button.on, .row .on { background: var(--gold); color: #1a140e; border-color: transparent; }
+.stations button { border-radius: 999px; border: 1px solid var(--line); background: #172033; color: var(--ink); padding: 8px 12px; }
+.stations button.on, #ramadanMode.on, #monthMode.on { background: var(--gold); color: #1a140e; border-color: transparent; }
 .qibla-frame + .row a { color: var(--gold); }
 .quran-layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; }
 .chapters button, .results button {
