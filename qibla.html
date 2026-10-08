@@ -124,7 +124,7 @@
       origin = { lat, lon, name: name || origin.name };
       if (name) document.getElementById("q").value = name;
       redraw();
-      if (map.isStyleLoaded()) fitPath();
+      if (map.isStyleLoaded()) map.easeTo({ center: [lon, lat], zoom: 12, duration: 450 });
     }
 
     const map = new maplibregl.Map({
@@ -150,7 +150,6 @@
       map.addLayer({ id: "qibla-line", type: "line", source: "qibla", filter: ["==", ["get", "kind"], "line"], paint: { "line-color": "#8d5e32", "line-width": 3 } });
       map.addLayer({ id: "qibla-you", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "you"], paint: { "circle-radius": 7, "circle-color": "#d4a574", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
       map.addLayer({ id: "qibla-kaaba", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "kaaba"], paint: { "circle-radius": 6, "circle-color": "#1a1a1a", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
-      fitPath();
       redraw();
     });
 
@@ -190,6 +189,11 @@
       }, 280);
     });
     document.getElementById("q").value = start.name;
+    document.getElementById("q").addEventListener("keydown", event => {
+      if (event.key !== "Enter") return;
+      const first = document.querySelector("#results button");
+      if (first) first.click();
+    });
   </script>
 </body>
 </html>
