@@ -559,6 +559,7 @@ document.getElementById("soundSel").onchange = e => {
   state.sound = e.target.value; save();
   document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
 };
+document.getElementById("soundPreview").onclick = () => playAlert();
 document.getElementById("soundFile").onchange = e => {
   const f = e.target.files && e.target.files[0];
   if (!f) return;

@@ -161,6 +161,8 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .info-page h1 { font-family: var(--serif); margin: 0 0 12px; }
 .info-page p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; }
 .info-page a { color: var(--gold); }
+.sound-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+.sound-row select { flex: 1 1 auto; min-width: 0; }
 .rrows { display: grid; gap: 6px; margin-top: 8px; }
 .rrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .rrow select { max-width: 160px; }

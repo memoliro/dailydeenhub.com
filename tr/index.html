@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=5" />
+  <link rel="stylesheet" href="/styles.css?v=6" />
 </head>
 <body>
   <header class="top">
@@ -204,7 +204,9 @@
       </label>
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while this tab is open</span></label>
       <div class="field"><span data-i="remindBefore">Minutes before prayer</span><div id="remindRows" class="rrows"></div></div>
-      <label class="field"><span data-i="soundLbl">Alert sound</span><select id="soundSel" class="field"></select></label>
+      <div class="field"><span data-i="soundLbl">Alert sound</span>
+        <div class="sound-row"><select id="soundSel" class="field"></select><button class="icon-btn" id="soundPreview" type="button" aria-label="Preview sound">▶</button></div>
+      </div>
       <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Upload custom sound</span><input id="soundFile" type="file" accept="audio/*" class="field" /></label>
       <p class="note" data-i="methodNote">Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.</p>
       <div class="row"><button class="primary" id="setClose" type="button" data-i="done">Done</button></div>
@@ -212,6 +214,6 @@
   </div>
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-api.js?v=4"></script>
-  <script src="/app.js?v=5"></script>
+  <script src="/app.js?v=6"></script>
 </body>
 </html>
