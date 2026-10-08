@@ -193,6 +193,8 @@ function applyI18n() {
   document.getElementById("themeBtn").textContent = state.theme === "night" ? "☾" : "☀";
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = state.place.name;
+  const bw = document.getElementById("brandWord");
+  if (bw) { bw.src = state.lang === "tr" ? "images/logo-text-tr.png" : "images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
   document.getElementById("footerNote").textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
