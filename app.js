@@ -31,7 +31,8 @@ const I18N = {
     tag: "Prayer times", next: "Next prayer", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thDate: "Date",
     fajr: "Fajr", sun: "Sunrise", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
-    ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", howTitle: "How to use it",
+    ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", mapTitle: "Qibla map",
+    mapBody: "Drag the map. The line redraws from the center toward the Kaaba.",
     quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
@@ -53,7 +54,8 @@ const I18N = {
     tag: "Namaz vakitleri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thDate: "Tarih",
     fajr: "İmsak", sun: "Güneş", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı",
-    ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", howTitle: "Nasıl kullanılır",
+    ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
+    mapBody: "Haritayı kaydırın. Çizgi merkezden Kâbe’ye doğru yeniden çizilir.",
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
@@ -164,7 +166,8 @@ function applyI18n() {
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = state.place.name;
   document.getElementById("footerNote").textContent = t("footer");
-  document.getElementById("howBody").textContent = t("howBody");
+  const how = document.getElementById("howBody");
+  if (how) how.textContent = t("howBody");
   document.getElementById("qiblaHint").textContent = t("qiblaHint");
   document.getElementById("tasbihNote").textContent = t("tasbihNote");
   document.getElementById("focusBody").textContent = t("focusBody");
@@ -291,6 +294,13 @@ function renderQibla() {
   document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
   document.getElementById("qiblaMark").setAttribute("transform", `rotate(${b} 110 110)`);
   document.getElementById("dial").setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
+  const frame = document.getElementById("qiblaFrame");
+  const open = document.getElementById("qiblaOpen");
+  if (frame) {
+    const src = `/qibla.html?embed=1&lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
+    if (frame.dataset.place !== src) { frame.dataset.place = src; frame.src = src; }
+    if (open) open.href = `/qibla.html?lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
+  }
   const agree = atKaaba || Math.abs(((qiblaDirection ?? local) - local + 540) % 360 - 180) < 0.2;
   document.getElementById("qiblaCheck").textContent = atKaaba
     ? (state.lang === "tr" ? "Kâbe’desiniz." : "You are at the Kaaba.")

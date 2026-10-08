@@ -15,5 +15,5 @@ Cloudflare Pages, connected to this repo:
 ## Data
 
 - Prayer times and qibla: Aladhan API v1 (`prayer-api.js`). Monthly calendar is cached for 18 hours. Diyanet is calculation method 13; ISNA is method 2. This is not the credentialed Diyanet Awqat Salah feed.
-- Places: Open-Meteo geocoding
+- Qibla map: `qibla.html` can be embedded. Dragging the map redraws the direction line from the center.
 - Quran text and audio: Quran.com API v4
