@@ -159,7 +159,7 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
   .vakt-grid { grid-template-columns: repeat(2, 1fr); }
   .chip { max-width: 140px; }
   .top-inner { gap: 8px; }
-  .brand { flex: 1 1 auto; min-width: 0; }
-  .brand-mark { width: 34px !important; height: 34px !important; }
-  .brand-word { height: 34px !important; max-width: 100%; object-fit: contain; object-position: left center; }
+  .brand { flex: 1 1 auto; min-width: 0; flex-direction: column; align-items: flex-start; gap: 3px; }
+  .brand-mark { width: 36px !important; height: 36px !important; }
+  .brand-word { height: 38px !important; max-width: 100%; object-fit: contain; object-position: left center; }
 }
