@@ -133,7 +133,7 @@ const STATIONS = [
 function load() {
   const saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}");
   return {
-    lang: saved.lang || ((navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en"),
+    lang: saved.lang || (location.pathname.startsWith("/tr") ? "tr" : ((navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en")),
     theme: saved.theme || "night",
     method: saved.method ?? 2,
     school: saved.school ?? 0,
@@ -204,7 +204,7 @@ function applyI18n() {
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = state.place.name;
   const bw = document.getElementById("brandWord");
-  if (bw) { bw.src = state.lang === "tr" ? "images/logo-text-tr.png" : "images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
+  if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
   document.getElementById("footerNote").textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
@@ -558,6 +558,9 @@ function setLanguage(lang) {
   if (state.lang === lang) return;
   state.lang = lang;
   save();
+  const target = lang === "tr" ? "/tr/" : "/";
+  const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  if (target !== here) { location.href = target; return; }
   applyI18n();
   renderMonth();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
