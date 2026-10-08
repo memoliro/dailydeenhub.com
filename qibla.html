@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Qibla map</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" />
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -22,7 +22,7 @@
     .stats div { border: 1px solid rgba(212,165,116,.2); border-radius: 14px; padding: 8px 10px; }
     .stats span { display: block; color: #a7b0c2; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
     .stats strong { font-variant-numeric: tabular-nums; font-size: 18px; }
-    .qibla-line { stroke: #d4a574; stroke-width: 4; stroke-linecap: round; }
+    .maplibregl-ctrl-attrib { font-size: 11px; }
     @media (max-width: 720px) { .stats { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
@@ -41,7 +41,7 @@
       <div><span>Line</span><strong id="status">Drag the map</strong></div>
     </div>
   </div>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
   <script>
     const KAABA = { lat: 21.4225, lon: 39.8262 };
     const params = new URLSearchParams(location.search);
@@ -72,44 +72,61 @@
       const φ1 = lat * Math.PI / 180, λ1 = lon * Math.PI / 180;
       const φ2 = Math.asin(Math.sin(φ1) * Math.cos(δ) + Math.cos(φ1) * Math.sin(δ) * Math.cos(θ));
       const λ2 = λ1 + Math.atan2(Math.sin(θ) * Math.sin(δ) * Math.cos(φ1), Math.cos(δ) - Math.sin(φ1) * Math.sin(φ2));
-      return [φ2 * 180 / Math.PI, ((λ2 * 180 / Math.PI + 540) % 360) - 180];
+      return [((λ2 * 180 / Math.PI + 540) % 360) - 180, φ2 * 180 / Math.PI];
+    }
+    function spanKm() {
+      const b = map.getBounds();
+      return b.getSouthWest().distanceTo(b.getNorthEast()) / 1000;
     }
 
-    const map = L.map("map", { zoomControl: true }).setView([start.lat, start.lon], 14);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
-      maxZoom: 19
-    }).addTo(map);
-    const marker = L.circleMarker([start.lat, start.lon], {
-      radius: 7, color: "#8d5e32", weight: 2, fillColor: "#d4a574", fillOpacity: 1
-    }).addTo(map);
-    const line = L.polyline([[start.lat, start.lon], start], { color: "#8d5e32", weight: 4, opacity: 0.95 }).addTo(map);
-    L.circleMarker([KAABA.lat, KAABA.lon], {
-      radius: 5, color: "#8d5e32", weight: 2, fillColor: "#1a1a1a", fillOpacity: 1
-    }).addTo(map).bindTooltip("Kaaba");
+    const map = new maplibregl.Map({
+      container: "map",
+      style: "https://tiles.openfreemap.org/styles/liberty",
+      center: [start.lon, start.lat],
+      zoom: 13
+    });
+    map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-    function redraw() {
+    function lineData() {
       const c = map.getCenter();
       const b = bearing(c.lat, c.lng);
       const km = distanceKm(c.lat, c.lng);
-      const span = map.getBounds().getNorthEast().distanceTo(map.getBounds().getSouthWest()) / 1000;
-      const end = destination(c.lat, c.lng, b, Math.max(0.4, span * 0.42));
-      line.setLatLngs([[c.lat, c.lng], end]);
-      marker.setLatLng(c);
-      document.getElementById("bearing").textContent = km < 1 ? "Kaaba" : b.toFixed(2) + "°";
-      document.getElementById("distance").textContent = km.toFixed(0) + " km";
+      const end = destination(c.lat, c.lng, b, Math.max(0.4, spanKm() * 0.42));
+      return {
+        type: "FeatureCollection",
+        features: [
+          { type: "Feature", properties: { kind: "line" }, geometry: { type: "LineString", coordinates: [[c.lng, c.lat], end] } },
+          { type: "Feature", properties: { kind: "you" }, geometry: { type: "Point", coordinates: [c.lng, c.lat] } },
+          { type: "Feature", properties: { kind: "kaaba" }, geometry: { type: "Point", coordinates: [KAABA.lon, KAABA.lat] } }
+        ],
+        bearing: b,
+        km
+      };
+    }
+    function redraw() {
+      const data = lineData();
+      const source = map.getSource("qibla");
+      if (source) source.setData(data);
+      const c = map.getCenter();
+      document.getElementById("bearing").textContent = data.km < 1 ? "Kaaba" : data.bearing.toFixed(2) + "°";
+      document.getElementById("distance").textContent = data.km.toFixed(0) + " km";
       document.getElementById("coords").textContent = c.lat.toFixed(4) + ", " + c.lng.toFixed(4);
       document.getElementById("status").textContent = "Live";
     }
+
+    map.on("load", () => {
+      map.addSource("qibla", { type: "geojson", data: lineData() });
+      map.addLayer({ id: "qibla-line", type: "line", source: "qibla", filter: ["==", ["get", "kind"], "line"], paint: { "line-color": "#8d5e32", "line-width": 4 } });
+      map.addLayer({ id: "qibla-you", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "you"], paint: { "circle-radius": 7, "circle-color": "#d4a574", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
+      map.addLayer({ id: "qibla-kaaba", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "kaaba"], paint: { "circle-radius": 5, "circle-color": "#1a1a1a", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
+      redraw();
+    });
     map.on("move", redraw);
-    map.on("zoom", redraw);
-    redraw();
 
     document.getElementById("locate").onclick = () => {
       if (!navigator.geolocation) return;
       navigator.geolocation.getCurrentPosition(pos => {
-        map.setView([pos.coords.latitude, pos.coords.longitude], 15);
+        map.jumpTo({ center: [pos.coords.longitude, pos.coords.latitude], zoom: 14 });
       });
     };
     let timer = 0;
@@ -120,7 +137,7 @@
       timer = setTimeout(async () => {
         const res = await fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&name=" + encodeURIComponent(q));
         const hit = ((await res.json()).results || [])[0];
-        if (hit) map.setView([hit.latitude, hit.longitude], 13);
+        if (hit) map.jumpTo({ center: [hit.longitude, hit.latitude], zoom: 12 });
       }, 280);
     });
     document.getElementById("q").value = start.name;
