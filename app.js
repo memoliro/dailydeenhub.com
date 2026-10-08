@@ -18,6 +18,13 @@ const RECITERS = [
   [9, "Mohamed Siddiq al-Minshawi"],
   [2, "AbdulBaset AbdulSamad"]
 ];
+const RECITER_PATHS = {
+  7: "mishari_al_afasy/murattal",
+  3: "abdurrahmaan_as_sudais/murattal",
+  6: "khalil_al_husary/murattal",
+  9: "siddiq_minshawi/murattal",
+  2: "abdul_baset/murattal"
+};
 const PRAYERS = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const SALAH = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const AYAH = [
@@ -48,7 +55,7 @@ const I18N = {
     footer: "Times from the Aladhan engine. Quran text and audio from Quran.com. A local mosque may differ by a minute.",
     loading: "Loading times…", noResults: "No matches.", searching: "Searching…", gpsFail: "Location unavailable.",
     notified: "Prayer time", toward: "North is up. Line the Kaaba mark with the gold arrow, or enable the compass.",
-    left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times."
+    left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
     tag: "Namaz vakitleri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
@@ -71,7 +78,7 @@ const I18N = {
     footer: "Vakitler Aladhan motorundan. Kur’an metni ve ses Quran.com üzerinden. Yerel cami bir dakika farklı olabilir.",
     loading: "Vakitler yükleniyor…", noResults: "Sonuç yok.", searching: "Aranıyor…", gpsFail: "Konum alınamadı.",
     notified: "Namaz vakti", toward: "Kuzey yukarıda. Kâbe işaretini altın okla hizalayın, ya da pusulayı açın.",
-    left: "sol", right: "sağ", facing: "Kıbleye dönüksünüz.", loadFail: "Vakitler alınamadı."
+    left: "sol", right: "sağ", facing: "Kıbleye dönüksünüz.", loadFail: "Vakitler alınamadı.", audioFail: "Ses açılamadı."
   }
 };
 const WEEKDAYS = {
@@ -98,6 +105,7 @@ let heading = null;
 let notifiedKey = "";
 let searchTimer = 0;
 let currentChapter = 1;
+let startingAudio = false;
 
 function load() {
   const saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}");
@@ -361,14 +369,26 @@ async function refreshQuranLanguage() {
   await loadChapters();
   await openChapter(openId, true);
 }
-async function playChapter() {
+function playChapter() {
   const audio = document.getElementById("audio");
-  if (audio.getAttribute("src") && !audio.paused) { audio.pause(); document.getElementById("playBtn").textContent = t("play"); return; }
-  const res = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${state.reciter}/${currentChapter}`);
-  const json = await res.json();
-  audio.src = json.audio_file.audio_url;
-  await audio.play();
-  document.getElementById("playBtn").textContent = t("pause");
+  const btn = document.getElementById("playBtn");
+  if (audio.getAttribute("src") && !audio.paused) {
+    audio.pause();
+    btn.textContent = t("play");
+    return;
+  }
+  const path = RECITER_PATHS[state.reciter];
+  if (!path) return toast(t("audioFail"));
+  const url = `https://download.quranicaudio.com/qdc/${path}/${currentChapter}.mp3`;
+  startingAudio = true;
+  if (audio.getAttribute("src") !== url) audio.src = url;
+  btn.textContent = t("pause");
+  const pending = audio.play();
+  if (pending) pending.then(() => { startingAudio = false; }).catch(() => {
+    startingAudio = false;
+    btn.textContent = t("play");
+    toast(t("audioFail"));
+  });
 }
 
 async function searchCities(q) {
@@ -426,8 +446,9 @@ document.getElementById("langTr").onclick = () => setLanguage("tr");
 document.getElementById("themeBtn").onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 document.getElementById("surahSearch").addEventListener("input", renderChapters);
-document.getElementById("playBtn").onclick = () => playChapter().catch(() => toast(t("loadFail")));
-document.getElementById("audio").addEventListener("pause", () => { document.getElementById("playBtn").textContent = t("play"); });
+document.getElementById("playBtn").onclick = playChapter;
+document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
+document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
