@@ -73,6 +73,9 @@ const I18N = {
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
+    menuHome: "Ana Sayfa", menuQibla: "Kıble", menuResources: "Kaynaklar", menuArticles: "Makaleler",
+    menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
+    menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     methodNote: "Vakitler hesaplanır, resmi cami ilanı değildir. Türkiye için Diyanet, Montreal varsayılanı ISNA.",
     names: { Fajr: "İmsak", Sunrise: "Güneş", Dhuhr: "Öğle", Asr: "İkindi", Maghrib: "Akşam", Isha: "Yatsı" },
     remaining: "kaldı", at: "saat", passed: "geçti", now: "şimdi",
@@ -190,6 +193,13 @@ function applyI18n() {
   document.querySelectorAll("[data-i-ph]").forEach(el => { el.placeholder = t(el.dataset.iPh); });
   document.getElementById("langEn").classList.toggle("on", state.lang === "en");
   document.getElementById("langTr").classList.toggle("on", state.lang === "tr");
+  const mEn = document.getElementById("mLangEn"), mTr = document.getElementById("mLangTr");
+  if (mEn) mEn.classList.toggle("on", state.lang === "en");
+  if (mTr) mTr.classList.toggle("on", state.lang === "tr");
+  const mTv = document.getElementById("mThemeVal");
+  if (mTv) mTv.textContent = state.theme === "night" ? "☾" : "☀";
+  const mLv = document.getElementById("mLocVal");
+  if (mLv) mLv.textContent = state.place.name;
   document.getElementById("themeBtn").textContent = state.theme === "night" ? "☾" : "☀";
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = state.place.name;
@@ -507,6 +517,21 @@ function choosePlace(r) {
 document.getElementById("locBtn").onclick = () => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); };
 document.getElementById("locClose").onclick = () => document.getElementById("locModal").classList.add("hidden");
 document.getElementById("setBtn").onclick = () => document.getElementById("setModal").classList.remove("hidden");
+const menuPanel = document.getElementById("menuPanel"), menuBtn = document.getElementById("menuBtn");
+const closeMenu = () => menuPanel && menuPanel.classList.remove("open");
+if (menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle("open"); };
+document.addEventListener("click", (e) => { if (menuPanel && menuPanel.classList.contains("open") && !menuPanel.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+const mClose = (fn) => () => { closeMenu(); fn(); };
+if (menuPanel) {
+  document.getElementById("mLangEn").onclick = () => setLanguage("en");
+  document.getElementById("mLangTr").onclick = () => setLanguage("tr");
+  document.getElementById("mTheme").onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
+  document.getElementById("mLoc").onclick = mClose(() => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); });
+  document.getElementById("mSet").onclick = mClose(() => document.getElementById("setModal").classList.remove("hidden"));
+  menuPanel.querySelectorAll("[data-soon]").forEach(b => b.onclick = () => toast(t("comingSoon")));
+  menuPanel.querySelectorAll("a.menu-link").forEach(a => a.onclick = closeMenu);
+}
 document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
   state.school = +document.getElementById("schoolSel").value;

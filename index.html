@@ -29,7 +29,23 @@
       </div>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Theme">☾</button>
       <button class="icon-btn" id="setBtn" type="button" aria-label="Settings">⚙</button>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
     </div>
+    <nav class="menu-panel" id="menuPanel" aria-label="Menu">
+      <a class="menu-link" href="/" data-i="menuHome">Home</a>
+      <a class="menu-link" href="/qibla.html" data-i="menuQibla">Qibla</a>
+      <button class="menu-link" type="button" data-soon data-i="menuResources">Resources</button>
+      <button class="menu-link" type="button" data-soon data-i="menuArticles">Articles</button>
+      <button class="menu-link" type="button" data-soon data-i="menuCommunity">Community</button>
+      <button class="menu-link" type="button" data-soon data-i="menuAbout">About</button>
+      <div class="menu-div"></div>
+      <div class="menu-row"><span data-i="menuLanguage">Language</span>
+        <span class="seg sm"><button type="button" id="mLangEn" class="on">EN</button><button type="button" id="mLangTr">TR</button></span>
+      </div>
+      <button class="menu-row" id="mTheme" type="button"><span data-i="menuTheme">Theme</span><span id="mThemeVal">☾</span></button>
+      <button class="menu-row" id="mLoc" type="button"><span data-i="menuLocation">Location</span><b id="mLocVal">Montreal</b></button>
+      <button class="menu-row" id="mSet" type="button"><span data-i="menuSettings">Settings</span><span>⚙</span></button>
+    </nav>
   </header>
   <main class="wrap">
     <section class="hero">
