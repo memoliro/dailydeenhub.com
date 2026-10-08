@@ -1,5 +1,5 @@
-const CACHE = "ezan-vakti-v2";
-const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/manifest.json", "/favicon.png"];
+const CACHE = "ezan-vakti-v3";
+const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/manifest.json", "/favicon.png"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));

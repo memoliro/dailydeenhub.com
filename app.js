@@ -76,6 +76,8 @@ const HIJRI_TR = ["", "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir", "Cemaz
 
 const state = load();
 let calendar = [];
+let apiMeta = { source: "Aladhan", methodName: "", timezone: "" };
+let qiblaDirection = null;
 let chapters = [];
 let heading = null;
 let notifiedKey = "";
@@ -161,15 +163,19 @@ async function fetchCalendar(offsetMonth = 0) {
   let y = now.y, m = now.m + offsetMonth;
   if (m > 12) { m -= 12; y += 1; }
   if (m < 1) { m += 12; y -= 1; }
-  const url = `https://api.aladhan.com/v1/calendar/${y}/${m}?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("times");
-  const json = await res.json();
-  return json.data.map(day => {
-    const timings = {};
-    for (const k of Object.keys(day.timings)) timings[k] = cleanTime(day.timings[k]);
-    return { date: day.date, timings };
+  const payload = await PrayerAPI.month({
+    lat: state.place.lat,
+    lon: state.place.lon,
+    year: y,
+    month: m,
+    method: state.method,
+    school: state.school
   });
+  if (offsetMonth === 0) {
+    apiMeta = payload;
+    if (payload.timezone) state.place.tz = payload.timezone;
+  }
+  return payload.days;
 }
 async function refresh() {
   document.getElementById("nextName").textContent = t("loading");
@@ -177,6 +183,10 @@ async function refresh() {
     calendar = await fetchCalendar(0);
     const now = zoneParts(state.place.tz);
     if (now.d === calendar.length) calendar = calendar.concat((await fetchCalendar(1)).slice(0, 1));
+    try {
+      const q = await PrayerAPI.qibla(state.place.lat, state.place.lon);
+      if (typeof q.direction === "number") qiblaDirection = q.direction;
+    } catch { qiblaDirection = null; }
     renderTimes();
     renderMonth();
     renderQibla();
@@ -203,6 +213,7 @@ function renderTimes() {
   document.getElementById("nextName").textContent = nameOf(nextKey);
   document.getElementById("countdown").textContent = fmtDur(Math.round((nextAt - nowMin) * 60));
   document.getElementById("nextMeta").textContent = `${nameOf(nextKey)} ${t("at")} ${atTime} · ${t("remaining")}`;
+  document.getElementById("sourceLine").textContent = [apiMeta.source || "Aladhan", apiMeta.methodName, apiMeta.timezone].filter(Boolean).join(" · ");
   document.getElementById("arcTime").textContent = atTime;
   document.getElementById("arcLabel").textContent = nameOf(nextKey);
   const prev = [...slots].reverse().find(s => s.min <= nowMin);
@@ -241,7 +252,7 @@ function renderAyah() {
   document.getElementById("ayahRef").textContent = a.ref;
 }
 function renderQibla() {
-  const b = qiblaBearing(state.place.lat, state.place.lon);
+  const b = typeof qiblaDirection === "number" ? qiblaDirection : qiblaBearing(state.place.lat, state.place.lon);
   document.getElementById("qiblaDeg").textContent = `${b.toFixed(1)}°`;
   document.getElementById("needle").setAttribute("transform", `rotate(${heading == null ? b : b - heading} 110 110)`);
   if (heading == null) document.getElementById("qiblaTurn").textContent = t("toward");
