@@ -1,31 +1,19 @@
-# Ezan Vakti - HTML deployment (GitHub + Cloudflare Pages)
+# Ezan Vakti
 
-This is the ad-free till perfection build.
+Ad-free prayer times, qibla, a monthly timetable, and a Quran reader. Static site for Cloudflare Pages. No accounts, no tracking.
 
-## How to deploy (same as jsm-options.com)
+Montreal is the default place, with ISNA timings. Any city works, including Diyanet for Turkey.
 
-1. Create GitHub repo: ezan-vakti
-2. Upload files:
-   - index.html
-   - manifest.json
-   - _headers
-   - (optional) icon-192.png, icon-512.png
-3. Cloudflare Pages:
-   - Connect GitHub repo
-   - Framework: None (static HTML)
-   - Build command: leave EMPTY
-   - Output directory: /
-   - Save -> Deploy
+## Deploy
 
-## Quran.com API used
-- https://api.quran.com/api/v4/chapters
-- https://api.quran.com/api/v4/verses/by_chapter/{id}?translations=131
-- https://api.quran.com/api/v4/resources/recitations
-- https://api.quran.com/api/v4/chapter_recitations/{reciter}/{chapter}
-No API key needed.
+Cloudflare Pages, connected to this repo:
 
-## Aladhan prayer times
-- https://api.aladhan.com/v1/timingsByCity?city=Montreal&country=Canada&method=2
-method: 2=ISNA (Montreal), 13=Diyanet, 3=MWL
+- Framework: None
+- Build command: empty
+- Output directory: `/`
 
-Ad-free, no tracking, privacy-first.
+## Data
+
+- Prayer times: Aladhan (`method=2` ISNA, `method=13` Diyanet)
+- Places: Open-Meteo geocoding
+- Quran text and audio: Quran.com API v4

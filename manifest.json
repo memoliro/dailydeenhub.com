@@ -1,11 +1,11 @@
 {
-  "name": "Ezan Vakti Pro - Montreal - Ad-free",
-  "short_name": "EzanVakti",
-  "description": "Ad-free prayer times, Qibla, Quran.com + audio for Montreal. No tracking.",
+  "name": "Ezan Vakti",
+  "short_name": "Ezan Vakti",
+  "description": "Ad-free prayer times, qibla, monthly timetable, and Quran reader. No tracking.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#0a0f1e",
+  "theme_color": "#0a0f1e",
   "icons": [
     {
       "src": "/icon-192.png",
