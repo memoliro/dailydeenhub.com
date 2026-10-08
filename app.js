@@ -32,7 +32,7 @@ const I18N = {
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thDate: "Date",
     fajr: "Fajr", sun: "Sunrise", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
     ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", mapTitle: "Qibla map",
-    mapBody: "Drag the map. The line redraws from the center toward the Kaaba.",
+    mapBody: "Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.",
     quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
@@ -55,7 +55,7 @@ const I18N = {
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thDate: "Tarih",
     fajr: "İmsak", sun: "Güneş", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı",
     ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
-    mapBody: "Haritayı kaydırın. Çizgi merkezden Kâbe’ye doğru yeniden çizilir.",
+    mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
@@ -297,9 +297,9 @@ function renderQibla() {
   const frame = document.getElementById("qiblaFrame");
   const open = document.getElementById("qiblaOpen");
   if (frame) {
-    const src = `/qibla.html?embed=1&lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
+    const src = `/qibla?embed=1&lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
     if (frame.dataset.place !== src) { frame.dataset.place = src; frame.src = src; }
-    if (open) open.href = `/qibla.html?lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
+    if (open) open.href = `/qibla?lat=${state.place.lat}&lon=${state.place.lon}&name=${encodeURIComponent(state.place.name)}`;
   }
   const agree = atKaaba || Math.abs(((qiblaDirection ?? local) - local + 540) % 360 - 180) < 0.2;
   document.getElementById("qiblaCheck").textContent = atKaaba

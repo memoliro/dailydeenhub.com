@@ -67,16 +67,51 @@
       const a = Math.sin(dφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(dλ / 2) ** 2;
       return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
     }
-    function destination(lat, lon, deg, km) {
-      const R = 6371, δ = km / R, θ = deg * Math.PI / 180;
-      const φ1 = lat * Math.PI / 180, λ1 = lon * Math.PI / 180;
-      const φ2 = Math.asin(Math.sin(φ1) * Math.cos(δ) + Math.cos(φ1) * Math.sin(δ) * Math.cos(θ));
-      const λ2 = λ1 + Math.atan2(Math.sin(θ) * Math.sin(δ) * Math.cos(φ1), Math.cos(δ) - Math.sin(φ1) * Math.sin(φ2));
-      return [((λ2 * 180 / Math.PI + 540) % 360) - 180, φ2 * 180 / Math.PI];
+    function geodesic(lat1, lon1, lat2, lon2, steps = 96) {
+      const φ1 = lat1 * Math.PI / 180, λ1 = lon1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180, λ2 = lon2 * Math.PI / 180;
+      const d = 2 * Math.asin(Math.min(1, Math.sqrt(Math.sin((φ2 - φ1) / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin((λ2 - λ1) / 2) ** 2)));
+      const coords = [];
+      for (let i = 0; i <= steps; i++) {
+        const f = i / steps;
+        if (d === 0) { coords.push([lon1, lat1]); continue; }
+        const a = Math.sin((1 - f) * d) / Math.sin(d);
+        const b = Math.sin(f * d) / Math.sin(d);
+        const x = a * Math.cos(φ1) * Math.cos(λ1) + b * Math.cos(φ2) * Math.cos(λ2);
+        const y = a * Math.cos(φ1) * Math.sin(λ1) + b * Math.cos(φ2) * Math.sin(λ2);
+        const z = a * Math.sin(φ1) + b * Math.sin(φ2);
+        coords.push([Math.atan2(y, x) * 180 / Math.PI, Math.atan2(z, Math.sqrt(x * x + y * y)) * 180 / Math.PI]);
+      }
+      const parts = [];
+      let part = [coords[0]];
+      for (let i = 1; i < coords.length; i++) {
+        if (Math.abs(coords[i][0] - coords[i - 1][0]) > 180) { parts.push(part); part = []; }
+        part.push(coords[i]);
+      }
+      parts.push(part);
+      return parts.filter(p => p.length > 1);
     }
-    function spanKm() {
-      const b = map.getBounds();
-      return b.getSouthWest().distanceTo(b.getNorthEast()) / 1000;
+    function lineData() {
+      const c = map.getCenter();
+      const b = bearing(c.lat, c.lng);
+      const km = distanceKm(c.lat, c.lng);
+      return {
+        type: "FeatureCollection",
+        features: [
+          { type: "Feature", properties: { kind: "line" }, geometry: { type: "MultiLineString", coordinates: geodesic(c.lat, c.lng, KAABA.lat, KAABA.lon) } },
+          { type: "Feature", properties: { kind: "you" }, geometry: { type: "Point", coordinates: [c.lng, c.lat] } },
+          { type: "Feature", properties: { kind: "kaaba" }, geometry: { type: "Point", coordinates: [KAABA.lon, KAABA.lat] } }
+        ],
+        bearing: b,
+        km,
+        center: c
+      };
+    }
+    function fitPath() {
+      const c = map.getCenter();
+      const path = geodesic(c.lat, c.lng, KAABA.lat, KAABA.lon).flat();
+      const bounds = path.reduce((box, p) => box.extend(p), new maplibregl.LngLatBounds(path[0], path[0]));
+      map.fitBounds(bounds, { padding: 48, maxZoom: 5, duration: 0 });
     }
 
     const map = new maplibregl.Map({
@@ -87,22 +122,6 @@
     });
     map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-    function lineData() {
-      const c = map.getCenter();
-      const b = bearing(c.lat, c.lng);
-      const km = distanceKm(c.lat, c.lng);
-      const end = destination(c.lat, c.lng, b, Math.max(0.4, spanKm() * 0.42));
-      return {
-        type: "FeatureCollection",
-        features: [
-          { type: "Feature", properties: { kind: "line" }, geometry: { type: "LineString", coordinates: [[c.lng, c.lat], end] } },
-          { type: "Feature", properties: { kind: "you" }, geometry: { type: "Point", coordinates: [c.lng, c.lat] } },
-          { type: "Feature", properties: { kind: "kaaba" }, geometry: { type: "Point", coordinates: [KAABA.lon, KAABA.lat] } }
-        ],
-        bearing: b,
-        km
-      };
-    }
     function redraw() {
       const data = lineData();
       const source = map.getSource("qibla");
@@ -116,9 +135,10 @@
 
     map.on("load", () => {
       map.addSource("qibla", { type: "geojson", data: lineData() });
-      map.addLayer({ id: "qibla-line", type: "line", source: "qibla", filter: ["==", ["get", "kind"], "line"], paint: { "line-color": "#8d5e32", "line-width": 4 } });
+      map.addLayer({ id: "qibla-line", type: "line", source: "qibla", filter: ["==", ["get", "kind"], "line"], paint: { "line-color": "#8d5e32", "line-width": 3 } });
       map.addLayer({ id: "qibla-you", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "you"], paint: { "circle-radius": 7, "circle-color": "#d4a574", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
-      map.addLayer({ id: "qibla-kaaba", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "kaaba"], paint: { "circle-radius": 5, "circle-color": "#1a1a1a", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
+      map.addLayer({ id: "qibla-kaaba", type: "circle", source: "qibla", filter: ["==", ["get", "kind"], "kaaba"], paint: { "circle-radius": 6, "circle-color": "#1a1a1a", "circle-stroke-width": 2, "circle-stroke-color": "#8d5e32" } });
+      fitPath();
       redraw();
     });
     map.on("move", redraw);
@@ -126,7 +146,8 @@
     document.getElementById("locate").onclick = () => {
       if (!navigator.geolocation) return;
       navigator.geolocation.getCurrentPosition(pos => {
-        map.jumpTo({ center: [pos.coords.longitude, pos.coords.latitude], zoom: 14 });
+        map.jumpTo({ center: [pos.coords.longitude, pos.coords.latitude] });
+        fitPath();
       });
     };
     let timer = 0;
@@ -137,7 +158,7 @@
       timer = setTimeout(async () => {
         const res = await fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&name=" + encodeURIComponent(q));
         const hit = ((await res.json()).results || [])[0];
-        if (hit) map.jumpTo({ center: [hit.longitude, hit.latitude], zoom: 12 });
+        if (hit) { map.jumpTo({ center: [hit.longitude, hit.latitude] }); fitPath(); }
       }, 280);
     });
     document.getElementById("q").value = start.name;
