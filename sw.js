@@ -1,4 +1,4 @@
-const CACHE = "ezan-vakti-v18";
+const CACHE = "ezan-vakti-v19";
 const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/manifest.json", "/favicon.png"];
 
 self.addEventListener("install", event => {
@@ -12,6 +12,7 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  if (event.request.method !== "GET") return;
   event.respondWith(fetch(event.request).then(res => {
     const copy = res.clone();
     caches.open(CACHE).then(cache => cache.put(event.request, copy));
