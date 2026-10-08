@@ -1,5 +1,5 @@
-const CACHE = "ezan-vakti-v20";
-const SHELL = ["/", "/index.html", "/tr/", "/tr/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/manifest.json", "/favicon.png"];
+const CACHE = "ezan-vakti-v21";
+const SHELL = ["/", "/index.html", "/tr/", "/tr/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/manifest.json", "/favicon.png", "/audio/chime.wav", "/audio/beep.wav", "/audio/bell.wav"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));

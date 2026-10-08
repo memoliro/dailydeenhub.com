@@ -50,6 +50,11 @@ const I18N = {
     menuHome: "Home", menuQibla: "Qibla", menuResources: "Resources", menuArticles: "Articles",
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
+    remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
+    soundLbl: "Alert sound", soundChime: "Soft chime", soundBeep: "Triple beep", soundBell: "Bell",
+    soundCustom: "Custom", uploadLbl: "Upload custom sound",
+    inMinutes: "{n} min left", timeNow: "time",
+    soundTooBig: "File too large (max 1.5 MB)", soundSaved: "Custom sound saved",
     methodNote: "Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.",
     names: { Fajr: "Fajr", Sunrise: "Sunrise", Dhuhr: "Dhuhr", Asr: "Asr", Maghrib: "Maghrib", Isha: "Isha" },
     remaining: "remaining", at: "at", passed: "passed", now: "now",
@@ -79,6 +84,11 @@ const I18N = {
     menuHome: "Ana Sayfa", menuQibla: "Kıble", menuResources: "Kaynaklar", menuArticles: "Makaleler",
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
+    remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
+    soundLbl: "Uyarı sesi", soundChime: "Yumuşak tını", soundBeep: "Üçlü bip", soundBell: "Çan",
+    soundCustom: "Özel", uploadLbl: "Özel ses yükle",
+    inMinutes: "{n} dk kaldı", timeNow: "vakti",
+    soundTooBig: "Dosya çok büyük (en fazla 1,5 MB)", soundSaved: "Özel ses kaydedildi",
     methodNote: "Vakitler hesaplanır, resmi cami ilanı değildir. Türkiye için Diyanet, Montreal varsayılanı ISNA.",
     names: { Fajr: "İmsak", Sunrise: "Güneş", Dhuhr: "Öğle", Asr: "İkindi", Maghrib: "Akşam", Isha: "Yatsı" },
     remaining: "kaldı", at: "saat", passed: "geçti", now: "şimdi",
@@ -141,6 +151,9 @@ function load() {
     method: saved.method ?? 2,
     school: saved.school ?? 0,
     notify: !!saved.notify,
+    remindMin: saved.remindMin ?? 15,
+    sound: saved.sound || "chime",
+    customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
     place: saved.place || { name: "Montreal", country: "Canada", lat: 45.5017, lon: -73.5673, tz: "America/Toronto" },
     tasbih: saved.tasbih || 0
@@ -233,6 +246,14 @@ function fillSelects() {
     : `<option value="0">Shafi / Maliki / Hanbali</option><option value="1">Hanafi</option>`;
   document.getElementById("schoolSel").value = String(state.school);
   document.getElementById("notifyChk").checked = state.notify;
+  document.getElementById("remindSel").innerHTML =
+    [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}">${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("");
+  document.getElementById("remindSel").value = String(state.remindMin);
+  document.getElementById("soundSel").innerHTML =
+    [["chime", t("soundChime")], ["beep", t("soundBeep")], ["bell", t("soundBell")], ["custom", t("soundCustom")]]
+      .map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  document.getElementById("soundSel").value = state.sound;
+  document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
   document.getElementById("reciterSel").innerHTML = RECITERS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
   document.getElementById("reciterSel").value = String(state.reciter);
 }
@@ -309,11 +330,14 @@ function renderTimes() {
     const tm = entry.timings[k];
     return `<article class="vakt ${k === nextKey ? "on" : ""}"><div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${minutes(tm) <= nowMin ? t("passed") : ""}</div></article>`;
   }).join("");
-  if (state.notify && nextAt - nowMin <= 0.02 && "Notification" in window && Notification.permission === "granted") {
-    const key = `${g.date}-${nextKey}`;
-    if (notifiedKey !== key) {
+  if (state.notify && "Notification" in window && Notification.permission === "granted") {
+    const minsLeft = nextAt - nowMin, rm = state.remindMin;
+    const key = `${g.date}-${nextKey}-r${rm}`;
+    if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
       notifiedKey = key;
-      new Notification(`${t("notified")}: ${nameOf(nextKey)}`, { body: atTime });
+      playAlert();
+      const title = rm === 0 ? `${nameOf(nextKey)} ${t("timeNow")}` : `${nameOf(nextKey)} — ${t("inMinutes").replace("{n}", rm)}`;
+      try { new Notification(title); } catch {}
     }
   }
 }
@@ -520,6 +544,24 @@ function choosePlace(r) {
 document.getElementById("locBtn").onclick = () => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); };
 document.getElementById("locClose").onclick = () => document.getElementById("locModal").classList.add("hidden");
 document.getElementById("setBtn").onclick = () => document.getElementById("setModal").classList.remove("hidden");
+function playAlert() {
+  let src;
+  if (state.sound === "custom" && state.customSound) src = state.customSound;
+  else src = "/audio/" + (state.sound === "custom" ? "chime" : state.sound) + ".wav";
+  try { const a = new Audio(src); a.play().catch(() => {}); } catch {}
+}
+document.getElementById("soundSel").onchange = e => {
+  state.sound = e.target.value; save();
+  document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
+};
+document.getElementById("soundFile").onchange = e => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  if (f.size > 1.5 * 1024 * 1024) { toast(t("soundTooBig")); e.target.value = ""; return; }
+  const r = new FileReader();
+  r.onload = () => { state.customSound = r.result; state.sound = "custom"; save(); applyI18n(); toast(t("soundSaved")); };
+  r.readAsDataURL(f);
+};
 const menuPanel = document.getElementById("menuPanel"), menuBtn = document.getElementById("menuBtn");
 const closeMenu = () => menuPanel && menuPanel.classList.remove("open");
 if (menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle("open"); };
@@ -539,6 +581,8 @@ document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
   state.school = +document.getElementById("schoolSel").value;
   state.notify = document.getElementById("notifyChk").checked;
+  state.remindMin = +document.getElementById("remindSel").value;
+  state.sound = document.getElementById("soundSel").value;
   save();
   document.getElementById("setModal").classList.add("hidden");
   if (state.notify && "Notification" in window) Notification.requestPermission();
