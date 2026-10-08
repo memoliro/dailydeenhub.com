@@ -72,6 +72,19 @@ const I18N = {
     left: "sol", right: "sağ", facing: "Kıbleye dönüksünüz.", loadFail: "Vakitler alınamadı."
   }
 };
+const WEEKDAYS = {
+  en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  tr: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"]
+};
+const WEEKDAYS_SHORT = {
+  en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  tr: ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"]
+};
+const MONTHS = {
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  tr: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+};
+const COMPASS = { en: ["N", "E", "S", "W"], tr: ["K", "D", "G", "B"] };
 const HIJRI_TR = ["", "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir", "Cemaziyelevvel", "Cemaziyelahir", "Recep", "Şaban", "Ramazan", "Şevval", "Zilkade", "Zilhicce"];
 
 const state = load();
@@ -121,6 +134,18 @@ function zoneParts(tz, date = new Date()) {
   const g = Object.fromEntries(parts.filter(p => p.type !== "literal").map(p => [p.type, p.value]));
   return { y: +g.year, m: +g.month, d: +g.day, hh: +g.hour, mm: +g.minute, ss: +g.second };
 }
+function weekdayIndex(name) {
+  const i = WEEKDAYS.en.indexOf(name);
+  return i < 0 ? 0 : i;
+}
+function localWeekday(name, short) {
+  const i = weekdayIndex(name);
+  return (short ? WEEKDAYS_SHORT : WEEKDAYS)[state.lang][i];
+}
+function localMonth(name) {
+  const i = MONTHS.en.indexOf(name);
+  return i < 0 ? name : MONTHS[state.lang][i];
+}
 function qiblaBearing(lat, lon) {
   const φ1 = lat * Math.PI / 180, λ1 = lon * Math.PI / 180;
   const φ2 = 21.4225 * Math.PI / 180, λ2 = 39.8262 * Math.PI / 180;
@@ -146,12 +171,20 @@ function applyI18n() {
   fillSelects();
   renderTasbih();
   renderAyah();
-  renderChapters();
   renderTimes();
+  renderMonth();
+  renderQibla();
+  renderChapters();
+  const audio = document.getElementById("audio");
+  document.getElementById("playBtn").textContent = audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play");
+  document.querySelectorAll("[data-compass]").forEach(el => { el.textContent = COMPASS[state.lang][+el.dataset.compass]; });
 }
 function fillSelects() {
   document.getElementById("methodSel").innerHTML = METHODS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
   document.getElementById("methodSel").value = String(state.method);
+  document.getElementById("schoolSel").innerHTML = state.lang === "tr"
+    ? `<option value="0">Şafii / Maliki / Hanbeli</option><option value="1">Hanefi</option>`
+    : `<option value="0">Shafi / Maliki / Hanbali</option><option value="1">Hanafi</option>`;
   document.getElementById("schoolSel").value = String(state.school);
   document.getElementById("notifyChk").checked = state.notify;
   document.getElementById("reciterSel").innerHTML = RECITERS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
@@ -221,7 +254,7 @@ function renderTimes() {
   const pct = Math.min(1, Math.max(0, (nowMin - start) / ((nextAt || start + 1) - start)));
   document.getElementById("arc").setAttribute("stroke-dashoffset", String(314 * (1 - pct)));
   const g = entry.date.gregorian, h = entry.date.hijri;
-  document.getElementById("gDate").textContent = `${g.weekday.en} ${g.day} ${g.month.en} ${g.year}`;
+  document.getElementById("gDate").textContent = `${localWeekday(g.weekday.en)} ${g.day} ${localMonth(g.month.en)} ${g.year}`;
   document.getElementById("hDate").textContent = `${h.day} ${state.lang === "tr" ? HIJRI_TR[+h.month.number] || h.month.en : h.month.en} ${h.year}`;
   const sun = minutes(entry.timings.Sunrise), dhuhr = minutes(entry.timings.Dhuhr), maghrib = minutes(entry.timings.Maghrib);
   const kerahat = (nowMin >= sun && nowMin < sun + 18) || (nowMin >= dhuhr - 8 && nowMin < dhuhr) || (nowMin >= maghrib - 18 && nowMin < maghrib);
@@ -242,7 +275,7 @@ function renderMonth() {
   const now = zoneParts(state.place.tz);
   document.getElementById("monthBody").innerHTML = calendar.filter(d => +d.date.gregorian.month.number === now.m).map(d => {
     const tm = d.timings;
-    return `<tr class="${+d.date.gregorian.day === now.d ? "today" : ""}"><td>${d.date.gregorian.day} ${d.date.gregorian.weekday.en.slice(0, 3)}</td><td>${tm.Fajr}</td><td>${tm.Sunrise}</td><td>${tm.Dhuhr}</td><td>${tm.Asr}</td><td>${tm.Maghrib}</td><td>${tm.Isha}</td></tr>`;
+    return `<tr class="${+d.date.gregorian.day === now.d ? "today" : ""}"><td>${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}</td><td>${tm.Fajr}</td><td>${tm.Sunrise}</td><td>${tm.Dhuhr}</td><td>${tm.Asr}</td><td>${tm.Maghrib}</td><td>${tm.Isha}</td></tr>`;
   }).join("");
 }
 function renderAyah() {
@@ -286,20 +319,30 @@ function renderChapters() {
   ).join("");
   document.querySelectorAll("#chapterList button").forEach(btn => btn.onclick = () => openChapter(+btn.dataset.id));
 }
-async function openChapter(id) {
+async function openChapter(id, keepAudio = false) {
   currentChapter = id;
   const chapter = chapters.find(c => c.id === id);
-  document.getElementById("surahTitle").textContent = chapter ? `${chapter.name_simple}` : `Surah ${id}`;
-  document.getElementById("verses").innerHTML = `<p class="hint">${t("loading")}</p>`;
+  document.getElementById("surahTitle").textContent = chapter ? chapter.name_simple : `Surah ${id}`;
+  const verses = document.getElementById("verses");
+  const previousHeight = verses.scrollTop;
+  verses.innerHTML = `<p class="hint">${t("loading")}</p>`;
   const translation = state.lang === "tr" ? 77 : 20;
   const [uthmani, meal] = await Promise.all([
     fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${id}`).then(r => r.json()),
     fetch(`https://api.quran.com/api/v4/quran/translations/${translation}?chapter_number=${id}`).then(r => r.json())
   ]);
-  document.getElementById("verses").innerHTML = (uthmani.verses || []).map((v, i) =>
+  verses.innerHTML = (uthmani.verses || []).map((v, i) =>
     `<article class="verse"><div class="kicker">${v.verse_key}</div><div class="ar">${v.text_uthmani}</div><div class="tr">${meal.translations?.[i]?.text || ""}</div></article>`
   ).join("");
-  document.getElementById("audio").removeAttribute("src");
+  verses.scrollTop = previousHeight;
+  if (!keepAudio) document.getElementById("audio").removeAttribute("src");
+}
+async function refreshQuranLanguage() {
+  const openId = currentChapter || 1;
+  chapters = [];
+  renderChapters();
+  await loadChapters();
+  await openChapter(openId, true);
 }
 async function playChapter() {
   const audio = document.getElementById("audio");
@@ -354,8 +397,15 @@ document.getElementById("gpsBtn").onclick = () => {
     choosePlace({ name, latitude: lat, longitude: lon, timezone: tz });
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
 };
-document.getElementById("langEn").onclick = () => { state.lang = "en"; save(); chapters = []; applyI18n(); };
-document.getElementById("langTr").onclick = () => { state.lang = "tr"; save(); chapters = []; applyI18n(); };
+async function setLanguage(lang) {
+  if (state.lang === lang) return;
+  state.lang = lang;
+  save();
+  applyI18n();
+  refreshQuranLanguage().catch(() => toast(t("loadFail")));
+}
+document.getElementById("langEn").onclick = () => setLanguage("en");
+document.getElementById("langTr").onclick = () => setLanguage("tr");
 document.getElementById("themeBtn").onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 document.getElementById("surahSearch").addEventListener("input", renderChapters);
