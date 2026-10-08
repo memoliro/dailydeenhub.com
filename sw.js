@@ -1,4 +1,4 @@
-const CACHE = "ezan-vakti-v13";
+const CACHE = "ezan-vakti-v14";
 const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/manifest.json", "/favicon.png"];
 
 self.addEventListener("install", event => {

@@ -327,6 +327,9 @@ function renderQibla() {
   document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
   document.getElementById("qiblaMark").setAttribute("transform", `rotate(${b} 110 110)`);
   document.getElementById("dial").setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
+  document.querySelectorAll("[data-compass]").forEach(el => {
+    el.setAttribute("transform", `rotate(${heading || 0} ${el.getAttribute("x")} ${el.getAttribute("y")})`);
+  });
   const frame = document.getElementById("qiblaFrame");
   const open = document.getElementById("qiblaOpen");
   if (frame) {
@@ -530,19 +533,26 @@ document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
     if (await DeviceOrientationEvent.requestPermission() !== "granted") return;
   }
+  const smooth = (prev, next) => {
+    if (prev == null) return next;
+    const delta = ((next - prev + 540) % 360) - 180;
+    if (Math.abs(delta) < 1.2) return prev;
+    return (prev + delta * 0.18 + 360) % 360;
+  };
   const onHeading = ev => {
     let next = null;
-    if (typeof ev.webkitCompassHeading === "number") next = ev.webkitCompassHeading;
-    else if (ev.alpha != null) {
+    if (typeof ev.webkitCompassHeading === "number" && !Number.isNaN(ev.webkitCompassHeading)) next = ev.webkitCompassHeading;
+    else if (ev.absolute && ev.alpha != null) {
       const screenAngle = (screen.orientation && screen.orientation.angle) || Number(window.orientation) || 0;
       next = (360 - ev.alpha + screenAngle) % 360;
     }
     if (next == null) return;
-    heading = next;
+    heading = smooth(heading, next);
     renderQibla();
   };
-  window.addEventListener("deviceorientationabsolute", onHeading, true);
-  window.addEventListener("deviceorientation", onHeading, true);
+  const ios = typeof DeviceOrientationEvent.requestPermission === "function";
+  if (ios || !("ondeviceorientationabsolute" in window)) window.addEventListener("deviceorientation", onHeading, true);
+  else window.addEventListener("deviceorientationabsolute", onHeading, true);
 };
 document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => { if (e.target === m) m.classList.add("hidden"); }));
 
