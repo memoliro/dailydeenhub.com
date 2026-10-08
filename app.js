@@ -315,7 +315,8 @@ function monthName(day) {
 }
 function renderMonth() {
   const now = zoneParts(state.place.tz);
-  const rows = monthView === "ramadan" ? ramadan : calendar.filter(d => +d.date.gregorian.month.number === now.m);
+  const monthOf = d => +d.date.gregorian.month.number || +String(d.date.gregorian.date).split("-")[1];
+  const rows = monthView === "ramadan" ? ramadan : (calendar.filter(d => monthOf(d) === now.m).length ? calendar.filter(d => monthOf(d) === now.m) : calendar);
   const heading = document.getElementById("monthHeading");
   const note = document.getElementById("monthNote");
   if (heading) heading.textContent = monthView === "ramadan" ? t("nextRamadan") : t("monthTitle");
