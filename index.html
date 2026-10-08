@@ -54,7 +54,14 @@
         </svg>
       </div>
     </section>
-    <section class="vakt-grid" id="vaktGrid"></section>
+    <section class="panel pad radio" id="radioCard">
+      <div class="row" style="margin-top:0">
+        <h2 data-i="radioTitle" style="margin:0;flex:1">Quran radio</h2>
+        <button class="primary" id="radioBtn" type="button" data-i="radioPlay">Listen</button>
+      </div>
+      <div class="stations" id="stations"></div>
+      <audio id="radioAudio" preload="none"></audio>
+    </section>
     <div class="tabs">
       <button type="button" class="on" data-tab="month" data-i="monthTab">Month</button>
       <button type="button" data-tab="qibla" data-i="qiblaTab">Qibla</button>
@@ -64,7 +71,10 @@
     <section id="panel-month" class="layout">
       <div class="panel pad">
         <h2 data-i="monthTitle">This month</h2>
-        <p class="sub" data-i="monthSub">Imsak through isha for the selected place.</p>
+        <div class="row">
+          <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
+          <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
+        </div>
         <div class="scroll"><table><thead><tr>
           <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
           <th data-i="dhuhr">Dhuhr</th><th data-i="asr">Asr</th><th data-i="maghrib">Maghrib</th><th data-i="isha">Isha</th>
@@ -102,6 +112,7 @@
         </div>
         <div class="deg" id="qiblaDeg">—°</div>
         <p class="hint" id="qiblaCheck"></p>
+        <p class="hint" id="qiblaDistance"></p>
         <p class="hint" id="qiblaTurn"></p>
         <div class="row" style="justify-content:center"><button class="ghost" id="compassBtn" type="button" data-i="compass">Use compass</button></div>
       </div>

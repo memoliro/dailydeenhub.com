@@ -36,7 +36,9 @@ const AYAH = [
 const I18N = {
   en: {
     tag: "Prayer times", next: "Next prayer", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
-    monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thDate: "Date",
+    monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan",
+    radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
+    thDate: "Date",
     fajr: "Fajr", sun: "Sunrise", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
     ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", mapTitle: "Qibla map",
     mapBody: "Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.",
@@ -59,7 +61,9 @@ const I18N = {
   },
   tr: {
     tag: "Namaz vakitleri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
-    monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thDate: "Tarih",
+    monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan",
+    radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
+    thDate: "Tarih",
     fajr: "İmsak", sun: "Güneş", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı",
     ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
     mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
@@ -106,6 +110,15 @@ let notifiedKey = "";
 let searchTimer = 0;
 let currentChapter = 1;
 let startingAudio = false;
+let monthView = "month";
+let ramadan = [];
+let station = "mishary";
+const STATIONS = [
+  ["mishary", "Al-Afasy", "https://backup.qurango.net/radio/mishary_alafasi"],
+  ["sudais", "As-Sudais", "https://backup.qurango.net/radio/abdulrahman_alsudaes"],
+  ["basit", "Abdul Basit", "https://backup.qurango.net/radio/abdulbasit_abdulsamad"],
+  ["tarateel", "Tarateel", "https://backup.qurango.net/radio/tarateel"]
+];
 
 function load() {
   const saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}");
@@ -184,6 +197,7 @@ function applyI18n() {
   renderAyah();
   renderTimes();
   renderMonth();
+  if (monthView === "ramadan") { ramadan = []; showRamadan().catch(() => toast(t("loadFail"))); }
   renderQibla();
   renderChapters();
   const audio = document.getElementById("audio");
@@ -282,12 +296,23 @@ function renderTimes() {
     }
   }
 }
+function kaabaKm(lat, lon) {
+  const R = 6371;
+  const φ1 = lat * Math.PI / 180, φ2 = 21.4225 * Math.PI / 180;
+  const dφ = (21.4225 - lat) * Math.PI / 180, dλ = (39.8262 - lon) * Math.PI / 180;
+  const a = Math.sin(dφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(dλ / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+}
 function renderMonth() {
   const now = zoneParts(state.place.tz);
-  document.getElementById("monthBody").innerHTML = calendar.filter(d => +d.date.gregorian.month.number === now.m).map(d => {
+  const rows = monthView === "ramadan" ? ramadan : calendar.filter(d => +d.date.gregorian.month.number === now.m);
+  document.getElementById("monthBody").innerHTML = rows.map(d => {
     const tm = d.timings;
-    return `<tr class="${+d.date.gregorian.day === now.d ? "today" : ""}"><td>${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}</td><td>${tm.Fajr}</td><td>${tm.Sunrise}</td><td>${tm.Dhuhr}</td><td>${tm.Asr}</td><td>${tm.Maghrib}</td><td>${tm.Isha}</td></tr>`;
+    const today = +d.date.gregorian.day === now.d && +d.date.gregorian.month.number === now.m;
+    return `<tr class="${today ? "today" : ""}"><td>${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}</td><td>${cleanTime(tm.Fajr)}</td><td>${cleanTime(tm.Sunrise)}</td><td>${cleanTime(tm.Dhuhr)}</td><td>${cleanTime(tm.Asr)}</td><td>${cleanTime(tm.Maghrib)}</td><td>${cleanTime(tm.Isha)}</td></tr>`;
   }).join("");
+  document.getElementById("monthMode").classList.toggle("on", monthView !== "ramadan");
+  document.getElementById("ramadanMode").classList.toggle("on", monthView === "ramadan");
 }
 function renderAyah() {
   const a = AYAH[Math.floor(Date.now() / 86400000) % AYAH.length];
@@ -313,6 +338,8 @@ function renderQibla() {
   document.getElementById("qiblaCheck").textContent = atKaaba
     ? (state.lang === "tr" ? "Kâbe’desiniz." : "You are at the Kaaba.")
     : `${b.toFixed(1)}° · ${agree ? (state.lang === "tr" ? "hesap Aladhan ile aynı" : "matches Aladhan") : (state.lang === "tr" ? "Aladhan açısından fark var" : "differs from Aladhan")}`;
+  const km = kaabaKm(state.place.lat, state.place.lon);
+  document.getElementById("qiblaDistance").textContent = atKaaba ? "" : `${km.toFixed(0)} km · ${state.lang === "tr" ? "Kâbe mesafesi" : "to the Kaaba"}`;
   if (heading == null) document.getElementById("qiblaTurn").textContent = t("toward");
   else {
     const diff = ((b - heading + 540) % 360) - 180;
@@ -379,6 +406,8 @@ function playChapter() {
   }
   const path = RECITER_PATHS[state.reciter];
   if (!path) return toast(t("audioFail"));
+  document.getElementById("radioAudio").pause();
+  document.getElementById("radioBtn").textContent = t("radioPlay");
   const url = `https://download.quranicaudio.com/qdc/${path}/${currentChapter}.mp3`;
   startingAudio = true;
   if (audio.getAttribute("src") !== url) audio.src = url;
@@ -389,6 +418,47 @@ function playChapter() {
     btn.textContent = t("play");
     toast(t("audioFail"));
   });
+}
+function renderStations() {
+  document.getElementById("stations").innerHTML = STATIONS.map(([id, label]) => `<button type="button" class="${id === station ? "on" : ""}" data-station="${id}">${label}</button>`).join("");
+  document.querySelectorAll("#stations button").forEach(btn => btn.onclick = () => {
+    station = btn.dataset.station;
+    const audio = document.getElementById("radioAudio");
+    const wasPlaying = !audio.paused && audio.getAttribute("src");
+    audio.pause();
+    audio.removeAttribute("src");
+    renderStations();
+    if (wasPlaying) playRadio();
+  });
+}
+function playRadio() {
+  const audio = document.getElementById("radioAudio");
+  const btn = document.getElementById("radioBtn");
+  if (audio.getAttribute("src") && !audio.paused) {
+    audio.pause();
+    btn.textContent = t("radioPlay");
+    return;
+  }
+  document.getElementById("audio").pause();
+  const url = STATIONS.find(s => s[0] === station)[2];
+  if (audio.getAttribute("src") !== url) audio.src = url;
+  btn.textContent = t("radioStop");
+  const pending = audio.play();
+  if (pending) pending.catch(() => { btn.textContent = t("radioPlay"); toast(t("audioFail")); });
+}
+async function showRamadan() {
+  monthView = "ramadan";
+  if (!ramadan.length) {
+    document.getElementById("monthBody").innerHTML = `<tr><td colspan="7">${t("loading")}</td></tr>`;
+    const today = zoneParts(state.place.tz);
+    const hijri = await (await fetch(`https://api.aladhan.com/v1/gToH/${pad(today.d)}-${pad(today.m)}-${today.y}`)).json();
+    const year = +hijri.data.hijri.year;
+    const month = +hijri.data.hijri.month.number;
+    const ramadanYear = month > 9 ? year + 1 : year;
+    const res = await fetch(`https://api.aladhan.com/v1/hijriCalendar/${ramadanYear}/9?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`);
+    ramadan = (await res.json()).data || [];
+  }
+  renderMonth();
 }
 
 async function searchCities(q) {
@@ -447,6 +517,10 @@ document.getElementById("themeBtn").onclick = () => { state.theme = state.theme 
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 document.getElementById("surahSearch").addEventListener("input", renderChapters);
 document.getElementById("playBtn").onclick = playChapter;
+document.getElementById("radioBtn").onclick = playRadio;
+document.getElementById("monthMode").onclick = () => { monthView = "month"; renderMonth(); };
+document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
+renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
