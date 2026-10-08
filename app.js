@@ -114,7 +114,11 @@ let currentChapter = 1;
 let startingAudio = false;
 let monthView = "month";
 let ramadan = [];
-let ramadanStart = "";
+let ramadanStartParts = null;
+function ramadanStartLabel() {
+  if (!ramadanStartParts) return "";
+  return `${ramadanStartParts.day} ${localMonth(ramadanStartParts.monthEn)} ${ramadanStartParts.year}`;
+}
 let station = "mishary";
 const STATIONS = [
   ["mishary", "Al-Afasy", "https://backup.qurango.net/radio/mishary_alafasi"],
@@ -310,7 +314,7 @@ function renderMonth() {
   const now = zoneParts(state.place.tz);
   const rows = monthView === "ramadan" ? ramadan : calendar.filter(d => +d.date.gregorian.month.number === now.m);
   document.getElementById("monthHeading").textContent = monthView === "ramadan" ? t("nextRamadan") : t("monthTitle");
-  document.getElementById("monthNote").textContent = monthView === "ramadan" ? `${t("ramadanNote")} ${ramadanStart}` : "";
+  document.getElementById("monthNote").textContent = monthView === "ramadan" ? `${t("ramadanNote")} ${ramadanStartLabel()}` : "";
   document.getElementById("monthBody").innerHTML = rows.map(d => {
     const tm = d.timings;
     const today = +d.date.gregorian.day === now.d && +d.date.gregorian.month.number === now.m;
@@ -469,7 +473,7 @@ async function showRamadan() {
     const res = await fetch(`https://api.aladhan.com/v1/hijriCalendar/${ramadanYear}/9?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`);
     ramadan = (await res.json()).data || [];
     const first = ramadan[0];
-    ramadanStart = first ? `${first.date.gregorian.day} ${localMonth(first.date.gregorian.month.en)} ${first.date.gregorian.year}` : "";
+    ramadanStartParts = first ? { day: first.date.gregorian.day, monthEn: first.date.gregorian.month.en, year: first.date.gregorian.year } : null;
   }
   renderMonth();
 }
