@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=4" />
+  <link rel="stylesheet" href="/styles.css?v=5" />
 </head>
 <body>
   <header class="top">
@@ -170,7 +170,16 @@
       </div>
       <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
     </section>
-    <footer class="foot" id="footerNote"></footer>
+    <footer class="foot">
+      <div class="foot-support"><span data-i="supportSite">Support the site</span>
+        <a class="bmc-btn" href="https://www.buymeacoffee.com/memoliro" target="_blank" rel="noopener">☕ <span data-i="bmcBtn">Buy me a coffee</span></a>
+      </div>
+      <nav class="foot-nav"><a href="/tr/about.html" data-i="menuAbout">About</a><span> · </span><a href="/tr/terms.html" data-i="terms">Terms</a><span> · </span><a href="/tr/privacy.html" data-i="privacy">Privacy</a></nav>
+      <div class="foot-apps"><span data-i="moreApps">More free apps</span>:
+        <a href="https://jsm-image.com">JSM Image</a> · <a href="https://jsm-video.com">JSM Video</a> · <a href="https://jsm-loudness.com">JSM Loudness</a> · <a href="https://jsm-options.com">JSM Options</a> · <a href="https://jsm-enhance.com">JSM Enhance</a>
+      </div>
+      <div class="foot-note" id="footerNote"></div>
+    </footer>
   </main>
   <div class="modal hidden" id="locModal">
     <div class="sheet">
@@ -194,7 +203,7 @@
         </select>
       </label>
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while this tab is open</span></label>
-      <label class="field"><span data-i="remindBefore">Minutes before prayer</span><select id="remindSel" class="field"></select></label>
+      <div class="field"><span data-i="remindBefore">Minutes before prayer</span><div id="remindRows" class="rrows"></div></div>
       <label class="field"><span data-i="soundLbl">Alert sound</span><select id="soundSel" class="field"></select></label>
       <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Upload custom sound</span><input id="soundFile" type="file" accept="audio/*" class="field" /></label>
       <p class="note" data-i="methodNote">Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.</p>
@@ -203,6 +212,6 @@
   </div>
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-api.js?v=4"></script>
-  <script src="/app.js?v=4"></script>
+  <script src="/app.js?v=5"></script>
 </body>
 </html>

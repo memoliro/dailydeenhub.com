@@ -55,6 +55,8 @@ const I18N = {
     soundCustom: "Custom", uploadLbl: "Upload custom sound",
     inMinutes: "{n} min left", timeNow: "time",
     soundTooBig: "File too large (max 1.5 MB)", soundSaved: "Custom sound saved",
+    supportSite: "Support the site", bmcBtn: "Buy me a coffee",
+    terms: "Terms", privacy: "Privacy", moreApps: "More free apps",
     methodNote: "Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.",
     names: { Fajr: "Fajr", Sunrise: "Sunrise", Dhuhr: "Dhuhr", Asr: "Asr", Maghrib: "Maghrib", Isha: "Isha" },
     remaining: "remaining", at: "at", passed: "passed", now: "now",
@@ -89,6 +91,8 @@ const I18N = {
     soundCustom: "Özel", uploadLbl: "Özel ses yükle",
     inMinutes: "{n} dk kaldı", timeNow: "vakti",
     soundTooBig: "Dosya çok büyük (en fazla 1,5 MB)", soundSaved: "Özel ses kaydedildi",
+    supportSite: "Siteyi destekle", bmcBtn: "Bana bir kahve ısmarla",
+    terms: "Kullanım Şartları", privacy: "Gizlilik", moreApps: "Diğer ücretsiz uygulamalar",
     methodNote: "Vakitler hesaplanır, resmi cami ilanı değildir. Türkiye için Diyanet, Montreal varsayılanı ISNA.",
     names: { Fajr: "İmsak", Sunrise: "Güneş", Dhuhr: "Öğle", Asr: "İkindi", Maghrib: "Akşam", Isha: "Yatsı" },
     remaining: "kaldı", at: "saat", passed: "geçti", now: "şimdi",
@@ -151,7 +155,7 @@ function load() {
     method: saved.method ?? 2,
     school: saved.school ?? 0,
     notify: !!saved.notify,
-    remindMin: saved.remindMin ?? 15,
+    remind: saved.remind || Object.fromEntries(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k => [k, saved.remindMin ?? 15])),
     sound: saved.sound || "chime",
     customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
@@ -246,9 +250,10 @@ function fillSelects() {
     : `<option value="0">Shafi / Maliki / Hanbali</option><option value="1">Hanafi</option>`;
   document.getElementById("schoolSel").value = String(state.school);
   document.getElementById("notifyChk").checked = state.notify;
-  document.getElementById("remindSel").innerHTML =
-    [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}">${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("");
-  document.getElementById("remindSel").value = String(state.remindMin);
+  document.getElementById("remindRows").innerHTML = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k =>
+    `<label class="rrow"><span>${nameOf(k)}</span><select data-rp="${k}" class="field">${
+      [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}"${(state.remind[k] ?? 15) === n ? " selected" : ""}>${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("")
+    }</select></label>`).join("");
   document.getElementById("soundSel").innerHTML =
     [["chime", t("soundChime")], ["beep", t("soundBeep")], ["bell", t("soundBell")], ["custom", t("soundCustom")]]
       .map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
@@ -331,7 +336,7 @@ function renderTimes() {
     return `<article class="vakt ${k === nextKey ? "on" : ""}"><div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${minutes(tm) <= nowMin ? t("passed") : ""}</div></article>`;
   }).join("");
   if (state.notify && "Notification" in window && Notification.permission === "granted") {
-    const minsLeft = nextAt - nowMin, rm = state.remindMin;
+    const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
       notifiedKey = key;
@@ -581,7 +586,7 @@ document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
   state.school = +document.getElementById("schoolSel").value;
   state.notify = document.getElementById("notifyChk").checked;
-  state.remindMin = +document.getElementById("remindSel").value;
+  document.querySelectorAll("#remindRows select[data-rp]").forEach(sel => { state.remind[sel.dataset.rp] = +sel.value; });
   state.sound = document.getElementById("soundSel").value;
   save();
   document.getElementById("setModal").classList.add("hidden");
