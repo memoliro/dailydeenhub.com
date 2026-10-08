@@ -40,13 +40,13 @@ const I18N = {
     names: { Fajr: "Fajr", Sunrise: "Sunrise", Dhuhr: "Dhuhr", Asr: "Asr", Maghrib: "Maghrib", Isha: "Isha" },
     remaining: "remaining", at: "at", passed: "passed", now: "now",
     kerahat: "Discouraged time — the sun is rising, at its peak, or setting.",
-    qiblaHint: "Direction of the Kaaba from this place.",
-    howBody: "Hold the phone flat, enable the compass, and turn until the gold needle points up.",
+    qiblaHint: "Kaaba mark sits on the great-circle bearing. Checked against Aladhan.",
+    howBody: "The small Kaaba is fixed on the verified bearing. Turn until it meets the gold arrow at the top. Phone compasses are magnetic and can be off by a few degrees near metal.",
     tasbihNote: "33 Subhanallah, 33 Alhamdulillah, 34 Allahu akbar. Saved on this device.",
     focusBody: "Prayer times, qibla, the month, and a Quran reader. No accounts, no ads, no tracking.",
     footer: "Times from the Aladhan engine. Quran text and audio from Quran.com. A local mosque may differ by a minute.",
     loading: "Loading times…", noResults: "No matches.", searching: "Searching…", gpsFail: "Location unavailable.",
-    notified: "Prayer time", toward: "Enable the compass, or turn until the needle meets north.",
+    notified: "Prayer time", toward: "North is up. Line the Kaaba mark with the gold arrow, or enable the compass.",
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times."
   },
   tr: {
@@ -62,13 +62,13 @@ const I18N = {
     names: { Fajr: "İmsak", Sunrise: "Güneş", Dhuhr: "Öğle", Asr: "İkindi", Maghrib: "Akşam", Isha: "Yatsı" },
     remaining: "kaldı", at: "saat", passed: "geçti", now: "şimdi",
     kerahat: "Kerahat — güneş doğuyor, tepede, ya da batıyor.",
-    qiblaHint: "Bu yerden Kâbe’nin yönü.",
-    howBody: "Telefonu düz tutun, pusulayı açın, altın ibre yukarı bakana kadar dönün.",
+    qiblaHint: "Kâbe işareti, büyük daire açısındadır. Aladhan ile doğrulandı.",
+    howBody: "Küçük Kâbe, doğrulanmış açıdadır. Üstteki altın okla buluşana kadar dönün. Telefon pusulası manyetiktir; metal yanında birkaç derece kayabilir.",
     tasbihNote: "33 Sübhanallah, 33 Elhamdülillah, 34 Allahu ekber. Bu cihazda saklanır.",
     focusBody: "Namaz vakitleri, kıble, aylık tablo ve Kur’an okuyucu. Hesap yok, reklam yok, takip yok.",
     footer: "Vakitler Aladhan motorundan. Kur’an metni ve ses Quran.com üzerinden. Yerel cami bir dakika farklı olabilir.",
     loading: "Vakitler yükleniyor…", noResults: "Sonuç yok.", searching: "Aranıyor…", gpsFail: "Konum alınamadı.",
-    notified: "Namaz vakti", toward: "Pusulayı açın, ya da ibre kuzeyle buluşana kadar dönün.",
+    notified: "Namaz vakti", toward: "Kuzey yukarıda. Kâbe işaretini altın okla hizalayın, ya da pusulayı açın.",
     left: "sol", right: "sağ", facing: "Kıbleye dönüksünüz.", loadFail: "Vakitler alınamadı."
   }
 };
@@ -285,9 +285,16 @@ function renderAyah() {
   document.getElementById("ayahRef").textContent = a.ref;
 }
 function renderQibla() {
-  const b = typeof qiblaDirection === "number" ? qiblaDirection : qiblaBearing(state.place.lat, state.place.lon);
-  document.getElementById("qiblaDeg").textContent = `${b.toFixed(1)}°`;
-  document.getElementById("needle").setAttribute("transform", `rotate(${heading == null ? b : b - heading} 110 110)`);
+  const local = qiblaBearing(state.place.lat, state.place.lon);
+  const atKaaba = Math.abs(state.place.lat - 21.4225) < 0.05 && Math.abs(state.place.lon - 39.8262) < 0.05;
+  const b = atKaaba ? 0 : (typeof qiblaDirection === "number" ? qiblaDirection : local);
+  document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
+  document.getElementById("qiblaMark").setAttribute("transform", `rotate(${b} 110 110)`);
+  document.getElementById("dial").setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
+  const agree = atKaaba || Math.abs(((qiblaDirection ?? local) - local + 540) % 360 - 180) < 0.2;
+  document.getElementById("qiblaCheck").textContent = atKaaba
+    ? (state.lang === "tr" ? "Kâbe’desiniz." : "You are at the Kaaba.")
+    : `${b.toFixed(1)}° · ${agree ? (state.lang === "tr" ? "hesap Aladhan ile aynı" : "matches Aladhan") : (state.lang === "tr" ? "Aladhan açısından fark var" : "differs from Aladhan")}`;
   if (heading == null) document.getElementById("qiblaTurn").textContent = t("toward");
   else {
     const diff = ((b - heading + 540) % 360) - 180;
@@ -418,10 +425,19 @@ document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
     if (await DeviceOrientationEvent.requestPermission() !== "granted") return;
   }
-  window.addEventListener("deviceorientation", ev => {
-    heading = ev.webkitCompassHeading != null ? ev.webkitCompassHeading : ev.alpha != null ? (360 - ev.alpha) % 360 : heading;
+  const onHeading = ev => {
+    let next = null;
+    if (typeof ev.webkitCompassHeading === "number") next = ev.webkitCompassHeading;
+    else if (ev.alpha != null) {
+      const screenAngle = (screen.orientation && screen.orientation.angle) || Number(window.orientation) || 0;
+      next = (360 - ev.alpha + screenAngle) % 360;
+    }
+    if (next == null) return;
+    heading = next;
     renderQibla();
-  }, true);
+  };
+  window.addEventListener("deviceorientationabsolute", onHeading, true);
+  window.addEventListener("deviceorientation", onHeading, true);
 };
 document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => { if (e.target === m) m.classList.add("hidden"); }));
 
