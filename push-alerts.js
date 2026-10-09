@@ -48,7 +48,58 @@ async function refreshUI() {
   var sub = await currentSub();
   chk.checked = !!sub;
   if (note) note.textContent = sub ? t('pushOn') : t('pushOff');
+  refreshInstallHint();
 }
+
+/* ---- Install prompt: show only when the app is NOT installed ---- */
+var deferredPrompt = null;
+
+function isInstalled() {
+  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+         (window.navigator && window.navigator.standalone === true);
+}
+
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent || '');
+}
+
+function refreshInstallHint() {
+  var row = $('installRow'), hint = $('installHint'), btn = $('installBtn');
+  if (!row) return;
+  if (isInstalled()) { row.classList.add('hidden'); return; }
+  if (deferredPrompt) {
+    // Android/Chrome: show hint + Install button
+    if (hint) hint.textContent = t('installHint');
+    if (btn) { btn.textContent = t('installBtn'); btn.classList.remove('hidden'); }
+    row.classList.remove('hidden');
+  } else if (isIOS()) {
+    // iPhone/iPad: no install prompt API — show manual steps
+    // (iOS web push requires the PWA on the home screen)
+    if (hint) hint.textContent = t('installIOS');
+    if (btn) btn.classList.add('hidden');
+    row.classList.remove('hidden');
+  } else {
+    row.classList.add('hidden');
+  }
+}
+
+async function doInstall() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  try { await deferredPrompt.userChoice; } catch (e) {}
+  deferredPrompt = null;
+  refreshInstallHint();
+}
+
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  refreshInstallHint();
+});
+window.addEventListener('appinstalled', function () {
+  deferredPrompt = null;
+  refreshInstallHint();
+});
 
 /* Build the settings payload the worker needs. */
 function settingsPayload() {
@@ -149,6 +200,8 @@ function boot() {
   chk.addEventListener('change', function () {
     if (chk.checked) enable(); else disable();
   });
+  var ibtn = $('installBtn');
+  if (ibtn) ibtn.addEventListener('click', doInstall);
   refreshUI();
   // expose for app.js to call after settings change
   window.DDHPush = { refresh: refreshUI, resync: resync };

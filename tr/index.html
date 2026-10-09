@@ -205,6 +205,10 @@
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while this tab is open</span></label>
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts</span></label>
       <p class="note" id="pushNote" style="margin-top:-6px"></p>
+      <div id="installRow" class="hidden" style="margin-top:2px">
+        <p class="note" id="installHint" style="margin:0 0 8px"></p>
+        <button id="installBtn" class="primary hidden" type="button"></button>
+      </div>
       <div class="field"><span data-i="remindBefore">Minutes before prayer</span><div id="remindRows" class="rrows"></div></div>
       <div class="field"><span data-i="soundLbl">Alert sound</span>
         <div class="sound-row"><select id="soundSel" class="field"></select><button class="icon-btn" id="soundPreview" type="button" aria-label="Preview sound">▶</button></div>
@@ -216,7 +220,7 @@
   </div>
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-api.js?v=4"></script>
-  <script src="/push-alerts.js?v=1"></script>
-  <script src="/app.js?v=8"></script>
+  <script src="/push-alerts.js?v=2"></script>
+  <script src="/app.js?v=9"></script>
 </body>
 </html>
