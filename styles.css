@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --bg: #0a0f1e;
   --bg-2: #12182b;
   --panel: rgba(18, 24, 43, 0.82);
@@ -15,6 +16,7 @@
   --radius: 22px;
 }
 [data-theme="day"] {
+  color-scheme: light;
   --bg: #f6f1e8;
   --bg-2: #fffaf3;
   --panel: rgba(255, 250, 243, 0.9);
