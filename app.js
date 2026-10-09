@@ -51,6 +51,13 @@ const I18N = {
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
+    pushLbl: "Prayer alerts (even when tab is closed)",
+    pushOn: "Alerts on — you'll be notified even with the tab closed.",
+    pushOff: "Alerts off.",
+    pushError: "Couldn't set up alerts. Try again.",
+    pushBlocked: "Notifications are blocked for this site — allow them in your browser settings.",
+    pushUnsupported: "Push alerts aren't supported in this browser.",
+    pushEnabled: "Prayer alerts enabled",
     soundLbl: "Alert sound",
     soundAdhan: "Adhan (prayer call)", soundAdhanShort: "Adhan (short)", soundAlarm: "Alarm",
     soundMobile: "Mobile alert", soundBell: "Bell", soundHonk: "Car honk",
@@ -90,6 +97,13 @@ const I18N = {
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
+    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)",
+    pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
+    pushOff: "Uyarılar kapalı.",
+    pushError: "Uyarılar kurulamadı. Tekrar deneyin.",
+    pushBlocked: "Bu site için bildirimler engelli — tarayıcı ayarlarından izin verin.",
+    pushUnsupported: "Bu tarayıcı push uyarılarını desteklemiyor.",
+    pushEnabled: "Namaz uyarıları açıldı",
     soundLbl: "Uyarı sesi",
     soundAdhan: "Ezan", soundAdhanShort: "Ezan (kısa)", soundAlarm: "Alarm",
     soundMobile: "Mobil uyarı", soundBell: "Çan", soundHonk: "Korna",
@@ -171,7 +185,12 @@ function load() {
   // 2026-10-09: beep.wav/chime.wav removed; old names -> bell.wav
   if (state.sound === "chime" || state.sound === "beep" || state.sound === "bell") state.sound = "bell.wav";
 }
-function save() { localStorage.setItem("ezan-vakti", JSON.stringify(state)); }
+function save() {
+  localStorage.setItem("ezan-vakti", JSON.stringify(state));
+  if (window.DDHPush && window.DDHPush.resync) {
+    try { window.DDHPush.resync(); } catch (e) {}
+  }
+}
 function t(key) { return I18N[state.lang][key]; }
 function nameOf(key) { return I18N[state.lang].names[key] || key; }
 function pad(n) { return String(n).padStart(2, "0"); }
