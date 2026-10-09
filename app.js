@@ -51,7 +51,10 @@ const I18N = {
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
-    soundLbl: "Alert sound", soundChime: "Soft chime", soundBeep: "Triple beep", soundBell: "Bell",
+    soundLbl: "Alert sound",
+    soundAdhan: "Adhan (prayer call)", soundAdhanShort: "Adhan (short)", soundAlarm: "Alarm",
+    soundMobile: "Mobile alert", soundBell: "Bell", soundHonk: "Car honk",
+    soundChick: "Chick chirp", soundNostalgia: "Nostalgia",
     soundCustom: "Custom", uploadLbl: "Upload custom sound",
     inMinutes: "{n} min left", timeNow: "time",
     soundTooBig: "File too large (max 1.5 MB)", soundSaved: "Custom sound saved",
@@ -87,7 +90,10 @@ const I18N = {
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
-    soundLbl: "Uyarı sesi", soundChime: "Yumuşak tını", soundBeep: "Üçlü bip", soundBell: "Çan",
+    soundLbl: "Uyarı sesi",
+    soundAdhan: "Ezan", soundAdhanShort: "Ezan (kısa)", soundAlarm: "Alarm",
+    soundMobile: "Mobil uyarı", soundBell: "Çan", soundHonk: "Korna",
+    soundChick: "Civciv sesi", soundNostalgia: "Nostalji",
     soundCustom: "Özel", uploadLbl: "Özel ses yükle",
     inMinutes: "{n} dk kaldı", timeNow: "vakti",
     soundTooBig: "Dosya çok büyük (en fazla 1,5 MB)", soundSaved: "Özel ses kaydedildi",
@@ -156,12 +162,14 @@ function load() {
     school: saved.school ?? 0,
     notify: !!saved.notify,
     remind: saved.remind || Object.fromEntries(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k => [k, saved.remindMin ?? 15])),
-    sound: saved.sound || "chime",
+    sound: saved.sound || "bell.wav",
     customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
     place: saved.place || { name: "Montreal", country: "Canada", lat: 45.5017, lon: -73.5673, tz: "America/Toronto" },
     tasbih: saved.tasbih || 0
   };
+  // 2026-10-09: beep.wav/chime.wav removed; old names -> bell.wav
+  if (state.sound === "chime" || state.sound === "beep" || state.sound === "bell") state.sound = "bell.wav";
 }
 function save() { localStorage.setItem("ezan-vakti", JSON.stringify(state)); }
 function t(key) { return I18N[state.lang][key]; }
@@ -255,7 +263,11 @@ function fillSelects() {
       [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}"${(state.remind[k] ?? 15) === n ? " selected" : ""}>${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("")
     }</select></label>`).join("");
   document.getElementById("soundSel").innerHTML =
-    [["chime", t("soundChime")], ["beep", t("soundBeep")], ["bell", t("soundBell")], ["custom", t("soundCustom")]]
+    [["adhan-prayer-call.mp3", t("soundAdhan")], ["adhan-prayer-call-trimmed.mp3", t("soundAdhanShort")],
+     ["alarm.mp3", t("soundAlarm")], ["alert-on-mobile.wav", t("soundMobile")],
+     ["bell.wav", t("soundBell")], ["double-car-honk.mp3", t("soundHonk")],
+     ["nikin-short-chick-sound.mp3", t("soundChick")], ["nostalgia.wav", t("soundNostalgia")],
+     ["custom", t("soundCustom")]]
       .map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
   document.getElementById("soundSel").value = state.sound;
   document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
@@ -552,7 +564,7 @@ document.getElementById("setBtn").onclick = () => document.getElementById("setMo
 function playAlert() {
   let src;
   if (state.sound === "custom" && state.customSound) src = state.customSound;
-  else src = "/audio/" + (state.sound === "custom" ? "chime" : state.sound) + ".wav";
+  else src = "/audio/" + (state.sound === "custom" ? "bell.wav" : state.sound);
   try { const a = new Audio(src); a.play().catch(() => {}); } catch {}
 }
 document.getElementById("soundSel").onchange = e => {
