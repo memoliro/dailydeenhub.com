@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=15" />
+  <link rel="stylesheet" href="/styles.css?v=16" />
 </head>
 <body>
   <header class="top">
@@ -95,6 +95,7 @@
         <div class="row">
           <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
           <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
+          <button class="ghost" id="hijriMode" type="button" data-i="hijriCal">Hijri</button>
         </div>
         <div class="scroll"><table><thead><tr>
           <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
@@ -166,6 +167,7 @@
         <p class="sub" data-i="mosquesSub">Mosques near your selected place, from OpenStreetMap.</p>
         <div class="row" style="margin-top:0">
           <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Find mosques</button>
+          <button class="ghost" id="mosqueNearMe" type="button" data-i="mosquesNearMe">📍 Near me</button>
         </div>
         <div id="mosqueList" class="mosque-list"></div>
       </div>
@@ -224,7 +226,7 @@
   <script src="/prayer-calc.js?v=2"></script>
   <script src="/prayer-api.js?v=5"></script>
   <script src="/push-alerts.js?v=4"></script>
-  <script src="/app.js?v=20"></script>
+  <script src="/app.js?v=21"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">

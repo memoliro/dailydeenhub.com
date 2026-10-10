@@ -283,3 +283,9 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .trk.on { background: var(--green); border-color: var(--green); }
 .tracker-head .streak { color: var(--green-bright); }
 a { color: var(--green-bright); }
+
+/* Hijri calendar */
+#monthBody td.today { background: var(--green); color: #fff; border-radius: 10px; }
+#monthBody td b { display: block; font-size: 16px; }
+#monthBody td span { font-size: 11px; color: var(--dim); }
+#monthBody td.today span { color: rgba(255,255,255,.8); }

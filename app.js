@@ -48,7 +48,9 @@ const I18N = {
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", suhoorDone: "Suhoor passed", fasting: "Fasting now",
     mosquesTab: "Mosques", mosquesTitle: "Nearby mosques", mosquesSub: "Mosques near your selected place, from OpenStreetMap.",
     mosquesFind: "Find mosques", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
+    mosquesNearMe: "📍 Near me", mosquesLocating: "Getting your location…", mosquesDenied: "Location not available.",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
+    hijriCal: "Hijri calendar",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
@@ -106,7 +108,9 @@ const I18N = {
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", suhoorDone: "Sahur geçti", fasting: "Oruçlusun",
     mosquesTab: "Camiler", mosquesTitle: "Yakındaki camiler", mosquesSub: "Seçtiğin yere yakın camiler, OpenStreetMap'ten.",
     mosquesFind: "Camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
+    mosquesNearMe: "📍 Yakınımda", mosquesLocating: "Konum alınıyor…", mosquesDenied: "Konum alınamadı.",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
+    hijriCal: "Hicri takvim",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
@@ -425,7 +429,64 @@ function monthName(day) {
   const n = +day.date.gregorian.month.number;
   return MONTHS[state.lang][n - 1] || day.date.gregorian.month.en;
 }
+/* ---------- Hijri month calendar ---------- */
+const HIJRI_MONTHS_EN = ["Muharram","Safar","Rabiʿ al-awwal","Rabiʿ al-thani","Jumada al-awwal","Jumada al-thani","Rajab","Shaʿban","Ramadan","Shawwal","Dhu al-Qaʿdah","Dhu al-Hijjah"];
+const HIJRI_MONTHS_TR = ["Muharrem","Safer","Rebiülevvel","Rebiülâhir","Cemaziyelevvel","Cemaziyelâhir","Receb","Şaban","Ramazan","Şevval","Zilkade","Zilhicce"];
+function hijriName(m) { return (state.lang === "tr" ? HIJRI_MONTHS_TR : HIJRI_MONTHS_EN)[m - 1] || ""; }
+function gToHLocal(y, m, d) {
+  if (typeof PrayerCalc !== "undefined" && PrayerCalc.gToH) return PrayerCalc.gToH(y, m, d);
+  return null;
+}
+function renderHijriCal() {
+  const now = new Date();
+  const h0 = gToHLocal(now.getFullYear(), now.getMonth() + 1, now.getDate());
+  const heading = document.getElementById("monthHeading");
+  const note = document.getElementById("monthNote");
+  const body = document.getElementById("monthBody");
+  if (!h0) { if (heading) heading.textContent = t("hijriCal"); return; }
+  const hy = +h0.year, hm = +h0.month.number;
+  if (heading) heading.textContent = `${hijriName(hm)} ${hy}`;
+  if (note) note.textContent = "";
+  // find Gregorian date of Hijri day 1 by scanning back
+  const d = new Date(now);
+  for (let i = 0; i < 32; i++) {
+    const h = gToHLocal(d.getFullYear(), d.getMonth() + 1, d.getDate());
+    if (+h.day === 1 && +h.month.number === hm) break;
+    d.setDate(d.getDate() - 1);
+  }
+  const first = new Date(d);
+  // month length: scan forward until month changes
+  let len = 29;
+  const d2 = new Date(first);
+  for (let i = 1; i <= 30; i++) {
+    d2.setDate(d2.getDate() + 1);
+    const h = gToHLocal(d2.getFullYear(), d2.getMonth() + 1, d2.getDate());
+    if (+h.month.number !== hm) { len = i; break; }
+    if (i === 30) len = 30;
+  }
+  const startDow = (first.getDay() + 6) % 7; // Monday-first
+  const wd = state.lang === "tr" ? ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"] : ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  let html = `<tr>${wd.map(w => `<th>${w}</th>`).join("")}</tr><tr>`;
+  for (let i = 0; i < startDow; i++) html += "<td></td>";
+  const todayStr = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+  for (let day = 1; day <= len; day++) {
+    const gd = new Date(first); gd.setDate(gd.getDate() + day - 1);
+    const isToday = `${gd.getFullYear()}-${gd.getMonth()}-${gd.getDate()}` === todayStr;
+    const col = (startDow + day - 1) % 7;
+    if (day > 1 && col === 0) html += "</tr><tr>";
+    html += `<td class="${isToday ? "today" : ""}"><b>${day}</b><span>${gd.getDate()}.${gd.getMonth() + 1}</span></td>`;
+  }
+  html += "</tr>";
+  // swap table head for calendar: use thead for weekdays is already in first row; hide original thead via class
+  body.innerHTML = html;
+  document.querySelector("#panel-month thead").style.display = "none";
+  document.getElementById("monthMode").classList.remove("on");
+  document.getElementById("ramadanMode").classList.remove("on");
+  document.getElementById("hijriMode").classList.add("on");
+}
 function renderMonth() {
+  if (monthView === "hijri") { renderHijriCal(); return; }
+  document.querySelector("#panel-month thead").style.display = "";
   const now = zoneParts(state.place.tz);
   const monthOf = d => +d.date.gregorian.month.number || +String(d.date.gregorian.date).split("-")[1];
   const rows = monthView === "ramadan" ? ramadan : (calendar.filter(d => monthOf(d) === now.m).length ? calendar.filter(d => monthOf(d) === now.m) : calendar);
@@ -441,8 +502,9 @@ function renderMonth() {
       : `${d.date.gregorian.day} ${localWeekday(d.date.gregorian.weekday.en, true)}`;
     return `<tr class="${today ? "today" : ""}"><td>${date}</td><td>${cleanTime(tm.Fajr)}</td><td>${cleanTime(tm.Sunrise)}</td><td>${cleanTime(tm.Dhuhr)}</td><td>${cleanTime(tm.Asr)}</td><td>${cleanTime(tm.Maghrib)}</td><td>${cleanTime(tm.Isha)}</td></tr>`;
   }).join("");
-  document.getElementById("monthMode").classList.toggle("on", monthView !== "ramadan");
+  document.getElementById("monthMode").classList.toggle("on", monthView === "month");
   document.getElementById("ramadanMode").classList.toggle("on", monthView === "ramadan");
+  document.getElementById("hijriMode").classList.toggle("on", monthView === "hijri");
 }
 function renderAyah() {
   const a = AYAH[Math.floor(Date.now() / 86400000) % AYAH.length];
@@ -607,9 +669,9 @@ function mosqueDistKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLa / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
-async function findMosques() {
+async function findMosques(lat, lon) {
   const list = document.getElementById("mosqueList");
-  const { lat, lon } = state.place;
+  lat = lat ?? state.place.lat; lon = lon ?? state.place.lon;
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
   const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
   const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
@@ -871,13 +933,24 @@ document.getElementById("playBtn").onclick = playChapter;
 document.getElementById("radioBtn").onclick = playRadio;
 document.getElementById("monthMode").onclick = () => { monthView = "month"; renderMonth(); };
 document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
+document.getElementById("hijriMode").onclick = () => { monthView = "hijri"; renderMonth(); };
 renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
-document.getElementById("mosqueFind").onclick = findMosques;
+document.getElementById("mosqueFind").onclick = () => findMosques();
+document.getElementById("mosqueNearMe").onclick = () => {
+  const list = document.getElementById("mosqueList");
+  if (!navigator.geolocation) { list.innerHTML = `<p class="hint">${t("mosquesDenied")}</p>`; return; }
+  list.innerHTML = `<p class="hint">${t("mosquesLocating")}</p>`;
+  navigator.geolocation.getCurrentPosition(
+    pos => findMosques(pos.coords.latitude, pos.coords.longitude),
+    () => { list.innerHTML = `<p class="hint">${t("mosquesDenied")}</p>`; },
+    { timeout: 10000 }
+  );
+};
 let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
