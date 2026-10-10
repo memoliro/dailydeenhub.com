@@ -45,6 +45,7 @@ const I18N = {
     mapBody: "Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.",
     quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
     trackerTitle: "Today's prayers", streak: "day streak", streaks: "day streak", done: "done", markDone: "Tap a prayer to mark it done",
+    ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", suhoorDone: "Suhoor passed", fasting: "Fasting now",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
@@ -99,6 +100,7 @@ const I18N = {
     mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
     trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
+    ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", suhoorDone: "Sahur geçti", fasting: "Oruçlusun",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
@@ -382,6 +384,7 @@ function renderTimes() {
     const tm = entry.timings[k];
     return `<article class="vakt ${k === nextKey ? "on" : ""}"><div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${minutes(tm) <= nowMin ? t("passed") : ""}</div></article>`;
   }).join("");
+  renderRamadanHub(entry);
   if (state.notify && "Notification" in window && Notification.permission === "granted") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
@@ -579,6 +582,31 @@ function renderTracker() {
       `<button type="button" class="trk ${done.includes(k) ? "on" : ""}" data-p="${k}">${done.includes(k) ? "✓ " : ""}${nameOf(k)}</button>`
     ).join("") + `</div>`;
   box.querySelectorAll(".trk").forEach(b => b.addEventListener("click", () => togglePrayer(b.dataset.p)));
+}
+/* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
+function isRamadan(entry) {
+  const h = entry && entry.date && entry.date.hijri;
+  return h && +h.month.number === 9;
+}
+function renderRamadanHub(entry) {
+  let hub = document.getElementById("ramadanHub");
+  if (!isRamadan(entry)) { if (hub) hub.remove(); return; }
+  if (!hub) {
+    hub = document.createElement("div");
+    hub.id = "ramadanHub";
+    hub.className = "ramadan-hub";
+    document.getElementById("vaktGrid").after(hub);
+  }
+  const nowMin = minutes(new Date());
+  const fajr = minutes(entry.timings.Fajr), maghrib = minutes(entry.timings.Maghrib);
+  let label, target;
+  if (nowMin < fajr) { label = t("suhoorIn"); target = fajr; }
+  else if (nowMin < maghrib) { label = t("iftarIn"); target = maghrib; }
+  else { label = t("suhoorIn"); target = fajr + 1440; } // after iftar: next suhoor
+  const diff = target - nowMin, hh = Math.floor(diff / 60), mm = Math.floor(diff % 60);
+  hub.innerHTML = `<div class="rh-title">🌙 ${t("ramadanHub")}</div>` +
+    `<div class="rh-count">${label} <b>${hh}:${String(mm).padStart(2, "0")}</b></div>` +
+    (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
 function showTab(id) {
   ["month", "qibla", "quran", "quiet"].forEach(k => document.getElementById("panel-" + k).classList.toggle("hidden", k !== id));

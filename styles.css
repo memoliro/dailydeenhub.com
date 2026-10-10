@@ -248,3 +248,10 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .trk { padding: 10px 6px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 13px; cursor: pointer; }
 .trk.on { background: #16a34a; border-color: #16a34a; color: #fff; font-weight: 700; }
 @media (max-width: 560px) { .tracker-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Ramadan hub */
+.ramadan-hub { margin-top: 14px; padding: 16px 18px; border-radius: 18px; border: 1px solid #d4a574; background: linear-gradient(135deg, color-mix(in srgb, #d4a574 14%, transparent), transparent); text-align: center; }
+.rh-title { font-weight: 800; font-size: 16px; letter-spacing: .04em; }
+.rh-count { font-size: 20px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.rh-count b { color: #d4a574; }
+.rh-note { color: var(--dim); font-size: 13px; margin-top: 4px; }
