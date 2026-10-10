@@ -958,11 +958,11 @@ function setLanguage(lang) {
   if (state.lang === lang) return;
   state.lang = lang;
   save();
+  // keep the URL in sync without reloading, so the user stays exactly where they are
   const target = lang === "tr" ? "/tr/" : "/";
   const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
-  if (target !== here) { location.href = target; return; }
+  if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
   applyI18n();
-  renderMonth();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
 }
 document.getElementById("langEn").onclick = () => setLanguage("en");
