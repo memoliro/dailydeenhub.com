@@ -280,7 +280,7 @@ function applyI18n() {
   renderChapters();
   const audio = document.getElementById("audio");
   document.getElementById("playBtn").textContent = audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play");
-  document.querySelectorAll("[data-compass]").forEach(el => { el.textContent = COMPASS[state.lang][+el.dataset.compass]; });
+  document.querySelectorAll("[data-cardinal]").forEach(el => { el.textContent = (COMPASS[state.lang] || COMPASS.en)[+el.dataset.cardinal]; });
 }
 function fillSelects() {
   document.getElementById("methodSel").innerHTML = METHODS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
@@ -426,6 +426,75 @@ function renderAyah() {
   document.getElementById("ayahText").textContent = state.lang === "tr" ? a.tr : a.en;
   document.getElementById("ayahRef").textContent = a.ref;
 }
+
+/* Build the sexy compass dial: degree ring, cardinals, needle, Kaaba marker. */
+function buildCompassDial() {
+  const dial = document.getElementById("dial");
+  if (!dial || dial.dataset.built) return;
+  dial.dataset.built = "1";
+  const NS = "http://www.w3.org/2000/svg";
+  const cx = 110, cy = 110;
+  const P = (deg, r) => {
+    const a = (deg - 90) * Math.PI / 180;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  };
+  const el = (tag, attrs, parent) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || dial).appendChild(e);
+    return e;
+  };
+  // face
+  el("circle", { cx, cy, r: 99, fill: "#0c1425", stroke: "#d4a574", "stroke-opacity": ".4", "stroke-width": 1.5 });
+  el("circle", { cx, cy, r: 84, fill: "none", stroke: "#ffffff", "stroke-opacity": ".07" });
+  // compass rose star (subtle)
+  let star = "";
+  for (let i = 0; i < 8; i++) {
+    const a1 = (i * 45 - 90) * Math.PI / 180, a2 = (i * 45 + 22.5 - 90) * Math.PI / 180;
+    const r1 = i % 2 === 0 ? 44 : 30, r2 = 12;
+    star += `M${cx} ${cy}L${(cx + r1 * Math.cos(a1)).toFixed(1)} ${(cy + r1 * Math.sin(a1)).toFixed(1)}L${(cx + r2 * Math.cos(a2)).toFixed(1)} ${(cy + r2 * Math.sin(a2)).toFixed(1)}Z`;
+  }
+  el("path", { d: star, fill: "#ffffff", "fill-opacity": ".045" });
+  // ticks + degree numbers
+  for (let d = 0; d < 360; d += 10) {
+    const major = d % 30 === 0;
+    const [x1, y1] = P(d, major ? 87 : 91), [x2, y2] = P(d, 96);
+    el("line", { x1: x1.toFixed(1), y1: y1.toFixed(1), x2: x2.toFixed(1), y2: y2.toFixed(1),
+      stroke: "#f6f1e8", "stroke-opacity": major ? ".85" : ".3", "stroke-width": major ? 2 : 1 });
+    if (major) {
+      const [tx, ty] = P(d, 76);
+      const t = el("text", { x: tx.toFixed(1), y: (ty + 3).toFixed(1), "text-anchor": "middle",
+        fill: "#8b93a7", "font-size": "8.5", "font-family": "Outfit, sans-serif", "data-upright": "1" });
+      t.textContent = d + "\u00B0";
+    }
+  }
+  // cardinals (localized N/E/S/W or K/D/G/B)
+  const labels = COMPASS[state.lang] || COMPASS.en;
+  [[0, 0], [90, 1], [180, 2], [270, 3]].forEach(([deg, i]) => {
+    const [tx, ty] = P(deg, 62);
+    const t = el("text", { x: tx.toFixed(1), y: (ty + 5.5).toFixed(1), "text-anchor": "middle",
+      fill: i === 0 ? "#ef4444" : "#f6f1e8", "font-size": "16", "font-weight": "700",
+      "font-family": "Outfit, sans-serif", "data-upright": "1", "data-cardinal": i });
+    t.textContent = labels[i];
+  });
+  // needle: red north, silver south (two-tone for depth)
+  el("polygon", { points: "110,60 103.5,110 110,110", fill: "#b91c1c" });
+  el("polygon", { points: "110,60 116.5,110 110,110", fill: "#ef4444" });
+  el("polygon", { points: "110,160 103.5,110 110,110", fill: "#9aa0ae" });
+  el("polygon", { points: "110,160 116.5,110 110,110", fill: "#e8e4da" });
+  // gold center cap
+  el("circle", { cx, cy, r: 7, fill: "#d4a574", stroke: "#8d5e32", "stroke-width": 1.5 });
+  el("circle", { cx, cy, r: 2.5, fill: "#0c1425" });
+  // Kaaba marker (rotated to bearing by renderQibla)
+  const km = el("g", { id: "qiblaMark" });
+  el("rect", { x: 101, y: 33, width: 18, height: 16, rx: 1.5, fill: "#141414", stroke: "#d4a574", "stroke-width": 1.4 }, km);
+  el("rect", { x: 101, y: 38.5, width: 18, height: 2.6, fill: "#d4a574" }, km);
+  el("rect", { x: 108.6, y: 41.5, width: 2.8, height: 7.5, fill: "#d4a574" }, km);
+  // halo so the Kaaba pops over dial furniture
+  const halo = el("circle", { cx: 110, cy: 41, r: 14, fill: "none", stroke: "#d4a574", "stroke-opacity": ".35", "stroke-width": 1 }, km);
+  km.insertBefore(halo, km.firstChild);
+}
+
 function renderQibla() {
   const local = qiblaBearing(state.place.lat, state.place.lon);
   const atKaaba = Math.abs(state.place.lat - 21.4225) < 0.05 && Math.abs(state.place.lon - 39.8262) < 0.05;
@@ -433,7 +502,7 @@ function renderQibla() {
   document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
   document.getElementById("qiblaMark").setAttribute("transform", `rotate(${b} 110 110)`);
   document.getElementById("dial").setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
-  document.querySelectorAll("[data-compass]").forEach(el => {
+  document.querySelectorAll("#dial [data-upright]").forEach(el => {
     el.setAttribute("transform", `rotate(${heading || 0} ${el.getAttribute("x")} ${el.getAttribute("y")})`);
   });
   const frame = document.getElementById("qiblaFrame");
@@ -722,5 +791,6 @@ document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e =
 
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
 applyI18n();
+buildCompassDial();
 refresh();
 setInterval(renderTimes, 1000);
