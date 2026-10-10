@@ -9,14 +9,14 @@
   <link rel="canonical" href="https://dailydeenhub.com/tr/" />
   <link rel="alternate" hreflang="en" href="https://dailydeenhub.com/" />
   <link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/" />
-  <title>Ezan Vakti — Namaz Vakitleri</title>
+  <title>DailyDeenHub — Namaz Vakitleri</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=14" />
+  <link rel="stylesheet" href="/styles.css?v=15" />
 </head>
 <body>
   <header class="top">
@@ -203,6 +203,8 @@
         </select>
       </label>
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while this tab is open</span></label>
+      <label class="field" style="display:flex;gap:8px;align-items:center"><input id="adhanChk" type="checkbox" /> <span data-i="adhanAtTime">Play adhan at prayer time</span></label>
+      <p class="note" data-i="adhanNote">Plays the full adhan when the tab is open.</p>
       <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts</span></label>
       <p class="note" id="pushNote" style="margin-top:-6px"></p>
       <div id="installRow" class="hidden" style="margin-top:2px">
@@ -222,7 +224,7 @@
   <script src="/prayer-calc.js?v=2"></script>
   <script src="/prayer-api.js?v=5"></script>
   <script src="/push-alerts.js?v=4"></script>
-  <script src="/app.js?v=19"></script>
+  <script src="/app.js?v=20"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">

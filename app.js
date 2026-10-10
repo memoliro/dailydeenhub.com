@@ -48,6 +48,7 @@ const I18N = {
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", suhoorDone: "Suhoor passed", fasting: "Fasting now",
     mosquesTab: "Mosques", mosquesTitle: "Nearby mosques", mosquesSub: "Mosques near your selected place, from OpenStreetMap.",
     mosquesFind: "Find mosques", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
+    adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
@@ -105,6 +106,7 @@ const I18N = {
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", suhoorDone: "Sahur geçti", fasting: "Oruçlusun",
     mosquesTab: "Camiler", mosquesTitle: "Yakındaki camiler", mosquesSub: "Seçtiğin yere yakın camiler, OpenStreetMap'ten.",
     mosquesFind: "Camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
+    adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
@@ -170,6 +172,7 @@ let qiblaDirection = null;
 let chapters = [];
 let heading = null;
 let notifiedKey = "";
+let adhanPlayedKey = "";
 let searchTimer = 0;
 let currentChapter = 1;
 let startingAudio = false;
@@ -196,6 +199,7 @@ function load() {
     method: saved.method ?? 2,
     school: saved.school ?? 0,
     notify: !!saved.notify,
+    adhanAtTime: saved.adhanAtTime ?? true,
     remind: saved.remind || Object.fromEntries(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k => [k, saved.remindMin ?? 15])),
     sound: saved.sound || "bell.wav",
     customSound: saved.customSound || null,
@@ -299,6 +303,7 @@ function fillSelects() {
     : `<option value="0">Shafi / Maliki / Hanbali</option><option value="1">Hanafi</option>`;
   document.getElementById("schoolSel").value = String(state.school);
   document.getElementById("notifyChk").checked = state.notify;
+  document.getElementById("adhanChk").checked = state.adhanAtTime;
   document.getElementById("remindRows").innerHTML = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k =>
     `<label class="rrow"><span>${nameOf(k)}</span><select data-rp="${k}" class="field">${
       [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}"${(state.remind[k] ?? 15) === n ? " selected" : ""}>${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("")
@@ -389,6 +394,15 @@ function renderTimes() {
     return `<article class="vakt ${k === nextKey ? "on" : ""}"><div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${minutes(tm) <= nowMin ? t("passed") : ""}</div></article>`;
   }).join("");
   renderRamadanHub(entry);
+  // Adhan at prayer time: when a prayer moment arrives, play the full adhan once
+  if (state.adhanAtTime && next) {
+    const adhanKey = `${g.year}-${g.month}-${g.day}-${nextKey}`;
+    const secsLeft = (next.min - nowMin) * 60;
+    if (secsLeft <= 2 && secsLeft > -2 && adhanPlayedKey !== adhanKey) {
+      adhanPlayedKey = adhanKey;
+      try { const a = new Audio("/audio/adhan-prayer-call.mp3"); a.play().catch(() => {}); } catch {}
+    }
+  }
   if (state.notify && "Notification" in window && Notification.permission === "granted") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
@@ -816,6 +830,7 @@ document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
   state.school = +document.getElementById("schoolSel").value;
   state.notify = document.getElementById("notifyChk").checked;
+  state.adhanAtTime = document.getElementById("adhanChk").checked;
   document.querySelectorAll("#remindRows select[data-rp]").forEach(sel => { state.remind[sel.dataset.rp] = +sel.value; });
   state.sound = document.getElementById("soundSel").value;
   save();

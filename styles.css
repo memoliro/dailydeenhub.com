@@ -6,6 +6,9 @@
   --line: rgba(212, 165, 116, 0.22);
   --gold: #d4a574;
   --gold-2: #f3e2cc;
+  --green: #0e6b4a;
+  --green-bright: #22c07a;
+  --green-deep: #083325;
   --ink: #f6f1e8;
   --muted: #a7b0c2;
   --dim: #717b90;
@@ -23,6 +26,9 @@
   --line: rgba(42, 52, 74, 0.12);
   --gold: #8d5e32;
   --gold-2: #243044;
+  --green: #0e6b4a;
+  --green-bright: #0e9b5e;
+  --green-deep: #d9efe4;
   --ink: #172033;
   --muted: #5d6880;
   --dim: #7d879c;
@@ -262,3 +268,18 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .mosque:hover { border-color: #d4a574; }
 .mq-name { font-weight: 600; }
 .mq-d { color: var(--dim); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+/* green identity accents */
+.primary { background: linear-gradient(135deg, var(--green), var(--green-deep)); border-color: var(--green); color: #fff; font-weight: 700; }
+.primary:active { filter: brightness(1.15); }
+.tabs button.on { background: var(--green); border-color: var(--green); color: #fff; }
+.vakt.on { border-color: var(--green-bright); box-shadow: 0 0 0 1px var(--green-bright), 0 8px 24px rgba(14, 107, 74, 0.25); }
+.vakt.on .nm { color: var(--green-bright); }
+.seg button.on, .stations button.on, #ramadanMode.on, #monthMode.on { background: var(--green); border-color: var(--green); color: #fff; }
+#arc { stroke: var(--green-bright); }
+.prayer-name { color: var(--green-bright); }
+.kicker { color: var(--green-bright); }
+.mosque:hover { border-color: var(--green-bright); }
+.trk.on { background: var(--green); border-color: var(--green); }
+.tracker-head .streak { color: var(--green-bright); }
+a { color: var(--green-bright); }
