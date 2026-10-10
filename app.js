@@ -597,11 +597,18 @@ async function findMosques() {
   const list = document.getElementById("mosqueList");
   const { lat, lon } = state.place;
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
-  try {
-    const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
-    const res = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(q));
-    if (!res.ok) throw new Error("overpass " + res.status);
-    const data = await res.json();
+  const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
+  const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
+  let data = null;
+  for (const ep of endpoints) {
+    try {
+      const res = await fetch(ep + "?data=" + encodeURIComponent(q));
+      if (!res.ok) continue;
+      data = await res.json();
+      if (data.elements) break;
+    } catch {}
+  }
+  if (!data || !data.elements) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
     const items = (data.elements || []).map(el => {
       const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
       if (mlat == null) return null;
@@ -612,7 +619,6 @@ async function findMosques() {
       `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
       `<span class="mq-name">🕌 ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
     ).join("");
-  } catch (e) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; }
 }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
