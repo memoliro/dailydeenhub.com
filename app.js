@@ -47,8 +47,8 @@ const I18N = {
     trackerTitle: "Today's prayers", streak: "day streak", streaks: "day streak", done: "done", markDone: "Tap a prayer to mark it done",
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", suhoorDone: "Suhoor passed", fasting: "Fasting now",
     mosquesTab: "Mosques", mosquesTitle: "Nearby mosques", mosquesSub: "Mosques near your selected place, from OpenStreetMap.",
-    mosquesFind: "Find mosques", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
-    mosquesNearMe: "📍 Near me", mosquesLocating: "Getting your location…", mosquesDenied: "Location not available.",
+    mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
+    mosquesRetrying: "Retrying…",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     hijriCal: "Hijri calendar",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
@@ -107,8 +107,8 @@ const I18N = {
     trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", suhoorDone: "Sahur geçti", fasting: "Oruçlusun",
     mosquesTab: "Camiler", mosquesTitle: "Yakındaki camiler", mosquesSub: "Seçtiğin yere yakın camiler, OpenStreetMap'ten.",
-    mosquesFind: "Camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
-    mosquesNearMe: "📍 Yakınımda", mosquesLocating: "Konum alınıyor…", mosquesDenied: "Konum alınamadı.",
+    mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
+    mosquesRetrying: "Tekrar deneniyor…",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
@@ -669,32 +669,54 @@ function mosqueDistKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLa / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
-async function findMosques(lat, lon) {
+async function findMosques() {
   const list = document.getElementById("mosqueList");
-  lat = lat ?? state.place.lat; lon = lon ?? state.place.lon;
+  const btn = document.getElementById("mosqueFind");
+  btn.disabled = true;
+  // 1) Prefer GPS location, fall back to selected place
+  let lat = state.place.lat, lon = state.place.lon;
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000, maximumAge: 600000 });
+      });
+      lat = pos.coords.latitude; lon = pos.coords.longitude;
+    } catch {} // fall back to selected place
+  }
+  // 2) Query Overpass with retries across endpoints
   const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
   const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
-  let data = null;
-  for (const ep of endpoints) {
-    try {
-      const res = await fetch(ep + "?data=" + encodeURIComponent(q));
-      if (!res.ok) continue;
-      data = await res.json();
-      if (data.elements) break;
-    } catch {}
+  let items = null, attempt = 0;
+  const maxAttempts = 6;
+  while (items === null && attempt < maxAttempts) {
+    attempt++;
+    if (attempt > 1) list.innerHTML = `<p class="hint">${t("mosquesRetrying")} (${attempt}/${maxAttempts})</p>`;
+    for (const ep of endpoints) {
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 20000);
+        const res = await fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal });
+        clearTimeout(timer);
+        if (!res.ok) continue;
+        const data = await res.json();
+        items = (data.elements || []).map(el => {
+          const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
+          if (mlat == null) return null;
+          return { name: el.tags?.name || (state.lang === "tr" ? "Cami" : "Mosque"), lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+        }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
+        break; // success — even empty is a real answer
+      } catch {} // try next endpoint / retry
+    }
+    if (items === null && attempt < maxAttempts) await new Promise(r => setTimeout(r, 2000 * attempt));
   }
-  if (!data || !data.elements) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
-    const items = (data.elements || []).map(el => {
-      const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
-      if (mlat == null) return null;
-      return { name: el.tags?.name || (state.lang === "tr" ? "Cami" : "Mosque"), lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
-    }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
-    if (!items.length) { list.innerHTML = `<p class="hint">${t("mosquesNone")}</p>`; return; }
-    list.innerHTML = items.map(m =>
-      `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
-      `<span class="mq-name">🕌 ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
-    ).join("");
+  btn.disabled = false;
+  if (items === null) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
+  if (!items.length) { list.innerHTML = `<p class="hint">${t("mosquesNone")}</p>`; return; }
+  list.innerHTML = items.map(m =>
+    `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
+    `<span class="mq-name">\u0001F54C ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
+  ).join("");
 }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
@@ -941,16 +963,6 @@ document.getElementById("reciterSel").onchange = e => { state.reciter = +e.targe
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
 document.getElementById("mosqueFind").onclick = () => findMosques();
-document.getElementById("mosqueNearMe").onclick = () => {
-  const list = document.getElementById("mosqueList");
-  if (!navigator.geolocation) { list.innerHTML = `<p class="hint">${t("mosquesDenied")}</p>`; return; }
-  list.innerHTML = `<p class="hint">${t("mosquesLocating")}</p>`;
-  navigator.geolocation.getCurrentPosition(
-    pos => findMosques(pos.coords.latitude, pos.coords.longitude),
-    () => { list.innerHTML = `<p class="hint">${t("mosquesDenied")}</p>`; },
-    { timeout: 10000 }
-  );
-};
 let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
