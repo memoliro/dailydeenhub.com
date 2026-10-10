@@ -54,6 +54,9 @@ const I18N = {
     footFeatures: "Features", footResources: "Resources", footFreeTools: "Free tools", footSupport: "Support",
     paidNote: "(paid · no account needed)",
     supportUs: "Support us",
+    apkNoticeTitle: "Welcome to the new app! 🎉",
+    apkNoticeBody: "If you still have the old DailyDeenHub icon on your home screen, long-press it and uninstall it — this new app replaces it.",
+    apkNoticeOk: "Got it",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     hijriCal: "Hijri calendar",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
@@ -119,6 +122,9 @@ const I18N = {
     footFeatures: "Özellikler", footResources: "Kaynaklar", footFreeTools: "Ücretsiz araçlar", footSupport: "Destek",
     paidNote: "(ücretli · hesap gerekmez)",
     supportUs: "Bize destek ol",
+    apkNoticeTitle: "Yeni uygulamaya hoş geldin! 🎉",
+    apkNoticeBody: "Ana ekranında eski DailyDeenHub simgesi duruyorsa, üzerine uzun basıp kaldır — bu yeni uygulama onun yerini alıyor.",
+    apkNoticeOk: "Anladım",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
@@ -244,6 +250,25 @@ function toast(msg) {
   el.textContent = msg;
   el.classList.remove("hidden");
   setTimeout(() => el.classList.add("hidden"), 2400);
+}
+// One-time notice inside the installed APK (TWA): nudge users to remove the old PWA icon.
+function maybeShowApkNotice() {
+  try {
+    if (document.referrer.indexOf("android-app://") !== 0) return; // not running in the APK
+    if (localStorage.getItem("ddh_apk_noticed") === "1") return;
+    const ov = document.createElement("div");
+    ov.className = "modal";
+    ov.style.zIndex = "70";
+    ov.innerHTML = `<div class="sheet" style="text-align:center;max-width:420px">
+      <h3>${t("apkNoticeTitle")}</h3>
+      <p style="line-height:1.6">${t("apkNoticeBody")}</p>
+      <button class="primary" id="apkNoticeOk" style="margin-top:12px;min-width:140px">${t("apkNoticeOk")}</button>
+    </div>`;
+    document.body.appendChild(ov);
+    const close = () => { ov.remove(); localStorage.setItem("ddh_apk_noticed", "1"); };
+    ov.querySelector("#apkNoticeOk").addEventListener("click", close);
+    ov.addEventListener("click", e => { if (e.target === ov) close(); });
+  } catch (e) {}
 }
 function zoneParts(tz, date = new Date()) {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -1037,4 +1062,5 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").cat
 applyI18n();
 buildCompassDial();
 refresh();
+maybeShowApkNotice();
 setInterval(renderTimes, 1000);
