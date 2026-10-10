@@ -41,18 +41,24 @@ const PrayerAPI = (() => {
     const cached = readCache(key);
     if (cached) return cached;
     const url = `${BASE}/calendar/${year}/${month}?latitude=${lat}&longitude=${lon}&method=${method}&school=${school}`;
-    const json = await getJson(url);
-    const days = (json.data || []).map(normalize);
-    const meta = json.data?.[0]?.meta || {};
-    const payload = {
-      source: "Aladhan",
-      methodName: meta.method?.name || `Method ${method}`,
-      timezone: meta.timezone || "",
-      school: meta.school || (school === 1 ? "HANAFI" : "STANDARD"),
-      days
-    };
-    writeCache(key, payload);
-    return payload;
+    try {
+      const json = await getJson(url);
+      const days = (json.data || []).map(normalize);
+      const meta = json.data?.[0]?.meta || {};
+      const payload = {
+        source: "Aladhan",
+        methodName: meta.method?.name || `Method ${method}`,
+        timezone: meta.timezone || "",
+        school: meta.school || (school === 1 ? "HANAFI" : "STANDARD"),
+        days
+      };
+      writeCache(key, payload);
+      return payload;
+    } catch (e) {
+      // Offline fallback: compute locally so the app never shows "could not load times"
+      if (typeof PrayerCalc !== "undefined") return PrayerCalc.month({ lat, lon, year, month, method, school });
+      throw e;
+    }
   }
 
   async function qibla(lat, lon) {

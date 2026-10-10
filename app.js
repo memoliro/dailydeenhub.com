@@ -44,6 +44,7 @@ const I18N = {
     ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", mapTitle: "Qibla map",
     mapBody: "Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.",
     quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
+    trackerTitle: "Today's prayers", streak: "day streak", streaks: "day streak", done: "done", markDone: "Tap a prayer to mark it done",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
@@ -97,6 +98,7 @@ const I18N = {
     ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
     mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
+    trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
@@ -273,6 +275,7 @@ function applyI18n() {
   document.getElementById("focusBody").textContent = t("focusBody");
   fillSelects();
   renderTasbih();
+  renderTracker();
   renderAyah();
   renderTimes();
   renderMonth();
@@ -532,6 +535,50 @@ function renderTasbih() {
   const n = state.tasbih % 100;
   document.getElementById("tasbihPhrase").textContent = n < 33 ? "Subhanallah" : n < 66 ? "Alhamdulillah" : "Allahu akbar";
   document.getElementById("tasbihCount").textContent = String(n);
+}
+/* ---------- prayer tracker with streaks ---------- */
+const TRACKABLE = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+function todayKey(d) { return d ? `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` : todayKey(new Date()); }
+function getTracker() {
+  try { return JSON.parse(localStorage.getItem("ddh-tracker") || "{}"); } catch { return {}; }
+}
+function saveTracker(tr) {
+  try { localStorage.setItem("ddh-tracker", JSON.stringify(tr)); } catch {}
+}
+function togglePrayer(key) {
+  const tr = getTracker(), tk = todayKey();
+  tr[tk] = tr[tk] || [];
+  const i = tr[tk].indexOf(key);
+  if (i >= 0) tr[tk].splice(i, 1); else tr[tk].push(key);
+  saveTracker(tr);
+  renderTracker();
+}
+function streakDays() {
+  const tr = getTracker();
+  let streak = 0;
+  const d = new Date();
+  // don't break streak if today is incomplete yet
+  if (!(tr[todayKey(d)] && TRACKABLE.every(k => tr[todayKey(d)].includes(k)))) d.setDate(d.getDate() - 1);
+  while (true) {
+    const k = todayKey(d);
+    if (tr[k] && TRACKABLE.every(p => tr[k].includes(p))) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  return streak;
+}
+function renderTracker() {
+  const tr = getTracker(), done = tr[todayKey()] || [];
+  const box = document.getElementById("trackerBox");
+  if (!box) return;
+  const n = streakDays();
+  box.innerHTML =
+    `<div class="tracker-head"><span>${t("trackerTitle")}</span>` +
+    (n > 0 ? `<span class="streak">🔥 ${n} ${t(n === 1 ? "streak" : "streaks")}</span>` : "") +
+    `</div><div class="tracker-hint">${t("markDone")}</div>` +
+    `<div class="tracker-grid">` + TRACKABLE.map(k =>
+      `<button type="button" class="trk ${done.includes(k) ? "on" : ""}" data-p="${k}">${done.includes(k) ? "✓ " : ""}${nameOf(k)}</button>`
+    ).join("") + `</div>`;
+  box.querySelectorAll(".trk").forEach(b => b.addEventListener("click", () => togglePrayer(b.dataset.p)));
 }
 function showTab(id) {
   ["month", "qibla", "quran", "quiet"].forEach(k => document.getElementById("panel-" + k).classList.toggle("hidden", k !== id));

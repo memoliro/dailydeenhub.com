@@ -1,5 +1,5 @@
-const CACHE = "ezan-vakti-v27";
-const SHELL = ["/", "/index.html", "/tr/", "/tr/index.html", "/styles.css", "/app.js", "/prayer-api.js", "/push-alerts.js", "/manifest.json", "/favicon.png", "/audio/adhan-prayer-call.mp3", "/audio/adhan-prayer-call-trimmed.mp3",
+const CACHE = "ezan-vakti-v28";
+const SHELL = ["/", "/index.html", "/tr/", "/tr/index.html", "/styles.css", "/app.js", "/prayer-calc.js", "/prayer-api.js", "/push-alerts.js", "/manifest.json", "/favicon.png", "/audio/adhan-prayer-call.mp3", "/audio/adhan-prayer-call-trimmed.mp3",
   "/audio/alarm.mp3", "/audio/alert-on-mobile.wav", "/audio/bell.wav",
   "/audio/double-car-honk.mp3", "/audio/nikin-short-chick-sound.mp3", "/audio/nostalgia.wav",
   "/about.html", "/terms.html", "/privacy.html", "/tr/about.html", "/tr/terms.html", "/tr/privacy.html"];
