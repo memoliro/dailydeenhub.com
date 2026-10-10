@@ -206,3 +206,15 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
   .brand-mark { width: 36px !important; height: 36px !important; }
   .brand-word { height: 38px !important; max-width: 100%; object-fit: contain; object-position: left center; }
 }
+
+/* Settings: wide green Done button */
+#setClose {
+  width: 100%; background: #16a34a; border-color: #16a34a; color: #fff;
+  font-weight: 700; padding: 13px; font-size: 16px;
+}
+#setClose:active { background: #15803d; }
+/* Alert dropdowns: light-blue outline so they stand out */
+#soundSel, #remindRows select.field {
+  border: 2px solid #7dd3fc;
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.18);
+}

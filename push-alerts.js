@@ -99,7 +99,44 @@ window.addEventListener('beforeinstallprompt', function (e) {
 window.addEventListener('appinstalled', function () {
   deferredPrompt = null;
   refreshInstallHint();
+  hideInstallPopup(true);
 });
+
+
+/* ---- Install popup on page load (not only in Settings) ---- */
+function hideInstallPopup(remember) {
+  var pop = $('installPopup');
+  if (pop) pop.classList.add('hidden');
+  if (remember) { try { localStorage.setItem('ddh_install_popup', String(Date.now())); } catch (e) {} }
+}
+function maybeShowInstallPopup() {
+  if (isInstalled()) return;
+  try {
+    var last = localStorage.getItem('ddh_install_popup');
+    if (last && Date.now() - (+last) < 7 * 24 * 3600 * 1000) return; // at most once a week
+  } catch (e) {}
+  // give beforeinstallprompt a moment to fire
+  setTimeout(function () {
+    if (isInstalled()) return;
+    if (!deferredPrompt && !isIOS()) return; // nothing useful to offer
+    var pop = $('installPopup');
+    if (!pop || !pop.classList.contains('hidden')) return;
+    var btn = $('installPopBtn'), ios = $('installPopIOS');
+    if (isIOS() && !deferredPrompt) {
+      if (btn) btn.classList.add('hidden');
+      if (ios) { ios.textContent = t('installIOS'); ios.classList.remove('hidden'); }
+    } else {
+      if (btn) { btn.textContent = t('installBtn'); btn.classList.remove('hidden'); }
+    }
+    var later = $('installPopLater');
+    if (later) later.textContent = t('installPopLater');
+    var title = pop.querySelector('[data-i="installPopTitle"]');
+    if (title) title.textContent = t('installPopTitle');
+    var body = pop.querySelector('[data-i="installPopBody"]');
+    if (body) body.textContent = t('installPopBody');
+    pop.classList.remove('hidden');
+  }, 2500);
+}
 
 /* Build the settings payload the worker needs. */
 function settingsPayload() {
@@ -202,7 +239,12 @@ function boot() {
   });
   var ibtn = $('installBtn');
   if (ibtn) ibtn.addEventListener('click', doInstall);
+  var popBtn = $('installPopBtn');
+  if (popBtn) popBtn.addEventListener('click', function () { doInstall(); hideInstallPopup(true); });
+  var popLater = $('installPopLater');
+  if (popLater) popLater.addEventListener('click', function () { hideInstallPopup(true); });
   refreshUI();
+  maybeShowInstallPopup();
   // expose for app.js to call after settings change
   window.DDHPush = { refresh: refreshUI, resync: resync };
 }

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=8" />
+  <link rel="stylesheet" href="/styles.css?v=9" />
 </head>
 <body>
   <header class="top">
@@ -220,7 +220,19 @@
   </div>
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-api.js?v=4"></script>
-  <script src="/push-alerts.js?v=2"></script>
+  <script src="/push-alerts.js?v=3"></script>
   <script src="/app.js?v=9"></script>
+
+  <div class="modal hidden" id="installPopup" style="z-index:60">
+    <div class="sheet">
+      <h3 data-i="installPopTitle">Install DailyDeenHub</h3>
+      <p class="note" data-i="installPopBody">Get prayer alerts even when your browser is closed. Free, fast, no account needed.</p>
+      <p class="note hidden" id="installPopIOS" data-i="installIOS"></p>
+      <div class="row">
+        <button class="primary" id="installPopBtn" type="button" data-i="installBtn">Install app</button>
+        <button class="ghost" id="installPopLater" type="button" data-i="installPopLater">Not now</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
