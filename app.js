@@ -715,7 +715,7 @@ async function findMosques() {
   if (!items.length) { list.innerHTML = `<p class="hint">${t("mosquesNone")}</p>`; return; }
   list.innerHTML = items.map(m =>
     `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
-    `<span class="mq-name">\u0001F54C ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
+    `<span class="mq-name">🕌 ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
   ).join("");
 }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
