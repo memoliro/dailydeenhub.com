@@ -49,6 +49,7 @@ const I18N = {
     mosquesTab: "Mosques", mosquesTitle: "Nearby mosques", mosquesSub: "Mosques near your selected place, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
     mosquesRetrying: "Retrying…",
+    halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     hijriCal: "Hijri calendar",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
@@ -109,6 +110,7 @@ const I18N = {
     mosquesTab: "Camiler", mosquesTitle: "Yakındaki camiler", mosquesSub: "Seçtiğin yere yakın camiler, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
     mosquesRetrying: "Tekrar deneniyor…",
+    halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
@@ -669,9 +671,9 @@ function mosqueDistKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLa / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
-async function findMosques() {
+async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
-  const btn = document.getElementById("mosqueFind");
+  const btn = document.getElementById(kind === "halal" ? "halalFind" : "mosqueFind");
   btn.disabled = true;
   // 1) Prefer GPS location, fall back to selected place
   let lat = state.place.lat, lon = state.place.lon;
@@ -684,9 +686,14 @@ async function findMosques() {
       lat = pos.coords.latitude; lon = pos.coords.longitude;
     } catch {} // fall back to selected place
   }
-  // 2) Query Overpass with retries across endpoints
-  const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
+  // 2) Build query
+  const q = kind === "halal"
+    ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
+    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
   const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
+  const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : (state.lang === "tr" ? "Cami" : "Mosque");
+  const icon = kind === "halal" ? "🍽️" : "🕌";
+  const noneKey = kind === "halal" ? "halalNone" : "mosquesNone";
   let items = null, attempt = 0;
   const maxAttempts = 6;
   while (items === null && attempt < maxAttempts) {
@@ -700,24 +707,30 @@ async function findMosques() {
         clearTimeout(timer);
         if (!res.ok) continue;
         const data = await res.json();
+        const seen = new Set();
         items = (data.elements || []).map(el => {
           const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
           if (mlat == null) return null;
-          return { name: el.tags?.name || (state.lang === "tr" ? "Cami" : "Mosque"), lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+          const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
+          if (seen.has(key)) return null;
+          seen.add(key);
+          return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
         }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
-        break; // success — even empty is a real answer
-      } catch {} // try next endpoint / retry
+        break;
+      } catch {}
     }
     if (items === null && attempt < maxAttempts) await new Promise(r => setTimeout(r, 2000 * attempt));
   }
   btn.disabled = false;
   if (items === null) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
-  if (!items.length) { list.innerHTML = `<p class="hint">${t("mosquesNone")}</p>`; return; }
+  if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
   list.innerHTML = items.map(m =>
     `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
-    `<span class="mq-name">🕌 ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
+    `<span class="mq-name">${icon} ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
   ).join("");
 }
+async function findMosques() { return nearbySearch("mosque"); }
+async function findHalal() { return nearbySearch("halal"); }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
   const h = entry && entry.date && entry.date.hijri;
@@ -963,6 +976,7 @@ document.getElementById("reciterSel").onchange = e => { state.reciter = +e.targe
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
 document.getElementById("mosqueFind").onclick = () => findMosques();
+document.getElementById("halalFind").onclick = () => findHalal();
 let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
