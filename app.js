@@ -430,7 +430,8 @@ function renderAyah() {
 /* Build the sexy compass dial: degree ring, cardinals, needle, Kaaba marker. */
 function buildCompassDial() {
   const dial = document.getElementById("dial");
-  if (!dial || dial.dataset.built) return;
+  if (!dial) return;
+  dial.innerHTML = ""; // clear stale dial content
   dial.dataset.built = "1";
   const NS = "http://www.w3.org/2000/svg";
   const cx = 110, cy = 110;
@@ -500,8 +501,10 @@ function renderQibla() {
   const atKaaba = Math.abs(state.place.lat - 21.4225) < 0.05 && Math.abs(state.place.lon - 39.8262) < 0.05;
   const b = atKaaba ? 0 : (typeof qiblaDirection === "number" ? qiblaDirection : local);
   document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
-  document.getElementById("qiblaMark").setAttribute("transform", `rotate(${b} 110 110)`);
-  document.getElementById("dial").setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
+  const qm = document.getElementById("qiblaMark");
+  if (qm) qm.setAttribute("transform", `rotate(${b} 110 110)`);
+  const dl = document.getElementById("dial");
+  if (dl) dl.setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
   document.querySelectorAll("#dial [data-upright]").forEach(el => {
     el.setAttribute("transform", `rotate(${heading || 0} ${el.getAttribute("x")} ${el.getAttribute("y")})`);
   });
