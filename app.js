@@ -685,30 +685,34 @@ document.getElementById("compassBtn").onclick = async () => {
   }
   if (compassOn) return; // already listening — don't stack listeners
   compassOn = true;
+  let lastAbsMs = 0; // last time the absolute sensor fired
   const smooth = (prev, next) => {
     if (prev == null) return next;
     const delta = ((next - prev + 540) % 360) - 180;
-    if (Math.abs(delta) < 1.2) return prev;
-    return (prev + delta * 0.18 + 360) % 360;
+    if (Math.abs(delta) < 2.0) return prev; // deadband: absorb sensor jitter
+    return (prev + delta * 0.12 + 360) % 360; // gentle easing, no quiver
   };
-  const onHeading = ev => {
+  const onHeading = (ev, isAbsEvent) => {
     let next = null;
-    if (typeof ev.webkitCompassHeading === "number" && !Number.isNaN(ev.webkitCompassHeading)) {
-      next = ev.webkitCompassHeading; // iOS: true north directly
-    } else if (ev.alpha != null && !Number.isNaN(ev.alpha)) {
-      // Android: accept alpha whether or not ev.absolute is set —
-      // many devices report usable headings without the absolute flag.
+    const iosCompass = typeof ev.webkitCompassHeading === "number" && !Number.isNaN(ev.webkitCompassHeading);
+    if (iosCompass) {
+      next = ev.webkitCompassHeading; // iOS: true north directly, always authoritative
+    } else {
+      // Android: prefer the absolute sensor; ignore the plain one while
+      // absolute is alive — two sensors disagreeing causes the quiver.
+      if (!isAbsEvent && Date.now() - lastAbsMs < 2000) return;
+      if (ev.alpha == null || Number.isNaN(ev.alpha)) return;
       const screenAngle = (screen.orientation && screen.orientation.angle) || Number(window.orientation) || 0;
       next = (360 - ev.alpha + screenAngle) % 360;
     }
-    if (next == null || Number.isNaN(next)) return;
+    if (isAbsEvent) lastAbsMs = Date.now();
     next = ((next % 360) + 360) % 360;
-    heading = smooth(heading, next);
-    renderQibla();
+    const h = smooth(heading, next);
+    if (h !== heading) { heading = h; renderQibla(); } // render only on real change
   };
   // Listen to BOTH: some Android builds only fire one of them.
-  window.addEventListener("deviceorientation", onHeading, true);
-  window.addEventListener("deviceorientationabsolute", onHeading, true);
+  window.addEventListener("deviceorientation", ev => onHeading(ev, false), true);
+  window.addEventListener("deviceorientationabsolute", ev => onHeading(ev, true), true);
   clearTimeout(compassTimer);
   compassTimer = setTimeout(() => {
     if (heading == null) document.getElementById("qiblaTurn").textContent = t("compassUnavailable");
