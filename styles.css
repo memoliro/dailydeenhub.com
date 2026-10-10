@@ -305,3 +305,7 @@ a { color: var(--green-bright); }
 .footer-note { font-size: 12px; color: var(--dim); }
 @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+/* footer support buttons: stack neatly */
+.foot-cta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.foot-cta .primary { text-decoration: none; padding: 8px 16px; border-radius: 999px; font-size: 14px; white-space: nowrap; }
