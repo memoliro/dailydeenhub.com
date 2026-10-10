@@ -66,20 +66,23 @@ function isIOS() {
 function refreshInstallHint() {
   var row = $('installRow'), hint = $('installHint'), btn = $('installBtn');
   if (!row) return;
-  if (isInstalled()) { row.classList.add('hidden'); return; }
+  if (isInstalled()) { row.classList.add('hidden'); row.classList.remove('ios-install-box'); return; }
   if (deferredPrompt) {
     // Android/Chrome: show hint + Install button
     if (hint) hint.textContent = t('installHint');
     if (btn) { btn.textContent = t('installBtn'); btn.classList.remove('hidden'); }
     row.classList.remove('hidden');
+    row.classList.remove('ios-install-box');
   } else if (isIOS()) {
-    // iPhone/iPad: no install prompt API — show manual steps
+    // iPhone/iPad: no install prompt API — show prominent manual steps
     // (iOS web push requires the PWA on the home screen)
-    if (hint) hint.textContent = t('installIOS');
+    if (hint) { hint.innerHTML = t('installIOS'); }
     if (btn) btn.classList.add('hidden');
     row.classList.remove('hidden');
+    row.classList.add('ios-install-box');
   } else {
     row.classList.add('hidden');
+    row.classList.remove('ios-install-box');
   }
 }
 
@@ -124,7 +127,7 @@ function maybeShowInstallPopup() {
     var btn = $('installPopBtn'), ios = $('installPopIOS');
     if (isIOS() && !deferredPrompt) {
       if (btn) btn.classList.add('hidden');
-      if (ios) { ios.textContent = t('installIOS'); ios.classList.remove('hidden'); }
+      if (ios) { ios.innerHTML = t('installIOS'); ios.classList.remove('hidden'); }
     } else {
       if (btn) { btn.textContent = t('installBtn'); btn.classList.remove('hidden'); }
     }

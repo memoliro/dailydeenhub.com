@@ -214,11 +214,23 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
   font-weight: 700; padding: 13px; font-size: 16px;
 }
 #setClose:active { background: #15803d; }
-/* Alert dropdowns: light-blue outline so they stand out */
-#soundSel, #remindRows select.field {
+/* Alert sound dropdown: light-blue outline so it stands out */
+#soundSel {
   border: 2px solid #7dd3fc;
   box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.18);
 }
+
+/* iOS install callout: prominent box so iPhone users don't miss it */
+.ios-install-box {
+  background: rgba(125, 211, 252, 0.1);
+  border: 2px solid #7dd3fc;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 8px;
+}
+.ios-install-box p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+.ios-install-box p:last-child { margin-bottom: 0; }
+.ios-install-box .steps { font-weight: 600; }
 
 /* Qibla: green compass button, close under the dial */
 #compassBtn {
