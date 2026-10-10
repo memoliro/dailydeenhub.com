@@ -46,6 +46,8 @@ const I18N = {
     quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
     trackerTitle: "Today's prayers", streak: "day streak", streaks: "day streak", done: "done", markDone: "Tap a prayer to mark it done",
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", suhoorDone: "Suhoor passed", fasting: "Fasting now",
+    mosquesTab: "Mosques", mosquesTitle: "Nearby mosques", mosquesSub: "Mosques near your selected place, from OpenStreetMap.",
+    mosquesFind: "Find mosques", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
@@ -101,6 +103,8 @@ const I18N = {
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
     trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", suhoorDone: "Sahur geçti", fasting: "Oruçlusun",
+    mosquesTab: "Camiler", mosquesTitle: "Yakındaki camiler", mosquesSub: "Seçtiğin yere yakın camiler, OpenStreetMap'ten.",
+    mosquesFind: "Camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
@@ -583,6 +587,33 @@ function renderTracker() {
     ).join("") + `</div>`;
   box.querySelectorAll(".trk").forEach(b => b.addEventListener("click", () => togglePrayer(b.dataset.p)));
 }
+/* ---------- nearby mosques (OpenStreetMap / Overpass) ---------- */
+function mosqueDistKm(lat1, lon1, lat2, lon2) {
+  const R = 6371, dLa = (lat2 - lat1) * Math.PI / 180, dLo = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLa / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+async function findMosques() {
+  const list = document.getElementById("mosqueList");
+  const { lat, lon } = state.place;
+  list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
+  try {
+    const q = `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
+    const res = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(q));
+    if (!res.ok) throw new Error("overpass " + res.status);
+    const data = await res.json();
+    const items = (data.elements || []).map(el => {
+      const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
+      if (mlat == null) return null;
+      return { name: el.tags?.name || (state.lang === "tr" ? "Cami" : "Mosque"), lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+    }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
+    if (!items.length) { list.innerHTML = `<p class="hint">${t("mosquesNone")}</p>`; return; }
+    list.innerHTML = items.map(m =>
+      `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
+      `<span class="mq-name">🕌 ${m.name}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
+    ).join("");
+  } catch (e) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; }
+}
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
   const h = entry && entry.date && entry.date.hijri;
@@ -609,7 +640,7 @@ function renderRamadanHub(entry) {
     (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
 function showTab(id) {
-  ["month", "qibla", "quran", "quiet"].forEach(k => document.getElementById("panel-" + k).classList.toggle("hidden", k !== id));
+  ["month", "qibla", "quran", "quiet", "mosques"].forEach(k => document.getElementById("panel-" + k).classList.toggle("hidden", k !== id));
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === id));
   if (id === "quran" && !chapters.length) loadChapters();
 }
@@ -825,6 +856,7 @@ document.getElementById("audio").addEventListener("ended", () => { document.getE
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
+document.getElementById("mosqueFind").onclick = findMosques;
 let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {

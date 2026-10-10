@@ -255,3 +255,10 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .rh-count { font-size: 20px; margin-top: 6px; font-variant-numeric: tabular-nums; }
 .rh-count b { color: #d4a574; }
 .rh-note { color: var(--dim); font-size: 13px; margin-top: 4px; }
+
+/* mosque finder */
+.mosque-list { margin-top: 14px; display: grid; gap: 8px; }
+.mosque { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--bg-2) 75%, transparent); text-decoration: none; color: var(--ink); }
+.mosque:hover { border-color: #d4a574; }
+.mq-name { font-weight: 600; }
+.mq-d { color: var(--dim); font-size: 13px; font-variant-numeric: tabular-nums; }

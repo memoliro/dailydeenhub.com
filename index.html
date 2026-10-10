@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=13" />
+  <link rel="stylesheet" href="/styles.css?v=14" />
 </head>
 <body>
   <header class="top">
@@ -86,6 +86,7 @@
       <button type="button" data-tab="qibla" data-i="qiblaTab">Qibla</button>
       <button type="button" data-tab="quran" data-i="quranTab">Quran</button>
       <button type="button" data-tab="quiet" data-i="quietTab">Quiet</button>
+      <button type="button" data-tab="mosques" data-i="mosquesTab">Mosques</button>
     </div>
     <section id="panel-month" class="layout">
       <div class="panel pad">
@@ -159,6 +160,16 @@
       </div>
       <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
     </section>
+    <section id="panel-mosques" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="mosquesTitle">Nearby mosques</h2>
+        <p class="sub" data-i="mosquesSub">Mosques near your selected place, from OpenStreetMap.</p>
+        <div class="row" style="margin-top:0">
+          <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Find mosques</button>
+        </div>
+        <div id="mosqueList" class="mosque-list"></div>
+      </div>
+    </section>
     <footer class="foot">
       <div class="foot-support"><span data-i="supportSite">Support the site</span>
         <a class="bmc-btn" href="https://www.buymeacoffee.com/memoliro" target="_blank" rel="noopener">☕ <span data-i="bmcBtn">Buy me a coffee</span></a>
@@ -211,7 +222,7 @@
   <script src="/prayer-calc.js?v=2"></script>
   <script src="/prayer-api.js?v=5"></script>
   <script src="/push-alerts.js?v=4"></script>
-  <script src="/app.js?v=17"></script>
+  <script src="/app.js?v=18"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">
