@@ -191,6 +191,8 @@ let apiMeta = { source: "Aladhan", methodName: "", timezone: "" };
 let qiblaDirection = null;
 let chapters = [];
 let heading = null;
+let qiblaWasAligned = false;
+let lastBuzzMs = 0;
 let notifiedKey = "";
 let adhanPlayedKey = "";
 let searchTimer = 0;
@@ -643,9 +645,17 @@ function renderQibla() {
     : `${b.toFixed(1)}° · ${agree ? (state.lang === "tr" ? "hesap Aladhan ile aynı" : "matches Aladhan") : (state.lang === "tr" ? "Aladhan açısından fark var" : "differs from Aladhan")}`;
   const km = kaabaKm(state.place.lat, state.place.lon);
   document.getElementById("qiblaDistance").textContent = atKaaba ? "" : `${km.toFixed(0)} km · ${state.lang === "tr" ? "Kâbe mesafesi" : "to the Kaaba"}`;
-  if (heading == null) document.getElementById("qiblaTurn").textContent = t("toward");
+  if (heading == null) { document.getElementById("qiblaTurn").textContent = t("toward"); qiblaWasAligned = false; }
   else {
     const diff = ((b - heading + 540) % 360) - 180;
+    // Subtle buzz the moment the compass locks onto the qibla (Android only; iOS has no vibrate API).
+    const aligned = Math.abs(diff) < 4;
+    const now = Date.now();
+    if (aligned && !qiblaWasAligned && now - lastBuzzMs > 3000 && navigator.vibrate) {
+      try { navigator.vibrate(60); } catch (e) {}
+      lastBuzzMs = now;
+    }
+    qiblaWasAligned = aligned;
     document.getElementById("qiblaTurn").textContent = Math.abs(diff) < 6 ? t("facing") : `${Math.abs(diff).toFixed(0)}° ${diff > 0 ? t("right") : t("left")}`;
   }
 }
