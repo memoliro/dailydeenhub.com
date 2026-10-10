@@ -478,22 +478,23 @@ function buildCompassDial() {
       "font-family": "Outfit, sans-serif", "data-upright": "1", "data-cardinal": i });
     t.textContent = labels[i];
   });
-  // needle: red north, silver south (two-tone for depth)
-  el("polygon", { points: "110,60 103.5,110 110,110", fill: "#b91c1c" });
-  el("polygon", { points: "110,60 116.5,110 110,110", fill: "#ef4444" });
-  el("polygon", { points: "110,160 103.5,110 110,110", fill: "#9aa0ae" });
-  el("polygon", { points: "110,160 116.5,110 110,110", fill: "#e8e4da" });
-  // gold center cap
+  // Qibla needle group — rotated to the qibla bearing by renderQibla,
+  // so the red tip (+ Kaaba) points at the Qibla. Turn the phone until
+  // the red tip meets the gold arrow at the top.
+  const needle = el("g", { id: "qiblaNeedle" });
+  el("polygon", { points: "110,58 103.5,110 110,110", fill: "#b91c1c" }, needle);
+  el("polygon", { points: "110,58 116.5,110 110,110", fill: "#ef4444" }, needle);
+  el("polygon", { points: "110,162 103.5,110 110,110", fill: "#9aa0ae" }, needle);
+  el("polygon", { points: "110,162 116.5,110 110,110", fill: "#e8e4da" }, needle);
+  // small Kaaba riding at the red tip
+  const km = el("g", { id: "qiblaMark" }, needle);
+  el("circle", { cx: 110, cy: 66, r: 15, fill: "#0c1425", "fill-opacity": ".85", stroke: "#d4a574", "stroke-opacity": ".5", "stroke-width": 1 }, km);
+  el("rect", { x: 102, y: 58, width: 16, height: 14, rx: 1.5, fill: "#141414", stroke: "#d4a574", "stroke-width": 1.4 }, km);
+  el("rect", { x: 102, y: 63, width: 16, height: 2.4, fill: "#d4a574" }, km);
+  el("rect", { x: 109.4, y: 65.5, width: 2.6, height: 6.5, fill: "#d4a574" }, km);
+  // gold center cap (stays fixed, symmetric)
   el("circle", { cx, cy, r: 7, fill: "#d4a574", stroke: "#8d5e32", "stroke-width": 1.5 });
   el("circle", { cx, cy, r: 2.5, fill: "#0c1425" });
-  // Kaaba marker (rotated to bearing by renderQibla)
-  const km = el("g", { id: "qiblaMark" });
-  el("rect", { x: 101, y: 33, width: 18, height: 16, rx: 1.5, fill: "#141414", stroke: "#d4a574", "stroke-width": 1.4 }, km);
-  el("rect", { x: 101, y: 38.5, width: 18, height: 2.6, fill: "#d4a574" }, km);
-  el("rect", { x: 108.6, y: 41.5, width: 2.8, height: 7.5, fill: "#d4a574" }, km);
-  // halo so the Kaaba pops over dial furniture
-  const halo = el("circle", { cx: 110, cy: 41, r: 14, fill: "none", stroke: "#d4a574", "stroke-opacity": ".35", "stroke-width": 1 }, km);
-  km.insertBefore(halo, km.firstChild);
 }
 
 function renderQibla() {
@@ -501,8 +502,8 @@ function renderQibla() {
   const atKaaba = Math.abs(state.place.lat - 21.4225) < 0.05 && Math.abs(state.place.lon - 39.8262) < 0.05;
   const b = atKaaba ? 0 : (typeof qiblaDirection === "number" ? qiblaDirection : local);
   document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
-  const qm = document.getElementById("qiblaMark");
-  if (qm) qm.setAttribute("transform", `rotate(${b} 110 110)`);
+  const qn = document.getElementById("qiblaNeedle");
+  if (qn) qn.setAttribute("transform", `rotate(${b} 110 110)`);
   const dl = document.getElementById("dial");
   if (dl) dl.setAttribute("transform", `rotate(${heading == null ? 0 : -heading} 110 110)`);
   document.querySelectorAll("#dial [data-upright]").forEach(el => {

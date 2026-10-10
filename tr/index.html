@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=9" />
+  <link rel="stylesheet" href="/styles.css?v=10" />
 </head>
 <body>
   <header class="top">
@@ -116,11 +116,12 @@
             <g id="dial"></g>
           </svg>
         </div>
+        <div class="row" style="justify-content:center;margin-top:2px"><button id="compassBtn" type="button" data-i="compass">Use compass</button></div>
         <div class="deg" id="qiblaDeg">—°</div>
         <p class="hint" id="qiblaCheck"></p>
         <p class="hint" id="qiblaDistance"></p>
         <p class="hint" id="qiblaTurn"></p>
-        <div class="row" style="justify-content:center"><button class="ghost" id="compassBtn" type="button" data-i="compass">Use compass</button></div>
+        
       </div>
       <div class="panel pad">
         <h2 data-i="mapTitle">Qibla map</h2>
@@ -208,7 +209,7 @@
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-api.js?v=4"></script>
   <script src="/push-alerts.js?v=3"></script>
-  <script src="/app.js?v=13"></script>
+  <script src="/app.js?v=14"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">
