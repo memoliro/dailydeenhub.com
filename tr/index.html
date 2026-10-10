@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@340;420;520;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=16" />
+  <link rel="stylesheet" href="/styles.css?v=17" />
 </head>
 <body>
   <header class="top">
@@ -173,14 +173,50 @@
       </div>
     </section>
     <footer class="foot">
-      <div class="foot-support"><span data-i="supportSite">Support the site</span>
-        <a class="bmc-btn" href="https://www.buymeacoffee.com/memoliro" target="_blank" rel="noopener">☕ <span data-i="bmcBtn">Buy me a coffee</span></a>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">DailyDeenHub</div>
+          <p class="footer-tag" data-i="footTag">Free prayer times, qibla, Quran and more. No account, no ads.</p>
+          <p class="footer-copy">&copy; 2026 DailyDeenHub.com</p>
+          <p><a class="bmc-btn" href="https://www.buymeacoffee.com/memoliro" target="_blank" rel="noopener">☕ <span data-i="bmcBtn">Buy me a coffee</span></a></p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footFeatures">Features</h4>
+          <ul>
+            <li><a href="#" data-goto="month" data-i="monthTab">Month</a></li>
+            <li><a href="#" data-goto="qibla" data-i="qiblaTab">Qibla</a></li>
+            <li><a href="#" data-goto="quran" data-i="quranTab">Quran</a></li>
+            <li><a href="#" data-goto="quiet" data-i="tasbihTitle">Tasbih</a></li>
+            <li><a href="#" data-goto="mosques" data-i="mosquesTab">Find</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footResources">Resources</h4>
+          <ul>
+            <li><a href="/tr/about.html" data-i="menuAbout">About</a></li>
+            <li><a href="/tr/terms.html" data-i="terms">Terms</a></li>
+            <li><a href="/tr/privacy.html" data-i="privacy">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footFreeTools">Free tools</h4>
+          <ul>
+            <li><a href="https://jsm-image.com" target="_blank" rel="noopener">JSM Image</a></li>
+            <li><a href="https://jsm-video.com" target="_blank" rel="noopener">JSM Video</a></li>
+            <li><a href="https://jsm-loudness.com" target="_blank" rel="noopener">JSM Loudness</a></li>
+            <li><a href="https://jsm-options.com" target="_blank" rel="noopener">JSM Options</a></li>
+            <li><a href="https://lyricprep.com" target="_blank" rel="noopener">LyricPrep</a></li>
+            <li><a href="https://jsm-enhance.com" target="_blank" rel="noopener">JSM Enhance <span class="paid-note" data-i="paidNote">(ücretli · hesap gerekmez)</span></a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footSupport">Support</h4>
+          <ul>
+            <li><a href="https://www.buymeacoffee.com/memoliro" target="_blank" rel="noopener" data-i="bmcBtn">Buy me a coffee</a></li>
+          </ul>
+          <p class="footer-note" id="footerNote"></p>
+        </div>
       </div>
-      <nav class="foot-nav"><a href="/tr/about.html" data-i="menuAbout">About</a><span> · </span><a href="/tr/terms.html" data-i="terms">Terms</a><span> · </span><a href="/tr/privacy.html" data-i="privacy">Privacy</a></nav>
-      <div class="foot-apps"><span data-i="moreApps">More free apps</span>:
-        <a href="https://jsm-image.com">JSM Image</a> · <a href="https://jsm-video.com">JSM Video</a> · <a href="https://jsm-loudness.com">JSM Loudness</a> · <a href="https://jsm-options.com">JSM Options</a> · <a href="https://jsm-enhance.com">JSM Enhance</a>
-      </div>
-      <div class="foot-note" id="footerNote"></div>
     </footer>
   </main>
   <div class="modal hidden" id="locModal">
@@ -226,7 +262,7 @@
   <script src="/prayer-calc.js?v=2"></script>
   <script src="/prayer-api.js?v=5"></script>
   <script src="/push-alerts.js?v=4"></script>
-  <script src="/app.js?v=25"></script>
+  <script src="/app.js?v=26"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">

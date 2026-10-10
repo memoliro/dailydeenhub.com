@@ -50,6 +50,9 @@ const I18N = {
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
     mosquesRetrying: "Retrying…",
     halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.",
+    footTag: "Free prayer times, qibla, Quran and more. No account, no ads.",
+    footFeatures: "Features", footResources: "Resources", footFreeTools: "Free tools", footSupport: "Support",
+    paidNote: "(paid · no account needed)",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     hijriCal: "Hijri calendar",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
@@ -111,6 +114,9 @@ const I18N = {
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
     mosquesRetrying: "Tekrar deneniyor…",
     halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.",
+    footTag: "Ücretsiz namaz vakitleri, kıble, Kur'an ve daha fazlası. Hesap yok, reklam yok.",
+    footFeatures: "Özellikler", footResources: "Kaynaklar", footFreeTools: "Ücretsiz araçlar", footSupport: "Destek",
+    paidNote: "(ücretli · hesap gerekmez)",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
     focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
@@ -977,6 +983,11 @@ document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tas
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
 document.getElementById("mosqueFind").onclick = () => findMosques();
 document.getElementById("halalFind").onclick = () => findHalal();
+document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  showTab(a.dataset.goto);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}));
 let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
