@@ -78,6 +78,7 @@ const I18N = {
     remaining: "remaining", at: "at", passed: "passed", now: "now",
     kerahat: "Discouraged time — the sun is rising, at its peak, or setting.",
     qiblaHint: "Kaaba mark sits on the great-circle bearing. Checked against Aladhan.",
+    compassUnavailable: "Compass not available on this device — please use the map below.",
     howBody: "The small Kaaba is fixed on the verified bearing. Turn until it meets the gold arrow at the top. Phone compasses are magnetic and can be off by a few degrees near metal.",
     tasbihNote: "33 Subhanallah, 33 Alhamdulillah, 34 Allahu akbar. Saved on this device.",
     focusBody: "Prayer times, qibla, the month, and a Quran reader. No accounts, no ads, no tracking.",
@@ -676,10 +677,14 @@ document.getElementById("audio").addEventListener("ended", () => { document.getE
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
+let compassOn = false, compassTimer = 0;
 document.getElementById("compassBtn").onclick = async () => {
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") {
-    if (await DeviceOrientationEvent.requestPermission() !== "granted") return;
+    try { if (await DeviceOrientationEvent.requestPermission() !== "granted") return; }
+    catch (e) { return; }
   }
+  if (compassOn) return; // already listening — don't stack listeners
+  compassOn = true;
   const smooth = (prev, next) => {
     if (prev == null) return next;
     const delta = ((next - prev + 540) % 360) - 180;
@@ -688,18 +693,26 @@ document.getElementById("compassBtn").onclick = async () => {
   };
   const onHeading = ev => {
     let next = null;
-    if (typeof ev.webkitCompassHeading === "number" && !Number.isNaN(ev.webkitCompassHeading)) next = ev.webkitCompassHeading;
-    else if (ev.absolute && ev.alpha != null) {
+    if (typeof ev.webkitCompassHeading === "number" && !Number.isNaN(ev.webkitCompassHeading)) {
+      next = ev.webkitCompassHeading; // iOS: true north directly
+    } else if (ev.alpha != null && !Number.isNaN(ev.alpha)) {
+      // Android: accept alpha whether or not ev.absolute is set —
+      // many devices report usable headings without the absolute flag.
       const screenAngle = (screen.orientation && screen.orientation.angle) || Number(window.orientation) || 0;
       next = (360 - ev.alpha + screenAngle) % 360;
     }
-    if (next == null) return;
+    if (next == null || Number.isNaN(next)) return;
+    next = ((next % 360) + 360) % 360;
     heading = smooth(heading, next);
     renderQibla();
   };
-  const ios = typeof DeviceOrientationEvent.requestPermission === "function";
-  if (ios || !("ondeviceorientationabsolute" in window)) window.addEventListener("deviceorientation", onHeading, true);
-  else window.addEventListener("deviceorientationabsolute", onHeading, true);
+  // Listen to BOTH: some Android builds only fire one of them.
+  window.addEventListener("deviceorientation", onHeading, true);
+  window.addEventListener("deviceorientationabsolute", onHeading, true);
+  clearTimeout(compassTimer);
+  compassTimer = setTimeout(() => {
+    if (heading == null) document.getElementById("qiblaTurn").textContent = t("compassUnavailable");
+  }, 4000);
 };
 document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => { if (e.target === m) m.classList.add("hidden"); }));
 
