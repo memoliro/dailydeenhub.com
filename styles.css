@@ -504,3 +504,7 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 
 /* More page rows */
 #panel-more .menu-row { text-decoration: none; color: var(--ink); }
+
+.name-line { font-size: 15px; margin: 6px 0; line-height: 1.5; }
+.name-line b { font-size: 16px; }
+#stations select { width: 100%; margin-top: 10px; }

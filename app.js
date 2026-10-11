@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -135,7 +135,7 @@ const I18N = {
     paidNote: "(ücretli · hesap gerekmez)",
     supportUs: "Bize destek ol",
     apkNoticeTitle: "Yeni uygulamaya hoş geldin! 🎉",
-    apkNoticeBody: "Ana ekranında eski DailyDeenHub simgesi duruyorsa, üzerine uzun basıp kaldır — bu yeni uygulama onun yerini alıyor.",
+    apkNoticeBody: "Ana ekranında eski Günlük Din Merkezi simgesi duruyorsa, üzerine uzun basıp kaldır — bu yeni uygulama onun yerini alıyor.",
     apkNoticeOk: "Anladım",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
@@ -155,8 +155,8 @@ const I18N = {
     pushEnabled: "Namaz uyarıları açıldı",
     installHint: "📲 Düzgün uyarılar için uygulamayı cihazınıza yükleyin.",
     installBtn: "Uygulamayı yükle",
-    installIOS: "📲 iPhone uyarıları için uygulamanın yüklü olması gerekir — 10 saniye sürer:<br><span class=\"steps\">1.</span> Bu tarayıcıda <b>Paylaş</b>’a dokunun<br><span class=\"steps\">2.</span> <b>“Ana Ekrana Ekle”</b>’yi seçin<br><span class=\"steps\">3.</span> DailyDeenHub’ı ana ekrandan açın — uyarılar orada çalışır.",
-    installPopTitle: "DailyDeenHub’ı Yükle",
+    installIOS: "📲 iPhone uyarıları için uygulamanın yüklü olması gerekir — 10 saniye sürer:<br><span class=\"steps\">1.</span> Bu tarayıcıda <b>Paylaş</b>’a dokunun<br><span class=\"steps\">2.</span> <b>“Ana Ekrana Ekle”</b>’yi seçin<br><span class=\"steps\">3.</span> Günlük Din Merkezi’ni ana ekrandan açın — uyarılar orada çalışır.",
+    installPopTitle: "Günlük Din Merkezi’ni Yükle",
     installPopBody: "Tarayıcınız kapalıyken bile namaz uyarıları alın. Ücretsiz, hızlı, hesap gerekmez.",
     installPopLater: "Şimdi değil",
     soundLbl: "Uyarı sesi",
@@ -224,10 +224,22 @@ function ramadanStartLabel() {
 }
 let station = "mishary";
 const STATIONS = [
-  ["mishary", "Al-Afasy", "https://backup.qurango.net/radio/mishary_alafasi"],
-  ["sudais", "As-Sudais", "https://backup.qurango.net/radio/abdulrahman_alsudaes"],
+  ["mishary", "Mishary Al-Afasy", "https://backup.qurango.net/radio/mishary_alafasi"],
+  ["sudais", "Abdulrahman Al-Sudais", "https://backup.qurango.net/radio/abdulrahman_alsudaes"],
+  ["shuraim", "Saud Al-Shuraim", "https://backup.qurango.net/radio/saud_alshuraim"],
+  ["maher", "Maher Al-Muaiqly", "https://backup.qurango.net/radio/maher"],
+  ["ghamdi", "Saad Al-Ghamdi", "https://backup.qurango.net/radio/saad_alghamdi"],
   ["basit", "Abdul Basit", "https://backup.qurango.net/radio/abdulbasit_abdulsamad"],
-  ["tarateel", "Tarateel", "https://backup.qurango.net/radio/tarateel"]
+  ["shatri", "Abu Bakr Al-Shatri", "https://backup.qurango.net/radio/shaik_abu_bakr_al_shatri"],
+  ["ajmy", "Ahmad Al-Ajmy", "https://backup.qurango.net/radio/ahmad_alajmy"],
+  ["tunaiji", "Khalifa Al-Tunaiji", "https://backup.qurango.net/radio/khalifa_altunaiji"],
+  ["johany", "Abdullah Al-Johany", "https://backup.qurango.net/radio/abdullah_aljohany"],
+  ["jaber", "Ali Jaber", "https://backup.qurango.net/radio/ali_jaber"],
+  ["budair", "Salah Al-Budair", "https://backup.qurango.net/radio/salah_albudair"],
+  ["tarateel", "Tarateel", "https://backup.qurango.net/radio/tarateel"],
+  ["ruqyah", "Ruqyah", "https://backup.qurango.net/radio/roqiah"],
+  ["entrans", "Quran — English translation", "https://backup.qurango.net/radio/translation_quran_english_basit"],
+  ["trtrans", "Quran — Turkish translation", "https://backup.qurango.net/radio/translation_quran_turkish"]
 ];
 
 function load() {
@@ -920,6 +932,9 @@ function showTab(id) {
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
     b.dataset.goto === id || (b.dataset.goto === "more" && id === "month")));
   if (id === "quran" && !chapters.length) loadChapters();
+  // New page must open at its top (iOS keeps the previous page's scroll otherwise)
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => window.scrollTo(0, 0));
 }
 
 async function loadChapters() {
@@ -1001,16 +1016,17 @@ function playChapter() {
   });
 }
 function renderStations() {
-  document.getElementById("stations").innerHTML = STATIONS.map(([id, label]) => `<button type="button" class="${id === station ? "on" : ""}" data-station="${id}">${label}</button>`).join("");
-  document.querySelectorAll("#stations button").forEach(btn => btn.onclick = () => {
-    station = btn.dataset.station;
+  if (!STATIONS.some(s => s[0] === station)) station = STATIONS[0][0];
+  document.getElementById("stations").innerHTML =
+    `<select id="stationSel" class="field" aria-label="Quran radio station">${STATIONS.map(([id, label]) => `<option value="${id}"${id === station ? " selected" : ""}>${label}</option>`).join("")}</select>`;
+  document.getElementById("stationSel").onchange = e => {
+    station = e.target.value;
     const audio = document.getElementById("radioAudio");
     const wasPlaying = !audio.paused && audio.getAttribute("src");
     audio.pause();
     audio.removeAttribute("src");
-    renderStations();
     if (wasPlaying) playRadio();
-  });
+  };
 }
 function playRadio() {
   const audio = document.getElementById("radioAudio");

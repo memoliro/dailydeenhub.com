@@ -90,6 +90,34 @@ const ASMA = [
   ["ٱلْغَفُورُ","Al-Ghafur","The All-Forgiving","Bağışlayan"],
   ["ٱلشَّكُورُ","Ash-Shakur","The Most Appreciative","Şükre karşılık veren"]
 ];
+
+const DAILY_NAMES = [
+  ["Yusuf","The prophet famed for patience, beauty and forgiveness.","Sabır, güzellik ve affediciliğiyle tanınan peygamber.","Maryam","The only woman named in the Quran; a symbol of purity and devotion.","Kur'an'da adı geçen tek kadın; saflık ve adanmışlığın simgesi."],
+  ["Ibrahim","Father of the prophets, known for unwavering faith.","Peygamberlerin atası; sarsılmaz imanıyla bilinir.","Fatimah","Beloved daughter of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ sevgili kızı."],
+  ["Muhammad","'The praised one' — the name of the Prophet ﷺ.","'Övülen' — Peygamber Efendimiz'in ﷺ adı.","Khadijah","The Prophet's ﷺ first wife and the first believer in Islam.","Peygamber Efendimiz'in ﷺ ilk eşi ve ilk iman eden."],
+  ["Musa","The prophet who spoke with Allah and freed his people.","Allah ile konuşan ve kavmini özgürlüğe kavuşturan peygamber.","Asiyah","The righteous wife of Pharaoh; among the greatest women ever.","Firavun'un salih eşi; en yüce kadınlardan biri."],
+  ["Isa","The Messiah, a prophet of miracles and mercy.","Mesih; mucizeler ve merhamet peygamberi.","Hajar","Mother of Ismail, famed for her trust in Allah in the desert.","İsmail'in annesi; çölde Allah'a tevekkülüyle bilinir."],
+  ["Ismail","The devoted son, known for patience and obedience.","Sabır ve itaatiyle bilinen adanmış evlat.","Aisha","Wife of the Prophet ﷺ and one of Islam's greatest scholars.","Peygamber Efendimiz'in ﷺ eşi; İslam'ın en büyük âlimlerindendir."],
+  ["Ishaq","A prophet and son of Ibrahim, bearer of glad tidings.","İbrahim'in oğlu, müjdeyle anılan peygamber.","Sumayyah","The first martyr of Islam, steadfast under persecution.","İslam'ın ilk şehidi; zulüm karşısında sebat etti."],
+  ["Yaqub","A prophet renowned for beautiful patience.","Güzel sabrıyla tanınan peygamber.","Ruqayyah","Daughter of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ kızı."],
+  ["Yunus","The prophet who called his people back to Allah.","Kavmini Allah'a çağıran peygamber.","Zainab","Eldest daughter of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ en büyük kızı."],
+  ["Sulaiman","The wise king-prophet, granted a kingdom like no other.","Bilge kral-peygamber; eşsiz bir mülk verildi.","Bilqis","The wise Queen of Sheba who embraced the truth.","Hakikati kabul eden bilge Sebe Melikesi."],
+  ["Dawud","A prophet-king with a beautiful voice; the Psalms (Zabur) were revealed to him.","Güzel sesli peygamber-kral; Zebur ona indirildi.","Hannah","Mother of Maryam, who devoted her child to Allah's service.","Meryem'in annesi; çocuğunu Allah'a adadı."],
+  ["Harun","Prophet and brother of Musa, his eloquent spokesman.","Musa'nın kardeşi ve güzel konuşan yardımcısı peygamber.","Safiyyah","A wife of the Prophet ﷺ, known for wisdom and courage.","Peygamber Efendimiz'in ﷺ eşi; bilgelik ve cesaretiyle bilinir."],
+  ["Zakariya","The prophet who cared for Maryam and prayed for a righteous son.","Meryem'in bakımını üstlenen ve hayırlı evlat için dua eden peygamber.","Aminah","Mother of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ annesi."],
+  ["Ali","The Prophet's ﷺ cousin and son-in-law; the name means 'elevated, noble'.","Peygamber Efendimiz'in ﷺ amcaoğlu ve damadı; anlamı 'yüce, asil'.","Hafsa","Wife of the Prophet ﷺ and keeper of the first written Quran.","Peygamber Efendimiz'in ﷺ eşi; ilk yazılı Kur'an'ın koruyucusu."],
+  ["Umar","The second caliph; the name means 'flourishing, long-lived'.","İkinci halife; adı 'gelişen, ömürlü' anlamındadır.","Nusaybah","The brave companion who defended the Prophet ﷺ at Uhud.","Uhud'da Peygamber'i ﷺ koruyan cesur sahabi."],
+  ["Uthman","The third caliph, famed for generosity and modesty.","Üçüncü halife; cömertlik ve hayâsıyla ünlü.","Khawlah","A fearless companion known for her bravery in battle.","Savaş meydanındaki cesaretiyle tanınan sahabi."],
+  ["Bilal","The first muezzin of Islam, chosen for his beautiful voice.","Güzel sesi için seçilen İslam'ın ilk müezzini.","Barakah","Umm Ayman, the devoted caretaker of the Prophet ﷺ.","Ümmü Eymen; Peygamber Efendimiz'in ﷺ dadısı."],
+  ["Salman","Salman the Persian, the famous seeker of truth.","Salman-ı Farisi; hakikati arayan ünlü sahabi.","Asma","Daughter of Abu Bakr, remembered as 'she of the two belts'.","Ebubekir'in kızı; 'iki kuşaklı' diye anılır."],
+  ["Hamza","The Prophet's ﷺ uncle, called the Lion of Allah.","Peygamber Efendimiz'in ﷺ amcası; 'Allah'ın Aslanı' lakaplı.","Halimah","The kind foster mother who nursed the Prophet ﷺ.","Peygamber Efendimiz'i ﷺ emziren şefkatli sütanne."],
+  ["Idris","A prophet praised for wisdom, truthfulness and patience.","Bilgelik, doğruluk ve sabrıyla övülen peygamber.","Hawwa","Eve, the mother of all mankind.","Havva; bütün insanlığın annesi."],
+  ["Nuh","The prophet who preached patiently for 950 years.","950 yıl sabırla tebliğ eden peygamber.","Sarah","Wife of Ibrahim and mother of Ishaq, a woman of strong faith.","İbrahim'in eşi ve İshak'ın annesi; güçlü iman sahibi."],
+  ["Adam","The first human and the first prophet.","İlk insan ve ilk peygamber.","Juwairiyah","A wife of the Prophet ﷺ whose marriage brought freedom to many.","Evliliği birçok kişinin özgürlüğüne vesile olan, Peygamber'in ﷺ eşi."],
+  ["Ilyas","A prophet who called his people to worship Allah alone.","Kavmini yalnızca Allah'a ibadete çağıran peygamber.","Kulthum","Umm Kulthum, daughter of the Prophet Muhammad ﷺ.","Ümmü Gülsüm; Peygamber Efendimiz'in ﷺ kızı."],
+  ["Hud","The prophet sent to the people of 'Ad.","Âd kavmine gönderilen peygamber.","Maymunah","The last wife of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ son eşi."],
+  ["Salih","The prophet sent to the people of Thamud.","Semud kavmine gönderilen peygamber.","Ramla","Umm Habiba, wife of the Prophet ﷺ, steadfast in exile.","Ümmü Habibe; gurbette sebat eden, Peygamber'in ﷺ eşi."]
+];
 function renderDaily() {
   const day = Math.floor(Date.now() / 864e5);
   const lang = (window.DDHLang && window.DDHLang()) || document.documentElement.lang || 'en';
@@ -107,6 +135,10 @@ function renderDaily() {
   set('asmaAr', a[0]);
   set('asmaTrans', a[1]);
   set('asmaMeaning', tr ? a[3] : a[2]);
+  const nm = DAILY_NAMES[day % DAILY_NAMES.length];
+  const setHTML = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  setHTML('boyName', `👦 <b>${nm[0]}</b> — ${tr ? nm[2] : nm[1]}`);
+  setHTML('girlName', `👧 <b>${nm[3]}</b> — ${tr ? nm[5] : nm[4]}`);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderDaily);
 else renderDaily();

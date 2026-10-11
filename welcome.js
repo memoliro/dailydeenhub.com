@@ -4,7 +4,7 @@
   var lang = lsGet('ddh-lang') || 'en';
   var T = {
     en: {
-      greet: 'Assalamu Alaikum',
+      brand: 'Daily Deen Hub', greet: 'Assalamu Alaikum',
       tag: 'Your companion for everyday life',
       cta: 'FIND MY LOCATION',
       terms: 'I agree to the <a href="/privacy.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.',
@@ -15,13 +15,13 @@
       lcYes: 'AGREE'
     },
     tr: {
-      greet: 'Esselamu Aleykum',
+      brand: 'Günlük Din Merkezi', greet: 'Esselamu Aleykum',
       tag: 'Günlük hayatınızda yol arkadaşınız',
       cta: 'KONUMUMU BUL',
       terms: 'Uygulamanın <a href="/tr/privacy.html">Kullanım Şartları</a> ve <a href="/tr/privacy.html">Gizlilik Politikası</a>\'nı kabul ediyorum.',
       label: 'Türkçe',
       lcTitle: 'Bilgilendirme',
-      lcBody: 'Daily Deen Hub, doğru namaz vakitlerini hesaplamak, kıble yönünü bulmak ve yakındaki camileri göstermek için konumunuzu kullanır.',
+      lcBody: 'Günlük Din Merkezi, doğru namaz vakitlerini hesaplamak, kıble yönünü bulmak ve yakındaki camileri göstermek için konumunuzu kullanır.',
       lcNo: 'ŞİMDİ DEĞİL',
       lcYes: 'KABUL ET'
     }
@@ -30,6 +30,7 @@
     lang = l;
     lsSet('ddh-lang', l);
     document.documentElement.lang = l;
+    var appNameEl = document.querySelector('.appname'); if (appNameEl) appNameEl.textContent = T[l].brand;
     document.getElementById('wGreet').textContent = T[l].greet;
     document.getElementById('wTag').textContent = T[l].tag;
     document.getElementById('wCta').textContent = T[l].cta;
