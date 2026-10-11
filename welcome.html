@@ -125,6 +125,8 @@
     width: 100%;
     border-radius: 24px 24px 0 0;
     padding: 12px 0 calc(20px + env(safe-area-inset-bottom));
+    max-height: 70dvh;
+    overflow-y: auto;
   }
   .langmenu button {
     display: block;
@@ -164,6 +166,10 @@
     <div class="sheet">
       <button type="button" data-lang="en">English</button>
       <button type="button" data-lang="tr">Türkçe</button>
+      <button type="button" disabled style="opacity:.4">العربية <small style="color:#999">— soon</small></button>
+      <button type="button" disabled style="opacity:.4">Français <small style="color:#999">— soon</small></button>
+      <button type="button" disabled style="opacity:.4">اردو <small style="color:#999">— soon</small></button>
+      <button type="button" disabled style="opacity:.4">Bahasa Indonesia <small style="color:#999">— soon</small></button>
     </div>
   </div>
 
