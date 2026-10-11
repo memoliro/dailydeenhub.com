@@ -341,9 +341,10 @@ a { color: var(--green-bright); }
 
 .hero {
   display: block;
-  background: #1a1a4e; color: #fff;
-  text-align: center; padding: 18px 16px 64px;
+  background: transparent; color: var(--ink);
+  text-align: center; padding: 18px 16px 40px;
 }
+body[data-theme="day"] .date-pill { border-color: var(--line); }
 .hero-label { color: #f59e0b; font-size: 15px; font-weight: 600; letter-spacing: .3px; }
 .hero-clock {
   font-size: clamp(52px, 15vw, 88px); font-weight: 700;
@@ -352,9 +353,10 @@ a { color: var(--green-bright); }
 }
 .date-pill {
   display: inline-flex; align-items: center; gap: 10px;
-  border: 2px solid rgba(255,255,255,.85); border-radius: 999px;
+  border: 2px solid var(--line); border-radius: 999px;
   padding: 10px 22px; font-size: 14px; font-weight: 500;
   max-width: calc(100% - 32px); flex-wrap: wrap; justify-content: center;
+  background: color-mix(in srgb, var(--bg-2) 70%, transparent);
 }
 .dp-dot { opacity: .6; }
 .hero-sub { display: none; }
@@ -426,3 +428,6 @@ body[data-theme="day"] .dcard { background: #fff; }
 }
 .bnav button.on { opacity: 1; }
 body[data-theme="day"] .bnav { background: #fffdf8; }
+
+.verse-ar { font-size: 24px; text-align: right; direction: rtl; line-height: 1.9; margin: 4px 0 8px; }
+.verse-trans { font-size: 13px; font-style: italic; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }

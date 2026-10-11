@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=29" />
+  <link rel="stylesheet" href="/styles.css?v=30" />
 </head>
 <body>
   <header class="app-hdr">
@@ -40,16 +40,18 @@
   </section>
   <main class="sheet">
     <div class="strip" id="vaktGrid"></div>
+    <div class="tracker" id="trackerBox"></div>
     <div class="quick">
       <button class="qc" type="button" data-goto="qibla"><span class="qc-i">🧭</span><span data-i="qiblaTab">Kıble</span></button>
       <button class="qc" type="button" data-goto="quran"><span class="qc-i">📖</span><span data-i="quranTab">Kur'an</span></button>
       <button class="qc" type="button" data-goto="quiet"><span class="qc-i">📿</span><span data-i="tasbihTitle">Tesbih</span></button>
       <button class="qc" type="button" data-goto="mosques"><span class="qc-i">🕌</span><span data-i="mosquesTab">Bul</span></button>
     </div>
-    <div class="tracker" id="trackerBox"></div>
     <section class="dcards">
       <article class="dcard" id="verseCard">
         <div class="dcard-h"><span class="dcard-ic">📖</span><div><b data-i="verseOfDay">Günün Ayeti</b><span id="verseRef">—</span></div></div>
+        <div class="verse-ar" id="verseAr">—</div>
+        <div class="verse-trans" id="verseTrans">—</div>
         <p id="verseText">—</p>
       </article>
       <article class="dcard" id="hadithCard">
@@ -295,7 +297,7 @@
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=7"></script>
   <script src="/app.js?v=38"></script>
-  <script src="/daily.js?v=1"></script>
+  <script src="/daily.js?v=2"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">

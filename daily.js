@@ -1,24 +1,38 @@
 // Daily rotating content: verse, hadith, Asmaa-ul Husna (2026-10-11)
 const DAILY_VERSES = [
   { ref: "Ar-Ra'd 13:19", tr_ref: "Ra'd 13:19",
+    ar: "أَفَمَن يَعْلَمُ أَنَّمَا أُنزِلَ إِلَيْكَ مِن رَّبِّكَ الْحَقُّ كَمَنْ هُوَ أَعْمَىٰ ۚ إِنَّمَا يَتَذَكَّرُ أُولُو الْأَلْبَابِ",
+    trans: "Afa man ya'lamu annamā unzila ilayka min rabbikal-ḥaqqu kaman huwa a'mā, innamā yatadhakkaru ulul-albāb.",
     en: "Then is he who knows that what has been revealed to you from your Lord is the truth like one who is blind? They will only be reminded who are people of understanding.",
     tr: "Rabbinden sana indirilenin gerçek olduğunu bilen kişi, kör olan gibi midir? Ancak akıl sahipleri öğüt alıp düşünür." },
   { ref: "Al-Baqarah 2:152", tr_ref: "Bakara 2:152",
+    ar: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ",
+    trans: "Fadhkurūnī adhkurkum washkurū lī wa lā takfurūn.",
     en: "So remember Me; I will remember you. And be grateful to Me and do not deny Me.",
     tr: "Öyleyse Beni anın, Ben de sizi anayım. Bana şükredin, nankörlük etmeyin." },
   { ref: "Ash-Sharh 94:6", tr_ref: "İnşirah 94:6",
+    ar: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+    trans: "Inna ma'a al-'usri yusrā.",
     en: "Indeed, with hardship comes ease.",
     tr: "Gerçekten, güçlükle beraber kolaylık vardır." },
   { ref: "Al-Ankabut 29:69", tr_ref: "Ankebut 29:69",
+    ar: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا ۚ وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ",
+    trans: "Walladhīna jāhadū fīnā lanahdiyannahum subulanā, wa inna Allāha lama'a al-muḥsinīn.",
     en: "And those who strive for Us – We will surely guide them to Our ways. And indeed, Allah is with the doers of good.",
     tr: "Bizim uğrumuzda çaba gösterenleri elbette yollarımıza iletiriz. Şüphesiz Allah iyilik edenlerle beraberdir." },
   { ref: "Al-Hadid 57:17", tr_ref: "Hadid 57:17",
+    ar: "اعْلَمُوا أَنَّ اللَّهَ يُحْيِي الْأَرْضَ بَعْدَ مَوْتِهَا ۚ قَدْ بَيَّنَّا لَكُمُ الْآيَاتِ لَعَلَّكُمْ تَعْقِلُونَ",
+    trans: "I'lamū anna Allāha yuḥyī al-arḍa ba'da mawtihā, qad bayyannā lakumu al-āyāti la'allakum ta'qilūn.",
     en: "Know that Allah gives life to the earth after its lifelessness. We have made clear to you the signs; perhaps you will understand.",
     tr: "Bilin ki Allah, yeryüzünü ölümünden sonra diriltir. Düşünesiniz diye size ayetleri açıkladık." },
   { ref: "Az-Zumar 39:53", tr_ref: "Zümer 39:53",
+    ar: "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا ۚ إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ",
+    trans: "Lā taqnaṭū min raḥmatillāh, inna Allāha yaghfiru adh-dhunūba jamī'ā, innahu huwal-ghafūrur-raḥīm.",
     en: "Do not despair of the mercy of Allah. Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful.",
     tr: "Allah'ın rahmetinden ümit kesmeyin. Şüphesiz Allah bütün günahları bağışlar. Çünkü O, çok bağışlayandır, çok merhamet edendir." },
   { ref: "Al-Baqarah 2:286", tr_ref: "Bakara 2:286",
+    ar: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+    trans: "Lā yukallifu Allāhu nafsan illā wus'ahā.",
     en: "Allah does not burden a soul beyond that it can bear.",
     tr: "Allah hiçbir nefse gücünün üstünde bir şey yüklemez." }
 ];
@@ -85,6 +99,8 @@ function renderDaily() {
   const a = ASMA[day % ASMA.length];
   const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
   set('verseRef', tr ? v.tr_ref : v.ref);
+  set('verseAr', v.ar);
+  set('verseTrans', v.trans);
   set('verseText', tr ? v.tr : v.en);
   set('hadithRef', tr ? h.tr_ref : h.ref);
   set('hadithText', tr ? h.tr : h.en);
