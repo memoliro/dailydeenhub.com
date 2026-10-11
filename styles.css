@@ -472,3 +472,7 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
   position: absolute; top: 0; left: 0; height: 100%; width: auto;
   max-width: none; transition: transform .15s linear;
 }
+
+/* Tab pages: full-width content, thin padding */
+#panel-qibla, #panel-quran, #panel-quiet, #panel-mosques { padding: 0 8px; }
+#panel-qibla .panel, #panel-quran .panel, #panel-quiet .panel, #panel-mosques .panel { padding: 14px 10px; }

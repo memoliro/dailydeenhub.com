@@ -886,7 +886,6 @@ function showTab(id) {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === id));
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
     b.dataset.goto === id || (b.dataset.goto === "home" && id === "month")));
   if (id === "quran" && !chapters.length) loadChapters();
@@ -1163,7 +1162,6 @@ function setLanguage(lang) {
 const _le2 = document.getElementById("langEn"); if (_le2) _le2.onclick = () => setLanguage("en");
 const _lt2 = document.getElementById("langTr"); if (_lt2) _lt2.onclick = () => setLanguage("tr");
 const _tb2 = document.getElementById("themeBtn"); if (_tb2) _tb2.onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
-document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 document.getElementById("surahSearch").addEventListener("input", renderChapters);
 document.getElementById("playBtn").onclick = playChapter;
 document.getElementById("radioBtn").onclick = playRadio;
