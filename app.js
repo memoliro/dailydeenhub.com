@@ -283,7 +283,7 @@ document.addEventListener("click", e => {
   const g = e.target.closest("[data-goto]");
   if (g) {
     e.preventDefault();
-    if (typeof showTab === "function") { showTab(g.dataset.goto); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (typeof showTab === "function") { showTab(g.dataset.goto); window.scrollTo(0, 0); }
     return;
   }
   if (e.target.closest("#bnavSet")) {
@@ -933,8 +933,12 @@ function showTab(id) {
     b.dataset.goto === id || (b.dataset.goto === "more" && id === "month")));
   if (id === "quran" && !chapters.length) loadChapters();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => window.scrollTo(0, 0));
+  const toTop = () => {
+    window.scrollTo(0, 0);
+    document.querySelectorAll("main, main *").forEach(el => { if (el.scrollTop) el.scrollTop = 0; });
+  };
+  toTop();
+  requestAnimationFrame(toTop);
 }
 
 async function loadChapters() {
@@ -1155,6 +1159,14 @@ document.addEventListener("click", e => {
   if (e.target.closest("#panel-settings")) return;
   setShow(null);
 });
+// Keep Location + Appearance language selects in sync
+(function() {
+  const a = document.getElementById("langSel"), b = document.getElementById("langSel2");
+  if (a && b) {
+    a.addEventListener("change", () => { b.value = a.value; });
+    b.addEventListener("change", () => { a.value = b.value; });
+  }
+})();
 // Auto-collapse: after a selection in a sub-screen, return to the Settings menu
 ["methodSel", "schoolSel", "themeSel", "langSel", "langSel2", "soundSel"].forEach(id => {
   const el = document.getElementById(id);
@@ -1184,9 +1196,6 @@ document.getElementById("setClose").onclick = () => {
   var langVal = document.getElementById("langSel").value;
   if (langVal !== state.lang) { state.lang = langVal; }
   state.vibration = document.getElementById("vibChk").checked;
-  // Sync language from either select (Location or Appearance)
-  var langSel2 = document.getElementById("langSel2");
-  if (langSel2 && langSel2.value !== state.lang) state.lang = langSel2.value;
   save();
   showTab("home");
   if (state.notify && "Notification" in window) Notification.requestPermission();
@@ -1314,7 +1323,7 @@ if (bnavSet) bnavSet.onclick = () => { showTab("settings"); syncSetControls(); s
 document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
   showTab(a.dataset.goto);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo(0, 0);
 }));
 let compassOn = false, compassTimer = 0;
 // Physical location for the Qibla compass (from GPS). The manual state.place
