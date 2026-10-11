@@ -68,7 +68,7 @@ const I18N = {
     apkNoticeOk: "Got it",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     hijriCal: "Hijri calendar",
-    focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings",
+    focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings", setLoc: "Location", setCalc: "Prayer Calculation", setRemind: "Reminders", setAppear: "Appearance", setNotif: "Notifications", locNote: "Choose your city for accurate prayer times.", changeCity: "Change city", themeLbl: "Theme", themeSystem: "System", themeDark: "Night", themeLight: "Day", langLbl: "Language", vibLbl: "Vibration",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah",
     menuHome: "Home", menuQibla: "Qibla", menuResources: "Resources", menuArticles: "Articles",
@@ -139,7 +139,7 @@ const I18N = {
     apkNoticeOk: "Anladım",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
     hijriCal: "Hicri takvim",
-    focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar",
+    focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar", setLoc: "Konum", setCalc: "Namaz Hesaplama", setRemind: "Hatırlatıcılar", setAppear: "Görünüm", setNotif: "Bildirimler", locNote: "Doğru namaz vakitleri için şehrinizi seçin.", changeCity: "Şehir değiştir", themeLbl: "Tema", themeSystem: "Sistem", themeDark: "Gece", themeLight: "Gündüz", langLbl: "Dil", vibLbl: "Titreşim",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara",
     menuHome: "Ana Sayfa", menuQibla: "Kıble", menuResources: "Kaynaklar", menuArticles: "Makaleler",
@@ -1052,6 +1052,20 @@ if (menuPanel) {
   menuPanel.querySelectorAll("[data-soon]").forEach(b => b.onclick = () => toast(t("comingSoon")));
   menuPanel.querySelectorAll("a.menu-link").forEach(a => a.onclick = closeMenu);
 }
+// Multi-screen settings navigation
+function setShow(name){
+  document.getElementById("setMain").classList.toggle("hidden", !!name);
+  ["loc","calc","remind","appear","notif"].forEach(k => {
+    document.getElementById("setSub-"+k).classList.toggle("hidden", k !== name);
+  });
+}
+document.querySelectorAll("[data-setgo]").forEach(b => b.onclick = () => setShow(b.dataset.setgo));
+document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setShow(null));
+// Reset to main screen whenever the modal opens
+["setBtn","mSet"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("click", () => { setShow(null); syncSetControls(); }, true);
+});
 document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
   state.school = +document.getElementById("schoolSel").value;
@@ -1059,11 +1073,37 @@ document.getElementById("setClose").onclick = () => {
   state.adhanAtTime = document.getElementById("adhanChk").checked;
   document.querySelectorAll("#remindRows select[data-rp]").forEach(sel => { state.remind[sel.dataset.rp] = +sel.value; });
   state.sound = document.getElementById("soundSel").value;
+  // New multi-screen controls
+  var themeVal = document.getElementById("themeSel").value;
+  if (themeVal === "system") {
+    state.theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "day" : "night";
+  } else {
+    state.theme = themeVal === "light" ? "day" : "night";
+  }
+  var langVal = document.getElementById("langSel").value;
+  if (langVal !== state.lang) { state.lang = langVal; }
+  state.vibration = document.getElementById("vibChk").checked;
   save();
   document.getElementById("setModal").classList.add("hidden");
   if (state.notify && "Notification" in window) Notification.requestPermission();
+  applyI18n();
   refresh();
 };
+// Location shortcut inside settings
+document.getElementById("setLocBtn").onclick = () => {
+  document.getElementById("setModal").classList.add("hidden");
+  document.getElementById("locModal").classList.remove("hidden");
+  document.getElementById("citySearch").focus();
+};
+// Sync new controls when the settings modal opens
+function syncSetControls(){
+  var ts = document.getElementById("themeSel");
+  if (ts) ts.value = state.theme === "day" ? "light" : "dark";
+  var ls = document.getElementById("langSel");
+  if (ls) ls.value = state.lang;
+  var vc = document.getElementById("vibChk");
+  if (vc) vc.checked = !!state.vibration;
+}
 document.getElementById("citySearch").addEventListener("input", e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => searchCities(e.target.value.trim()), 250); });
 document.getElementById("gpsBtn").onclick = () => {
   if (!navigator.geolocation) return toast(t("gpsFail"));
