@@ -1115,6 +1115,7 @@ if (menuPanel) {
   menuPanel.querySelectorAll("[data-soon]").forEach(b => b.onclick = () => toast(t("comingSoon")));
   menuPanel.querySelectorAll("a.menu-link").forEach(a => a.onclick = closeMenu);
 }
+} // end menu guard (settings code below is top-level)
 // Multi-screen settings navigation
 function setShow(name){
   document.getElementById("setMain").classList.toggle("hidden", !!name);
@@ -1208,7 +1209,7 @@ renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
-} // end menu guard
+// (menu guard closed above)
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
 document.getElementById("mosqueFind").onclick = () => findMosques();
