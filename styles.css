@@ -473,6 +473,8 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
   max-width: none; transition: transform .15s linear;
 }
 
-/* Tab pages: full-width content, thin padding */
-#panel-qibla, #panel-quran, #panel-quiet, #panel-mosques { padding: 0 8px; }
-#panel-qibla .panel, #panel-quran .panel, #panel-quiet .panel, #panel-mosques .panel { padding: 14px 10px; }
+/* Tab pages: full-width like home (break out of .wrap constraint) */
+#panel-month, #panel-qibla, #panel-quran, #panel-quiet, #panel-mosques {
+  margin-left: -16px; margin-right: -16px; padding: 0 8px;
+}
+#panel-qibla .panel, #panel-quran .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel { padding: 14px 10px; }

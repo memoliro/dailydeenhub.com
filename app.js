@@ -266,6 +266,20 @@ function plainTranslation(v) {
   return escapeHtml(String(v || "").replace(/<sup[\s\S]*?<\/sup>/gi, "").replace(/<[^>]*>/g, ""));
 }
 function t(key) { return I18N[state.lang][key]; }
+// Early nav: event delegation so bottom nav works even if later JS fails
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-goto]");
+  if (g) {
+    e.preventDefault();
+    if (typeof showTab === "function") { showTab(g.dataset.goto); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    return;
+  }
+  if (e.target.closest("#bnavSet")) {
+    const sm = document.getElementById("setModal");
+    if (sm) sm.classList.remove("hidden");
+  }
+});
+
 window.DDHLang = () => state.lang;
 function nameOf(key) { return I18N[state.lang].names[key] || key; }
 function pad(n) { return String(n).padStart(2, "0"); }
