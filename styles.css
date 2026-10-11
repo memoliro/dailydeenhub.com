@@ -431,3 +431,27 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
 
 .verse-ar { font-size: 24px; text-align: right; direction: rtl; line-height: 1.9; margin: 4px 0 8px; }
 .verse-trans { font-size: 13px; font-style: italic; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+
+/* ===== Qibla lock-on celebration + turn guidance (2026-10-11) ===== */
+#qiblaNeedle.locked #qiblaMark {
+  animation: qiblaPulse 1.2s ease-in-out infinite;
+  transform-origin: 110px 66px;
+  transform-box: fill-box;
+}
+@keyframes qiblaPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: .85; }
+}
+#qiblaTurn { text-align: center; margin-top: 10px; min-height: 44px; }
+#qiblaTurn .turn-dir { font-size: 34px; vertical-align: middle; color: #d4a574; }
+#qiblaTurn .turn-deg { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+#qiblaTurn .turn-word { font-size: 17px; color: var(--muted); }
+#qiblaTurn .turn-found {
+  display: inline-block; font-size: 22px; font-weight: 700; color: #22c55e;
+  animation: foundPop .5s ease-out;
+}
+@keyframes foundPop {
+  0% { transform: scale(.6); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}

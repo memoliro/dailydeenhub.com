@@ -633,14 +633,16 @@ function buildCompassDial() {
     star += `M${cx} ${cy}L${(cx + r1 * Math.cos(a1)).toFixed(1)} ${(cy + r1 * Math.sin(a1)).toFixed(1)}L${(cx + r2 * Math.cos(a2)).toFixed(1)} ${(cy + r2 * Math.sin(a2)).toFixed(1)}Z`;
   }
   el("path", { d: star, fill: "#ffffff", "fill-opacity": ".045" });
-  // ticks + degree numbers
-  for (let d = 0; d < 360; d += 10) {
-    const major = d % 30 === 0;
-    const [x1, y1] = P(d, major ? 87 : 91), [x2, y2] = P(d, 96);
+  // gear-feeling ticks: 2° minor, 10° medium, 30° major + numbers
+  for (let d = 0; d < 360; d += 2) {
+    const major = d % 30 === 0, medium = d % 10 === 0;
+    const r1 = major ? 84 : medium ? 88 : 92;
+    const [x1, y1] = P(d, r1), [x2, y2] = P(d, 96);
     el("line", { x1: x1.toFixed(1), y1: y1.toFixed(1), x2: x2.toFixed(1), y2: y2.toFixed(1),
-      stroke: "#f6f1e8", "stroke-opacity": major ? ".85" : ".3", "stroke-width": major ? 2 : 1 });
+      stroke: "#f6f1e8", "stroke-opacity": major ? ".9" : medium ? ".5" : ".22",
+      "stroke-width": major ? 2.2 : medium ? 1.4 : 0.8 });
     if (major) {
-      const [tx, ty] = P(d, 76);
+      const [tx, ty] = P(d, 73);
       const t = el("text", { x: tx.toFixed(1), y: (ty + 3).toFixed(1), "text-anchor": "middle",
         fill: "#8b93a7", "font-size": "8.5", "font-family": "Outfit, sans-serif", "data-upright": "1" });
       t.textContent = d + "\u00B0";
@@ -711,15 +713,25 @@ function renderQibla() {
   if (heading == null) { document.getElementById("qiblaTurn").textContent = t("toward"); qiblaWasAligned = false; }
   else {
     const diff = ((b - heading + 540) % 360) - 180;
-    // Subtle buzz the moment the compass locks onto the qibla (Android only; iOS has no vibrate API).
+    // Celebratory lock-on: vibration pattern + pulsing Kaaba marker (Android vibrate; iOS gets visual only).
     const aligned = Math.abs(diff) < 4;
     const now = Date.now();
-    if (aligned && !qiblaWasAligned && now - lastBuzzMs > 3000 && navigator.vibrate) {
-      try { navigator.vibrate(60); } catch (e) {}
+    const qn2 = document.getElementById("qiblaNeedle");
+    if (aligned && !qiblaWasAligned && now - lastBuzzMs > 3000) {
+      if (navigator.vibrate) { try { navigator.vibrate([90, 50, 90, 50, 180]); } catch (e) {} }
       lastBuzzMs = now;
     }
+    if (qn2) qn2.classList.toggle("locked", aligned);
     qiblaWasAligned = aligned;
-    document.getElementById("qiblaTurn").textContent = Math.abs(diff) < 6 ? t("facing") : `${Math.abs(diff).toFixed(0)}° ${diff > 0 ? t("right") : t("left")}`;
+    const qt = document.getElementById("qiblaTurn");
+    if (qt) {
+      if (Math.abs(diff) < 6) { qt.innerHTML = `<span class="turn-found">✓ ${t("facing")}</span>`; }
+      else {
+        const dir = diff > 0 ? "→" : "←";
+        const word = diff > 0 ? t("right") : t("left");
+        qt.innerHTML = `<span class="turn-dir">${dir}</span> <span class="turn-deg">${Math.abs(diff).toFixed(0)}°</span> <span class="turn-word">${word}</span>`;
+      }
+    }
   }
 }
 function renderTasbih() {
