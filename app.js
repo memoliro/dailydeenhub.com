@@ -1502,9 +1502,13 @@ const bnavSet = document.getElementById("bnavSet");
 if (bnavSet) bnavSet.onclick = () => { showTab("settings"); syncSetControls(); setShow(null); };
 document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
-  if (a.dataset.goto === "radio") { showTab("home"); setTimeout(() => { const el = $("radioSel"); if (el) el.closest(".panel").scrollIntoView({ block: "center" }); }, 80); return; }
   showTab(a.dataset.goto);
   window.scrollTo(0, 0);
+}));
+document.querySelectorAll("[data-gotoradio]").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  showTab("home");
+  setTimeout(() => { const el = $("radioSel"); if (el) el.closest(".panel").scrollIntoView({ block: "center" }); }, 120);
 }));
 let compassOn = false, compassTimer = 0;
 // Physical location for the Qibla compass (from GPS). The manual state.place
