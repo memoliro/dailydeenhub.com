@@ -478,3 +478,13 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
   margin-left: -16px; margin-right: -16px; padding: 0 8px;
 }
 #panel-qibla .panel, #panel-quran .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel { padding: 14px 10px; }
+
+/* Settings page */
+#panel-settings { padding: 0 8px; }
+.rrow { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.rrow > span { flex: 1; font-size: 15px; }
+.rrow input[type="checkbox"] { width: 22px; height: 22px; accent-color: #16a34a; }
+.rrow select { flex: 0 0 130px; }
+.rrow select:disabled { opacity: .4; }
+
+#panel-settings { grid-template-columns: 1fr; }

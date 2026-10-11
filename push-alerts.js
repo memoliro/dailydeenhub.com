@@ -150,7 +150,13 @@ function settingsPayload() {
     lat: place.lat, lon: place.lon, tz: place.tz || 'America/Toronto',
     method: st.method != null ? st.method : 2,
     madhab: st.school != null ? st.school : 0,
-    remind: st.remind || { Fajr: 15, Dhuhr: 15, Asr: 15, Maghrib: 15, Isha: 15 },
+    remind: (function() {
+      var rm = st.remind || { Fajr: 15, Dhuhr: 15, Asr: 15, Maghrib: 15, Isha: 15 };
+      var on = st.remindOn || {};
+      var out = {};
+      Object.keys(rm).forEach(function(k) { if (on[k] !== false) out[k] = rm[k]; });
+      return out;
+    })(),
     lang: st.lang || 'en',
   };
 }

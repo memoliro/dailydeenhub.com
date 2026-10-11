@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -275,8 +275,7 @@ document.addEventListener("click", e => {
     return;
   }
   if (e.target.closest("#bnavSet")) {
-    const sm = document.getElementById("setModal");
-    if (sm) sm.classList.remove("hidden");
+    if (typeof showTab === "function") { showTab("settings"); if (typeof syncSetControls === "function") syncSetControls(); if (typeof setShow === "function") setShow(null); window.scrollTo({ top: 0 }); }
   }
 });
 
@@ -399,10 +398,19 @@ function fillSelects() {
   document.getElementById("schoolSel").value = String(state.school);
   document.getElementById("notifyChk").checked = state.notify;
   document.getElementById("adhanChk").checked = state.adhanAtTime;
-  document.getElementById("remindRows").innerHTML = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k =>
-    `<label class="rrow"><span>${nameOf(k)}</span><select data-rp="${k}" class="field">${
+  if (!state.remindOn) state.remindOn = {};
+  document.getElementById("remindRows").innerHTML = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k => {
+    const on = state.remindOn[k] !== false;
+    return `<div class="rrow"><span>${nameOf(k)}</span><input type="checkbox" data-ron="${k}" ${on ? "checked" : ""} aria-label="${nameOf(k)} on/off" /><select data-rp="${k}" class="field" ${on ? "" : "disabled"}>${
       [0, 5, 10, 15, 20, 30, 45, 60].map(n => `<option value="${n}"${(state.remind[k] ?? 15) === n ? " selected" : ""}>${n === 0 ? t("atTimeOpt") : n + " " + t("minBefore")}</option>`).join("")
-    }</select></label>`).join("");
+    }</select></div>`;
+  }).join("");
+  document.querySelectorAll("#remindRows input[data-ron]").forEach(cb => {
+    cb.onchange = () => {
+      const sel = document.querySelector(`#remindRows select[data-rp="${cb.dataset.ron}"]`);
+      if (sel) sel.disabled = !cb.checked;
+    };
+  });
   document.getElementById("soundSel").innerHTML =
     [["adhan-prayer-call.mp3", t("soundAdhan")], ["adhan-prayer-call-trimmed.mp3", t("soundAdhanShort")],
      ["alarm.mp3", t("soundAlarm")], ["alert-on-mobile.wav", t("soundMobile")],
@@ -513,7 +521,7 @@ function renderTimes() {
       try { const a = new Audio("/audio/adhan-prayer-call.mp3"); a.play().catch(() => {}); } catch {}
     }
   }
-  if (state.notify && "Notification" in window && Notification.permission === "granted") {
+  if (state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
@@ -906,7 +914,7 @@ function showTab(id) {
     if (el) el.classList.toggle("hidden", !isHome);
   });
   if (id === "home") id = "month";
-  ["month", "qibla", "quran", "quiet", "mosques"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
@@ -1071,7 +1079,7 @@ async function updateDeclination(lat, lon) {
 
 document.getElementById("locBtn").onclick = () => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); };
 document.getElementById("locClose").onclick = () => document.getElementById("locModal").classList.add("hidden");
-const _sb = document.getElementById("setBtn"); if (_sb) _sb.onclick = () => document.getElementById("setModal").classList.remove("hidden");
+const _sb = document.getElementById("setBtn"); if (_sb) _sb.onclick = () => { showTab("settings"); syncSetControls(); setShow(null); };
 function playAlert() {
   let src;
   if (state.sound === "custom" && state.customSound) src = state.customSound;
@@ -1103,7 +1111,7 @@ if (menuPanel) {
   document.getElementById("mLangTr").onclick = () => setLanguage("tr");
   document.getElementById("mTheme").onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
   document.getElementById("mLoc").onclick = mClose(() => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); });
-  document.getElementById("mSet").onclick = mClose(() => document.getElementById("setModal").classList.remove("hidden"));
+  document.getElementById("mSet").onclick = mClose(() => { showTab("settings"); syncSetControls(); setShow(null); });
   menuPanel.querySelectorAll("[data-soon]").forEach(b => b.onclick = () => toast(t("comingSoon")));
   menuPanel.querySelectorAll("a.menu-link").forEach(a => a.onclick = closeMenu);
 }
@@ -1127,6 +1135,8 @@ document.getElementById("setClose").onclick = () => {
   state.notify = document.getElementById("notifyChk").checked;
   state.adhanAtTime = document.getElementById("adhanChk").checked;
   document.querySelectorAll("#remindRows select[data-rp]").forEach(sel => { state.remind[sel.dataset.rp] = +sel.value; });
+  if (!state.remindOn) state.remindOn = {};
+  document.querySelectorAll("#remindRows input[data-ron]").forEach(cb => { state.remindOn[cb.dataset.ron] = cb.checked; });
   state.sound = document.getElementById("soundSel").value;
   // New multi-screen controls
   var themeVal = document.getElementById("themeSel").value;
@@ -1138,15 +1148,17 @@ document.getElementById("setClose").onclick = () => {
   var langVal = document.getElementById("langSel").value;
   if (langVal !== state.lang) { state.lang = langVal; }
   state.vibration = document.getElementById("vibChk").checked;
+  // Sync language from either select (Location or Appearance)
+  var langSel2 = document.getElementById("langSel2");
+  if (langSel2 && langSel2.value !== state.lang) state.lang = langSel2.value;
   save();
-  document.getElementById("setModal").classList.add("hidden");
+  showTab("home");
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
   refresh();
 };
 // Location shortcut inside settings
 document.getElementById("setLocBtn").onclick = () => {
-  document.getElementById("setModal").classList.add("hidden");
   document.getElementById("locModal").classList.remove("hidden");
   document.getElementById("citySearch").focus();
 };
@@ -1262,7 +1274,7 @@ function panKaaba() {
 }
 
 const bnavSet = document.getElementById("bnavSet");
-if (bnavSet) bnavSet.onclick = () => document.getElementById("setModal").classList.remove("hidden");
+if (bnavSet) bnavSet.onclick = () => { showTab("settings"); syncSetControls(); setShow(null); };
 document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
   showTab(a.dataset.goto);
