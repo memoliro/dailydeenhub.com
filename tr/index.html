@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=37" />
+  <link rel="stylesheet" href="/styles.css?v=38" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -144,6 +144,14 @@
           <select id="reciterSel" class="field" style="width:auto"></select>
           <button class="primary" id="playBtn" type="button" data-i="play">Play</button>
         </div>
+                <div class="row" style="margin-top:10px;gap:10px;flex-wrap:wrap;align-items:center">
+          <div class="seg" id="quranViewSeg">
+            <button type="button" data-qv="trans" data-i="qvTrans">Translation</button>
+            <button type="button" data-qv="pron" data-i="qvPron">Pronunciation</button>
+            <button type="button" data-qv="both" data-i="qvBoth">Both</button>
+          </div>
+          <label style="display:flex;gap:6px;align-items:center;font-size:14px"><input type="checkbox" id="followChk" /> <span data-i="followLbl">Follow recitation</span></label>
+        </div>
         <audio id="audio" preload="none" style="width:100%;margin-top:12px" controls></audio>
         <div id="verses" class="scroll" style="max-height:640px"></div>
       </div>
@@ -151,12 +159,27 @@
     <section id="panel-quiet" class="layout hidden">
       <div class="panel pad">
         <h2 data-i="tasbihTitle">Tasbih</h2>
-        <p class="sub" id="tasbihPhrase">Subhanallah</p>
-        <div class="row">
-          <button class="count-btn" id="tasbihBtn" type="button"><b id="tasbihCount">0</b><span data-i="tap">Tap to count</span></button>
-          <button class="ghost" id="tasbihReset" type="button" data-i="reset">Reset</button>
+        <div class="seg" id="tasbihModeSeg" style="margin-bottom:12px">
+          <button type="button" data-tm="classic" data-i="tmClassic">Classic</button>
+          <button type="button" data-tm="beads" data-i="tmBeads">Beads</button>
         </div>
-        <p class="note" id="tasbihNote"></p>
+        <div id="tasbihClassic">
+          <p class="sub" id="tasbihPhrase">Subhanallah</p>
+          <div class="row">
+            <button class="count-btn" id="tasbihBtn" type="button"><b id="tasbihCount">0</b><span data-i="tap">Tap to count</span></button>
+            <button class="ghost" id="tasbihReset" type="button" data-i="reset">Reset</button>
+          </div>
+          <p class="note" id="tasbihNote"></p>
+        </div>
+        <div id="tasbihBeads" class="hidden">
+          <p class="sub" id="beadPhrase">Subhanallah</p>
+          <div class="bead-count"><b id="beadCount">0</b> <span id="beadTarget">/ 33</span></div>
+          <p class="note" id="beadLoop" style="text-align:center">Loop 1</p>
+          <div id="beadStage"><div id="beadStrip"></div></div>
+          <p class="hint" style="text-align:center" data-i="beadTap">Tap the beads — each tap moves one bead</p>
+          <div class="bead-styles" id="beadStyles"></div>
+          <div class="row" style="justify-content:center"><button class="ghost" id="beadReset" type="button" data-i="reset">Reset</button></div>
+        </div>
       </div>
       <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
     </section>
@@ -324,7 +347,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=8"></script>
-  <script src="/app.js?v=51"></script>
+  <script src="/app.js?v=52"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

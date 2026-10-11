@@ -508,3 +508,18 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .name-line { font-size: 15px; margin: 6px 0; line-height: 1.5; }
 .name-line b { font-size: 16px; }
 #stations select { width: 100%; margin-top: 10px; }
+
+/* Quran reader: pronunciation + follow shading */
+.verse .pron { font-style: italic; color: var(--muted); margin-top: 6px; line-height: 1.65; font-size: 15px; }
+.verse.on { background: color-mix(in srgb, var(--green-bright) 15%, transparent); box-shadow: inset 0 0 0 2px var(--green-bright); border-radius: 12px; padding-left: 10px; padding-right: 10px; }
+
+/* Tasbih beads mode */
+.bead-count { text-align: center; font-size: 46px; font-weight: 700; line-height: 1.1; }
+.bead-count span { font-size: 22px; color: var(--muted); font-weight: 500; }
+#beadStage { position: relative; overflow: hidden; height: 96px; margin: 12px -4px 4px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+#beadStage::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: var(--line); }
+#beadStrip { display: flex; gap: 10px; position: absolute; top: 50%; margin-top: -22px; left: 0; padding-left: 44%; will-change: transform; }
+.bead { width: 44px; height: 44px; border-radius: 50%; flex: 0 0 auto; box-shadow: inset -4px -6px 10px rgba(0,0,0,.35), 0 2px 5px rgba(0,0,0,.25); }
+.bead-styles { display: flex; gap: 12px; justify-content: center; margin: 10px 0 4px; }
+.bead-styles button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; }
+.bead-styles button.on { border-color: var(--green-bright); transform: scale(1.15); }

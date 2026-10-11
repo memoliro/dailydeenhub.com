@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap the beads — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Boncuklara dokunun — her dokunuş bir boncuk ilerletir", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -256,6 +256,13 @@ function load() {
     sound: saved.sound || "bell.wav",
     customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
+    remindOn: saved.remindOn || {},
+    vibration: saved.vibration ?? false,
+    quranView: saved.quranView || "trans",
+    quranFollow: !!saved.quranFollow,
+    tasbihMode: saved.tasbihMode || "classic",
+    beadStyle: saved.beadStyle || "melon",
+    tasbihLoops: saved.tasbihLoops || 0,
     place: saved.place || { name: "Montreal", country: "Canada", lat: 45.5017, lon: -73.5673, tz: "America/Toronto" },
     tasbih: saved.tasbih || 0
   };
@@ -778,10 +785,91 @@ function renderQibla() {
     }
   }
 }
+function tasbihPhraseFor(n) { return n < 33 ? "Subhanallah" : n < 66 ? "Alhamdulillah" : "Allahu akbar"; }
 function renderTasbih() {
   const n = state.tasbih % 100;
-  document.getElementById("tasbihPhrase").textContent = n < 33 ? "Subhanallah" : n < 66 ? "Alhamdulillah" : "Allahu akbar";
+  document.getElementById("tasbihPhrase").textContent = tasbihPhraseFor(n);
   document.getElementById("tasbihCount").textContent = String(n);
+  renderBeadText();
+}
+function renderBeadText() {
+  const n = state.tasbih % 100;
+  const inSet = n < 33 ? n : n < 66 ? n - 33 : n - 66;
+  const target = n < 66 ? 33 : 34;
+  const bp = document.getElementById("beadPhrase"); if (bp) bp.textContent = tasbihPhraseFor(n);
+  const bc = document.getElementById("beadCount"); if (bc) bc.textContent = String(inSet);
+  const bt = document.getElementById("beadTarget"); if (bt) bt.textContent = "/ " + target;
+  const bl = document.getElementById("beadLoop"); if (bl) bl.textContent = (state.lang === "tr" ? "Tur " : "Loop ") + ((state.tasbihLoops || 0) + 1);
+}
+/* ---------- Tasbih beads mode ---------- */
+const BEAD_STYLES = {
+  melon: ["radial-gradient(circle at 35% 32%, #ff9a86, #e03222 52%, #8f130c 100%)", "#2f7d32"],
+  onyx: ["radial-gradient(circle at 35% 32%, #7a7a7a, #1c1c1e 55%, #000000 100%)", "#333333"],
+  pearl: ["radial-gradient(circle at 35% 32%, #ffffff, #e3e7ea 55%, #a7b0b8 100%)", "#c3ccd2"],
+  amber: ["radial-gradient(circle at 35% 32%, #ffe082, #f0a202 58%, #96650a 100%)", "#b57e10"],
+  wood: ["radial-gradient(circle at 35% 32%, #d29a55, #8a5a24 58%, #54340e 100%)", "#6e4517"]
+};
+let beadCtx = null;
+function beadSound() {
+  try {
+    beadCtx = beadCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (beadCtx.state === "suspended") beadCtx.resume();
+    const t0 = beadCtx.currentTime;
+    const o = beadCtx.createOscillator(), g = beadCtx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(1100 + Math.random() * 180, t0);
+    o.frequency.exponentialRampToValueAtTime(590, t0 + 0.07);
+    g.gain.setValueAtTime(0.22, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.09);
+    o.connect(g); g.connect(beadCtx.destination);
+    o.start(t0); o.stop(t0 + 0.1);
+  } catch {}
+}
+function buildBeads() {
+  const strip = document.getElementById("beadStrip");
+  if (!strip) return;
+  const [bg, ring] = BEAD_STYLES[state.beadStyle] || BEAD_STYLES.melon;
+  strip.innerHTML = "";
+  for (let i = 0; i < 100; i++) {
+    const b = document.createElement("div");
+    b.className = "bead";
+    b.style.background = bg;
+    b.style.border = "3px solid " + ring;
+    strip.appendChild(b);
+  }
+  const picker = document.getElementById("beadStyles");
+  if (picker) {
+    picker.innerHTML = Object.keys(BEAD_STYLES).map(k =>
+      `<button type="button" data-bs="${k}" class="${k === state.beadStyle ? "on" : ""}" style="background:${BEAD_STYLES[k][0]}" aria-label="${k}"></button>`).join("");
+    picker.querySelectorAll("button").forEach(btn => btn.onclick = e => {
+      e.stopPropagation();
+      state.beadStyle = btn.dataset.bs; save();
+      buildBeads(); renderBeads(false);
+    });
+  }
+}
+function renderBeads(animate) {
+  const n = state.tasbih % 100;
+  renderBeadText();
+  const strip = document.getElementById("beadStrip");
+  if (strip) {
+    strip.style.transition = animate && n !== 0 ? "transform .22s ease" : "none";
+    strip.style.transform = `translateX(${-n * 54}px)`;
+  }
+}
+function bumpTasbih(withSound) {
+  state.tasbih = (state.tasbih || 0) + 1;
+  if (state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
+  save();
+  renderTasbih();
+  if (state.tasbihMode === "beads") { renderBeads(true); if (withSound) beadSound(); }
+}
+function applyTasbihMode() {
+  const beads = state.tasbihMode === "beads";
+  document.getElementById("tasbihClassic").classList.toggle("hidden", beads);
+  document.getElementById("tasbihBeads").classList.toggle("hidden", !beads);
+  document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.classList.toggle("on", b.dataset.tm === state.tasbihMode));
+  if (beads) { buildBeads(); renderBeads(false); }
 }
 /* ---------- prayer tracker with streaks ---------- */
 const TRACKABLE = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
@@ -983,11 +1071,33 @@ async function openChapter(id, keepAudio = false) {
     return;
   }
   if (token !== chapterToken) return; // user already opened another surah
-  verses.innerHTML = (uthmani.verses || []).map((v, i) =>
-    `<article class="verse"><div class="kicker">${escapeHtml(v.verse_key)}</div><div class="ar">${escapeHtml(v.text_uthmani)}</div><div class="tr">${plainTranslation(meal.translations?.[i]?.text)}</div></article>`
-  ).join("");
+  stopFollow();
+  chapterData = { id, uthmani: uthmani.verses || [], meal: meal.translations || [], pron: null };
+  renderVerses();
   verses.scrollTop = previousHeight;
   if (!keepAudio) document.getElementById("audio").removeAttribute("src");
+  if (state.quranView !== "trans") ensurePron().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
+}
+let chapterData = null;
+async function ensurePron() {
+  if (!chapterData || chapterData.pron) return;
+  try {
+    const j = await (await fetch(`https://api.alquran.cloud/v1/surah/${chapterData.id}/en.transliteration`)).json();
+    if (j && j.data && j.data.ayahs) chapterData.pron = j.data.ayahs.map(a => a.text);
+  } catch { if (chapterData) chapterData.pron = []; }
+}
+function renderVerses() {
+  const box = document.getElementById("verses");
+  if (!box || !chapterData) return;
+  const mode = state.quranView || "trans";
+  box.innerHTML = chapterData.uthmani.map((v, i) => {
+    const pron = chapterData.pron && chapterData.pron[i] ? `<div class="pron">${escapeHtml(chapterData.pron[i])}</div>` : "";
+    const tr = `<div class="tr">${plainTranslation(chapterData.meal[i]?.text)}</div>`;
+    return `<article class="verse" data-v="${i}"><div class="kicker">${escapeHtml(v.verse_key)}</div><div class="ar">${escapeHtml(v.text_uthmani)}</div>${mode === "pron" ? pron : mode === "both" ? pron + tr : tr}</article>`;
+  }).join("");
+  document.querySelectorAll("#quranViewSeg button").forEach(b => b.classList.toggle("on", b.dataset.qv === mode));
+  const fc = document.getElementById("followChk");
+  if (fc) fc.checked = !!state.quranFollow;
 }
 async function refreshQuranLanguage() {
   const openId = currentChapter || 1;
@@ -996,7 +1106,63 @@ async function refreshQuranLanguage() {
   await loadChapters();
   await openChapter(openId, true);
 }
+
+// ===== Follow recitation: per-verse audio + shading that advances verse by verse =====
+const followState = { playing: false, idx: 0, urls: null, key: "" };
+async function ensureVerseAudio() {
+  const key = currentChapter + ":" + state.reciter;
+  if (followState.key === key && followState.urls) return followState.urls;
+  const res = await fetch(`https://api.quran.com/api/v4/verses/by_chapter/${currentChapter}?audio=${state.reciter}&per_page=300&words=false`);
+  const j = await res.json();
+  followState.urls = (j.verses || []).map(v => {
+    const u = v.audio && v.audio.url;
+    if (!u) return null;
+    return u.startsWith("http") ? u : "https://audio.qurancdn.com/" + u.replace(/^\//, "");
+  });
+  followState.key = key;
+  return followState.urls;
+}
+function markVerse(i) {
+  document.querySelectorAll("#verses .verse.on").forEach(el => el.classList.remove("on"));
+  const el = document.querySelector(`#verses .verse[data-v="${i}"]`);
+  if (el) { el.classList.add("on"); el.scrollIntoView({ block: "center", behavior: "smooth" }); }
+}
+function stopFollow() {
+  if (!followState.playing && !followState.urls) return;
+  followState.playing = false;
+  document.querySelectorAll("#verses .verse.on").forEach(el => el.classList.remove("on"));
+}
+function playVerseAt(i) {
+  const audio = document.getElementById("audio");
+  const btn = document.getElementById("playBtn");
+  const urls = followState.urls || [];
+  if (i >= urls.length) { stopFollow(); btn.textContent = t("play"); return; }
+  if (!urls[i]) { playVerseAt(i + 1); return; }
+  followState.idx = i;
+  followState.playing = true;
+  markVerse(i);
+  if (audio.getAttribute("src") !== urls[i]) audio.src = urls[i];
+  btn.textContent = t("pause");
+  const p = audio.play();
+  if (p) p.catch(() => { followState.playing = false; btn.textContent = t("play"); toast(t("audioFail")); });
+}
+async function toggleFollow() {
+  const audio = document.getElementById("audio");
+  const btn = document.getElementById("playBtn");
+  if (followState.playing && !audio.paused) { audio.pause(); followState.playing = false; btn.textContent = t("play"); return; }
+  if (followState.playing && audio.paused && audio.getAttribute("src")) { followState.playing = true; btn.textContent = t("pause"); audio.play().catch(() => {}); return; }
+  document.getElementById("radioAudio").pause();
+  const rb = document.getElementById("radioBtn"); if (rb) rb.textContent = t("radioPlay");
+  btn.textContent = t("loading");
+  try { await ensureVerseAudio(); } catch { btn.textContent = t("play"); return toast(t("audioFail")); }
+  playVerseAt(followState.idx || 0);
+}
+document.getElementById("audio").addEventListener("ended", () => {
+  if (followState.playing) playVerseAt(followState.idx + 1);
+});
+
 function playChapter() {
+  if (state.quranFollow) { toggleFollow(); return; }
   const audio = document.getElementById("audio");
   const btn = document.getElementById("playBtn");
   if (audio.getAttribute("src") && !audio.paused) {
@@ -1251,11 +1417,24 @@ document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() =>
 document.getElementById("hijriMode").onclick = () => { monthView = "hijri"; renderMonth(); };
 renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
-document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
-document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
+document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) document.getElementById("playBtn").textContent = t("play"); });
+document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); stopFollow(); followState.urls = null; followState.idx = 0; document.getElementById("audio").removeAttribute("src"); };
+document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async () => {
+  state.quranView = b.dataset.qv; save();
+  if (state.quranView !== "trans") { await ensurePron(); }
+  renderVerses();
+});
+const _fc = document.getElementById("followChk");
+if (_fc) _fc.onchange = () => { state.quranFollow = _fc.checked; save(); if (!state.quranFollow) stopFollow(); };
 // (menu guard closed above)
-document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
-document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
+document.getElementById("tasbihBtn").onclick = () => bumpTasbih(false);
+document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); };
+document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.onclick = () => { state.tasbihMode = b.dataset.tm; save(); applyTasbihMode(); });
+const _bstage = document.getElementById("beadStage");
+if (_bstage) _bstage.onclick = () => bumpTasbih(true);
+const _breset = document.getElementById("beadReset");
+if (_breset) _breset.onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); renderBeads(false); };
+applyTasbihMode();
 document.getElementById("mosqueFind").onclick = () => findMosques();
 document.getElementById("halalFind").onclick = () => findHalal();
 
