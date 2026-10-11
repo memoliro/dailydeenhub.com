@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=35" />
+  <link rel="stylesheet" href="/styles.css?v=36" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -79,7 +79,7 @@
   </div>
     <div class="wrap">
 
-    <section id="panel-month" class="layout">
+    <section id="panel-month" class="layout hidden">
       <div class="panel pad">
         <h2 id="monthHeading">This month</h2>
         <p class="hint" id="monthNote"></p>
@@ -102,7 +102,6 @@
     </section>
     <section id="panel-qibla" class="layout hidden">
       <div class="panel pad" id="compassView">
-        <p class="hint" id="qiblaHint"></p>
         <div class="compass">
           <svg viewBox="0 0 220 220" aria-label="Qibla compass">
             <path d="M110 6 L118 22 H102 Z" fill="#d4a574"/>
@@ -110,7 +109,6 @@
           </svg>
         </div>
         <div class="row" style="justify-content:center;margin-top:2px"><button id="compassBtn" type="button" data-i="compass">Use compass</button></div>
-        <div class="deg" id="qiblaDeg">—°</div>
         <p class="hint" id="qiblaCheck"></p>
         <p class="hint" id="qiblaDistance"></p>
         <p class="hint" id="qiblaLocNote" style="color:var(--gold,#d4a574)"></p>
@@ -122,11 +120,11 @@
         <div class="deg" id="kaabaDeg">—°</div>
         <p class="hint" id="kaabaTurn" style="text-align:center"></p>
       </div>
-      <div class="panel pad">
+      <div class="panel pad map-panel">
         <h2 data-i="mapTitle">Qibla map</h2>
         <p class="hint" data-i="mapBody">Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.</p>
         <iframe id="qiblaFrame" class="qibla-frame" title="Qibla map" src="/qibla?embed=1&lat=45.5017&lon=-73.5673&name=Montreal"></iframe>
-        <div class="row"><a id="qiblaOpen" href="/qibla.html">Open qibla.html</a></div>
+        <div class="row"><a id="qiblaOpen" href="/qibla.html" data-i="openMap">Open Qibla map</a></div>
       </div>
     </section>
     <section id="panel-quran" class="quran-layout hidden">
@@ -241,6 +239,20 @@
       </div>
       </div>
     </section>
+    <section id="panel-more" class="layout hidden">
+      <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
+        <h3 data-i="moreTitle">More</h3>
+        <button class="menu-row" data-morego="month" type="button"><span>📅 <span data-i="thisMonth">This month</span></span><span>›</span></button>
+        <button class="menu-row" data-morego="ramadan" type="button"><span>🌙 <span data-i="ramadan">Ramadan</span></span><span>›</span></button>
+        <button class="menu-row" data-morego="hijri" type="button"><span>🗓 <span data-i="dualCal">Dual calendar</span></span><span>›</span></button>
+        <button class="menu-row" data-soon type="button"><span>📚 <span data-i="resources">Resources</span></span><span>›</span></button>
+        <button class="menu-row" data-soon type="button"><span>📰 <span data-i="articles">Articles</span></span><span>›</span></button>
+        <a class="menu-row" href="/about.html"><span>ℹ️ <span data-i="aboutL">About</span></span><span>›</span></a>
+        <a class="menu-row" href="/privacy.html"><span>🔒 <span data-i="privacyL">Privacy</span></span><span>›</span></a>
+        <a class="menu-row" href="/terms.html"><span>📄 <span data-i="termsL">Terms</span></span><span>›</span></a>
+      </div>
+    </section>
+
 
     </div>
     <footer class="foot">
@@ -307,7 +319,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=8"></script>
-  <script src="/app.js?v=48"></script>
+  <script src="/app.js?v=49"></script>
   <script src="/daily.js?v=2"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
@@ -329,6 +341,7 @@
     <button type="button" data-goto="quiet" aria-label="Tasbih">📿</button>
     <button type="button" data-goto="mosques" aria-label="Find">🕌</button>
     <button type="button" id="bnavSet" aria-label="Settings">⚙</button>
+    <button type="button" data-goto="more" aria-label="More">☰</button>
   </nav>
 </body>
 </html>

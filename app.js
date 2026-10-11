@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -374,7 +374,7 @@ function applyI18n() {
   document.getElementById("footerNote").textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
-  document.getElementById("qiblaHint").textContent = t("qiblaHint");
+  const _qh = document.getElementById("qiblaHint"); if (_qh) _qh.textContent = t("qiblaHint");
   document.getElementById("tasbihNote").textContent = t("tasbihNote");
   document.getElementById("focusBody").textContent = t("focusBody");
   fillSelects();
@@ -713,7 +713,7 @@ function renderQibla() {
   const local = qiblaBearing(qp.lat, qp.lon);
   const atKaaba = Math.abs(qp.lat - 21.4225) < 0.05 && Math.abs(qp.lon - 39.8262) < 0.05;
   const b = atKaaba ? 0 : local;
-  document.getElementById("qiblaDeg").textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
+  const _qdeg = document.getElementById("qiblaDeg"); if (_qdeg) _qdeg.textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
   const qn = document.getElementById("qiblaNeedle");
   if (qn) qn.setAttribute("transform", `rotate(${b} 110 110)`);
   const dl = document.getElementById("dial");
@@ -742,7 +742,7 @@ function renderQibla() {
           : `Compass is using your GPS location (manual location: ${state.place.name}).`)
       : "";
   }
-  if (heading == null) { document.getElementById("qiblaTurn").textContent = t("toward"); qiblaWasAligned = false; }
+  if (heading == null) { document.getElementById("qiblaTurn").textContent = ""; qiblaWasAligned = false; }
   else {
     const diff = ((b - heading + 540) % 360) - 180;
     // Celebratory lock-on: vibration pattern + pulsing Kaaba marker (Android vibrate; iOS gets visual only).
@@ -908,18 +908,17 @@ function renderRamadanHub(entry) {
 }
 function showTab(id) {
   const homeIds = ["homeHero", "panel-home"];
-  const isHome = (id === "home" || id === "month");
+  const isHome = (id === "home");
   homeIds.forEach(hid => {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  if (id === "home") id = "month";
-  ["month", "qibla", "quran", "quiet", "mosques", "settings"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "home" && id === "month")));
+    b.dataset.goto === id || (b.dataset.goto === "more" && id === "month")));
   if (id === "quran" && !chapters.length) loadChapters();
 }
 
@@ -1125,6 +1124,14 @@ function setShow(name){
 }
 document.querySelectorAll("[data-setgo]").forEach(b => b.onclick = () => setShow(b.dataset.setgo));
 document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setShow(null));
+document.querySelectorAll("[data-morego]").forEach(b => b.onclick = () => {
+  const k = b.dataset.morego;
+  showTab("month");
+  const modeBtn = document.getElementById(k === "ramadan" ? "ramadanMode" : k === "hijri" ? "hijriMode" : "monthMode");
+  if (modeBtn) modeBtn.click();
+  window.scrollTo({ top: 0 });
+});
+document.querySelectorAll("#panel-more [data-soon]").forEach(b => b.onclick = () => toast(t("comingSoon")));
 // Collapse the open sub-screen when clicking anywhere outside the settings panel
 document.addEventListener("click", e => {
   const main = document.getElementById("setMain");
