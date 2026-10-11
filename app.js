@@ -1125,6 +1125,13 @@ function setShow(name){
 }
 document.querySelectorAll("[data-setgo]").forEach(b => b.onclick = () => setShow(b.dataset.setgo));
 document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setShow(null));
+// Collapse the open sub-screen when clicking anywhere outside the settings panel
+document.addEventListener("click", e => {
+  const main = document.getElementById("setMain");
+  if (!main || !main.classList.contains("hidden")) return;
+  if (e.target.closest("#panel-settings")) return;
+  setShow(null);
+});
 // Auto-collapse: after a selection in a sub-screen, return to the Settings menu
 ["methodSel", "schoolSel", "themeSel", "langSel", "langSel2", "soundSel"].forEach(id => {
   const el = document.getElementById(id);
