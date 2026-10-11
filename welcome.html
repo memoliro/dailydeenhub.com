@@ -167,6 +167,17 @@
     </div>
   </div>
 
+  <div class="langmenu" id="wLocConsent">
+    <div class="sheet" style="border-radius:24px;margin:0 24px 40px;padding:28px 24px;">
+      <div style="font-size:1.25rem;font-weight:700;margin-bottom:14px;color:#1a1a1a;" id="wLcTitle">For your information</div>
+      <div style="font-size:.98rem;line-height:1.55;color:#444;margin-bottom:24px;" id="wLcBody">Daily Deen Hub uses your location to calculate accurate prayer times, find the Qibla direction, and locate nearby mosques.</div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button type="button" id="wLcNo" style="color:#14b8a6;font-weight:700;font-size:.95rem;padding:12px 16px;">NOT NOW</button>
+        <button type="button" id="wLcYes" style="color:#14b8a6;font-weight:700;font-size:.95rem;padding:12px 16px;">AGREE</button>
+      </div>
+    </div>
+  </div>
+
 <script>
 (function(){
   var lang = localStorage.getItem('ddh-lang') || 'en';
@@ -176,14 +187,22 @@
       tag: 'Your companion for everyday life',
       cta: 'FIND MY LOCATION',
       terms: 'I agree to the <a href="/privacy.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.',
-      label: 'English'
+      label: 'English',
+      lcTitle: 'For your information',
+      lcBody: 'Daily Deen Hub uses your location to calculate accurate prayer times, find the Qibla direction, and locate nearby mosques.',
+      lcNo: 'NOT NOW',
+      lcYes: 'AGREE'
     },
     tr: {
       greet: 'Esselamu Aleykum',
       tag: 'Günlük hayatınızda yol arkadaşınız',
       cta: 'KONUMUMU BUL',
       terms: 'Uygulamanın <a href="/tr/privacy.html">Kullanım Şartları</a> ve <a href="/tr/privacy.html">Gizlilik Politikası</a>\'nı kabul ediyorum.',
-      label: 'Türkçe'
+      label: 'Türkçe',
+      lcTitle: 'Bilgilendirme',
+      lcBody: 'Daily Deen Hub, doğru namaz vakitlerini hesaplamak, kıble yönünü bulmak ve yakındaki camileri göstermek için konumunuzu kullanır.',
+      lcNo: 'ŞİMDİ DEĞİL',
+      lcYes: 'KABUL ET'
     }
   };
   function apply(l){
@@ -195,6 +214,10 @@
     document.getElementById('wCta').textContent = T[l].cta;
     document.getElementById('wTermsText').innerHTML = T[l].terms;
     document.getElementById('wLangLabel').textContent = T[l].label;
+    document.getElementById('wLcTitle').textContent = T[l].lcTitle;
+    document.getElementById('wLcBody').textContent = T[l].lcBody;
+    document.getElementById('wLcNo').textContent = T[l].lcNo;
+    document.getElementById('wLcYes').textContent = T[l].lcYes;
   }
   apply(lang);
 
@@ -212,6 +235,11 @@
   cta.onclick = function(){
     // Save onboarding completion first
     try { localStorage.setItem('ddh-onboarded', '1'); } catch(e){}
+    // Show the location consent dialog (short version)
+    document.getElementById('wLocConsent').classList.add('open');
+  };
+  document.getElementById('wLcYes').onclick = function(){
+    document.getElementById('wLocConsent').classList.remove('open');
     // Ask for geolocation (non-blocking — main app handles fallback)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(){ goNext(); }, function(){ goNext(); }, { timeout: 8000 });
@@ -219,6 +247,10 @@
     } else {
       goNext();
     }
+  };
+  document.getElementById('wLcNo').onclick = function(){
+    document.getElementById('wLocConsent').classList.remove('open');
+    goNext(); // skip location — user can set it manually later
   };
   var went = false;
   function goNext(){
