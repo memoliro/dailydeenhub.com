@@ -330,14 +330,14 @@ a { color: var(--green-bright); }
 .hdr-in {
   width: min(1120px, calc(100% - 32px)); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 0 10px;
+  padding: 10px 0 8px;
 }
 .hdr-place { background: none; border: 0; color: #fff; text-align: left; padding: 0; cursor: pointer; flex: 1 1 auto; min-width: 0; }
-.hdr-place b { display: block; font-size: 26px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hdr-place b { display: block; font-size: 20px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hdr-place span { display: block; font-size: 12px; opacity: .75; max-width: 52vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hdr-wx { text-align: right; display: flex; flex-direction: column; align-items: flex-end; flex: 0 0 auto; margin-left: 12px; }
-.wx-t { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.wx-c { font-size: 12px; opacity: .75; }
+.wx-t { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wx-c { font-size: 11px; opacity: .75; white-space: nowrap; }
 
 .hero {
   background: #1a1a4e; color: #fff;
