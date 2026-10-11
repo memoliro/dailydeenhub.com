@@ -5,7 +5,7 @@
 'use strict';
 
 // Filled in after worker deploy:
-var PUSH_API = 'https://push.dailydeenhub.com';
+var PUSH_API = 'https://dailydeenhub-push.memoliro.workers.dev';
 
 function $(id) { return document.getElementById(id); }
 
