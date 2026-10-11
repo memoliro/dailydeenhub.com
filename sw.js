@@ -1,7 +1,8 @@
-const CACHE = "dailydeenhub-v36";
+const CACHE = "dailydeenhub-v37";
 // Core shell: must all succeed for install. Big audio is NOT precached (cached on first use).
-const SHELL = ["/", "/index.html", "/tr/", "/tr/index.html", "/styles.css", "/fonts.css", "/app.js", "/prayer-calc.js", "/prayer-api.js", "/push-alerts.js", "/manifest.json",
+const SHELL = ["/", "/index.html", "/welcome.html", "/tr/", "/tr/index.html", "/styles.css", "/fonts.css", "/app.js", "/prayer-calc.js", "/prayer-api.js", "/push-alerts.js", "/manifest.json",
   "/favicon.png", "/icon-192.png", "/images/logo.png", "/images/logo-text-en.png", "/images/logo-text-tr.png",
+  "/images/welcome-bg.webp", "/images/welcome-banner.webp",
   "/fonts/outfit-latin-wght-normal.woff2", "/fonts/outfit-latin-ext-wght-normal.woff2", "/fonts/fraunces-latin-opsz-normal.woff2", "/fonts/fraunces-latin-ext-opsz-normal.woff2",
   "/fonts/amiri-arabic-400-normal.woff2", "/fonts/amiri-latin-400-normal.woff2",
   "/about.html", "/terms.html", "/privacy.html", "/tr/about.html", "/tr/terms.html", "/tr/privacy.html"];

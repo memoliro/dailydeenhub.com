@@ -1,3 +1,9 @@
+// First-visit onboarding: send newcomers to the welcome page once.
+try {
+  if (!localStorage.getItem('ddh-onboarded') && !location.pathname.includes('welcome')) {
+    location.replace('/welcome.html');
+  }
+} catch (e) {}
 const VALID_SOUNDS = ["adhan-prayer-call.mp3", "adhan-prayer-call-trimmed.mp3", "alarm.mp3", "alert-on-mobile.wav", "bell.wav", "double-car-honk.mp3", "nikin-short-chick-sound.mp3", "nostalgia.wav", "custom"];
 const METHODS = [
   [2, "ISNA (North America)"],
