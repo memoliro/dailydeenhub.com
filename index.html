@@ -15,63 +15,54 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=22" />
+  <link rel="stylesheet" href="/styles.css?v=23" />
 </head>
 <body>
-  <header class="top">
-    <div class="wrap top-inner">
-      <div class="brand">
-        <img class="brand-mark" src="/images/logo.png" alt="Daily Deen Hub" />
-        <img class="brand-word" id="brandWord" src="/images/logo-text-en.png" alt="Daily Deen Hub" />
+  <header class="app-hdr">
+    <div class="hdr-in">
+      <button class="hdr-place" id="locBtn" type="button" aria-label="Location">
+        <b id="locLabel">Montreal</b>
+        <span id="hdrMethod">—</span>
+      </button>
+      <div class="hdr-time">
+        <span class="hdr-tlabel" data-i="timeRemaining">Time Remaining</span>
+        <b class="hdr-tval" id="hdrCountdown">--:--:--</b>
       </div>
-      <div class="spacer"></div>
-      <button class="chip" id="locBtn" type="button"><span id="locLabel">Montreal</span></button>
-      <div class="seg" role="group" aria-label="Language">
-        <button type="button" id="langEn" class="on">EN</button>
-        <button type="button" id="langTr">TR</button>
-      </div>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Theme">☾</button>
-      <button class="icon-btn" id="setBtn" type="button" aria-label="Settings">⚙</button>
-      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
     </div>
-    <nav class="menu-panel" id="menuPanel" aria-label="Menu">
-      <a class="menu-link" href="/" data-i="menuHome">Home</a>
-      <a class="menu-link" href="/qibla.html" data-i="menuQibla">Qibla</a>
-      <button class="menu-link" type="button" data-soon data-i="menuResources">Resources</button>
-      <button class="menu-link" type="button" data-soon data-i="menuArticles">Articles</button>
-      <button class="menu-link" type="button" data-soon data-i="menuCommunity">Community</button>
-      <a class="menu-link" href="/about.html" data-i="menuAbout">About</a>
-      <div class="menu-div"></div>
-      <div class="menu-row"><span data-i="menuLanguage">Language</span>
-        <span class="seg sm"><button type="button" id="mLangEn" class="on">EN</button><button type="button" id="mLangTr">TR</button></span>
-      </div>
-      <button class="menu-row" id="mTheme" type="button"><span data-i="menuTheme">Theme</span><span id="mThemeVal">☾</span></button>
-      <button class="menu-row" id="mLoc" type="button"><span data-i="menuLocation">Location</span><b id="mLocVal">Montreal</b></button>
-      <button class="menu-row" id="mSet" type="button"><span data-i="menuSettings">Settings</span><span>⚙</span></button>
-    </nav>
   </header>
-  <main class="wrap">
-    <section class="hero">
-      <div class="panel next">
-        <div class="kicker" data-i="next">Next prayer</div>
-        <div class="dates"><span id="gDate">—</span><span id="hDate">—</span></div>
-        <div class="prayer-name" id="nextName">—</div>
-        <div class="clock" id="countdown">--:--:--</div>
-        <div class="sub" id="nextMeta">—</div>
-        <div class="note" id="sourceLine"></div>
-        <div class="kicker" id="kerahat" style="display:block;margin-top:14px"></div>
-        <div class="vakt-grid" id="vaktGrid"></div>
-        <div class="tracker" id="trackerBox"></div>
-      </div>
-      <div class="panel ring-wrap">
-        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-width="6"/>
-          <circle id="arc" cx="60" cy="60" r="50" fill="none" stroke="#d4a574" stroke-width="6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/>
-          <text id="arcLabel" x="60" y="56" text-anchor="middle" fill="currentColor" font-size="11" font-family="Outfit, sans-serif">TODAY</text>
-          <text id="arcTime" x="60" y="74" text-anchor="middle" fill="currentColor" font-size="16" font-family="Fraunces, serif">—</text>
-        </svg>
-      </div>
+  <section class="hero">
+    <div class="hero-label" id="nextName">—</div>
+    <div class="hero-clock" id="countdown">--:--:--</div>
+    <div class="date-pill"><span id="gDate">—</span><span class="dp-dot">•</span><span id="hDate">—</span></div>
+    <div class="hero-sub" id="nextMeta">—</div>
+    <div class="hero-k" id="kerahat"></div>
+    <div class="note" id="sourceLine" style="display:none"></div>
+  </section>
+  <main class="sheet">
+    <div class="strip" id="vaktGrid"></div>
+    <div class="quick">
+      <button class="qc" type="button" data-goto="qibla"><span class="qc-i">🧭</span><span data-i="qiblaTab">Qibla</span></button>
+      <button class="qc" type="button" data-goto="quran"><span class="qc-i">📖</span><span data-i="quranTab">Quran</span></button>
+      <button class="qc" type="button" data-goto="quiet"><span class="qc-i">📿</span><span data-i="tasbihTitle">Tasbih</span></button>
+      <button class="qc" type="button" data-goto="mosques"><span class="qc-i">🕌</span><span data-i="mosquesTab">Find</span></button>
+    </div>
+    <div class="tracker" id="trackerBox"></div>
+    <section class="dcards">
+      <article class="dcard" id="verseCard">
+        <div class="dcard-h"><span class="dcard-ic">📖</span><div><b data-i="verseOfDay">Verse of the Day</b><span id="verseRef">—</span></div></div>
+        <p id="verseText">—</p>
+      </article>
+      <article class="dcard" id="hadithCard">
+        <div class="dcard-h"><span class="dcard-ic">☪</span><div><b data-i="hadithOfDay">Hadith of the Day</b><span id="hadithRef">—</span></div></div>
+        <p id="hadithText">—</p>
+      </article>
+      <article class="dcard" id="asmaCard">
+        <div class="dcard-h"><span class="dcard-ic">✨</span><div><b data-i="asmaDay">Name of Allah</b><span id="asmaTrans">—</span></div></div>
+        <div class="asma-ar" id="asmaAr">—</div>
+        <p id="asmaMeaning">—</p>
+      </article>
     </section>
+    <div class="wrap">
     <section class="panel pad radio" id="radioCard">
       <div class="row" style="margin-top:0">
         <h2 data-i="radioTitle" style="margin:0;flex:1">Quran radio</h2>
@@ -172,6 +163,7 @@
         <div id="mosqueList" class="mosque-list"></div>
       </div>
     </section>
+    </div>
     <footer class="foot">
       <div class="footer-grid">
         <div class="footer-col">
@@ -302,7 +294,8 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=7"></script>
-  <script src="/app.js?v=36"></script>
+  <script src="/app.js?v=37"></script>
+  <script src="/daily.js?v=1"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">
@@ -315,5 +308,14 @@
       </div>
     </div>
   </div>
+
+  <nav class="bnav" aria-label="Main">
+    <button type="button" data-goto="home" class="on" aria-label="Home">🏠</button>
+    <button type="button" data-goto="quran" aria-label="Quran">📖</button>
+    <button type="button" data-goto="qibla" aria-label="Qibla">🧭</button>
+    <button type="button" data-goto="quiet" aria-label="Tasbih">📿</button>
+    <button type="button" data-goto="mosques" aria-label="Find">🕌</button>
+    <button type="button" id="bnavSet" aria-label="Settings">⚙</button>
+  </nav>
 </body>
 </html>

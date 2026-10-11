@@ -320,3 +320,109 @@ a { color: var(--green-bright); }
 .vakt-check.on { background: #16a34a; border-color: #16a34a; }
 .vakt-check.off { opacity: 0.22; cursor: default; }
 .tracker-congrats { text-align: center; font-size: 17px; line-height: 1.55; padding: 12px 8px 4px; }
+
+/* ===== Reference-style homepage (2026-10-11) ===== */
+.app-hdr {
+  background: #1a1a4e;
+  color: #fff;
+  position: sticky; top: 0; z-index: 30;
+}
+.hdr-in {
+  width: min(1120px, calc(100% - 32px)); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0 10px;
+}
+.hdr-place { background: none; border: 0; color: #fff; text-align: left; padding: 0; cursor: pointer; }
+.hdr-place b { display: block; font-size: 26px; font-weight: 700; letter-spacing: .2px; }
+.hdr-place span { display: block; font-size: 12px; opacity: .75; max-width: 52vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hdr-time { text-align: right; }
+.hdr-tlabel { display: block; font-size: 12px; opacity: .75; }
+.hdr-tval { font-size: 26px; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+
+.hero {
+  background: #1a1a4e; color: #fff;
+  text-align: center; padding: 18px 16px 64px;
+}
+.hero-label { color: #f59e0b; font-size: 15px; font-weight: 600; letter-spacing: .3px; }
+.hero-clock {
+  font-size: clamp(64px, 18vw, 110px); font-weight: 700;
+  font-variant-numeric: tabular-nums; line-height: 1.05; letter-spacing: 2px;
+  margin: 6px 0 14px;
+}
+.date-pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 2px solid rgba(255,255,255,.85); border-radius: 999px;
+  padding: 10px 22px; font-size: 14px; font-weight: 500;
+  max-width: calc(100% - 32px); flex-wrap: wrap; justify-content: center;
+}
+.dp-dot { opacity: .6; }
+.hero-sub { margin-top: 12px; font-size: 13px; opacity: .8; }
+.hero-k { margin-top: 8px; font-size: 13px; color: #fbbf24; font-weight: 600; }
+.hero-k:empty { display: none; }
+
+.sheet {
+  background: var(--bg-2);
+  border-radius: 28px 28px 0 0;
+  margin-top: -36px; position: relative; z-index: 5;
+  padding: 18px 16px 90px;
+}
+body[data-theme="day"] .sheet { background: #fffdf8; }
+
+.strip {
+  display: flex; gap: 4px; overflow-x: auto;
+  padding: 6px 2px 12px; scrollbar-width: none;
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip .vakt {
+  flex: 1 0 auto; min-width: 86px; text-align: center;
+  padding: 10px 8px; border-radius: 14px;
+  background: transparent; border: 0;
+}
+.strip .vakt b { display: block; font-size: 13px; font-weight: 600; }
+.strip .vakt span { font-size: 15px; font-variant-numeric: tabular-nums; }
+.strip .vakt.now b, .strip .vakt.now span { color: #ea580c; }
+
+.quick { display: flex; justify-content: space-around; padding: 8px 0 4px; }
+.qc {
+  background: none; border: 0; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--ink); padding: 8px;
+}
+.qc-i {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+  background: var(--bg);
+  border: 3px solid transparent;
+  background: linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+              linear-gradient(135deg, #ec4899, #f59e0b) border-box;
+}
+
+.dcards { display: grid; gap: 14px; margin-top: 16px; }
+.dcard {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 20px; padding: 18px;
+}
+body[data-theme="day"] .dcard { background: #fff; }
+.dcard-h { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.dcard-ic {
+  width: 48px; height: 48px; border-radius: 50%; flex: 0 0 48px;
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+  background: var(--bg); border: 1px solid var(--line);
+}
+.dcard-h b { display: block; font-size: 16px; }
+.dcard-h span { font-size: 13px; color: var(--muted); }
+.dcard p { margin: 0; font-size: 15px; line-height: 1.55; }
+.asma-ar { font-size: 44px; text-align: center; margin: 6px 0 10px; color: #059669; font-family: serif; }
+
+.bnav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+  display: flex; justify-content: space-around; align-items: center;
+  background: var(--bg-2); border-top: 1px solid var(--line);
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+.bnav button {
+  background: none; border: 0; font-size: 26px; padding: 8px 12px;
+  cursor: pointer; opacity: .55; border-radius: 12px;
+}
+.bnav button.on { opacity: 1; }
+body[data-theme="day"] .bnav { background: #fffdf8; }

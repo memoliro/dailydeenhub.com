@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -266,6 +266,7 @@ function plainTranslation(v) {
   return escapeHtml(String(v || "").replace(/<sup[\s\S]*?<\/sup>/gi, "").replace(/<[^>]*>/g, ""));
 }
 function t(key) { return I18N[state.lang][key]; }
+window.DDHLang = () => state.lang;
 function nameOf(key) { return I18N[state.lang].names[key] || key; }
 function pad(n) { return String(n).padStart(2, "0"); }
 function cleanTime(v) { return String(v).slice(0, 5); }
@@ -331,16 +332,18 @@ function applyI18n() {
   document.documentElement.lang = state.lang;
   document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t(el.dataset.i); });
   document.querySelectorAll("[data-i-ph]").forEach(el => { el.placeholder = t(el.dataset.iPh); });
-  document.getElementById("langEn").classList.toggle("on", state.lang === "en");
-  document.getElementById("langTr").classList.toggle("on", state.lang === "tr");
+  const _le = document.getElementById("langEn"); if (_le) _le.classList.toggle("on", state.lang === "en");
+  const _lt = document.getElementById("langTr"); if (_lt) _lt.classList.toggle("on", state.lang === "tr");
   const mEn = document.getElementById("mLangEn"), mTr = document.getElementById("mLangTr");
+  if (mEn) mEn.classList.toggle("on", state.lang === "en");
+  if (mTr) mTr.classList.toggle("on", state.lang === "tr");
   if (mEn) mEn.classList.toggle("on", state.lang === "en");
   if (mTr) mTr.classList.toggle("on", state.lang === "tr");
   const mTv = document.getElementById("mThemeVal");
   if (mTv) mTv.textContent = state.theme === "night" ? "☾" : "☀";
   const mLv = document.getElementById("mLocVal");
   if (mLv) mLv.textContent = state.place.name;
-  document.getElementById("themeBtn").textContent = state.theme === "night" ? "☾" : "☀";
+  const _tb = document.getElementById("themeBtn"); if (_tb) _tb.textContent = state.theme === "night" ? "☾" : "☀";
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = state.place.name;
   const bw = document.getElementById("brandWord");
@@ -444,14 +447,18 @@ function renderTimes() {
   const atTime = next ? entry.timings[nextKey] : (tomorrow || entry).timings.Fajr;
   document.getElementById("nextName").textContent = nameOf(nextKey);
   document.getElementById("countdown").textContent = fmtDur(Math.round((nextAt - nowMin) * 60));
+  const hc = document.getElementById("hdrCountdown");
+  if (hc) hc.textContent = document.getElementById("countdown").textContent;
   document.getElementById("nextMeta").textContent = `${nameOf(nextKey)} ${t("at")} ${atTime} · ${t("remaining")}`;
   document.getElementById("sourceLine").textContent = [apiMeta.source || "Aladhan", apiMeta.methodName, apiMeta.timezone].filter(Boolean).join(" · ");
-  document.getElementById("arcTime").textContent = atTime;
-  document.getElementById("arcLabel").textContent = nameOf(nextKey);
+  const hm = document.getElementById("hdrMethod");
+  if (hm && apiMeta.methodName) hm.textContent = apiMeta.methodName;
+  const _at = document.getElementById("arcTime"); if (_at) _at.textContent = atTime;
+  const _al = document.getElementById("arcLabel"); if (_al) _al.textContent = nameOf(nextKey);
   const prev = [...slots].reverse().find(s => s.min <= nowMin);
   const start = prev ? prev.min : minutes(entry.timings.Fajr) - 1440;
   const pct = Math.min(1, Math.max(0, (nowMin - start) / ((nextAt || start + 1) - start)));
-  document.getElementById("arc").setAttribute("stroke-dashoffset", String(314 * (1 - pct)));
+  const _arc = document.getElementById("arc"); if (_arc) _arc.setAttribute("stroke-dashoffset", String(314 * (1 - pct)));
   const g = entry.date.gregorian, h = entry.date.hijri;
   document.getElementById("gDate").textContent = `${localWeekday(g.weekday.en)} ${g.day} ${localMonth(g.month.en)} ${g.year}`;
   document.getElementById("hDate").textContent = `${h.day} ${state.lang === "tr" ? HIJRI_TR[+h.month.number] || h.month.en : h.month.en} ${h.year}`;
@@ -856,8 +863,14 @@ function renderRamadanHub(entry) {
     (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
 function showTab(id) {
-  ["month", "qibla", "quran", "quiet", "mosques"].forEach(k => document.getElementById("panel-" + k).classList.toggle("hidden", k !== id));
+  if (id === "home") id = "month";
+  ["month", "qibla", "quran", "quiet", "mosques"].forEach(k => {
+    const p = document.getElementById("panel-" + k);
+    if (p) p.classList.toggle("hidden", k !== id);
+  });
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === id));
+  document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
+    b.dataset.goto === id || (b.dataset.goto === "home" && id === "month")));
   if (id === "quran" && !chapters.length) loadChapters();
 }
 
@@ -1017,7 +1030,7 @@ async function updateDeclination(lat, lon) {
 
 document.getElementById("locBtn").onclick = () => { document.getElementById("locModal").classList.remove("hidden"); document.getElementById("citySearch").focus(); };
 document.getElementById("locClose").onclick = () => document.getElementById("locModal").classList.add("hidden");
-document.getElementById("setBtn").onclick = () => document.getElementById("setModal").classList.remove("hidden");
+const _sb = document.getElementById("setBtn"); if (_sb) _sb.onclick = () => document.getElementById("setModal").classList.remove("hidden");
 function playAlert() {
   let src;
   if (state.sound === "custom" && state.customSound) src = state.customSound;
@@ -1038,6 +1051,7 @@ document.getElementById("soundFile").onchange = e => {
   r.readAsDataURL(f);
 };
 const menuPanel = document.getElementById("menuPanel"), menuBtn = document.getElementById("menuBtn");
+if (!menuPanel || !menuBtn) { /* menu removed in redesign */ } else {
 const closeMenu = () => menuPanel && menuPanel.classList.remove("open");
 if (menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle("open"); };
 document.addEventListener("click", (e) => { if (menuPanel && menuPanel.classList.contains("open") && !menuPanel.contains(e.target) && e.target !== menuBtn) closeMenu(); });
@@ -1128,9 +1142,9 @@ function setLanguage(lang) {
   applyI18n();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
 }
-document.getElementById("langEn").onclick = () => setLanguage("en");
-document.getElementById("langTr").onclick = () => setLanguage("tr");
-document.getElementById("themeBtn").onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
+const _le2 = document.getElementById("langEn"); if (_le2) _le2.onclick = () => setLanguage("en");
+const _lt2 = document.getElementById("langTr"); if (_lt2) _lt2.onclick = () => setLanguage("tr");
+const _tb2 = document.getElementById("themeBtn"); if (_tb2) _tb2.onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 document.getElementById("surahSearch").addEventListener("input", renderChapters);
 document.getElementById("playBtn").onclick = playChapter;
@@ -1142,10 +1156,13 @@ renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("audio").addEventListener("ended", () => { document.getElementById("playBtn").textContent = t("play"); });
 document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); document.getElementById("audio").removeAttribute("src"); };
+} // end menu guard
 document.getElementById("tasbihBtn").onclick = () => { state.tasbih = (state.tasbih + 1) % 100; save(); renderTasbih(); };
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; save(); renderTasbih(); };
 document.getElementById("mosqueFind").onclick = () => findMosques();
 document.getElementById("halalFind").onclick = () => findHalal();
+const bnavSet = document.getElementById("bnavSet");
+if (bnavSet) bnavSet.onclick = () => document.getElementById("setModal").classList.remove("hidden");
 document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
   showTab(a.dataset.goto);
