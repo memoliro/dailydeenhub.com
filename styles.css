@@ -340,6 +340,7 @@ a { color: var(--green-bright); }
 .wx-c { font-size: 10px; opacity: .75; white-space: nowrap; max-width: 90px; overflow: hidden; text-overflow: ellipsis; }
 
 .hero {
+  display: block;
   background: #1a1a4e; color: #fff;
   text-align: center; padding: 18px 16px 64px;
 }
