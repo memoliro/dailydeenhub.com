@@ -875,6 +875,12 @@ function renderRamadanHub(entry) {
     (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
 function showTab(id) {
+  const homeIds = ["homeHero", "panel-home"];
+  const isHome = (id === "home" || id === "month");
+  homeIds.forEach(hid => {
+    const el = document.getElementById(hid);
+    if (el) el.classList.toggle("hidden", !isHome);
+  });
   if (id === "home") id = "month";
   ["month", "qibla", "quran", "quiet", "mosques"].forEach(k => {
     const p = document.getElementById("panel-" + k);
