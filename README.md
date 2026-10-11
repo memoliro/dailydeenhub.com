@@ -1,6 +1,6 @@
-# Ezan Vakti
+# DailyDeenHub
 
-Ad-free prayer times, qibla, a monthly timetable, and a Quran reader. Static site for Cloudflare Pages. No accounts, no tracking.
+Ad-free prayer times, qibla, a monthly timetable, and a Quran reader. Static site for Cloudflare Pages. No accounts; anonymous usage analytics via Google Analytics (see the privacy page).
 
 Montreal is the default place, with ISNA timings. Any city works, including Diyanet for Turkey.
 
