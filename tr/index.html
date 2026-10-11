@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=39" />
+  <link rel="stylesheet" href="/styles.css?v=40" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -270,15 +270,23 @@
     </section>
     <section id="panel-more" class="layout hidden">
       <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
-        <h3 data-i="moreTitle">More</h3>
-        <button class="menu-row" data-morego="month" type="button"><span>📅 <span data-i="thisMonth">This month</span></span><span>›</span></button>
-        <button class="menu-row" data-morego="ramadan" type="button"><span>🌙 <span data-i="ramadan">Ramadan</span></span><span>›</span></button>
-        <button class="menu-row" data-morego="hijri" type="button"><span>🗓 <span data-i="dualCal">Dual calendar</span></span><span>›</span></button>
-        <button class="menu-row" data-soon type="button"><span>📚 <span data-i="resources">Resources</span></span><span>›</span></button>
-        <button class="menu-row" data-soon type="button"><span>📰 <span data-i="articles">Articles</span></span><span>›</span></button>
-        <a class="menu-row" href="/tr/about.html"><span>ℹ️ <span data-i="aboutL">About</span></span><span>›</span></a>
-        <a class="menu-row" href="/tr/privacy.html"><span>🔒 <span data-i="privacyL">Privacy</span></span><span>›</span></a>
-        <a class="menu-row" href="/tr/terms.html"><span>📄 <span data-i="termsL">Terms</span></span><span>›</span></a>
+        <h3 data-i="moreTitle">Daha fazla</h3>
+        <div class="more-grid">
+          <button class="tile" data-morego="month" type="button"><span class="tic">📅</span><span class="tlabel" data-i="thisMonth">Bu ay</span></button>
+          <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramazan</span></button>
+          <button class="tile" data-morego="hijri" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Çift takvim</span></button>
+          <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Kur'an</span></button>
+          <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Kıble</span></button>
+          <button class="tile" data-goto="find" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Camiler</span></button>
+          <button class="tile" data-goto="tasbih" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tesbih</span></button>
+          <button class="tile" data-goto="radio" type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
+          <button class="tile soon" data-soon type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
+          <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
+          <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Hatimler</span></button>
+          <button class="tile soon" data-soon type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Kaynaklar</span></button>
+          <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Makaleler</span></button>
+        </div>
+        <p class="more-legal"><a href="/tr/about.html" data-i="aboutL">Hakkında</a> · <a href="/tr/privacy.html" data-i="privacyL">Gizlilik</a> · <a href="/tr/terms.html" data-i="termsL">Şartlar</a></p>
       </div>
     </section>
 
@@ -348,7 +356,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=8"></script>
-  <script src="/app.js?v=53"></script>
+  <script src="/app.js?v=54"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

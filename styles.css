@@ -525,3 +525,11 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .bead-styles button.on { border-color: var(--green-bright); transform: scale(1.15); }
 /* Tasbih: big, easy-to-tap Reset buttons */
 #tasbihReset, #beadReset { padding: 14px 32px; font-size: 17px; font-weight: 700; border-radius: 14px; }
+/* More page: shortcut tile grid */
+.more-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 16px 6px 13px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 5%, transparent); border: 1px solid var(--line); color: var(--ink); font: inherit; cursor: pointer; }
+.tile .tic { width: 54px; height: 54px; border-radius: 15px; background: rgba(201,162,39,.16); display: flex; align-items: center; justify-content: center; font-size: 27px; }
+.tile .tlabel { font-size: 13.5px; font-weight: 600; line-height: 1.25; text-align: center; }
+.tile.soon { opacity: .55; }
+.more-legal { text-align: center; margin: 18px 0 2px; font-size: 14px; }
+.more-legal a { color: var(--accent2); }
