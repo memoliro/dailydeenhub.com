@@ -1508,7 +1508,7 @@ document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click"
 document.querySelectorAll("[data-gotoradio]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
   showTab("home");
-  setTimeout(() => { const el = $("radioSel"); if (el) el.closest(".panel").scrollIntoView({ block: "center" }); }, 120);
+  setTimeout(() => { const el = document.getElementById("radioCard"); if (el) el.scrollIntoView({ block: "center" }); }, 150);
 }));
 let compassOn = false, compassTimer = 0;
 // Physical location for the Qibla compass (from GPS). The manual state.place
