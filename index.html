@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=31" />
+  <link rel="stylesheet" href="/styles.css?v=32" />
 </head>
 <body>
   <header class="app-hdr">
@@ -104,8 +104,8 @@
       </div>
     </section>
     <section id="panel-qibla" class="layout hidden">
-      <div class="panel pad">
-        <h2 data-i="qiblaTitle">Qibla</h2>
+      <div class="tabbar"><button class="backbtn" type="button" data-goto="home" aria-label="Home">←</button><h2 data-i="qiblaTitle">Qibla</h2></div>
+      <div class="panel pad" id="compassView">
         <p class="hint" id="qiblaHint"></p>
         <div class="compass">
           <svg viewBox="0 0 220 220" aria-label="Qibla compass">
@@ -119,7 +119,12 @@
         <p class="hint" id="qiblaDistance"></p>
         <p class="hint" id="qiblaLocNote" style="color:var(--gold,#d4a574)"></p>
         <p class="hint" id="qiblaTurn"></p>
-        
+      </div>
+      <div class="panel pad hidden" id="kaabaView">
+        <p class="hint" id="kaabaHint" data-i="kaabaHint">Hold your phone upright and turn until the Kaaba is centered.</p>
+        <div class="kaaba-pano"><img id="kaabaImg" src="/images/kaaba-pano.webp" alt="Kaaba" /></div>
+        <div class="deg" id="kaabaDeg">—°</div>
+        <p class="hint" id="kaabaTurn" style="text-align:center"></p>
       </div>
       <div class="panel pad">
         <h2 data-i="mapTitle">Qibla map</h2>
@@ -129,6 +134,7 @@
       </div>
     </section>
     <section id="panel-quran" class="quran-layout hidden">
+      <div class="tabbar"><button class="backbtn" type="button" data-goto="home" aria-label="Home">←</button><h2 data-i="quranTitle">Quran</h2></div>
       <div class="panel pad">
         <h2 data-i="quranTitle">Quran</h2>
         <input class="search" id="surahSearch" data-i-ph="surahPh" placeholder="Find a surah" />
@@ -145,6 +151,7 @@
       </div>
     </section>
     <section id="panel-quiet" class="layout hidden">
+      <div class="tabbar"><button class="backbtn" type="button" data-goto="home" aria-label="Home">←</button><h2 data-i="tasbihTitle">Tasbih</h2></div>
       <div class="panel pad">
         <h2 data-i="tasbihTitle">Tasbih</h2>
         <p class="sub" id="tasbihPhrase">Subhanallah</p>
@@ -157,6 +164,7 @@
       <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
     </section>
     <section id="panel-mosques" class="layout hidden">
+      <div class="tabbar"><button class="backbtn" type="button" data-goto="home" aria-label="Home">←</button><h2 data-i="mosquesTitle">Find</h2></div>
       <div class="panel pad">
         <h2 data-i="mosquesTitle">Nearby mosques</h2>
         <p class="sub" data-i="mosquesSub">Mosques near your selected place, from OpenStreetMap.</p>
@@ -298,7 +306,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=7"></script>
-  <script src="/app.js?v=40"></script>
+  <script src="/app.js?v=41"></script>
   <script src="/daily.js?v=2"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

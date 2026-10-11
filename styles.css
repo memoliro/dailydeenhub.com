@@ -455,3 +455,20 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
   60% { transform: scale(1.15); }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* ===== Tab pages with Home button + Kaaba vertical view (2026-10-11) ===== */
+.tabbar { display: flex; align-items: center; gap: 12px; margin: 6px 0 14px; }
+.tabbar h2 { margin: 0; font-size: 22px; }
+.backbtn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--bg-2); color: var(--ink); font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex: 0 0 40px;
+}
+.kaaba-pano {
+  position: relative; overflow: hidden; border-radius: 16px;
+  height: 320px; background: #000;
+}
+.kaaba-pano img {
+  position: absolute; top: 0; left: 0; height: 100%; width: auto;
+  max-width: none; transition: transform .15s linear;
+}

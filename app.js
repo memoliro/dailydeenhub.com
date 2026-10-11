@@ -42,7 +42,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Name of Allah", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -113,7 +113,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Allah'ın İsmi", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -1205,6 +1205,40 @@ async function loadWeather() {
   } catch { /* leave placeholder */ }
 }
 
+
+// Vertical Kaaba view: when phone is held upright (not flat), show the
+// Kaaba panorama instead of the compass. Pan it so the Kaaba centers
+// when facing the Qibla direction.
+let lastBeta = 0;
+function checkTilt(beta) {
+  lastBeta = beta == null ? lastBeta : beta;
+  const cv = document.getElementById("compassView"), kv = document.getElementById("kaabaView");
+  if (!cv || !kv) return;
+  // beta ~0 = flat, ~90 = upright. Switch at 50°.
+  const vertical = Math.abs(lastBeta) > 50;
+  cv.classList.toggle("hidden", vertical);
+  kv.classList.toggle("hidden", !vertical);
+  if (vertical) panKaaba();
+}
+function panKaaba() {
+  const img = document.getElementById("kaabaImg");
+  if (!img || heading == null) return;
+  const qp = qiblaPlace();
+  const b = qiblaBearing(qp.lat, qp.lon);
+  const diff = ((b - heading + 540) % 360) - 180; // -180..180, 0 = facing qibla
+  // Image is ~3x wider than viewport; Kaaba at center. Shift so Kaaba
+  // centers when diff=0, pans away as you turn.
+  const maxShift = img.offsetWidth - img.parentElement.offsetWidth;
+  const shift = Math.max(0, Math.min(maxShift, maxShift / 2 - (diff / 180) * (maxShift / 2)));
+  img.style.transform = `translateX(${-shift}px)`;
+  const kd = document.getElementById("kaabaDeg");
+  if (kd) kd.textContent = `${Math.abs(diff).toFixed(0)}°`;
+  const kt = document.getElementById("kaabaTurn");
+  if (kt) kt.innerHTML = Math.abs(diff) < 6
+    ? `<span class="turn-found">✓ ${t("facing")}</span>`
+    : `<span class="turn-dir">${diff > 0 ? "→" : "←"}</span> <span class="turn-deg">${Math.abs(diff).toFixed(0)}°</span>`;
+}
+
 const bnavSet = document.getElementById("bnavSet");
 if (bnavSet) bnavSet.onclick = () => document.getElementById("setModal").classList.remove("hidden");
 document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
@@ -1266,7 +1300,8 @@ document.getElementById("compassBtn").onclick = async () => {
       next = ((next + state.declination + 360) % 360);
     }
     const h = smooth(heading, next);
-    if (h !== heading) { heading = h; renderQibla(); } // render only on real change
+    if (h !== heading) { heading = h; renderQibla(); if (typeof panKaaba === "function") panKaaba(); }
+    if (typeof checkTilt === "function" && ev.beta != null) checkTilt(ev.beta);
   };
   // Listen to BOTH: some Android builds only fire one of them.
   window.addEventListener("deviceorientation", ev => onHeading(ev, false), true);
