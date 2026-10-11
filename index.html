@@ -15,18 +15,18 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=23" />
+  <link rel="stylesheet" href="/styles.css?v=24" />
 </head>
 <body>
   <header class="app-hdr">
     <div class="hdr-in">
-      <button class="hdr-place" id="locBtn" type="button" aria-label="Location">
+      <button class="hdr-place" id="locBtn" type="button">
         <b id="locLabel">Montreal</b>
         <span id="hdrMethod">—</span>
       </button>
-      <div class="hdr-time">
-        <span class="hdr-tlabel" data-i="timeRemaining">Time Remaining</span>
-        <b class="hdr-tval" id="hdrCountdown">--:--:--</b>
+      <div class="hdr-wx" id="hdrWx">
+        <span class="wx-t" id="wxTemp">—</span>
+        <span class="wx-c" id="wxCond">—</span>
       </div>
     </div>
   </header>
@@ -294,7 +294,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=7"></script>
-  <script src="/app.js?v=37"></script>
+  <script src="/app.js?v=38"></script>
   <script src="/daily.js?v=1"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

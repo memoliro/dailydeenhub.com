@@ -335,9 +335,9 @@ a { color: var(--green-bright); }
 .hdr-place { background: none; border: 0; color: #fff; text-align: left; padding: 0; cursor: pointer; }
 .hdr-place b { display: block; font-size: 26px; font-weight: 700; letter-spacing: .2px; }
 .hdr-place span { display: block; font-size: 12px; opacity: .75; max-width: 52vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hdr-time { text-align: right; }
-.hdr-tlabel { display: block; font-size: 12px; opacity: .75; }
-.hdr-tval { font-size: 26px; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+.hdr-wx { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+.wx-t { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.wx-c { font-size: 12px; opacity: .75; }
 
 .hero {
   background: #1a1a4e; color: #fff;
@@ -345,7 +345,7 @@ a { color: var(--green-bright); }
 }
 .hero-label { color: #f59e0b; font-size: 15px; font-weight: 600; letter-spacing: .3px; }
 .hero-clock {
-  font-size: clamp(64px, 18vw, 110px); font-weight: 700;
+  font-size: clamp(52px, 15vw, 88px); font-weight: 700;
   font-variant-numeric: tabular-nums; line-height: 1.05; letter-spacing: 2px;
   margin: 6px 0 14px;
 }
