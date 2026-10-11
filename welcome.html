@@ -186,7 +186,9 @@
 
 <script>
 (function(){
-  var lang = localStorage.getItem('ddh-lang') || 'en';
+  function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  var lang = lsGet('ddh-lang') || 'en';
   var T = {
     en: {
       greet: 'Assalamu Alaikum',
@@ -213,7 +215,7 @@
   };
   function apply(l){
     lang = l;
-    localStorage.setItem('ddh-lang', l);
+    lsSet('ddh-lang', l);
     document.documentElement.lang = l;
     document.getElementById('wGreet').textContent = T[l].greet;
     document.getElementById('wTag').textContent = T[l].tag;
@@ -240,7 +242,7 @@
 
   cta.onclick = function(){
     // Save onboarding completion first
-    try { localStorage.setItem('ddh-onboarded', '1'); } catch(e){}
+    lsSet('ddh-onboarded', '1');
     // Show the location consent dialog (short version)
     document.getElementById('wLocConsent').classList.add('open');
   };
