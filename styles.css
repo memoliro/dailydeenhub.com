@@ -533,3 +533,9 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .tile.soon { opacity: .55; }
 .more-legal { text-align: center; margin: 18px 0 2px; font-size: 14px; }
 .more-legal a { color: var(--accent2); }
+/* Quran: searchable surah dropdown */
+.surah-picker { position: relative; }
+.surah-drop { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 40; max-height: 320px; overflow-y: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0,0,0,.35); padding: 6px; }
+.surah-drop.hidden { display: none; }
+.surah-drop button { width: 100%; text-align: left; }
+.surah-drop button.active { outline: 2px solid #c9a227; }

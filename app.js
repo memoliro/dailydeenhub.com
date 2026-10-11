@@ -1043,15 +1043,34 @@ async function loadChapters() {
   renderChapters();
   if (!document.getElementById("verses").childElementCount) openChapter(1);
 }
+let surahDropOpen = false, chapterFilter = "", surahActive = -1;
+function setSurahLabel(id) {
+  const c = chapters.find(x => x.id === id);
+  const inp = document.getElementById("surahSearch");
+  if (c && inp) inp.value = `${c.id}. ${c.name_simple}`;
+}
 function renderChapters() {
-  const q = (document.getElementById("surahSearch").value || "").toLowerCase();
-  document.getElementById("chapterList").innerHTML = chapters.filter(c => `${c.id} ${c.name_simple} ${c.name_arabic} ${c.translated_name?.name || ""}`.toLowerCase().includes(q)).map(c =>
+  const q = chapterFilter.toLowerCase();
+  const list = document.getElementById("chapterList");
+  list.innerHTML = chapters.filter(c => `${c.id} ${c.name_simple} ${c.name_arabic} ${c.translated_name?.name || ""}`.toLowerCase().includes(q)).map(c =>
     `<button type="button" data-id="${c.id}"><b>${c.id}. ${escapeHtml(c.name_simple)}</b><small>${escapeHtml(c.name_arabic)} · ${escapeHtml(c.translated_name?.name || "")} · ${c.verses_count}</small></button>`
-  ).join("");
-  document.querySelectorAll("#chapterList button").forEach(btn => btn.onclick = () => openChapter(+btn.dataset.id));
+  ).join("") || `<p class="hint" style="padding:8px">—</p>`;
+  list.classList.toggle("hidden", !surahDropOpen);
+  surahActive = -1;
+  document.querySelectorAll("#chapterList button").forEach(btn => btn.onclick = () => {
+    surahDropOpen = false; chapterFilter = "";
+    openChapter(+btn.dataset.id);
+    setSurahLabel(+btn.dataset.id);
+    list.classList.add("hidden");
+  });
+}
+function surahDropShow(open) {
+  surahDropOpen = open;
+  document.getElementById("chapterList").classList.toggle("hidden", !open);
 }
 let chapterToken = 0;
 async function openChapter(id, keepAudio = false) {
+  setSurahLabel(id);
   currentChapter = id;
   const token = ++chapterToken;
   const chapter = chapters.find(c => c.id === id);
@@ -1410,7 +1429,24 @@ function setLanguage(lang) {
 const _le2 = document.getElementById("langEn"); if (_le2) _le2.onclick = () => setLanguage("en");
 const _lt2 = document.getElementById("langTr"); if (_lt2) _lt2.onclick = () => setLanguage("tr");
 const _tb2 = document.getElementById("themeBtn"); if (_tb2) _tb2.onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
-document.getElementById("surahSearch").addEventListener("input", renderChapters);
+const surahInp = document.getElementById("surahSearch");
+surahInp.addEventListener("focus", () => { surahInp.select(); chapterFilter = ""; renderChapters(); surahDropShow(true); });
+surahInp.addEventListener("input", () => { chapterFilter = surahInp.value; renderChapters(); surahDropShow(true); });
+surahInp.addEventListener("keydown", e => {
+  const items = [...document.querySelectorAll("#chapterList button")];
+  if (e.key === "Escape") { surahDropShow(false); return; }
+  if (!items.length) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault();
+    surahActive = e.key === "ArrowDown" ? Math.min(surahActive + 1, items.length - 1) : Math.max(surahActive - 1, 0);
+    items.forEach((b, i) => b.classList.toggle("active", i === surahActive));
+    items[surahActive].scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    (items[surahActive] || items[0]).click();
+  }
+});
+document.addEventListener("click", e => { if (!e.target.closest(".surah-picker")) surahDropShow(false); });
 document.getElementById("playBtn").onclick = playChapter;
 document.getElementById("radioBtn").onclick = playRadio;
 document.getElementById("monthMode").onclick = () => { monthView = "month"; renderMonth(); };
