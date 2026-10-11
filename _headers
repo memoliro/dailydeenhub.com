@@ -2,7 +2,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(self), camera=(), microphone=(), payment=()
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tiles.openfreemap.org; font-src 'self'; connect-src 'self' https://api.aladhan.com https://api.quran.com https://geocoding-api.open-meteo.com https://api.open-meteo.com https://overpass-api.de https://overpass.kumi.systems https://dailydeenhub-push.memoliro.workers.dev https://tiles.openfreemap.org; media-src 'self' data: blob: https:; worker-src 'self' blob:; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tiles.openfreemap.org https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://api.aladhan.com https://api.quran.com https://geocoding-api.open-meteo.com https://api.open-meteo.com https://overpass-api.de https://overpass.kumi.systems https://dailydeenhub-push.memoliro.workers.dev https://tiles.openfreemap.org https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com; media-src 'self' data: blob: https:; worker-src 'self' blob:; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'
 
 # Audio filenames are not versioned, so don't mark them immutable.
 /audio/*
