@@ -281,7 +281,17 @@ document.addEventListener("click", e => {
 });
 
 window.DDHLang = () => state.lang;
-function nameOf(key) { return I18N[state.lang].names[key] || key; }
+function nameOf(key) {
+  // On Fridays, Dhuhr is Jumu'ah (Friday prayer)
+  if (key === "Dhuhr" && isFridayToday()) return state.lang === "tr" ? "Cuma" : "Jumu'ah";
+  return I18N[state.lang].names[key] || key;
+}
+function isFridayToday() {
+  try {
+    const entry = calendar && calendar[zoneParts(state.place.tz).d];
+    return entry && entry.date && entry.date.gregorian && entry.date.gregorian.weekday.en === "Friday";
+  } catch { return false; }
+}
 function pad(n) { return String(n).padStart(2, "0"); }
 function cleanTime(v) { return String(v).slice(0, 5); }
 function minutes(hhmm) { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; }
