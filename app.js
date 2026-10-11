@@ -1125,6 +1125,11 @@ function setShow(name){
 }
 document.querySelectorAll("[data-setgo]").forEach(b => b.onclick = () => setShow(b.dataset.setgo));
 document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setShow(null));
+// Auto-collapse: after a selection in a sub-screen, return to the Settings menu
+["methodSel", "schoolSel", "themeSel", "langSel", "langSel2", "soundSel"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("change", () => setShow(null));
+});
 // Reset to main screen whenever the modal opens
 ["setBtn","mSet"].forEach(id => {
   const el = document.getElementById(id);
