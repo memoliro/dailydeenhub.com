@@ -50,9 +50,13 @@ body::before {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  opacity: 0.4;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><path d='M70 8 L78 48 L118 56 L78 64 L70 104 L62 64 L22 56 L62 48 Z' fill='none' stroke='%23d4a574' stroke-opacity='0.14' stroke-width='1'/></svg>");
-  mask-image: linear-gradient(#000, transparent 78%);
+  opacity: 0.5;
+  background: url("/images/welcome-bg.webp") center/cover no-repeat fixed;
+  mask-image: linear-gradient(#000, transparent 85%);
+}
+body[data-theme="day"]::before {
+  background-image: url("/images/welcome-bg-light.webp");
+  opacity: 0.6;
 }
 button, input, select { font-family: inherit; color: inherit; }
 button { cursor: pointer; }
