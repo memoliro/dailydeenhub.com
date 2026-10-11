@@ -523,3 +523,5 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .bead-styles { display: flex; gap: 12px; justify-content: center; margin: 10px 0 4px; }
 .bead-styles button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; }
 .bead-styles button.on { border-color: var(--green-bright); transform: scale(1.15); }
+/* Tasbih: big, easy-to-tap Reset buttons */
+#tasbihReset, #beadReset { padding: 14px 32px; font-size: 17px; font-weight: 700; border-radius: 14px; }
