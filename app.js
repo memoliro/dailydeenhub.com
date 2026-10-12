@@ -21,14 +21,12 @@ const METHODS = [
 const RECITERS = [
   [7, "Mishari Rashid al-Afasy"],
   [3, "Abdur-Rahman as-Sudais"],
-  [6, "Mahmoud Khalil al-Husary"],
   [9, "Mohamed Siddiq al-Minshawi"],
   [2, "AbdulBaset AbdulSamad"]
 ];
 const RECITER_PATHS = {
   7: "mishari_al_afasy/murattal",
   3: "abdurrahmaan_as_sudais/murattal",
-  6: "khalil_al_husary/murattal",
   9: "siddiq_minshawi/murattal",
   2: "abdul_baset/murattal"
 };
@@ -405,7 +403,7 @@ function applyI18n() {
   renderQibla();
   renderChapters();
   const audio = document.getElementById("audio");
-  document.getElementById("playBtn").textContent = audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play");
+  setPlayLabel(audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play"));
   document.querySelectorAll("[data-cardinal]").forEach(el => { el.textContent = (COMPASS[state.lang] || COMPASS.en)[+el.dataset.cardinal]; });
 }
 function fillSelects() {
@@ -440,6 +438,7 @@ function fillSelects() {
   document.getElementById("soundSel").value = state.sound;
   document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
   document.getElementById("reciterSel").innerHTML = RECITERS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
+  if (!RECITER_PATHS[state.reciter]) state.reciter = 7;
   document.getElementById("reciterSel").value = String(state.reciter);
 }
 
@@ -1094,7 +1093,7 @@ async function openChapter(id, keepAudio = false) {
   chapterData = { id, uthmani: uthmani.verses || [], meal: meal.translations || [], pron: null };
   renderVerses();
   verses.scrollTop = previousHeight;
-  if (!keepAudio) document.getElementById("audio").removeAttribute("src");
+  if (!keepAudio) { const a = document.getElementById("audio"); const p = RECITER_PATHS[state.reciter]; if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${id}.mp3`; a.load(); } else a.removeAttribute("src"); }
   if (state.quranView === "pron" || state.quranView === "both") ensurePron().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
 }
 let chapterData = null;
@@ -1147,6 +1146,7 @@ function markVerse(i) {
   const el = document.querySelector(`#verses .verse[data-v="${i}"]`);
   if (el) { el.classList.add("on"); el.scrollIntoView({ block: "center", behavior: "smooth" }); }
 }
+function setPlayLabel(txt) { const b = document.getElementById("playBtn"); if (b) b.textContent = txt; }
 function stopFollow() {
   if (!followState.playing && !followState.urls) return;
   followState.playing = false;
@@ -1156,55 +1156,35 @@ function playVerseAt(i) {
   const audio = document.getElementById("audio");
   const btn = document.getElementById("playBtn");
   const urls = followState.urls || [];
-  if (i >= urls.length) { stopFollow(); btn.textContent = t("play"); return; }
+  if (i >= urls.length) { stopFollow(); setPlayLabel(t("play")); return; }
   if (!urls[i]) { playVerseAt(i + 1); return; }
   followState.idx = i;
   followState.playing = true;
   markVerse(i);
   if (audio.getAttribute("src") !== urls[i]) audio.src = urls[i];
-  btn.textContent = t("pause");
+  setPlayLabel(t("pause"));
   const p = audio.play();
-  if (p) p.catch(() => { followState.playing = false; btn.textContent = t("play"); toast(t("audioFail")); });
+  if (p) p.catch(() => { followState.playing = false; setPlayLabel(t("play")); toast(t("audioFail")); });
 }
 async function toggleFollow() {
   const audio = document.getElementById("audio");
   const btn = document.getElementById("playBtn");
-  if (followState.playing && !audio.paused) { audio.pause(); followState.playing = false; btn.textContent = t("play"); return; }
-  if (followState.playing && audio.paused && audio.getAttribute("src")) { followState.playing = true; btn.textContent = t("pause"); audio.play().catch(() => {}); return; }
+  if (followState.playing && !audio.paused) { audio.pause(); followState.playing = false; setPlayLabel(t("play")); return; }
+  if (followState.playing && audio.paused && audio.getAttribute("src")) { followState.playing = true; setPlayLabel(t("pause")); audio.play().catch(() => {}); return; }
   document.getElementById("radioAudio").pause();
   const rb = document.getElementById("radioBtn"); if (rb) rb.textContent = t("radioPlay");
-  btn.textContent = t("loading");
-  try { await ensureVerseAudio(); } catch { btn.textContent = t("play"); return toast(t("audioFail")); }
+  setPlayLabel(t("loading"));
+  try { await ensureVerseAudio(); } catch { setPlayLabel(t("play")); return toast(t("audioFail")); }
   playVerseAt(followState.idx || 0);
 }
+document.getElementById("audio").addEventListener("play", () => {
+  const radio = document.getElementById("radioAudio"); if (radio) radio.pause();
+  if (state.quranFollow && !followState.playing) { document.getElementById("audio").pause(); toggleFollow(); }
+});
 document.getElementById("audio").addEventListener("ended", () => {
   if (followState.playing) playVerseAt(followState.idx + 1);
 });
 
-function playChapter() {
-  if (state.quranFollow) { toggleFollow(); return; }
-  const audio = document.getElementById("audio");
-  const btn = document.getElementById("playBtn");
-  if (audio.getAttribute("src") && !audio.paused) {
-    audio.pause();
-    btn.textContent = t("play");
-    return;
-  }
-  const path = RECITER_PATHS[state.reciter];
-  if (!path) return toast(t("audioFail"));
-  document.getElementById("radioAudio").pause();
-  document.getElementById("radioBtn").textContent = t("radioPlay");
-  const url = `https://download.quranicaudio.com/qdc/${path}/${currentChapter}.mp3`;
-  startingAudio = true;
-  if (audio.getAttribute("src") !== url) audio.src = url;
-  btn.textContent = t("pause");
-  const pending = audio.play();
-  if (pending) pending.then(() => { startingAudio = false; }).catch(() => {
-    startingAudio = false;
-    btn.textContent = t("play");
-    toast(t("audioFail"));
-  });
-}
 function renderStations() {
   if (!STATIONS.some(s => s[0] === station)) station = STATIONS[0][0];
   document.getElementById("stations").innerHTML =
@@ -1447,15 +1427,14 @@ surahInp.addEventListener("keydown", e => {
   }
 });
 document.addEventListener("click", e => { if (!e.target.closest(".surah-picker")) surahDropShow(false); });
-document.getElementById("playBtn").onclick = playChapter;
 document.getElementById("radioBtn").onclick = playRadio;
 document.getElementById("monthMode").onclick = () => { monthView = "month"; renderMonth(); };
 document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
 document.getElementById("hijriMode").onclick = () => { monthView = "hijri"; renderMonth(); };
 renderStations();
-document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) document.getElementById("playBtn").textContent = t("play"); });
-document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) document.getElementById("playBtn").textContent = t("play"); });
-document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); stopFollow(); followState.urls = null; followState.idx = 0; document.getElementById("audio").removeAttribute("src"); };
+document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) setPlayLabel(t("play")); });
+document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) setPlayLabel(t("play")); });
+document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); stopFollow(); followState.urls = null; followState.idx = 0; const p = RECITER_PATHS[state.reciter]; const a = document.getElementById("audio"); if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${currentChapter}.mp3`; a.load(); } };
 document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async () => {
   state.quranView = b.dataset.qv; save();
   if (state.quranView === "pron" || state.quranView === "both") { await ensurePron(); }
