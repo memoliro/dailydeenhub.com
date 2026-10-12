@@ -555,3 +555,6 @@ body[data-theme="day"] .bnav { background: color-mix(in srgb, var(--bg-2) 82%, t
 body[data-theme="day"] .panel { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
 body[data-theme="day"] .sheet { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
 body[data-theme="day"] .vakt { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
+/* Day theme: pale pattern on daily cards + tracker too */
+body[data-theme="day"] .dcard { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
+body[data-theme="day"] .tracker { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
