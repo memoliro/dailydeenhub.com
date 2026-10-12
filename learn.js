@@ -50,9 +50,6 @@ function refreshLearnView() {
     const id = learnCurrent; learnCurrent = null; openLearnArticle(id);
   }
 }
-document.getElementById("learnBack").onclick = learnBackToList;
-renderLearnList();
-
 const LEARN = {
 en: [
 { id: "wudu", icon: "🧼", title: "How to Perform Wudu", desc: "Ritual ablution before prayer, step by step",
@@ -262,3 +259,6 @@ body: [
 ] }
 ]
 };
+
+document.getElementById("learnBack").onclick = learnBackToList;
+renderLearnList();
