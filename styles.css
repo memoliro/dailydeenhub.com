@@ -542,3 +542,12 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .surah-drop.hidden { display: none; }
 .surah-drop button { width: 100%; text-align: left; }
 .surah-drop button.active { outline: 2px solid #c9a227; }
+/* Day theme: pattern more present — stronger behind the page, and cards
+   go slightly translucent so it shows through them too */
+body[data-theme="day"]::before { opacity: 0.6; }
+body[data-theme="day"] .panel { background: color-mix(in srgb, var(--panel) 80%, transparent); }
+body[data-theme="day"] .sheet { background: color-mix(in srgb, var(--bg-2) 88%, transparent); }
+/* Day theme: gradual transparency everywhere — nav and sheet surfaces too,
+   pattern fades smoothly down the whole page */
+body[data-theme="day"]::before { mask-image: linear-gradient(#000 25%, transparent 92%); }
+body[data-theme="day"] .bnav { background: color-mix(in srgb, var(--bg-2) 82%, transparent); backdrop-filter: blur(3px); }
