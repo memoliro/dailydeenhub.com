@@ -56,7 +56,9 @@ const I18N = {
     mosquesTab: "Find", mosquesTitle: "Find nearby", mosquesSub: "Mosques and halal restaurants near you, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
     mosquesRetrying: "Retrying…",
-    halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.", marketFind: "Find halal markets near me", marketNone: "No halal markets found within 10 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites",
+    halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.", marketFind: "Find halal markets near me", marketNone: "No halal markets found within 10 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites", addMosque: "Add mosque", addPrayer: "Add prayer room",
+    mqMosqueTmpl: "🕌 New mosque suggestion\nPlace name: \nAddress: \nNotes (prayer times, Jumu'ah, parking…):",
+    mqPrayerTmpl: "🛐 New prayer room suggestion\nPlace name (e.g. the mall, airport terminal, university building): \nLocation description — for people unfamiliar with this place (which floor, near what, how to find it): \nNotes (open hours, wudu facilities…):",
     footTag: "Free prayer times, qibla, Quran and more. No account, no ads.",
     footFeatures: "Features", footResources: "Resources", footFreeTools: "Free tools", footSupport: "Support",
     paidNote: "(paid · no account needed)",
@@ -127,7 +129,9 @@ const I18N = {
     mosquesTab: "Bul", mosquesTitle: "Yakında bul", mosquesSub: "Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
     mosquesRetrying: "Tekrar deneniyor…",
-    halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal marketleri bul", marketNone: "10 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler",
+    halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal marketleri bul", marketNone: "10 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler", addMosque: "Cami ekle", addPrayer: "Namaz odası ekle",
+    mqMosqueTmpl: "🕌 Yeni cami önerisi\nYer adı: \nAdres: \nNotlar (namaz vakitleri, Cuma, otopark…):",
+    mqPrayerTmpl: "🛐 Yeni namaz odası önerisi\nYer adı (örn. AVM, havaalanı terminali, üniversite binası): \nKonum tarifi — burayı bilmeyenler için (kaçıncı kat, neyin yanında, nasıl bulunur?): \nNotlar (açık saatler, abdest imkânı…):",
     footTag: "Ücretsiz namaz vakitleri, kıble, Kur'an ve daha fazlası. Hesap yok, reklam yok.",
     footFeatures: "Özellikler", footResources: "Kaynaklar", footFreeTools: "Ücretsiz araçlar", footSupport: "Destek",
     paidNote: "(ücretli · hesap gerekmez)",
@@ -1543,6 +1547,15 @@ document.getElementById("mosqueFind").onclick = () => findMosques();
 document.getElementById("halalFind").onclick = () => findHalal();
 document.getElementById("marketFind").onclick = () => findMarkets();
 document.getElementById("mqSuggest").onclick = e => { e.preventDefault(); showTab("feedback"); const ts = document.getElementById("fbTypeSel"); if (ts) ts.value = "Suggestion"; };
+function suggestPlace(kind) {
+  showTab("feedback");
+  const ts = document.getElementById("fbTypeSel"); if (ts) ts.value = "Suggestion";
+  const ta = document.getElementById("fbMsgTxt");
+  // prefill the guided template only if the user has not already written something
+  if (ta && !ta.value.trim()) { ta.value = t(kind === "mosque" ? "mqMosqueTmpl" : "mqPrayerTmpl"); ta.focus(); }
+}
+document.getElementById("mqAddMosque").onclick = () => suggestPlace("mosque");
+document.getElementById("mqAddPrayer").onclick = () => suggestPlace("prayer");
 
 // Weather via Open-Meteo (free, no key) for header
 const WX_CODE = {0:"Clear",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Rain",63:"Rain",65:"Rain",71:"Snow",73:"Snow",75:"Snow",77:"Snow",80:"Showers",81:"Showers",82:"Showers",95:"Thunderstorm",96:"Storm",99:"Storm"};
