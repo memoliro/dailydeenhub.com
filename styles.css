@@ -565,3 +565,5 @@ body::before, body[data-theme="day"]::before {
   mask-image: none;
   -webkit-mask-image: none;
 }
+/* Day theme: soft cream halo so header text stays readable over the artwork */
+body[data-theme="day"] .hdr-place, body[data-theme="day"] .hdr-wx { text-shadow: 0 0 6px rgba(253,250,240,.95), 0 0 14px rgba(253,250,240,.85), 0 1px 2px rgba(253,250,240,.9); }
