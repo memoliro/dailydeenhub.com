@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=58" />
+  <link rel="stylesheet" href="/styles.css?v=59" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -197,6 +197,23 @@
         <div id="mosqueList" class="mosque-list"></div>
       </div>
     </section>
+
+    <section id="panel-live" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="liveTitle">{title}</h2>
+        <p class="sub" data-i="liveSub">{sub}</p>
+        <div class="live-card">
+          <h3>🕋 <span data-i="liveHaram">{haram}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <div class="live-frame"><iframe id="liveHaramFrame" data-src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCos52azQNBgW63_9uDJoPDA" title="Masjid al-Haram live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+        </div>
+        <div class="live-card">
+          <h3>🕌 <span data-i="liveNabawi">{nabawi}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <div class="live-frame"><iframe id="liveNabawiFrame" data-src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw" title="Masjid an-Nabawi live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+        </div>
+      </div>
+    </section>
     <section id="panel-settings" class="layout hidden">
       <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
       <div id="setMain">
@@ -277,6 +294,7 @@
           <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Qibla</span></button>
           <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Mosques</span></button>
           <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tasbih</span></button>
+          <button class="tile" data-goto="live" type="button"><span class="tic">📺</span><span class="tlabel" data-i="watchLive">Watch Live</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Quran radio</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Qadha prayers</span></button>
@@ -354,7 +372,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=62"></script>
+  <script src="/app.js?v=63"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

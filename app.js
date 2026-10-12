@@ -73,7 +73,7 @@ const I18N = {
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
-    pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System",
+    pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
     pushOff: "Alerts off.",
     pushError: "Couldn't set up alerts. Try again.",
@@ -144,7 +144,7 @@ const I18N = {
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
-    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem",
+    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
     pushOff: "Uyarılar kapalı.",
     pushError: "Uyarılar kurulamadı. Tekrar deneyin.",
@@ -1019,13 +1019,14 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && id === "month")));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live"))));
   if (id === "quran" && !chapters.length) loadChapters();
+  if (id === "live") loadLiveFrames();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {
     window.scrollTo(0, 0);
@@ -1035,6 +1036,14 @@ function showTab(id) {
   requestAnimationFrame(toTop);
 }
 
+/* Watch Live: set the YouTube live-stream iframes' src only when the page is
+   first opened, so the app never loads YouTube on visits that don't watch. */
+function loadLiveFrames() {
+  ["liveHaramFrame", "liveNabawiFrame"].forEach(fid => {
+    const f = document.getElementById(fid);
+    if (f && !f.src && f.dataset.src) f.src = f.dataset.src;
+  });
+}
 async function loadChapters() {
   try {
     const res = await fetch(`https://api.quran.com/api/v4/chapters?language=${state.lang === "tr" ? "tr" : "en"}`);
