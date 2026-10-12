@@ -638,3 +638,8 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .learn-article .dua { border-left: 3px solid var(--gold, #d4a017); padding: 2px 0 2px 13px; margin: 12px 0; }
 .learn-fig { margin: 10px 0; }
 .learn-fig img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.learn-support { margin-top: 20px; padding: 18px 16px 14px; border-radius: 16px; border: 1px solid var(--line); text-align: center; background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.learn-support p { margin: 0 0 10px; font-size: 14px; opacity: .8; line-height: 1.6; }
+.learn-support a { color: var(--gold); font-weight: 600; }
+.foot-quiet { margin: 8px 0 0; font-size: 13px; opacity: .75; }
+.foot-quiet a { color: inherit; }
