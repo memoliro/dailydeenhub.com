@@ -558,3 +558,10 @@ body[data-theme="day"] .vakt { background-image: url("/images/bg-pattern-green-l
 /* Day theme: pale pattern on daily cards + tracker too */
 body[data-theme="day"] .dcard { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
 body[data-theme="day"] .tracker { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
+/* Floral artwork background everywhere — as-is, full strength, no fade (both themes) */
+body::before, body[data-theme="day"]::before {
+  background: url("/images/floral-bg.webp") center/cover no-repeat fixed;
+  opacity: 1;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
