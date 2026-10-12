@@ -643,3 +643,6 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .learn-support a { color: var(--gold); font-weight: 600; }
 .foot-quiet { margin: 8px 0 0; font-size: 13px; opacity: .75; }
 .foot-quiet a { color: inherit; }
+.grid-daybar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 4px 10px; }
+.grid-daylabel { background: none; border: none; color: var(--ink); font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; padding: 6px 12px; border-radius: 999px; }
+.grid-daylabel:active { opacity: .6; }

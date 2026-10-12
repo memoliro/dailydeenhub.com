@@ -73,7 +73,7 @@ const I18N = {
     searchPh: "Search a city", surahPh: "Find a surah",
     menuHome: "Home", menuQibla: "Qibla", menuResources: "Resources", menuArticles: "Articles",
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
-    menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
+    menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
@@ -146,7 +146,7 @@ const I18N = {
     searchPh: "Şehir ara", surahPh: "Sure ara",
     menuHome: "Ana Sayfa", menuQibla: "Kıble", menuResources: "Kaynaklar", menuArticles: "Makaleler",
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
-    menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında", learnTile: "Öğren", learnTitle: "Öğrenme Merkezi", learnSub: "Adım adım rehberler, günlük dualar ve dinin esasları.", learnBack: "Geri", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
+    menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında", learnTile: "Öğren", learnTitle: "Öğrenme Merkezi", learnSub: "Adım adım rehberler, günlük dualar ve dinin esasları.", learnBack: "Geri", dayYesterday: "Dün", dayTomorrow: "Yarın", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
@@ -479,6 +479,7 @@ async function fetchCalendar(offsetMonth = 0) {
 let refreshToken = 0;
 async function refresh() {
   const token = ++refreshToken;
+  dayOffset = 0;
   document.getElementById("nextName").textContent = t("loading");
   try {
     let cal = await fetchCalendar(0);
@@ -498,6 +499,34 @@ function todayEntry() {
   const now = zoneParts(state.place.tz || "UTC");
   const key = `${pad(now.d)}-${pad(now.m)}-${now.y}`;
   return calendar.find(d => d.date.gregorian.date === key) || calendar[0];
+}
+let dayOffset = 0, gridDate = null; // prayer-grid day navigation (swipe); hero always stays on today
+function gridEntry() {
+  const now = zoneParts(state.place.tz || "UTC");
+  const base = new Date(Date.UTC(now.y, now.m - 1, now.d) + dayOffset * 864e5);
+  const y = base.getUTCFullYear(), m = base.getUTCMonth() + 1, d = base.getUTCDate();
+  gridDate = new Date(y, m - 1, d);
+  const key = `${pad(d)}-${pad(m)}-${y}`;
+  let entry = (calendar || []).find(e => e.date.gregorian.date === key);
+  if (!entry && typeof PrayerCalc !== "undefined") {
+    // outside the cached month: compute this exact day offline
+    const tzOff = PrayerCalc.tzOffsetHours(state.place.tz, y, m, d);
+    entry = { date: { gregorian: { date: key } }, timings: PrayerCalc.dayTimes(y, m, d, state.place.lat, state.place.lon, tzOff, state.method, state.school) };
+  }
+  return { entry, y, m, d };
+}
+const EN_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const EN_WDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function renderDayBar(y, m, d) {
+  const bar = document.getElementById("gridDayBar");
+  if (!bar) return;
+  bar.classList.toggle("hidden", dayOffset === 0);
+  if (dayOffset === 0) return;
+  let txt;
+  if (dayOffset === -1) txt = t("dayYesterday");
+  else if (dayOffset === 1) txt = t("dayTomorrow");
+  else txt = `${localWeekday(EN_WDAYS[gridDate.getDay()])} ${d} ${localMonth(EN_MONTHS[m - 1])} ${y}`;
+  document.getElementById("gridDayLabel").textContent = txt;
 }
 function renderTimes() {
   const entry = todayEntry();
@@ -529,23 +558,26 @@ function renderTimes() {
   const sun = minutes(entry.timings.Sunrise), dhuhr = minutes(entry.timings.Dhuhr), maghrib = minutes(entry.timings.Maghrib);
   const kerahat = (nowMin >= sun && nowMin < sun + 18) || (nowMin >= dhuhr - 8 && nowMin < dhuhr) || (nowMin >= maghrib - 18 && nowMin < maghrib);
   document.getElementById("kerahat").textContent = kerahat ? t("kerahat") : "";
+  const ge = gridEntry(), gEntry = ge.entry;
+  renderDayBar(ge.y, ge.m, ge.d);
+  const gDone = (getTracker())[todayKey(gridDate)] || [];
+  const isToday = dayOffset === 0;
   document.getElementById("vaktGrid").innerHTML = PRAYERS.map(k => {
-    const tm = entry.timings[k];
-    const passed = minutes(tm) <= nowMin;
-    const trk = getTracker(), done = trk[todayKey()] || [];
-    const trackable = TRACKABLE.includes(k), isDone = done.includes(k);
+    const tm = gEntry.timings[k];
+    const passed = !isToday ? dayOffset < 0 : minutes(tm) <= nowMin;
+    const trackable = TRACKABLE.includes(k), isDone = gDone.includes(k);
     let check = "";
     if (trackable) {
       if (isDone) check = `<button type="button" class="vakt-check on" data-trk="${k}" aria-label="${nameOf(k)} ${t("done")}">✓</button>`;
-      else if (passed) check = `<button type="button" class="vakt-check" data-trk="${k}" aria-label="${t("markDone")} ${nameOf(k)}"></button>`;
+      else if (dayOffset <= 0 && (dayOffset < 0 || passed)) check = `<button type="button" class="vakt-check" data-trk="${k}" aria-label="${t("markDone")} ${nameOf(k)}"></button>`;
       else check = `<span class="vakt-check off" aria-hidden="true"></span>`;
     }
-    return `<article class="vakt ${k === nextKey ? "on" : ""}">${check}<div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${passed ? t("passed") : ""}</div></article>`;
+    return `<article class="vakt ${isToday && k === nextKey ? "on" : ""}">${check}<div class="nm">${nameOf(k)}</div><div class="tm">${tm}</div><div class="st">${passed ? t("passed") : ""}</div></article>`;
   }).join("");
   try { renderRamadanHub(entry); } catch (e) { /* never let the hub stop adhan/alerts below */ }
   // Adhan at prayer time: play the full adhan once, within a minute after the prayer
   // time begins (tolerates background-tab timer throttling).
-  if (state.adhanAtTime && prev) {
+  if (dayOffset === 0 && state.adhanAtTime && prev) {
     const adhanKey = `${g.date}-${prev.key}`;
     const sinceSecs = (nowMin - prev.min) * 60;
     if (sinceSecs >= 0 && sinceSecs < 60 && adhanPlayedKey !== adhanKey) {
@@ -553,7 +585,7 @@ function renderTimes() {
       try { const a = new Audio("/audio/adhan-prayer-call.mp3"); a.play().catch(() => {}); } catch {}
     }
   }
-  if (state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted") {
+  if (dayOffset === 0 && state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
@@ -894,7 +926,7 @@ function saveTracker(tr) {
   try { localStorage.setItem("ddh-tracker", JSON.stringify(tr)); } catch {}
 }
 function togglePrayer(key) {
-  const tr = getTracker(), tk = todayKey();
+  const tr = getTracker(), tk = todayKey(gridDate || new Date());
   tr[tk] = tr[tk] || [];
   const i = tr[tk].indexOf(key);
   if (i >= 0) tr[tk].splice(i, 1); else tr[tk].push(key);
@@ -1504,8 +1536,9 @@ document.getElementById("gpsBtn").onclick = () => {
     const lat = pos.coords.latitude, lon = pos.coords.longitude;
     let name = state.lang === "tr" ? "Konumum" : "My location", tz = state.place.tz;
     try {
-      const j = await (await fetch(`https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=${state.lang}`)).json();
-      if (j.name) { name = j.name; tz = j.timezone || tz; }
+      const j = await (await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+      const label = j.city || j.locality || j.principalSubdivision;
+      if (label) name = label;
     } catch {}
     choosePlace({ name, latitude: lat, longitude: lon, timezone: tz });
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
@@ -1727,6 +1760,26 @@ maybeShowApkNotice();
 // Fetch magnetic declination for the saved location (cached in localStorage).
 if (state.place && typeof state.place.lat === 'number') updateDeclination(state.place.lat, state.place.lon);
 // prayer-card checkboxes use delegation (cards re-render every second)
+const _gdp = document.getElementById("gridDayPrev");
+if (_gdp) _gdp.onclick = () => { dayOffset = Math.max(-60, dayOffset - 1); renderTimes(); };
+const _gdn = document.getElementById("gridDayNext");
+if (_gdn) _gdn.onclick = () => { dayOffset = Math.min(60, dayOffset + 1); renderTimes(); };
+const _gdl = document.getElementById("gridDayLabel");
+if (_gdl) _gdl.onclick = () => { dayOffset = 0; renderTimes(); };
+// Swipe the prayer grid: right -> next day, left -> previous day
+(function () {
+  const el = document.getElementById("vaktGrid");
+  if (!el) return;
+  let sx = 0, sy = 0;
+  el.addEventListener("touchstart", e => { const tc = e.touches[0]; sx = tc.clientX; sy = tc.clientY; }, { passive: true });
+  el.addEventListener("touchend", e => {
+    const tc = e.changedTouches[0], dx = tc.clientX - sx, dy = tc.clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      dayOffset = Math.max(-60, Math.min(60, dayOffset + (dx > 0 ? 1 : -1)));
+      renderTimes();
+    }
+  }, { passive: true });
+})();
 const vg = document.getElementById("vaktGrid");
 if (vg) vg.addEventListener("click", e => {
   const b = e.target.closest("[data-trk]");
