@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=59" />
+  <link rel="stylesheet" href="/styles.css?v=60" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -214,6 +214,31 @@
         </div>
       </div>
     </section>
+
+    <section id="panel-feedback" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="fbTitle">Geri bildirim ve istekler</h2>
+        <p class="sub" data-i="fbSub">Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.</p>
+        <form id="fbForm" novalidate>
+          <label class="field"><span data-i="fbType">Tür</span>
+            <select id="fbTypeSel" class="field">
+              <option value="Feedback" data-i="fbOptFeedback">Geri bildirim</option>
+              <option value="Problem" data-i="fbOptProblem">Sorun bildir</option>
+              <option value="Request" data-i="fbOptRequest">Özellik isteği</option>
+              <option value="Suggestion" data-i="fbOptSuggestion">Öneri</option>
+            </select></label>
+          <label class="field"><span data-i="fbMsg">Mesajınız</span>
+            <textarea id="fbMsgTxt" class="field" rows="5" maxlength="2000" data-i-ph="fbMsgPh" placeholder="Mesajınızı yazın…"></textarea></label>
+          <label class="field"><span data-i="fbName">İsim (isteğe bağlı)</span>
+            <input id="fbNameInp" class="field" type="text" maxlength="80" autocomplete="name" /></label>
+          <label class="field"><span data-i="fbEmail">E-posta (isteğe bağlı — yalnızca yanıt isterseniz)</span>
+            <input id="fbEmailInp" class="field" type="email" maxlength="120" autocomplete="email" /></label>
+          <input type="text" id="fbHoney" style="display:none" tabindex="-1" autocomplete="off" />
+          <div class="row"><button class="primary" id="fbSend" type="submit" data-i="fbSend">Gönder</button></div>
+          <p class="note" id="fbStatus" style="margin-top:10px"></p>
+        </form>
+      </div>
+    </section>
     <section id="panel-settings" class="layout hidden">
       <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
       <div id="setMain">
@@ -295,6 +320,7 @@
           <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Camiler</span></button>
           <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tesbih</span></button>
           <button class="tile" data-goto="live" type="button"><span class="tic">📺</span><span class="tlabel" data-i="watchLive">Canlı İzle</span></button>
+          <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Geri Bildirim</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
@@ -372,7 +398,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=64"></script>
+  <script src="/app.js?v=65"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

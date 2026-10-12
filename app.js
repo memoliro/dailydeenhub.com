@@ -73,7 +73,7 @@ const I18N = {
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
-    pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
+    pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
     pushOff: "Alerts off.",
     pushError: "Couldn't set up alerts. Try again.",
@@ -144,7 +144,7 @@ const I18N = {
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
-    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
+    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
     pushOff: "Uyarılar kapalı.",
     pushError: "Uyarılar kurulamadı. Tekrar deneyin.",
@@ -1019,12 +1019,12 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback"))));
   if (id === "quran" && !chapters.length) loadChapters();
   if (id === "live") loadLiveFrames();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
@@ -1052,6 +1052,43 @@ function loadLiveFrames() {
     if (f && !f.src && LIVE_STREAMS[key]) f.src = LIVE_STREAMS[key];
   });
 }
+/* Feedback form: posts straight to the developer's inbox via FormSubmit
+   (no account, no server of ours — the app keeps its no-data promise). */
+(function () {
+  var form = document.getElementById("fbForm");
+  if (!form) return;
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var status = document.getElementById("fbStatus");
+    if (document.getElementById("fbHoney").value) return; // spam trap filled
+    var msg = document.getElementById("fbMsgTxt").value.trim();
+    if (!msg) { status.textContent = t("fbEmpty"); return; }
+    var btn = document.getElementById("fbSend");
+    btn.disabled = true;
+    status.textContent = t("fbSending");
+    try {
+      var res = await fetch("https://formsubmit.co/ajax/memoliro@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "DailyDeenHub — " + document.getElementById("fbTypeSel").value,
+          type: document.getElementById("fbTypeSel").value,
+          message: msg,
+          name: document.getElementById("fbNameInp").value.trim(),
+          email: document.getElementById("fbEmailInp").value.trim(),
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+      if (!res.ok) throw new Error("fb " + res.status);
+      status.textContent = t("fbThanks");
+      form.reset();
+    } catch (err) {
+      status.textContent = t("fbError");
+    }
+    btn.disabled = false;
+  });
+})();
 async function loadChapters() {
   try {
     const res = await fetch(`https://api.quran.com/api/v4/chapters?language=${state.lang === "tr" ? "tr" : "en"}`);
