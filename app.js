@@ -73,7 +73,7 @@ const I18N = {
     searchPh: "Search a city", surahPh: "Find a surah",
     menuHome: "Home", menuQibla: "Qibla", menuResources: "Resources", menuArticles: "Articles",
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
-    menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
+    menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", wxToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
@@ -146,7 +146,7 @@ const I18N = {
     searchPh: "Şehir ara", surahPh: "Sure ara",
     menuHome: "Ana Sayfa", menuQibla: "Kıble", menuResources: "Kaynaklar", menuArticles: "Makaleler",
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
-    menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında", learnTile: "Öğren", learnTitle: "Öğrenme Merkezi", learnSub: "Adım adım rehberler, günlük dualar ve dinin esasları.", learnBack: "Geri", dayYesterday: "Dün", dayTomorrow: "Yarın", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
+    menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında", learnTile: "Öğren", learnTitle: "Öğrenme Merkezi", learnSub: "Adım adım rehberler, günlük dualar ve dinin esasları.", learnBack: "Geri", dayYesterday: "Dün", dayTomorrow: "Yarın", wxToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
@@ -1620,23 +1620,26 @@ const WX_CODE_TR = {0:"Açık",1:"Çoğunlukla açık",2:"Parçalı bulutlu",3:"
 const WX_ICON = {0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"🌨️",80:"🌧️",81:"🌧️",82:"🌧️",95:"⛈️",96:"⛈️",99:"⛈️"};
 let wxCache = { t: 0, html: "", lang: "" };
 async function loadWeather() {
-  const el = document.getElementById("hdrWx");
+  const el = document.getElementById("wxStrip");
   if (!el || !state.place) return;
   // cache 30 min, per language
   if (Date.now() - wxCache.t < 18e5 && wxCache.html && wxCache.lang === state.lang) { el.innerHTML = wxCache.html; return; }
   try {
     const { lat, lon } = state.place;
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto&forecast_days=1`);
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4`);
     if (!r.ok) throw 0;
     const j = await r.json();
-    const temp = Math.round(j.current.temperature_2m);
-    const code = j.current.weather_code;
     const tr = state.lang === "tr";
-    const cond = (tr ? WX_CODE_TR : WX_CODE)[code] || "";
-    const icon = WX_ICON[code] || "";
-    wxCache = { t: Date.now(), html: `<span class="wx-t">${icon} ${temp}°</span><span class="wx-c">${cond}</span>`, lang: state.lang };
-    el.innerHTML = wxCache.html;
-  } catch { /* leave placeholder */ }
+    const html = j.daily.time.map((ds, i) => {
+      const p = ds.split("-"), dow = new Date(+p[0], +p[1] - 1, +p[2]).getDay();
+      const code = j.daily.weather_code[i], icon = WX_ICON[code] || "";
+      const hi = Math.round(j.daily.temperature_2m_max[i]), lo = Math.round(j.daily.temperature_2m_min[i]);
+      const day = i === 0 ? t("wxToday") : localWeekday(EN_WDAYS[dow], true);
+      return `<div class="wx-day${i === 0 ? " today" : ""}"><div class="wx-d">${day}</div><div class="wx-i">${icon}</div><div class="wx-hl">${hi}° <span>/ ${lo}°</span></div></div>`;
+    }).join("");
+    wxCache = { t: Date.now(), html, lang: state.lang };
+    el.innerHTML = html;
+  } catch { /* strip stays hidden */ }
 }
 
 

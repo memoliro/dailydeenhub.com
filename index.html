@@ -15,22 +15,18 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=67" />
+  <link rel="stylesheet" href="/styles.css?v=68" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
 </head>
 <body>
   <header class="app-hdr">
-    <div class="hdr-in">
+    <div class="hdr-in hdr-centered">
       <button class="hdr-place" id="locBtn" type="button">
         <b id="locLabel">Montreal</b>
         <span id="hdrMethod">—</span>
       </button>
-      <div class="hdr-wx" id="hdrWx">
-        <span class="wx-t" id="wxTemp">—</span>
-        <span class="wx-c" id="wxCond">—</span>
-      </div>
     </div>
   </header>
   <section class="hero" id="homeHero">
@@ -41,6 +37,7 @@
     <div class="hero-k" id="kerahat"></div>
     <div class="note" id="sourceLine" style="display:none"></div>
   </section>
+  <div class="wx-strip" id="wxStrip" aria-label="Weather forecast"></div>
   <main class="sheet">
   <div id="panel-home">
     <div id="gridDayBar" class="grid-daybar hidden">
@@ -419,7 +416,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=75"></script>
+  <script src="/app.js?v=76"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/daily.js?v=3"></script>
 
