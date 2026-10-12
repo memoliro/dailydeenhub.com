@@ -573,3 +573,5 @@ body:not([data-theme="day"]) .tracker { background-image: url("/images/bg-patter
 /* Dark theme: soft dark halo so hero text (countdown) reads over the bright artwork */
 body:not([data-theme="day"]) .hero-clock, body:not([data-theme="day"]) .hero-label,
 body:not([data-theme="day"]) .hero-k { text-shadow: 0 2px 16px rgba(0,0,0,.6), 0 0 4px rgba(0,0,0,.65); }
+/* Background layer must sit BEHIND all content (hero text was painted under it) */
+body::before { z-index: -1; }
