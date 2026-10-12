@@ -8,6 +8,7 @@ function learnBlock(b) {
   if (b[0] === "p") return "<p>" + escapeHtml(b[1]) + "</p>";
   if (b[0] === "ar") return "<p class=\"ar\" dir=\"rtl\" lang=\"ar\">" + escapeHtml(b[1]) + "</p>";
   if (b[0] === "tn") return "<p class=\"tn\">" + escapeHtml(b[1]) + "</p>";
+  if (b[0] === "img") return "<figure class=\"learn-fig\"><img src=\"/" + b[1] + "\" alt=\"" + escapeHtml(b[2] || "") + "\" loading=\"lazy\"></figure>";
   if (b[0] === "dua") return "<div class=\"dua\"><p class=\"ar\" dir=\"rtl\" lang=\"ar\">" + escapeHtml(b[1].ar) + "</p>" +
     (b[1].tn ? "<p class=\"tn\">" + escapeHtml(b[1].tn) + "</p>" : "") +
     "<p class=\"dm\">" + escapeHtml(b[1].mean) + "</p></div>";
@@ -27,13 +28,39 @@ function renderLearnList() {
     b.onclick = function () { openLearnArticle(b.dataset.article); };
   });
 }
+const LEARN_WUDU_IMGS = ["img/learn/wudu-1-hands.webp","img/learn/wudu-2-mouth.webp","img/learn/wudu-3-nose.webp","img/learn/wudu-4-face.webp","img/learn/wudu-5-arms.webp","img/learn/wudu-6-head.webp","img/learn/wudu-7-feet.webp"];
+const LEARN_PRAYER_IMGS = ["img/learn/prayer-1-qiyam.webp","img/learn/prayer-2-ruku.webp","img/learn/prayer-3-sujud.webp","img/learn/prayer-4-sitting.webp","img/learn/prayer-5-salam.webp"];
+function learnBodyWithImages(a) {
+  const out = [];
+  if (a.id === "wudu") {
+    let n = 0;
+    a.body.forEach(function (b) {
+      out.push(b);
+      if (b[0] === "p" && /^\d+\. /.test(b[1]) && n < LEARN_WUDU_IMGS.length) {
+        out.push(["img", LEARN_WUDU_IMGS[n], b[1]]); n++;
+      }
+    });
+    return out;
+  }
+  if (a.id === "prayer") {
+    // headings: 0 Before, 1 Opening takbir, 2 Recitation, 3 Bowing, 4 Prostration, 5 Tashahhud, 6 Ending
+    const afterH = { 1: 0, 3: 1, 4: 2, 5: 3, 6: 4 };
+    let h = -1;
+    a.body.forEach(function (b) {
+      out.push(b);
+      if (b[0] === "h") { h++; if (h in afterH) out.push(["img", LEARN_PRAYER_IMGS[afterH[h]], b[1]]); }
+    });
+    return out;
+  }
+  return a.body;
+}
 function openLearnArticle(id) {
   const a = learnArticles().find(function (x) { return x.id === id; });
   if (!a) return;
   learnCurrent = id;
   document.getElementById("learnArticle").innerHTML =
     "<h3>" + a.icon + " " + escapeHtml(a.title) + "</h3>" +
-    a.body.map(learnBlock).join("");
+    learnBodyWithImages(a).map(learnBlock).join("");
   document.getElementById("learnListView").classList.add("hidden");
   document.getElementById("learnArticleView").classList.remove("hidden");
   window.scrollTo(0, 0);

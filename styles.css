@@ -636,3 +636,5 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .learn-article .tn { font-style: italic; opacity: .85; }
 .learn-article .dm { opacity: .72; font-size: 14px; }
 .learn-article .dua { border-left: 3px solid var(--gold, #d4a017); padding: 2px 0 2px 13px; margin: 12px 0; }
+.learn-fig { margin: 10px 0; }
+.learn-fig img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
