@@ -55,8 +55,11 @@ body::before {
   mask-image: linear-gradient(#000, transparent 85%);
 }
 body[data-theme="day"]::before {
-  background-image: url("/images/welcome-bg-light.webp");
-  opacity: 0.6;
+  background-image: url("/images/bg-pattern-green.webp");
+  background-repeat: repeat;
+  background-size: auto;
+  background-position: top left;
+  opacity: 0.3;
 }
 button, input, select { font-family: inherit; color: inherit; }
 button { cursor: pointer; }
