@@ -420,6 +420,7 @@ function applyI18n() {
   document.querySelectorAll("[data-cardinal]").forEach(el => { el.textContent = (COMPASS[state.lang] || COMPASS.en)[+el.dataset.cardinal]; });
 }
 function fillSelects() {
+  if (!METHODS.some(([id]) => id === state.method)) state.method = 2;
   document.getElementById("methodSel").innerHTML = METHODS.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
   document.getElementById("methodSel").value = String(state.method);
   document.getElementById("schoolSel").innerHTML = state.lang === "tr"
@@ -1584,12 +1585,12 @@ document.getElementById("mqAddPrayer").onclick = () => suggestPlace("prayer");
 const WX_CODE = {0:"Clear",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Rain",63:"Rain",65:"Rain",71:"Snow",73:"Snow",75:"Snow",77:"Snow",80:"Showers",81:"Showers",82:"Showers",95:"Thunderstorm",96:"Storm",99:"Storm"};
 const WX_CODE_TR = {0:"Açık",1:"Çoğunlukla açık",2:"Parçalı bulutlu",3:"Kapalı",45:"Sis",48:"Sis",51:"Çisenti",53:"Çisenti",55:"Çisenti",61:"Yağmur",63:"Yağmur",65:"Yağmur",71:"Kar",73:"Kar",75:"Kar",77:"Kar",80:"Sağanak",81:"Sağanak",82:"Sağanak",95:"Gök gürültüsü",96:"Fırtına",99:"Fırtına"};
 const WX_ICON = {0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"🌨️",80:"🌧️",81:"🌧️",82:"🌧️",95:"⛈️",96:"⛈️",99:"⛈️"};
-let wxCache = { t: 0, html: "" };
+let wxCache = { t: 0, html: "", lang: "" };
 async function loadWeather() {
   const el = document.getElementById("hdrWx");
   if (!el || !state.place) return;
-  // cache 30 min
-  if (Date.now() - wxCache.t < 18e5 && wxCache.html) { el.innerHTML = wxCache.html; return; }
+  // cache 30 min, per language
+  if (Date.now() - wxCache.t < 18e5 && wxCache.html && wxCache.lang === state.lang) { el.innerHTML = wxCache.html; return; }
   try {
     const { lat, lon } = state.place;
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto&forecast_days=1`);
@@ -1600,7 +1601,7 @@ async function loadWeather() {
     const tr = state.lang === "tr";
     const cond = (tr ? WX_CODE_TR : WX_CODE)[code] || "";
     const icon = WX_ICON[code] || "";
-    wxCache = { t: Date.now(), html: `<span class="wx-t">${icon} ${temp}°</span><span class="wx-c">${cond}</span>` };
+    wxCache = { t: Date.now(), html: `<span class="wx-t">${icon} ${temp}°</span><span class="wx-c">${cond}</span>`, lang: state.lang };
     el.innerHTML = wxCache.html;
   } catch { /* leave placeholder */ }
 }
