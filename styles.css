@@ -567,3 +567,10 @@ body::before, body[data-theme="day"]::before {
 }
 /* Day theme: soft cream halo so header text stays readable over the artwork */
 body[data-theme="day"] .hdr-place, body[data-theme="day"] .hdr-wx { text-shadow: 0 0 6px rgba(253,250,240,.95), 0 0 14px rgba(253,250,240,.85), 0 1px 2px rgba(253,250,240,.9); }
+/* Dark theme: green pattern inside the cards (floral stays as the screen bg) */
+body:not([data-theme="day"]) .panel, body:not([data-theme="day"]) .sheet,
+body:not([data-theme="day"]) .vakt, body:not([data-theme="day"]) .dcard,
+body:not([data-theme="day"]) .tracker { background-image: url("/images/bg-pattern-green-dark.webp"); background-repeat: repeat; }
+/* Dark theme: soft dark halo so hero text (countdown) reads over the bright artwork */
+body:not([data-theme="day"]) .hero-clock, body:not([data-theme="day"]) .hero-label,
+body:not([data-theme="day"]) .hero-k { text-shadow: 0 2px 16px rgba(0,0,0,.6), 0 0 4px rgba(0,0,0,.65); }
