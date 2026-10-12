@@ -551,3 +551,7 @@ body[data-theme="day"] .sheet { background: color-mix(in srgb, var(--bg-2) 74%, 
    pattern fades smoothly down the whole page */
 body[data-theme="day"]::before { mask-image: linear-gradient(#000 25%, transparent 92%); }
 body[data-theme="day"] .bnav { background: color-mix(in srgb, var(--bg-2) 82%, transparent); backdrop-filter: blur(3px); }
+/* Day theme: pale pattern painted directly on the surfaces (visible in cards) */
+body[data-theme="day"] .panel { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
+body[data-theme="day"] .sheet { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
+body[data-theme="day"] .vakt { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
