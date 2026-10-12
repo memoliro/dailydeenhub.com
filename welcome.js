@@ -7,23 +7,27 @@
       brand: 'Daily Deen Hub', greet: 'Assalamu Alaikum',
       tag: 'Your companion for everyday life',
       cta: 'FIND MY LOCATION',
-      terms: 'I agree to the <a href="/privacy.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.',
+      terms: 'I agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.',
       label: 'English',
       lcTitle: 'For your information',
       lcBody: 'Daily Deen Hub uses your location to calculate accurate prayer times, find the Qibla direction, and locate nearby mosques.',
       lcNo: 'NOT NOW',
-      lcYes: 'AGREE'
+      lcYes: 'AGREE',
+      privTitle: '🔒 Your privacy comes first',
+      privBody: 'We do not collect your personal information. Daily Deen Hub is completely free — no sign-in, no account, nothing to pay. Your settings and location stay on your device, where they belong.'
     },
     tr: {
       brand: 'Günlük Din Merkezi', greet: 'Esselamu Aleykum',
       tag: 'Günlük hayatınızda yol arkadaşınız',
       cta: 'KONUMUMU BUL',
-      terms: 'Uygulamanın <a href="/tr/privacy.html">Kullanım Şartları</a> ve <a href="/tr/privacy.html">Gizlilik Politikası</a>\'nı kabul ediyorum.',
+      terms: 'Uygulamanın <a href="/tr/terms.html">Kullanım Şartları</a> ve <a href="/tr/privacy.html">Gizlilik Politikası</a>\'nı kabul ediyorum.',
       label: 'Türkçe',
       lcTitle: 'Bilgilendirme',
       lcBody: 'Günlük Din Merkezi, doğru namaz vakitlerini hesaplamak, kıble yönünü bulmak ve yakındaki camileri göstermek için konumunuzu kullanır.',
       lcNo: 'ŞİMDİ DEĞİL',
-      lcYes: 'KABUL ET'
+      lcYes: 'KABUL ET',
+      privTitle: '🔒 Gizliliğiniz önceliğimizdir',
+      privBody: 'Kişisel bilgilerinizi toplamıyoruz. Günlük Din Merkezi tamamen ücretsizdir — giriş yok, hesap yok, ödeme yok. Ayarlarınız ve konumunuz cihazınızda kalır.'
     }
   };
   function apply(l){
@@ -40,6 +44,8 @@
     document.getElementById('wLcBody').textContent = T[l].lcBody;
     document.getElementById('wLcNo').textContent = T[l].lcNo;
     document.getElementById('wLcYes').textContent = T[l].lcYes;
+    document.getElementById('wPrivTitle').textContent = T[l].privTitle;
+    document.getElementById('wPrivBody').textContent = T[l].privBody;
   }
   apply(lang);
 

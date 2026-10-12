@@ -73,6 +73,13 @@
     cursor: pointer;
   }
   .langbtn .chev { color: #999; font-size: 1.3rem; }
+  .card.privacy {
+    margin: 16px 24px 0;
+    padding: 22px 24px 20px;
+    text-align: left;
+  }
+  .card.privacy .ptitle { font-size: 1.05rem; font-weight: 700; color: #0c1f1a; margin-bottom: 8px; }
+  .card.privacy .pbody { font-size: .95rem; line-height: 1.55; color: #555; }
   .bottom {
     flex: 1;
     display: flex;
@@ -157,10 +164,15 @@
     </button>
   </div>
 
+  <div class="card privacy">
+    <div class="ptitle" id="wPrivTitle">🔒 Your privacy comes first</div>
+    <div class="pbody" id="wPrivBody">We do not collect your personal information. Daily Deen Hub is completely free — no sign-in, no account, nothing to pay. Your settings and location stay on your device, where they belong.</div>
+  </div>
+
   <div class="bottom">
     <label class="terms">
       <input type="checkbox" id="wTerms">
-      <span id="wTermsText">I agree to the <a href="/privacy.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.</span>
+      <span id="wTermsText">I agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.</span>
     </label>
     <button class="ctabtn" id="wCta" type="button" disabled>FIND MY LOCATION</button>
   </div>
@@ -187,6 +199,6 @@
     </div>
   </div>
 
-<script src="/welcome.js?v=2"></script>
+<script src="/welcome.js?v=3"></script>
 </body>
 </html>
