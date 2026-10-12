@@ -129,7 +129,14 @@ body: [
 ["h", "Ending the prayer"],
 ["p", "Turn your head to the right and say:"],
 ["dua", { ar: "\u0627\u0644\u0633\u064e\u0651\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645\u0652 \u0648\u064e\u0631\u064e\u062d\u0652\u0645\u064e\u0629\u064f \u0627\u0644\u0644\u0647\u0650", tn: "As-salamu 'alaykum wa rahmatullah", mean: "Peace and Allah's mercy be upon you." }],
-["p", "Then turn to the left and repeat it. Your prayer is complete. Fajr is prayed as two rak'ahs like this; Dhuhr, Asr and Isha are four rak'ahs; Maghrib is three."]
+["p", "Then turn to the left and repeat it. Your prayer is complete. Fajr is prayed as two rak'ahs like this; Dhuhr, Asr and Isha are four rak'ahs; Maghrib is three."],
+["h", "Notes for sisters"],
+["p", "The prayer is the same, with a few differences in posture (Hanafi practice):"],
+["p", "\u2022 At the opening takbir, raise your hands to shoulder height rather than to the ears."],
+["p", "\u2022 Fold your hands on your chest."],
+["p", "\u2022 In ruku, bow a little less deeply and keep your arms close to your body."],
+["p", "\u2022 In sujud, keep your elbows tucked against your sides and your body compact."],
+["p", "\u2022 When sitting, rest with both feet drawn out to the right side."]
 ] }
 ,
 { id: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "The foundation of the faith",
@@ -233,7 +240,14 @@ body: [
 ["h", "Namazı bitirme"],
 ["p", "Başınızı sağa çevirip deyin:"],
 ["dua", { ar: "\u0627\u0644\u0633\u064e\u0651\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645\u0652 \u0648\u064e\u0631\u064e\u062d\u0652\u0645\u064e\u0629\u064f \u0627\u0644\u0644\u0647\u0650", tn: "Esselamü aleyküm ve rahmetullah", mean: "Selam üzerinize olsun, Allah'ın rahmeti de." }],
-["p", "Sonra sola çevirip tekrarlayın. Namazınız tamamdır. Sabah namazı böyle iki rekât kılınır; öğle, ikindi ve yatsı dört, akşam üç rekâttır."]
+["p", "Sonra sola çevirip tekrarlayın. Namazınız tamamdır. Sabah namazı böyle iki rekât kılınır; öğle, ikindi ve yatsı dört, akşam üç rekâttır."],
+["h", "Hanımlar için notlar"],
+["p", "Namaz aynıdır; duruşta birkaç fark vardır (Hanefi mezhebine göre):"],
+["p", "\u2022 İftitah tekbirinde elleri kulaklara değil omuz hizasına kaldırın."],
+["p", "\u2022 Elleri göğüs üzerinde bağlayın."],
+["p", "\u2022 Rükûda biraz daha az eğilin ve kolları vücuda yakın tutun."],
+["p", "\u2022 Secdede dirsekleri vücuda yapışık tutun, vücudu toplu tutun."],
+["p", "\u2022 Oturuşta iki ayağı sağ tarafa alarak oturun."]
 ] },
 { id: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Dinin temeli",
 body: [
