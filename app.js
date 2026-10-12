@@ -56,7 +56,7 @@ const I18N = {
     mosquesTab: "Find", mosquesTitle: "Find nearby", mosquesSub: "Mosques and halal restaurants near you, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
     mosquesRetrying: "Retrying…",
-    halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.",
+    halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.", marketFind: "Find halal markets near me", marketNone: "No halal markets found within 10 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites",
     footTag: "Free prayer times, qibla, Quran and more. No account, no ads.",
     footFeatures: "Features", footResources: "Resources", footFreeTools: "Free tools", footSupport: "Support",
     paidNote: "(paid · no account needed)",
@@ -127,7 +127,7 @@ const I18N = {
     mosquesTab: "Bul", mosquesTitle: "Yakında bul", mosquesSub: "Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
     mosquesRetrying: "Tekrar deneniyor…",
-    halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.",
+    halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal marketleri bul", marketNone: "10 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler",
     footTag: "Ücretsiz namaz vakitleri, kıble, Kur'an ve daha fazlası. Hesap yok, reklam yok.",
     footFeatures: "Özellikler", footResources: "Kaynaklar", footFreeTools: "Ücretsiz araçlar", footSupport: "Destek",
     paidNote: "(ücretli · hesap gerekmez)",
@@ -269,7 +269,8 @@ function load() {
     beadStyle: saved.beadStyle || "melon",
     tasbihLoops: saved.tasbihLoops || 0,
     place: saved.place || { name: "Montreal", country: "Canada", lat: 45.5017, lon: -73.5673, tz: "America/Toronto" },
-    tasbih: saved.tasbih || 0
+    tasbih: saved.tasbih || 0,
+    favs: saved.favs || []
   };
   // Old/removed sound names (beep, chime, bell, removed files) fall back to bell.wav
   if (!VALID_SOUNDS.includes(st.sound)) st.sound = "bell.wav";
@@ -926,9 +927,33 @@ function mosqueDistKm(lat1, lon1, lat2, lon2) {
   const a = Math.sin(dLa / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
+let lastFinder = null; // { items, kind } — kept so favorite toggles can re-render
+function favKey(lat, lon) { return lat.toFixed(5) + "," + lon.toFixed(5); }
+function isFav(m) { return state.favs.some(f => f.key === favKey(m.lat, m.lon)); }
+function renderFinder() {
+  const list = document.getElementById("mosqueList");
+  if (!lastFinder) return;
+  const { items, kind } = lastFinder;
+  const icon = kind === "halal" ? "🍽️" : kind === "market" ? "🏪" : "🕌";
+  const favs = items.filter(isFav), rest = items.filter(m => !isFav(m));
+  const row = m =>
+    `<div class="mq-row"><a class="mosque" href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
+    `<span class="mq-name">${icon} ${escapeHtml(m.name)}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>` +
+    `<button class="mq-fav${isFav(m) ? " on" : ""}" type="button" data-lat="${m.lat}" data-lon="${m.lon}" data-name="${escapeHtml(m.name)}" aria-label="${isFav(m) ? "★" : "☆"}">${isFav(m) ? "★" : "☆"}</button></div>`;
+  list.innerHTML =
+    (favs.length ? `<p class="mq-favhead" data-i="mqFavTitle">${t("mqFavTitle")}</p>` + favs.map(row).join("") : "") +
+    rest.map(row).join("");
+  list.querySelectorAll(".mq-fav").forEach(b => b.onclick = () => {
+    const lat = +b.dataset.lat, lon = +b.dataset.lon, key = favKey(lat, lon);
+    const i = state.favs.findIndex(f => f.key === key);
+    if (i >= 0) state.favs.splice(i, 1);
+    else state.favs.push({ key, name: b.dataset.name, lat, lon, kind });
+    save(); renderFinder();
+  });
+}
 async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
-  const btn = document.getElementById(kind === "halal" ? "halalFind" : "mosqueFind");
+  const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
   // 1) Prefer GPS location, fall back to selected place
   let lat = state.place.lat, lon = state.place.lon;
@@ -944,11 +969,12 @@ async function nearbySearch(kind) {
   // 2) Build query
   const q = kind === "halal"
     ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
+    : kind === "market"
+    ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
     : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
   const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
-  const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : (state.lang === "tr" ? "Cami" : "Mosque");
-  const icon = kind === "halal" ? "🍽️" : "🕌";
-  const noneKey = kind === "halal" ? "halalNone" : "mosquesNone";
+  const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
+  const noneKey = kind === "halal" ? "halalNone" : kind === "market" ? "marketNone" : "mosquesNone";
   let items = null, attempt = 0;
   const maxAttempts = 6;
   while (items === null && attempt < maxAttempts) {
@@ -979,13 +1005,12 @@ async function nearbySearch(kind) {
   btn.disabled = false;
   if (items === null) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
   if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
-  list.innerHTML = items.map(m =>
-    `<a class="mosque" href="https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
-    `<span class="mq-name">${icon} ${escapeHtml(m.name)}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>`
-  ).join("");
+  lastFinder = { items, kind };
+  renderFinder();
 }
 async function findMosques() { return nearbySearch("mosque"); }
 async function findHalal() { return nearbySearch("halal"); }
+async function findMarkets() { return nearbySearch("market"); }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
   const h = entry && entry.date && entry.date.hijri;
@@ -1516,6 +1541,8 @@ if (_breset) _breset.onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; 
 applyTasbihMode();
 document.getElementById("mosqueFind").onclick = () => findMosques();
 document.getElementById("halalFind").onclick = () => findHalal();
+document.getElementById("marketFind").onclick = () => findMarkets();
+document.getElementById("mqSuggest").onclick = e => { e.preventDefault(); showTab("feedback"); const ts = document.getElementById("fbTypeSel"); if (ts) ts.value = "Suggestion"; };
 
 // Weather via Open-Meteo (free, no key) for header
 const WX_CODE = {0:"Clear",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Rain",63:"Rain",65:"Rain",71:"Snow",73:"Snow",75:"Snow",77:"Snow",80:"Showers",81:"Showers",82:"Showers",95:"Thunderstorm",96:"Storm",99:"Storm"};
