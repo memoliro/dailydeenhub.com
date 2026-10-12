@@ -575,3 +575,10 @@ body:not([data-theme="day"]) .hero-clock, body:not([data-theme="day"]) .hero-lab
 body:not([data-theme="day"]) .hero-k { text-shadow: 0 2px 16px rgba(0,0,0,.6), 0 0 4px rgba(0,0,0,.65); }
 /* Background layer must sit BEHIND all content (hero text was painted under it) */
 body::before { z-index: -1; }
+/* Footer support buttons keep their own text colors (footer link color was overriding them) */
+.foot-cta .bmc-btn { color: #1b140c; }
+.foot-cta .primary { color: #fff; }
+/* Dark theme fine-tune (page-by-page audit): lift secondary text over the pattern */
+body:not([data-theme="day"]) { --dim: #9aa5bb; --muted: #c0c9da; }
+body:not([data-theme="day"]) .kicker { color: #d9b84a; }
+body:not([data-theme="day"]) .hdr-place, body:not([data-theme="day"]) .hdr-wx { text-shadow: 0 1px 10px rgba(0,0,0,.55), 0 0 3px rgba(0,0,0,.6); }
