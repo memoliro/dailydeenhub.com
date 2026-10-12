@@ -620,3 +620,19 @@ body:not([data-theme="day"]) .qc-i { background: linear-gradient(var(--bg-2), va
 body:not([data-theme="day"]) .verse.on { background: color-mix(in srgb, #d9a441 14%, transparent); box-shadow: inset 0 0 0 2px #d9a441; }
 body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92); }
 .tile.soon { opacity: .78; }
+
+/* Learning Center */
+.learn-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.learn-card { display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; padding: 14px 15px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 5%, transparent); border: 1px solid var(--line); color: var(--ink); font: inherit; cursor: pointer; }
+.learn-ic { font-size: 30px; line-height: 1; }
+.learn-tx { display: flex; flex-direction: column; gap: 2px; }
+.learn-ti { font-weight: 700; font-size: 16px; }
+.learn-de { opacity: .72; font-size: 13px; }
+.learn-go { margin-left: auto; opacity: .45; font-size: 24px; line-height: 1; }
+.learn-article h3 { margin: 14px 0 4px; font-size: 22px; }
+.learn-article h4 { margin: 20px 0 6px; font-size: 17px; color: var(--gold, #d4a017); }
+.learn-article p { margin: 8px 0; line-height: 1.65; }
+.learn-article .ar { font-family: var(--arab); font-size: 23px; line-height: 2; text-align: right; }
+.learn-article .tn { font-style: italic; opacity: .85; }
+.learn-article .dm { opacity: .72; font-size: 14px; }
+.learn-article .dua { border-left: 3px solid var(--gold, #d4a017); padding: 2px 0 2px 13px; margin: 12px 0; }
