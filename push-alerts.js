@@ -195,7 +195,7 @@ async function enable() {
     });
     if (!res.ok) throw new Error('subscribe ' + res.status);
     lastSynced = JSON.stringify(settingsPayload());
-    try { localStorage.setItem('ddh-push', '1'); } catch (e) {}
+    try { localStorage.setItem('ddh-push', '1'); localStorage.removeItem('ddh-push-off'); } catch (e) {}
     if (note) note.textContent = t('pushOn');
     toast(t('pushEnabled'));
   } catch (e) {
@@ -217,7 +217,7 @@ async function disable() {
         body: JSON.stringify({ endpoint: endpoint }),
       }).catch(function () {});
     }
-    try { localStorage.removeItem('ddh-push'); } catch (e) {}
+    try { localStorage.removeItem('ddh-push'); localStorage.setItem('ddh-push-off', '1'); } catch (e) {}
     if (note) note.textContent = t('pushOff');
   } catch (e) {
     if (note) note.textContent = t('pushError');
@@ -266,6 +266,17 @@ function boot() {
   if (popLater) popLater.addEventListener('click', function () { hideInstallPopup(true); });
   refreshUI();
   maybeShowInstallPopup();
+  try {
+    if (supported() && !localStorage.getItem('ddh-push') && !localStorage.getItem('ddh-push-off') && !localStorage.getItem('ddh-push-asked')) {
+      var armDefault = function (e) {
+        if (e.target && e.target.closest && e.target.closest('#pushChk')) return; // the toggle's own change handler runs enable/disable
+        document.removeEventListener('pointerdown', armDefault, true);
+        try { localStorage.setItem('ddh-push-asked', '1'); } catch (err) {}
+        currentSub().then(function (sub) { if (!sub) enable(); });
+      };
+      document.addEventListener('pointerdown', armDefault, true);
+    }
+  } catch (e) {}
   // expose for app.js to call after settings change
   window.DDHPush = { refresh: refreshUI, resync: resync };
 }

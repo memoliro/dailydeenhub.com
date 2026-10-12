@@ -73,7 +73,7 @@ const I18N = {
     menuCommunity: "Community", menuAbout: "About", menuLanguage: "Language", menuTheme: "Theme",
     menuLocation: "Location", menuSettings: "Settings", comingSoon: "Coming soon",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
-    pushLbl: "Prayer alerts (even when tab is closed)",
+    pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
     pushOff: "Alerts off.",
     pushError: "Couldn't set up alerts. Try again.",
@@ -144,7 +144,7 @@ const I18N = {
     menuCommunity: "Topluluk", menuAbout: "Hakkında", menuLanguage: "Dil", menuTheme: "Tema",
     menuLocation: "Konum", menuSettings: "Ayarlar", comingSoon: "Yakında",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
-    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)",
+    pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
     pushOff: "Uyarılar kapalı.",
     pushError: "Uyarılar kurulamadı. Tekrar deneyin.",
@@ -240,22 +240,29 @@ const STATIONS = [
   ["trtrans", "Quran — Turkish translation", "https://backup.qurango.net/radio/translation_quran_turkish"]
 ];
 
+function sysLang() { return (navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en"; }
 function load() {
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}") || {}; } catch { saved = {}; }
+  // Language preference: "system" (the default) follows the device language; an explicit
+  // EN/TR choice (including one saved by older versions) always wins. The /tr path counts
+  // as a Turkish signal only on a true first visit (nothing saved yet).
+  const pref = saved.langPref || saved.lang || "system";
+  const firstVisit = !saved.lang && !saved.langPref;
   const st = {
-    lang: saved.lang || (location.pathname.startsWith("/tr") ? "tr" : ((navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en")),
+    langPref: pref,
+    lang: pref === "system" ? ((firstVisit && location.pathname.startsWith("/tr")) ? "tr" : sysLang()) : pref,
     theme: "night", // Dark only — any saved Day/System choice migrates to Dark
     method: saved.method ?? 2,
     school: saved.school ?? 0,
-    notify: !!saved.notify,
+    notify: saved.notify ?? true,
     adhanAtTime: saved.adhanAtTime ?? true,
     remind: saved.remind || Object.fromEntries(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].map(k => [k, saved.remindMin ?? 15])),
     sound: saved.sound || "bell.wav",
     customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
     remindOn: saved.remindOn || {},
-    vibration: saved.vibration ?? false,
+    vibration: saved.vibration ?? true,
     quranView: saved.quranView || "trans",
     quranFollow: !!saved.quranFollow,
     tasbihMode: saved.tasbihMode || "classic",
@@ -1355,7 +1362,11 @@ document.getElementById("setClose").onclick = () => {
   // New multi-screen controls
   state.theme = "night"; // Dark is the only theme (2026-10-11 decision)
   var langVal = document.getElementById("langSel").value;
-  if (langVal !== state.lang) { state.lang = langVal; }
+  state.langPref = langVal;
+  state.lang = langVal === "system" ? sysLang() : langVal;
+  const _lt2 = state.lang === "tr" ? "/tr/" : "/";
+  const _lh2 = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  if (_lt2 !== _lh2) { try { history.replaceState(null, "", _lt2); } catch {} }
   state.vibration = document.getElementById("vibChk").checked;
   save();
   showTab("home");
@@ -1373,7 +1384,9 @@ function syncSetControls(){
   var ts = document.getElementById("themeSel");
   if (ts) ts.value = state.theme === "day" ? "light" : "dark";
   var ls = document.getElementById("langSel");
-  if (ls) ls.value = state.lang;
+  if (ls) ls.value = state.langPref || state.lang;
+  var ls2 = document.getElementById("langSel2");
+  if (ls2) ls2.value = state.langPref || state.lang;
   var vc = document.getElementById("vibChk");
   if (vc) vc.checked = !!state.vibration;
 }
@@ -1391,7 +1404,8 @@ document.getElementById("gpsBtn").onclick = () => {
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
 };
 function setLanguage(lang) {
-  if (state.lang === lang) return;
+  if (state.lang === lang && state.langPref === lang) return;
+  state.langPref = lang;
   state.lang = lang;
   save();
   // keep the URL in sync without reloading, so the user stays exactly where they are

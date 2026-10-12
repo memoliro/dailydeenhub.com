@@ -418,7 +418,7 @@ body[data-theme="day"] .dcard { background: #fff; }
 .dcard-h b { display: block; font-size: 16px; }
 .dcard-h span { font-size: 13px; color: var(--muted); }
 .dcard p { margin: 0; font-size: 15px; line-height: 1.55; }
-.asma-ar { font-size: 44px; text-align: center; margin: 6px 0 10px; color: #059669; font-family: serif; }
+.asma-ar { font-size: 44px; text-align: center; margin: 6px 0 10px; color: #059669; font-family: var(--arab); }
 
 .bnav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
@@ -433,7 +433,7 @@ body[data-theme="day"] .dcard { background: #fff; }
 .bnav button.on { opacity: 1; }
 body[data-theme="day"] .bnav { background: #fffdf8; }
 
-.verse-ar { font-size: 24px; text-align: right; direction: rtl; line-height: 1.9; margin: 4px 0 8px; }
+.verse-ar { font-family: var(--arab); font-size: 26px; text-align: right; direction: rtl; line-height: 1.9; margin: 4px 0 8px; }
 .verse-trans { font-size: 13px; font-style: italic; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
 
 /* ===== Qibla lock-on celebration + turn guidance (2026-10-11) ===== */
