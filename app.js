@@ -245,7 +245,7 @@ function load() {
   try { saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}") || {}; } catch { saved = {}; }
   const st = {
     lang: saved.lang || (location.pathname.startsWith("/tr") ? "tr" : ((navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en")),
-    theme: saved.theme || "night",
+    theme: "night", // Dark only — any saved Day/System choice migrates to Dark
     method: saved.method ?? 2,
     school: saved.school ?? 0,
     notify: !!saved.notify,
@@ -1353,12 +1353,7 @@ document.getElementById("setClose").onclick = () => {
   document.querySelectorAll("#remindRows input[data-ron]").forEach(cb => { state.remindOn[cb.dataset.ron] = cb.checked; });
   state.sound = document.getElementById("soundSel").value;
   // New multi-screen controls
-  var themeVal = document.getElementById("themeSel").value;
-  if (themeVal === "system") {
-    state.theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "day" : "night";
-  } else {
-    state.theme = themeVal === "light" ? "day" : "night";
-  }
+  state.theme = "night"; // Dark is the only theme (2026-10-11 decision)
   var langVal = document.getElementById("langSel").value;
   if (langVal !== state.lang) { state.lang = langVal; }
   state.vibration = document.getElementById("vibChk").checked;
