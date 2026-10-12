@@ -582,3 +582,11 @@ body::before { z-index: -1; }
 body:not([data-theme="day"]) { --dim: #9aa5bb; --muted: #c0c9da; }
 body:not([data-theme="day"]) .kicker { color: #d9b84a; }
 body:not([data-theme="day"]) .hdr-place, body:not([data-theme="day"]) .hdr-wx { text-shadow: 0 1px 10px rgba(0,0,0,.55), 0 0 3px rgba(0,0,0,.6); }
+/* Dark tone pilot (Home first): richer pattern, gold next-prayer highlight,
+   warmer hero gold, deep-emerald nav */
+body:not([data-theme="day"]) .panel, body:not([data-theme="day"]) .sheet,
+body:not([data-theme="day"]) .vakt, body:not([data-theme="day"]) .dcard,
+body:not([data-theme="day"]) .tracker { background-image: url("/images/bg-pattern-green-rich.webp"); }
+body:not([data-theme="day"]) .vakt.on { border-color: #d9a441; box-shadow: 0 0 0 1px #d9a441, 0 8px 24px rgba(217,164,65,.22); }
+body:not([data-theme="day"]) .hero-label { color: #e3b341; }
+body:not([data-theme="day"]) .bnav { background: #081c16; }
