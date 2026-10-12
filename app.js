@@ -401,7 +401,7 @@ function applyI18n() {
   if (typeof refreshLearnView === "function") refreshLearnView();
   const bw = document.getElementById("brandWord");
   if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
-  document.getElementById("footerNote").textContent = t("footer");
+  const _fn = document.getElementById("footerNote"); if (_fn) _fn.textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
   const _qh = document.getElementById("qiblaHint"); if (_qh) _qh.textContent = t("qiblaHint");
@@ -1424,10 +1424,32 @@ document.addEventListener("click", e => {
     b.addEventListener("change", () => { a.value = b.value; });
   }
 })();
-// Auto-collapse: after a selection in a sub-screen, return to the Settings menu
-["methodSel", "schoolSel", "themeSel", "langSel", "langSel2", "soundSel"].forEach(id => {
+// Selections save immediately (2026-10-12 fix): the sub-screen still collapses
+// afterwards (the approved pattern), but the value is never lost if Done is skipped.
+document.getElementById("methodSel").addEventListener("change", e => {
+  state.method = +e.target.value; save(); refresh(); setShow(null);
+});
+document.getElementById("schoolSel").addEventListener("change", e => {
+  state.school = +e.target.value; save(); refresh(); setShow(null);
+});
+(function () {
+  const ss = document.getElementById("soundSel");
+  if (ss) ss.addEventListener("change", () => setShow(null)); // the value itself is saved by its onchange above
+})();
+function applyLangImmediate(v) {
+  state.langPref = v;
+  state.lang = v === "system" ? sysLang() : v;
+  save();
+  const target = state.lang === "tr" ? "/tr/" : "/";
+  const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
+  applyI18n();
+  refreshQuranLanguage().catch(() => toast(t("loadFail")));
+  setShow(null);
+}
+["langSel", "langSel2"].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.addEventListener("change", () => setShow(null));
+  if (el) el.addEventListener("change", e => applyLangImmediate(e.target.value));
 });
 // Reset to main screen whenever the modal opens
 ["setBtn","mSet"].forEach(id => {
