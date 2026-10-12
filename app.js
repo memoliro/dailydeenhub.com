@@ -1067,7 +1067,7 @@ function loadLiveFrames() {
     btn.disabled = true;
     status.textContent = t("fbSending");
     try {
-      var res = await fetch("https://formsubmit.co/ajax/memoliro@gmail.com", {
+      var res = await fetch("https://formsubmit.co/ajax/db1a521d2eb02414b39d37e9a482c8ef", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
