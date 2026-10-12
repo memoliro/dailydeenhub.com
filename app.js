@@ -1766,7 +1766,7 @@ const _gdn = document.getElementById("gridDayNext");
 if (_gdn) _gdn.onclick = () => { dayOffset = Math.min(60, dayOffset + 1); renderTimes(); };
 const _gdl = document.getElementById("gridDayLabel");
 if (_gdl) _gdl.onclick = () => { dayOffset = 0; renderTimes(); };
-// Swipe the prayer grid: right -> next day, left -> previous day
+// Swipe the prayer grid: left -> next day, right -> previous day (standard page-turn direction)
 (function () {
   const el = document.getElementById("vaktGrid");
   if (!el) return;
@@ -1775,7 +1775,7 @@ if (_gdl) _gdl.onclick = () => { dayOffset = 0; renderTimes(); };
   el.addEventListener("touchend", e => {
     const tc = e.changedTouches[0], dx = tc.clientX - sx, dy = tc.clientY - sy;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      dayOffset = Math.max(-60, Math.min(60, dayOffset + (dx > 0 ? 1 : -1)));
+      dayOffset = Math.max(-60, Math.min(60, dayOffset + (dx > 0 ? -1 : 1)));
       renderTimes();
     }
   }, { passive: true });
