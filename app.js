@@ -1037,11 +1037,19 @@ function showTab(id) {
 }
 
 /* Watch Live: set the YouTube live-stream iframes' src only when the page is
-   first opened, so the app never loads YouTube on visits that don't watch. */
+   first opened, so the app never loads YouTube on visits that don't watch.
+   Haram uses the current broadcast's video id — Quran TV's live_stream channel
+   shortcut refuses to embed ("video unavailable") although the broadcast itself
+   is embeddable (playableInEmbed). If that stream ever restarts under a new id,
+   update this one line. Nabawi's channel shortcut works, so it self-updates. */
+const LIVE_STREAMS = {
+  haram: "https://www.youtube-nocookie.com/embed/eC4LfEVxvKg?rel=0",
+  nabawi: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw"
+};
 function loadLiveFrames() {
-  ["liveHaramFrame", "liveNabawiFrame"].forEach(fid => {
+  [["liveHaramFrame", "haram"], ["liveNabawiFrame", "nabawi"]].forEach(([fid, key]) => {
     const f = document.getElementById(fid);
-    if (f && !f.src && f.dataset.src) f.src = f.dataset.src;
+    if (f && !f.src && LIVE_STREAMS[key]) f.src = LIVE_STREAMS[key];
   });
 }
 async function loadChapters() {
