@@ -549,7 +549,6 @@ body[data-theme="day"] .panel { background: color-mix(in srgb, var(--panel) 70%,
 body[data-theme="day"] .sheet { background: color-mix(in srgb, var(--bg-2) 74%, transparent); }
 /* Day theme: gradual transparency everywhere — nav and sheet surfaces too,
    pattern fades smoothly down the whole page */
-body[data-theme="day"]::before { mask-image: linear-gradient(#000 25%, transparent 92%); }
 body[data-theme="day"] .bnav { background: color-mix(in srgb, var(--bg-2) 82%, transparent); backdrop-filter: blur(3px); }
 /* Day theme: pale pattern painted directly on the surfaces (visible in cards) */
 body[data-theme="day"] .panel { background-image: url("/images/bg-pattern-green-light.webp"); background-repeat: repeat; }
@@ -570,7 +569,7 @@ body[data-theme="day"] .hdr-place, body[data-theme="day"] .hdr-wx { text-shadow:
 /* Dark theme: green pattern inside the cards (floral stays as the screen bg) */
 body:not([data-theme="day"]) .panel, body:not([data-theme="day"]) .sheet,
 body:not([data-theme="day"]) .vakt, body:not([data-theme="day"]) .dcard,
-body:not([data-theme="day"]) .tracker { background-image: url("/images/bg-pattern-green-dark.webp"); background-repeat: repeat; }
+body:not([data-theme="day"]) .tracker { background-image: url("/images/bg-pattern-green.webp"); background-repeat: repeat; }
 /* Dark theme: soft dark halo so hero text (countdown) reads over the bright artwork */
 body:not([data-theme="day"]) .hero-clock, body:not([data-theme="day"]) .hero-label,
 body:not([data-theme="day"]) .hero-k { text-shadow: 0 2px 16px rgba(0,0,0,.6), 0 0 4px rgba(0,0,0,.65); }
