@@ -84,8 +84,7 @@ function resDoSearch(q) {
 
 function resSnippet(hh, which, q, terms) {
   const enHit = which === "en";
-  const raw = (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026";
-  return { html: hdHighlight(raw, q, terms, enHit), rtl: !enHit };
+  return { html: hdSnippet(enHit ? hh.en : hh.ar, q, terms, enHit), rtl: !enHit };
 }
 
 function resRenderResults() {

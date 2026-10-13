@@ -72,6 +72,23 @@ function hdQueryTerms(q) {
 }
 const HD_TASHKEEL = /[ً-ٰٟـ]/g; /* Arabic diacritics + tatweel */
 function hdStripTashkeel(s) { return s.replace(HD_TASHKEEL, ""); }
+function hdRxEsc(w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+/* Deduplicated English search terms, longest first. */
+function hdUniqTerms(terms) {
+  const uniq = [];
+  terms.forEach(function (w) {
+    w = w.trim();
+    if (w && uniq.indexOf(w) === -1) uniq.push(w);
+  });
+  uniq.sort(function (a, b) { return b.length - a.length; });
+  return uniq;
+}
+/* Diacritic-tolerant regex source for an Arabic query. */
+function hdArPatSrc(q) {
+  const aq = hdStripTashkeel(q).trim();
+  if (!aq) return null;
+  return aq.split("").map(hdRxEsc).join("[ً-ٰٟـ]*") + "[ً-ٰٟـ]*";
+}
 /* Returns "ar", "en", or null. Arabic matching ignores diacritics so a plain
    query like "صلاة" matches the fully vocalized text (الصَّلَاةَ). */
 function hdMatchText(hh, q, terms) {
@@ -85,22 +102,40 @@ function hdMatchText(hh, q, terms) {
    For Arabic, the pattern tolerates diacritics between the query's letters. */
 function hdHighlight(text, q, terms, isEn) {
   const esc = escapeHtml(text);
-  let pat = null;
+  let src = null;
   if (isEn) {
-    const uniq = [];
-    terms.map(function (w) { return w.trim(); }).filter(Boolean).forEach(function (w) {
-      if (uniq.indexOf(w) === -1) uniq.push(w);
-    });
-    uniq.sort(function (a, b) { return b.length - a.length; });
-    if (uniq.length) pat = uniq.map(hdRxEsc).join("|");
+    const u = hdUniqTerms(terms);
+    if (u.length) src = u.map(hdRxEsc).join("|");
   } else {
-    const aq = hdStripTashkeel(q).trim();
-    if (aq) pat = aq.split("").map(hdRxEsc).join("[ً-ٰٟـ]*") + "[ً-ٰٟـ]*";
+    src = hdArPatSrc(q);
   }
-  if (!pat) return esc;
-  return esc.replace(new RegExp("(" + pat + ")", "gi"), '<span class="hd-hl">$1</span>');
+  if (!src) return esc;
+  return esc.replace(new RegExp("(" + src + ")", "gi"), '<span class="hd-hl">$1</span>');
 }
-function hdRxEsc(w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+/* Snippet centered on the first match (match highlighted), ellipsis where cut. */
+function hdSnippet(text, q, terms, isEn, before, after) {
+  before = before || 40; after = after || 100;
+  let idx = -1, mlen = 0;
+  if (isEn) {
+    const low = text.toLowerCase(), u = hdUniqTerms(terms);
+    for (let k = 0; k < u.length; k++) {
+      const i = low.indexOf(u[k]);
+      if (i !== -1 && (idx === -1 || i < idx)) { idx = i; mlen = u[k].length; }
+    }
+  } else {
+    const src = hdArPatSrc(q);
+    if (src) { const m = new RegExp(src, "i").exec(text); if (m) { idx = m.index; mlen = m[0].length; } }
+  }
+  let raw;
+  if (idx === -1) {
+    raw = text.slice(0, before + after) + (text.length > before + after ? "\u2026" : "");
+  } else {
+    const start = Math.max(0, idx - before);
+    const end = Math.min(text.length, idx + mlen + after);
+    raw = (start > 0 ? "\u2026" : "") + text.slice(start, end) + (end < text.length ? "\u2026" : "");
+  }
+  return hdHighlight(raw, q, terms, isEn);
+}
 
 const HD = {
   book: "bukhari", cache: {}, data: null,
@@ -345,7 +380,7 @@ function hdDoSearch(q) {
       const i = triple[0], hh = triple[1];
       const sec = d.sections[String(hh.s)];
       const enHit = triple[2] === "en";
-      const snip = hdHighlight((enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026", q, terms, enHit);
+      const snip = hdSnippet(enHit ? hh.en : hh.ar, q, terms, enHit);
       return '<button class="hd-resrow" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
         '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
