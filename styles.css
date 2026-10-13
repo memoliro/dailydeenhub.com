@@ -648,6 +648,28 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .learn-article .dm { opacity: .72; font-size: 14px; }
 .learn-article .dua { border-left: 3px solid var(--gold, #d4a017); padding: 2px 0 2px 13px; margin: 12px 0; }
 .learn-article .hsn-meta { display: flex; gap: 14px; font-size: 12.5px; opacity: .62; margin-top: 6px; }
+.qadha-total { text-align: center; margin: 22px 0 10px; }
+.qadha-num { font-size: 54px; font-weight: 800; color: var(--gold); display: block; line-height: 1.1; }
+.qadha-lbl { opacity: .65; font-size: 14px; }
+.qadha-zero { font-size: 17px; font-weight: 600; }
+.qadha-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0 22px; }
+.qadha-row { padding: 16px 16px 14px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.qadha-row.owes { border-color: var(--gold); }
+.qadha-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+.qadha-name { font-weight: 700; font-size: 16px; }
+.qadha-name i { font-style: normal; font-weight: 400; opacity: .55; font-size: 13px; margin-left: 6px; }
+.qadha-count { font-size: 21px; font-weight: 800; min-width: 44px; text-align: center; padding: 3px 10px; border-radius: 11px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+.qadha-row:not(.owes) .qadha-count { opacity: .35; background: transparent; }
+.qadha-actions { display: flex; gap: 10px; }
+.qbtn { flex: 1; height: 46px; border-radius: 13px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer; }
+.qbtn:disabled { opacity: .25; cursor: default; }
+.qbtn.done { border-color: var(--green); color: var(--green); }
+.qbtn.miss { border-color: var(--gold); color: var(--gold); }
+#qadhaMissDay { width: 100%; margin-top: 2px; }
+.qadha-recent-h { margin: 22px 0 4px; font-size: 14px; font-weight: 700; opacity: .7; }
+.qadha-logrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.qadha-logtx i { font-style: normal; opacity: .55; }
+.qadha-ts { opacity: .5; font-size: 13px; white-space: nowrap; }
 .learn-fig { margin: 10px 0; }
 .learn-fig img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
 .learn-support { margin-top: 20px; padding: 18px 16px 14px; border-radius: 16px; border: 1px solid var(--line); text-align: center; background: color-mix(in srgb, var(--ink) 4%, transparent); }
