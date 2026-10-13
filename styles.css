@@ -819,3 +819,9 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 /* Settings: Done button always visible (sticky footer) */
 .set-foot { position: sticky; bottom: 0; z-index: 5; background: var(--panel); border-top: 1px solid var(--line); margin: 14px -20px -20px; padding: 12px 20px; border-radius: 0 0 var(--radius) var(--radius); }
 .set-foot .primary { width: 100%; }
+/* Tasbih classic: giant centered counter, whole stage is the tap target */
+.tasbih-stage { text-align: center; padding: 48px 16px; min-height: 54vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.tasbih-stage .sub { font-size: 24px; margin: 0; }
+.tasbih-bigcount b { font-family: var(--serif); font-size: clamp(120px, 32vw, 220px); line-height: 1; font-variant-numeric: tabular-nums; display: block; transition: transform .08s ease; }
+.tasbih-stage:active .tasbih-bigcount b { transform: scale(.94); }
+.tasbih-hint { color: var(--muted); font-size: 15px; margin: 0; }

@@ -48,7 +48,7 @@ const I18N = {
     fajr: "Fajr", sun: "Sunrise", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
     ayahTitle: "A verse for the day", qiblaTitle: "Qibla", compass: "Use compass", mapTitle: "Qibla map",
     mapBody: "Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.",
-    quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap to count", reset: "Reset",
+    quranTitle: "Quran", play: "Play", pause: "Pause", tasbihTitle: "Tasbih", tap: "Tap anywhere to count", reset: "Reset",
     trackerTitle: "Today's prayers", streak: "day streak", streaks: "day streak", done: "done", markDone: "Tap a prayer to mark it done",
     cardHint: "Tap the ✓ on a card once you've prayed it",
     congrats: "Congratulations! May Allah accept your prayers.",
@@ -133,7 +133,7 @@ const I18N = {
     fajr: "İmsak", sun: "Güneş", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı",
     ayahTitle: "Günün ayeti", qiblaTitle: "Kıble", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
     mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
-    quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için dokun", reset: "Sıfırla",
+    quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için her yere dokunun", reset: "Sıfırla",
     trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
     cardHint: "Kıldığınız namazın kartındaki ✓'ye dokunun",
     congrats: "Tebrikler! Allah ibadetlerinizi kabul etsin.",
@@ -1917,7 +1917,11 @@ document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async
 const _fc = document.getElementById("followChk");
 if (_fc) _fc.onchange = () => { state.quranFollow = _fc.checked; save(); if (!state.quranFollow) stopFollow(); };
 // (menu guard closed above)
-document.getElementById("tasbihBtn").onclick = () => bumpTasbih(false);
+const _tstage = document.getElementById("tasbihClassic");
+if (_tstage) _tstage.addEventListener("click", e => {
+  if (e.target.closest("#tasbihReset")) return; // reset must not count
+  bumpTasbih(false);
+});
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); };
 document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.onclick = () => { state.tasbihMode = b.dataset.tm; save(); applyTasbihMode(); });
 const _bstage = document.getElementById("beadStage");
