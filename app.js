@@ -317,7 +317,8 @@ function escapeHtml(v) {
 }
 /* Quran.com translations can carry <sup> footnote markup; drop it, then escape the rest. */
 function plainTranslation(v) {
-  return escapeHtml(String(v || "").replace(/<sup[\s\S]*?<\/sup>/gi, "").replace(/<[^>]*>/g, ""));
+  const stripped = String(v || "").replace(/<sup[\s\S]*?<\/sup>/gi, "").replace(/<[^>]*>/g, "");
+  return escapeHtml(decodeEnt(stripped));
 }
 function t(key) { return I18N[state.lang][key]; }
 // Early nav: event delegation so bottom nav works even if later JS fails
@@ -1712,6 +1713,54 @@ document.getElementById("radioBtn").onclick = playRadio;
 
 /* ===== Quran verse keyword search (api.quran.com v4 search) ===== */
 let verseSearchToken = 0;
+/* Concept glossary: [proper Turkish, ...English equivalents]. Lets "namaz"
+   find prayer verses, "fasting" work in the Turkish UI, etc. */
+const QUR_CONCEPTS = [
+  ["namaz", "prayer", "salat"], ["abdest", "ablution", "wudu"], ["oruç", "fasting", "fast"],
+  ["zekât", "zakat", "charity"], ["hac", "hajj", "pilgrimage"], ["umre", "umrah"],
+  ["cuma", "friday"], ["bayram", "eid", "festival"], ["ezan", "adhan", "call to prayer"],
+  ["kıble", "qibla"], ["cami", "mosque"], ["Kur'an", "quran", "koran", "scripture"],
+  ["dua", "supplication", "call upon"], ["tevbe", "repentance"], ["zikir", "remembrance", "dhikr"],
+  ["sadaka", "charity", "sadaqah"], ["kurban", "sacrifice"], ["cenaze", "funeral"],
+  ["nikâh", "marriage"], ["boşanma", "divorce"], ["miras", "inheritance"], ["yemin", "oath"],
+  ["rüya", "dream", "vision"], ["cihad", "jihad", "striving", "struggle"],
+  ["savaş", "war", "battle", "fighting"], ["cennet", "paradise", "garden"],
+  ["cehennem", "hell", "hellfire"], ["kıyamet", "judgment", "resurrection", "hour"],
+  ["iman", "faith", "belief"], ["ilim", "knowledge"],
+  ["haram", "forbidden", "prohibited", "unlawful"], ["helâl", "lawful", "permissible", "halal"],
+  ["içki", "wine", "intoxicant"], ["kumar", "gambling"], ["faiz", "usury", "interest"],
+  ["yalan", "lie", "lying", "falsehood"], ["gıybet", "backbiting", "slander"],
+  ["zina", "adultery", "fornication"], ["hırsızlık", "theft", "stealing"],
+  ["anne", "mother", "mothers"], ["baba", "father"], ["akraba", "kinship", "relatives", "kindred"],
+  ["komşu", "neighbor", "neighbour"], ["kadın", "woman", "women"], ["erkek", "man", "men"],
+  ["çocuk", "child", "children", "offspring"], ["aile", "family", "household"],
+  ["peygamber", "prophet", "messenger"], ["melek", "angel", "angels"], ["şeytan", "satan", "devil"],
+  ["kader", "decree", "destiny"], ["rızık", "provision", "sustenance"],
+  ["sabır", "patience", "patient"], ["şükür", "gratitude", "grateful", "thanks"],
+  ["adalet", "justice"], ["zulüm", "injustice", "oppression", "wrongdoing"],
+  ["merhamet", "mercy", "merciful", "compassion"], ["şifa", "healing", "cure"],
+  ["ölüm", "death"], ["ahiret", "hereafter", "afterlife"], ["şehit", "martyr"],
+  ["infak", "spending"], ["tavaf", "tawaf", "circumambulation"], ["kadir gecesi", "night of decree", "night of qadr"]
+];
+function qNorm(s) {
+  return s.toLocaleLowerCase("tr").replace(/â/g, "a").replace(/î/g, "i").replace(/û/g, "u")
+    .replace(/ç/g, "c").replace(/ğ/g, "g").replace(/ö/g, "o").replace(/ş/g, "s").replace(/ü/g, "u").replace(/ı/g, "i");
+}
+/* Original query (UI language) + concept expansions across both languages. */
+function verseSearchQueries(q) {
+  const uiLang = state.lang === "tr" ? "tr" : "en";
+  const out = [], seen = {};
+  const add = (term, lang) => { const k = lang + "|" + term.toLowerCase(); if (!seen[k]) { seen[k] = 1; out.push({ term, lang }); } };
+  add(q, uiLang);
+  const nq = qNorm(q);
+  QUR_CONCEPTS.forEach(c => {
+    if (c.some(t => nq.indexOf(qNorm(t)) !== -1)) {
+      add(c[0], "tr");
+      for (let i = 1; i < c.length; i++) add(c[i], "en");
+    }
+  });
+  return out.slice(0, 5);
+}
 function decodeEnt(s) {
   const ta = document.createElement("textarea");
   ta.innerHTML = s;
@@ -1735,13 +1784,22 @@ async function doVerseSearch(q) {
   q = (q || "").trim();
   if (q.length < 2) { box.classList.add("hidden"); box.innerHTML = ""; return; }
   const my = ++verseSearchToken;
-  const lang = state.lang === "tr" ? "tr" : "en";
   box.classList.remove("hidden");
   box.innerHTML = `<p class="hint">${t("loading")}</p>`;
+  const queries = verseSearchQueries(q);
   try {
-    const j = await (await fetch(`https://api.quran.com/api/v4/search?query=${encodeURIComponent(q)}&size=20&language=${lang}`)).json();
+    const all = await Promise.all(queries.map(o =>
+      fetch(`https://api.quran.com/api/v4/search?query=${encodeURIComponent(o.term)}&size=20&language=${o.lang}`)
+        .then(r => r.json())
+        .then(j => ({ results: (j.search && j.search.results) || [] }))
+        .catch(() => ({ results: [] }))
+    ));
     if (my !== verseSearchToken) return;
-    const res = (j.search && j.search.results) || [];
+    const seen = {}, merged = [];
+    all.forEach(g => g.results.forEach(r => {
+      if (!seen[r.verse_key]) { seen[r.verse_key] = 1; merged.push(r); }
+    }));
+    const res = merged.slice(0, 25);
     if (!res.length) { box.innerHTML = `<p class="hint">${t("resNoRes")}</p>`; return; }
     box.innerHTML = res.map(r => {
       const tr = r.translations && r.translations[0];
