@@ -370,6 +370,8 @@ function hdChapterView(v) {
   const d = HD.data, s = d.sections[String(HD.chapter)];
   let h = "";
   h += '<button class="ghost hd-back" id="hdBackCh" type="button">\u2190 ' + escapeHtml(t("hdBackCh")) + "</button>";
+  h += '<input id="hdSearchCh" class="hd-search" type="search" autocomplete="off" placeholder="' +
+       escapeHtml(t("hdSearchPh")) + '">';
   h += '<h3 class="hd-title">' + escapeHtml(tr ? s.tr : s.en) + "</h3>";
   if (String(HD.chapter) === "0") h += '<p class="note">' + escapeHtml(t("hdGeneralNote")) + "</p>";
   h += '<div class="hd-langrow">' + ["both", "ar", "en"].map(function (l) {
@@ -402,6 +404,14 @@ function hdChapterView(v) {
   const fi = hdFirstIdx(HD.chapter);
   hdSaveLast(HD.chapter, fi, d.hadiths[fi].n);
   hdTrackScroll();
+  const si = document.getElementById("hdSearchCh");
+  let deb = 0;
+  si.addEventListener("input", function () {
+    clearTimeout(deb);
+    const q = si.value.trim();
+    if (q.length < 2) return;
+    deb = setTimeout(function () { HD.query = q; HD.view = "book"; renderHadith(); }, 500);
+  });
 }
 
 /* Cross-book keyword search: scans every downloaded book, one at a time
