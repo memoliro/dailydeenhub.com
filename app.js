@@ -670,9 +670,66 @@ function renderHijriCal() {
   document.getElementById("monthMode").classList.remove("on");
   document.getElementById("ramadanMode").classList.remove("on");
   document.getElementById("hijriMode").classList.add("on");
+  const _cp = document.getElementById("calPrev"), _cn = document.getElementById("calNext");
+  if (_cp) _cp.style.display = "none"; if (_cn) _cn.style.display = "none";
+  const _cd = document.getElementById("calDetail"); if (_cd) _cd.innerHTML = "";
+}
+let calY = null, calM = null, calSel = null; // dual-calendar grid state
+function calDayTimes(y, m, d) {
+  const key = `${pad(d)}-${pad(m)}-${y}`;
+  const entry = (calendar || []).find(e => e.date.gregorian.date === key);
+  if (entry) return entry.timings;
+  if (typeof PrayerCalc !== "undefined") {
+    const tzOff = PrayerCalc.tzOffsetHours(state.place.tz, y, m, d);
+    return PrayerCalc.dayTimes(y, m, d, state.place.lat, state.place.lon, tzOff, state.method, state.school);
+  }
+  return null;
+}
+function renderCalDetail() {
+  const el = document.getElementById("calDetail");
+  if (!el) return;
+  if (monthView !== "month" || calY === null) { el.innerHTML = ""; return; }
+  const now = zoneParts(state.place.tz);
+  const d = calSel || (calY === now.y && calM === now.m ? now.d : 1);
+  const tm = calDayTimes(calY, calM, d);
+  if (!tm) { el.innerHTML = ""; return; }
+  el.innerHTML = `<div class="cald-head">${d} ${localMonth(EN_MONTHS[calM - 1])} ${calY}</div><div class="cald-times">` +
+    PRAYERS.map(k => `<span><i>${nameOf(k)}</i>${tm[k]}</span>`).join("") + `</div>`;
+}
+function renderDualCal() {
+  const now = zoneParts(state.place.tz);
+  if (calY === null) { calY = now.y; calM = now.m; }
+  const heading = document.getElementById("monthHeading");
+  const note = document.getElementById("monthNote");
+  const body = document.getElementById("monthBody");
+  if (heading) heading.textContent = `${localMonth(EN_MONTHS[calM - 1])} ${calY}`;
+  if (note) note.textContent = "";
+  document.querySelector("#panel-month thead").style.display = "none";
+  const daysInMonth = new Date(calY, calM, 0).getDate();
+  const startDow = (new Date(calY, calM - 1, 1).getDay() + 6) % 7; // Monday-first
+  const wd = state.lang === "tr" ? ["Pzt","Sal","\u00c7ar","Per","Cum","Cmt","Paz"] : ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  let html = `<tr>${wd.map(w => `<th>${w}</th>`).join("")}</tr><tr>`;
+  for (let i = 0; i < startDow; i++) html += "<td></td>";
+  for (let d = 1; d <= daysInMonth; d++) {
+    const col = (startDow + d - 1) % 7;
+    if (d > 1 && col === 0) html += "</tr><tr>";
+    const h = gToHLocal(calY, calM, d);
+    const isToday = calY === now.y && calM === now.m && d === now.d;
+    const isSel = calSel === d;
+    html += `<td class="${isToday ? "today" : ""}${isSel ? " sel" : ""}" data-calday="${d}"><b>${d}</b><span class="hday">${h ? h.day : ""}</span></td>`;
+  }
+  html += "</tr>";
+  body.innerHTML = html;
+  document.getElementById("monthMode").classList.add("on");
+  document.getElementById("ramadanMode").classList.remove("on");
+  document.getElementById("hijriMode").classList.remove("on");
+  const cp = document.getElementById("calPrev"), cn = document.getElementById("calNext");
+  if (cp) cp.style.display = ""; if (cn) cn.style.display = "";
+  renderCalDetail();
 }
 function renderMonth() {
   if (monthView === "hijri") { renderHijriCal(); return; }
+  if (monthView === "month") { renderDualCal(); return; }
   document.querySelector("#panel-month thead").style.display = "";
   const now = zoneParts(state.place.tz);
   const monthOf = d => +d.date.gregorian.month.number || +String(d.date.gregorian.date).split("-")[1];
@@ -691,6 +748,9 @@ function renderMonth() {
   }).join("");
   document.getElementById("monthMode").classList.toggle("on", monthView === "month");
   document.getElementById("ramadanMode").classList.toggle("on", monthView === "ramadan");
+  const _cp2 = document.getElementById("calPrev"), _cn2 = document.getElementById("calNext");
+  if (_cp2) _cp2.style.display = "none"; if (_cn2) _cn2.style.display = "none";
+  const _cd2 = document.getElementById("calDetail"); if (_cd2) _cd2.innerHTML = "";
   document.getElementById("hijriMode").classList.toggle("on", monthView === "hijri");
 }
 function renderAyah() {
@@ -1577,7 +1637,17 @@ surahInp.addEventListener("keydown", e => {
 });
 document.addEventListener("click", e => { if (!e.target.closest(".surah-picker")) surahDropShow(false); });
 document.getElementById("radioBtn").onclick = playRadio;
-document.getElementById("monthMode").onclick = () => { monthView = "month"; renderMonth(); };
+document.getElementById("monthMode").onclick = () => { monthView = "month"; calSel = null; renderMonth(); };
+document.getElementById("calPrev").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM--; if (calM < 1) { calM = 12; calY--; } calSel = null; monthView = "month"; renderMonth(); };
+document.getElementById("calNext").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM++; if (calM > 12) { calM = 1; calY++; } calSel = null; monthView = "month"; renderMonth(); };
+document.getElementById("monthBody").addEventListener("click", e => {
+  const td = e.target.closest("td[data-calday]");
+  if (!td || monthView !== "month") return;
+  calSel = +td.dataset.calday;
+  document.querySelectorAll('#monthBody td.sel').forEach(c => c.classList.remove("sel"));
+  td.classList.add("sel");
+  renderCalDetail();
+});
 document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
 document.getElementById("hijriMode").onclick = () => { monthView = "hijri"; renderMonth(); };
 renderStations();

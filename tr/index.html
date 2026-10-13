@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=72" />
+  <link rel="stylesheet" href="/styles.css?v=73" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -94,10 +94,13 @@
         <h2 id="monthHeading">This month</h2>
         <p class="hint" id="monthNote"></p>
         <div class="row">
+          <button class="ghost" id="calPrev" type="button" aria-label="Previous month">‹</button>
           <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
           <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
           <button class="ghost" id="hijriMode" type="button" data-i="hijriCal">Hijri</button>
+          <button class="ghost" id="calNext" type="button" aria-label="Next month">›</button>
         </div>
+        <div id="calDetail" class="cal-detail"></div>
         <div class="scroll"><table><thead><tr>
           <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
           <th data-i="dhuhr">Dhuhr</th><th data-i="asr">Asr</th><th data-i="maghrib">Maghrib</th><th data-i="isha">Isha</th>
@@ -419,7 +422,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=77"></script>
+  <script src="/app.js?v=78"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/daily.js?v=3"></script>
 
