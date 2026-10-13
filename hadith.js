@@ -13,6 +13,8 @@ const HD_BOOK = { file: "/data/hadith/bukhari.json?v=1", ar: "صحيح البخ�
 
 function hdLast() { try { return JSON.parse(localStorage.getItem("ddh-hadith-last") || "null"); } catch (e) { return null; } }
 function hdSaveLast(s, idx, n) { try { localStorage.setItem("ddh-hadith-last", JSON.stringify({ s: s, idx: idx, n: n })); } catch (e) {} }
+function hdIsDownloaded() { try { return localStorage.getItem("ddh-hadith-dl") === "1"; } catch (e) { return false; } }
+function hdMarkDownloaded() { try { localStorage.setItem("ddh-hadith-dl", "1"); } catch (e) {} }
 
 function renderHadith() {
   const v = document.getElementById("hadithView");
@@ -39,8 +41,45 @@ function hdProgressView() {
 }
 
 function hdLoad(v) {
-  if (HD.loading) { hdLoadingView(v); return; }
-  HD.loading = true; HD.progress = 0; hdLoadingView(v);
+  if (HD.data) { renderHadith(); return; }
+  if (hdIsDownloaded()) { hdFetchBook(v); return; }
+  hdPromptView(v);
+}
+
+/* Download prompt: the book lives on the device after a one-time download
+   (the service worker also caches it, so it keeps working offline). */
+function hdPromptView(v) {
+  const tr = state.lang === "tr";
+  v.className = "hd-wrap";
+  v.innerHTML =
+    '<button class="ghost hd-back" data-goto="resources" type="button">\u2190 ' + escapeHtml(t("hdBack")) + "</button>" +
+    '<div class="hd-dlcard">' +
+    '<img class="hd-dlcover" src="/img/resources/covers/bukhari.png?v=1" alt="">' +
+    '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(HD_BOOK.ar) + "</span><br>" +
+    escapeHtml(tr ? HD_BOOK.tr : HD_BOOK.en) + "</h3>" +
+    '<p class="note">' + escapeHtml(t("hdDlBody")) + "</p>" +
+    '<div class="hd-prog" id="hdDlProgWrap" style="display:none"><i id="hdProgBar"></i></div>' +
+    '<p class="note" id="hdProgTxt" style="display:none"></p>' +
+    '<div class="hd-dlbtns">' +
+    '<button class="kutub-inapp" id="hdDlBtn" type="button">' + escapeHtml(t("hdDlBtn")) + "</button>" +
+    '<button class="ghost" id="hdDlLater" type="button">' + escapeHtml(t("hdDlLater")) + "</button>" +
+    "</div></div>";
+  document.getElementById("hdDlBtn").onclick = function () { hdFetchBook(v); };
+  document.getElementById("hdDlLater").onclick = function () { showTab("resources"); };
+}
+
+function hdFetchBook(v) {
+  if (HD.loading) return;
+  HD.loading = true; HD.progress = 0;
+  const w = document.getElementById("hdDlProgWrap");
+  if (w) {
+    w.style.display = "";
+    document.getElementById("hdProgTxt").style.display = "";
+    const btns = document.querySelector(".hd-dlbtns");
+    if (btns) btns.style.display = "none";
+  } else {
+    hdLoadingView(v);
+  }
   fetch(HD_BOOK.file).then(function (r) {
     if (!r.ok) throw new Error("http " + r.status);
     const total = parseInt(r.headers.get("content-length") || "0", 10);
@@ -60,13 +99,13 @@ function hdLoad(v) {
       return JSON.parse(new TextDecoder().decode(buf));
     });
   }).then(function (d) {
-    HD.data = d; HD.loading = false; renderHadith();
+    HD.data = d; HD.loading = false; hdMarkDownloaded(); renderHadith();
   }).catch(function () {
     HD.loading = false;
     v.innerHTML = '<p class="note">Failed to load the book. Please check your connection and try again.</p>' +
       '<button class="ghost" id="hdRetry" type="button">' + escapeHtml(t("hdRetry")) + "</button>";
     const b = document.getElementById("hdRetry");
-    if (b) b.onclick = function () { renderHadith(); };
+    if (b) b.onclick = function () { hdFetchBook(v); };
   });
 }
 
