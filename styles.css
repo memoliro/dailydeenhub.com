@@ -719,6 +719,11 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 /* Shelf bleeds to the screen edges: no side padding on the panel, title keeps its inset. */
 #panel-resources .panel { padding-left: 0; padding-right: 0; }
 #panel-resources .panel > h3, #panel-resources .panel > p.note { padding-left: 18px; padding-right: 18px; }
+/* Reader: cards bleed to the screen edges like the shelf; chrome keeps its inset. */
+#panel-hadith .panel { padding-left: 0; padding-right: 0; }
+#panel-hadith .hd-wrap { padding-left: 18px; padding-right: 18px; }
+#panel-hadith .hd-cards, #panel-hadith .hd-chlist, #panel-hadith #hdResults { margin-left: -18px; margin-right: -18px; }
+.hd-card { scroll-margin-top: 78px; }
 .shelf-book { background: none; border: none; padding: 0; color: inherit; text-decoration: none; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; cursor: pointer; }
 .shelf-cover { position: relative; width: 100%; aspect-ratio: 3/4; border-radius: 6px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.5); }
 .shelf-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
