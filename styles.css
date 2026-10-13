@@ -670,6 +670,8 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .qadha-logrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
 .qadha-logtx i { font-style: normal; opacity: .55; }
 .qadha-ts { opacity: .5; font-size: 13px; white-space: nowrap; }
+.qadha-xlink { text-align: center; margin: 20px 0 4px; }
+.qadha-xlink button { background: none; border: none; padding: 8px; color: var(--gold); font: inherit; font-size: 14px; cursor: pointer; opacity: .92; }
 /* Ramadan fasting tracker (reuses .qadha-* card styles) */
 #ramadanSubRow { justify-content: center; }
 #ramadanSubRow .ghost.on { border-color: var(--gold); color: var(--gold); }

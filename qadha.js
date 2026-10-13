@@ -91,6 +91,12 @@ function renderQadha() {
   if (md) md.onclick = qadhaMissDay;
   renderQadhaRecent();
 }
+const _qadhaGoRamadan = document.getElementById("qadhaGoRamadan");
+if (_qadhaGoRamadan) _qadhaGoRamadan.onclick = () => {
+  ramadanSub = "fasts";
+  showTab("month");
+  if (typeof showRamadan === "function") showRamadan().catch(() => {});
+};
 function renderQadhaRecent() {
   const el = document.getElementById("qadhaRecent");
   if (!el) return;
