@@ -825,3 +825,9 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .tasbih-bigcount b { font-family: var(--serif); font-size: clamp(120px, 32vw, 220px); line-height: 1; font-variant-numeric: tabular-nums; display: block; transition: transform .08s ease; }
 .tasbih-stage:active .tasbih-bigcount b { transform: scale(.94); }
 .tasbih-hint { color: var(--muted); font-size: 15px; margin: 0; }
+/* Tasbih beads: big centered stage, tap anywhere moves a bead */
+.bead-stage { text-align: center; padding: 40px 16px; min-height: 54vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.bead-stage .sub { font-size: 24px; margin: 0; }
+.bead-stage .bead-count { font-size: clamp(84px, 22vw, 150px); font-weight: 700; line-height: 1.1; }
+.bead-stage .bead-count span { font-size: 26px; color: var(--muted); font-weight: 500; }
+.bead-stage #beadStage { width: 100%; align-self: stretch; height: 120px; }

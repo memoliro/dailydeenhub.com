@@ -40,7 +40,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap the beads — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -125,7 +125,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Boncuklara dokunun — her dokunuş bir boncuk ilerletir", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -1924,8 +1924,11 @@ if (_tstage) _tstage.addEventListener("click", e => {
 });
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); };
 document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.onclick = () => { state.tasbihMode = b.dataset.tm; save(); applyTasbihMode(); });
-const _bstage = document.getElementById("beadStage");
-if (_bstage) _bstage.onclick = () => bumpTasbih(true);
+const _bbeads = document.getElementById("tasbihBeads");
+if (_bbeads) _bbeads.addEventListener("click", e => {
+  if (e.target.closest("#beadReset, #beadStyles")) return; // reset / style picker must not count
+  bumpTasbih(true);
+});
 const _breset = document.getElementById("beadReset");
 if (_breset) _breset.onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); renderBeads(false); };
 applyTasbihMode();
