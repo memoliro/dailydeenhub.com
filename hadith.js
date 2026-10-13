@@ -126,6 +126,7 @@ function hdOpenBook(id) {
 function hdOpenResult(bookId, idx) {
   const go = function () {
     HD.book = bookId; HD.data = HD.cache[bookId];
+    hdTrimCache();
     const hh = HD.data.hadiths[idx];
     HD.view = "chapter"; HD.chapter = hh.s; HD.scrollIdx = idx; HD.query = "";
     showTab("hadith");
@@ -380,7 +381,9 @@ function hdChapterView(v) {
 }
 
 /* Cross-book keyword search: scans every downloaded book, one at a time
-   (keeps phone memory low). Returns [{book, hits: [hadithIdx...]}]. */
+   (keeps phone memory low). Returns [{book, hits: [[hadithIdx, "ar"|"en"]]}].
+   Books stay cached while the search view is active; the cache is trimmed
+   when a book is opened or the search is cleared. */
 function hdSearchAll(q, perBookCap) {
   const terms = hdQueryTerms(q), cap = perBookCap || 20;
   const ids = HD_ORDER.filter(hdIsDownloaded);
@@ -389,6 +392,7 @@ function hdSearchAll(q, perBookCap) {
   ids.forEach(function (id) {
     chain = chain.then(function () {
       return hdLoadBookData(id).then(function (d) {
+        HD.cache[id] = d;
         const hits = [];
         for (let i = 0; i < d.hadiths.length && hits.length < cap; i++) {
           const hh = d.hadiths[i];
@@ -399,7 +403,7 @@ function hdSearchAll(q, perBookCap) {
       });
     });
   });
-  return chain.then(function () { hdTrimCache(); return results; });
+  return chain.then(function () { return results; });
 }
 
 let hdScrollBound = false;
