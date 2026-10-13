@@ -204,7 +204,7 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 @media (max-width: 640px) {
   .vakt-grid { grid-template-columns: repeat(2, 1fr); }
   .chip { max-width: 140px; }
-  #locBtn, .top-inner > .seg, #themeBtn, #setBtn { display: none; }
+  .top-inner > .seg, #themeBtn, #setBtn { display: none; }
   .menu-btn { display: grid; }
   .menu-panel.open {
     display: block; position: absolute; top: 100%; right: 12px; z-index: 30;
