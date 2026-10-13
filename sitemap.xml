@@ -20,61 +20,61 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/welcome.html</loc>
+    <loc>https://dailydeenhub.com/welcome</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/qibla.html</loc>
+    <loc>https://dailydeenhub.com/qibla</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/about.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/about.html"/>
+    <loc>https://dailydeenhub.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/about"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/about"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/tr/about.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/about.html"/>
+    <loc>https://dailydeenhub.com/tr/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/about"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/about"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/privacy.html"/>
+    <loc>https://dailydeenhub.com/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/privacy"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/tr/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/privacy.html"/>
+    <loc>https://dailydeenhub.com/tr/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/privacy"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/terms.html"/>
+    <loc>https://dailydeenhub.com/terms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/terms"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dailydeenhub.com/tr/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/terms.html"/>
+    <loc>https://dailydeenhub.com/tr/terms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/terms"/>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
