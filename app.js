@@ -80,6 +80,8 @@ const I18N = {
     qadhaRecent: "Recent activity", qadhaMadeUpLog: "made up", qadhaMissedLog: "missed", qadhaFullDay: "Full day",
     qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago",
     qadhaRamadanNote: "Fasting too? Track your Ramadan fasts the same way \u2192",
+    resTitle: "Kutub al-Sittah", resSub: "The six canonical hadith collections.",
+    resRead: "Read online", resHadith: "hadith",
     ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
     fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
     fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
@@ -163,6 +165,8 @@ const I18N = {
     qadhaRecent: "Son hareketler", qadhaMadeUpLog: "kılındı", qadhaMissedLog: "kaçırıldı", qadhaFullDay: "Tüm gün",
     qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce",
     qadhaRamadanNote: "Oru\u00e7 da tutuyor musun? Ramazan oru\u00e7lar\u0131n\u0131 da ayn\u0131 \u015fekilde takip et \u2192",
+    resTitle: "K\u00fct\u00fcb-i Sitte", resSub: "Alt\u0131 sahih hadis kitab\u0131.",
+    resRead: "\u00c7evrimi\u00e7i oku", resHadith: "hadis",
     ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
     fastCaughtUp: "Borç yok — tüm oruçlar tamam.", fastProgress: "tutuldu",
     fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
@@ -1134,15 +1138,16 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources"))));
   if (id === "quran" && !chapters.length) loadChapters();
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
   if (id === "qadha" && typeof renderQadha === "function") renderQadha();
+  if (id === "resources" && typeof renderResources === "function") renderResources();
   if (id === "live") loadLiveFrames();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {

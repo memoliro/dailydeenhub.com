@@ -672,6 +672,16 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .qadha-ts { opacity: .5; font-size: 13px; white-space: nowrap; }
 .qadha-xlink { text-align: center; margin: 20px 0 4px; }
 .qadha-xlink button { background: none; border: none; padding: 8px; color: var(--gold); font: inherit; font-size: 14px; cursor: pointer; opacity: .92; }
+.res-hero { width: 100%; max-width: 480px; display: block; margin: 4px auto 0; }
+.kutub-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.kutub-card { display: flex; gap: 14px; align-items: flex-start; padding: 15px 16px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--ink) 4%, transparent); text-decoration: none; color: inherit; }
+.kutub-num { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: var(--gold); border: 1px solid var(--gold); margin-top: 2px; }
+.kutub-main { display: flex; flex-direction: column; gap: 2px; }
+.kutub-ar { font-size: 21px; }
+.kutub-en { font-weight: 700; font-size: 16px; }
+.kutub-meta { font-size: 13px; opacity: .6; }
+.kutub-desc { font-size: 14px; opacity: .85; margin-top: 4px; }
+.kutub-link { color: var(--gold); font-weight: 600; font-size: 14px; margin-top: 6px; }
 /* Ramadan fasting tracker (reuses .qadha-* card styles) */
 #ramadanSubRow { justify-content: center; }
 #ramadanSubRow .ghost.on { border-color: var(--gold); color: var(--gold); }
