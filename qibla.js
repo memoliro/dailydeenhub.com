@@ -6,12 +6,12 @@ const LANG = params.get("lang") === "tr" ? "tr" : "en";
 const T = {
   en: { docTitle: "Qibla map", home: "Home", back: "Back", barTitle: "Qibla",
     searchPh: "Search a city", locate: "Locate",
-    bearing: "True qibla", distance: "Distance", you: "You", line: "Line",
+    bearing: "TRUE QIBLA", distance: "DISTANCE", you: "YOU", line: "LINE",
     dragMap: "Drag the map", locUnavailable: "Location unavailable",
     locating: "Locating\u2026", myLocation: "My location", locBlocked: "Location blocked" },
   tr: { docTitle: "K\u0131ble haritas\u0131", home: "Ana Sayfa", back: "Geri", barTitle: "K\u0131ble",
     searchPh: "\u015eehir aray\u0131n", locate: "Bul",
-    bearing: "Ger\u00e7ek k\u0131ble", distance: "Mesafe", you: "Siz", line: "Hat",
+    bearing: "GER\u00c7EK KIBLE", distance: "MESAFE", you: "S\u0130Z", line: "HAT",
     dragMap: "Haritay\u0131 s\u00fcr\u00fckleyin", locUnavailable: "Konum al\u0131namad\u0131",
     locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi" }
 }[LANG];
