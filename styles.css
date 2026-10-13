@@ -191,6 +191,16 @@ label.field { display: block; margin: 10px 0; color: var(--muted); font-size: 13
 .modal { position: fixed; inset: 0; z-index: 40; background: rgba(6, 8, 16, 0.55); display: grid; place-items: start center; padding: 16px; overflow-y: auto; }
 .sheet { width: min(560px, 100%); background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 18px; margin: 4vh auto; max-height: 92vh; max-height: 92dvh; overflow-y: auto; }
 .sheet h3 { font-family: var(--serif); font-size: 28px; margin: 4px 0 12px; }
+/* Main app container: phone-card look on mobile, normal web-app width on desktop */
+.app-main { width: min(560px, 100%); background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 18px; margin: 4vh auto; max-height: 92vh; max-height: 92dvh; overflow-y: auto; }
+.app-main h3 { font-family: var(--serif); font-size: 28px; margin: 4px 0 12px; }
+@media (min-width: 901px) {
+  .app-main { width: min(1120px, calc(100% - 48px)); background: transparent; border: 0; border-radius: 0; padding: 26px 8px 120px; margin: 0 auto; max-height: none; overflow: visible; }
+  .strip { grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .dcards { grid-template-columns: repeat(2, 1fr); }
+  .more-grid { grid-template-columns: repeat(5, 1fr); }
+  .shelf-grid { grid-template-columns: repeat(6, 1fr); }
+}
 .results { list-style: none; margin: 10px 0 0; padding: 0; max-height: 280px; overflow: auto; }
 .note { color: var(--dim); font-size: 12px; line-height: 1.5; }
 .count-btn { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: color-mix(in srgb, var(--gold) 10%, transparent); padding: 16px; text-align: left; }
