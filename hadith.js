@@ -77,6 +77,17 @@ function hdMatchText(hh, q, terms) {
   for (let i = 0; i < terms.length; i++) if (enl.indexOf(terms[i]) !== -1) return "en";
   return null;
 }
+/* Wrap matched search terms in a subtle highlight. Applied after HTML-escaping. */
+function hdHighlight(text, q, terms, isEn) {
+  const esc = escapeHtml(text);
+  const words = (isEn ? terms : [q]).map(function (w) { return w.trim(); }).filter(Boolean);
+  const uniq = [];
+  words.forEach(function (w) { if (uniq.indexOf(w) === -1) uniq.push(w); });
+  uniq.sort(function (a, b) { return b.length - a.length; });
+  if (!uniq.length) return esc;
+  const pat = uniq.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }).join("|");
+  return esc.replace(new RegExp("(" + pat + ")", "gi"), '<span class="hd-hl">$1</span>');
+}
 
 const HD = {
   book: "bukhari", cache: {}, data: null,
@@ -321,11 +332,11 @@ function hdDoSearch(q) {
       const i = triple[0], hh = triple[1];
       const sec = d.sections[String(hh.s)];
       const enHit = triple[2] === "en";
-      const snip = (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026";
+      const snip = hdHighlight((enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026", q, terms, enHit);
       return '<button class="hd-resrow" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
         '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
-        '<span class="hd-rSnip"' + (enHit ? "" : ' dir="rtl" lang="ar"') + ">" + escapeHtml(snip) + "</span></span></button>";
+        '<span class="hd-rSnip"' + (enHit ? "" : ' dir="rtl" lang="ar"') + ">" + snip + "</span></span></button>";
     }).join("");
   box.querySelectorAll("[data-i]").forEach(function (btn) {
     btn.onclick = function () { const i = +btn.dataset.i; hdOpenChapter(HD.data.hadiths[i].s, i); };

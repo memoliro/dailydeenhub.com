@@ -726,6 +726,7 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 #panel-resources .panel > #resSearchWrap { padding-left: 18px; padding-right: 18px; }
 #resSearch { margin-bottom: 4px; }
 #resSearchWrap .hd-search { background: color-mix(in srgb, var(--gold) 7%, transparent); }
+.hd-hl { background: color-mix(in srgb, var(--gold) 20%, transparent); border-radius: 3px; padding: 0 2px; }
 .res-bookhead { display: flex; align-items: center; gap: 10px; margin: 16px 0 8px; }
 .res-bookhead img { width: 40px; height: 53px; object-fit: cover; border-radius: 6px; flex: 0 0 auto; }
 .res-bookt { font-weight: 700; flex: 1 1 auto; min-width: 0; }

@@ -82,16 +82,17 @@ function resDoSearch(q) {
   });
 }
 
-function resSnippet(hh, which) {
+function resSnippet(hh, which, q, terms) {
   const enHit = which === "en";
-  return { text: (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026", rtl: !enHit };
+  const raw = (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026";
+  return { html: hdHighlight(raw, q, terms, enHit), rtl: !enHit };
 }
 
 function resRenderResults() {
   const box = document.getElementById("resResults");
   if (!box || !RES.query) return;
   const tr = state.lang === "tr";
-  const q = RES.query, ql = q.toLowerCase();
+  const q = RES.query, terms = hdQueryTerms(q);
   if (RES.searching) {
     box.innerHTML = '<p class="note">' + escapeHtml(t("resSearching")) + "</p>";
     return;
@@ -111,11 +112,11 @@ function resRenderResults() {
     h += '<div class="res-hits">' + r.hits.map(function (hit) {
       const i = hit[0], hh = d.hadiths[i];
       const sec = d.sections[String(hh.s)];
-      const sn = resSnippet(hh, hit[1]);
+      const sn = resSnippet(hh, hit[1], q, terms);
       return '<button class="hd-resrow" data-b="' + r.book + '" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
         '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
-        '<span class="hd-rSnip"' + (sn.rtl ? ' dir="rtl" lang="ar"' : "") + ">" + escapeHtml(sn.text) + "</span></span></button>";
+        '<span class="hd-rSnip"' + (sn.rtl ? ' dir="rtl" lang="ar"' : "") + ">" + sn.html + "</span></span></button>";
     }).join("") + "</div>";
   });
   // Books not yet downloaded: offer to add them to the search corpus.
