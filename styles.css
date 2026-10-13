@@ -663,8 +663,8 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .qadha-actions { display: flex; gap: 10px; }
 .qbtn { flex: 1; height: 46px; border-radius: 13px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 15px; font-weight: 600; cursor: pointer; }
 .qbtn:disabled { opacity: .25; cursor: default; }
-.qbtn.done { border-color: var(--green); color: var(--green); }
-.qbtn.miss { border-color: var(--gold); color: var(--gold); }
+.qbtn.done { border-color: var(--gold); color: var(--gold); }
+.qbtn.miss { border-color: #e08080; color: #e08080; }
 #qadhaMissDay { width: 100%; margin-top: 2px; }
 .qadha-recent-h { margin: 22px 0 4px; font-size: 14px; font-weight: 700; opacity: .7; }
 .qadha-logrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
