@@ -718,6 +718,13 @@ function renderDualCal() {
   document.getElementById("ramadanMode").classList.remove("on");
   const cp = document.getElementById("calPrev"), cn = document.getElementById("calNext");
   if (cp) cp.style.display = ""; if (cn) cn.style.display = "";
+  // leaving Ramadan view: hide its sub-row, fasts box; reshow the table
+  const _dSub = document.getElementById("ramadanSubRow");
+  if (_dSub) _dSub.style.display = "none";
+  const _dFast = document.getElementById("ramadanFasts");
+  if (_dFast) _dFast.style.display = "none";
+  const _dTbl = document.querySelector("#panel-month .scroll");
+  if (_dTbl) _dTbl.style.display = "";
   renderCalDetail();
 }
 function renderMonth() {
@@ -731,8 +738,12 @@ function renderMonth() {
     document.querySelector("#panel-month thead").style.display = "none";
     if (_scrollTbl) _scrollTbl.style.display = "none";
     if (_fastBox) _fastBox.style.display = "";
+    const _cp0 = document.getElementById("calPrev"), _cn0 = document.getElementById("calNext");
+    if (_cp0) _cp0.style.display = "none"; if (_cn0) _cn0.style.display = "none";
     const _rt = document.getElementById("ramTimes"), _rf = document.getElementById("ramFasts");
     if (_rt) _rt.classList.remove("on"); if (_rf) _rf.classList.add("on");
+    document.getElementById("monthMode").classList.remove("on");
+    document.getElementById("ramadanMode").classList.add("on");
     ensureRamadan().then(() => { if (monthView === "ramadan" && ramadanSub === "fasts" && typeof renderRamadanFasts === "function") renderRamadanFasts(); }).catch(() => {});
     if (typeof renderRamadanFasts === "function") renderRamadanFasts();
     return;
@@ -1508,9 +1519,15 @@ async function ensureRamadan() {
 }
 async function showRamadan() {
   monthView = "ramadan";
+  // immediate feedback: highlight the button + show the sub-row before the network fetch
+  document.getElementById("monthMode").classList.remove("on");
+  document.getElementById("ramadanMode").classList.add("on");
+  const _sr = document.getElementById("ramadanSubRow");
+  if (_sr) _sr.style.display = "";
   if (!ramadan.length) {
     document.getElementById("monthBody").innerHTML = `<tr><td colspan="7">${t("loading")}</td></tr>`;
-    await ensureRamadan();
+    try { await ensureRamadan(); }
+    catch (e) { monthView = "month"; renderMonth(); throw e; } // don't leave the UI stuck on failure
   }
   renderMonth();
 }
