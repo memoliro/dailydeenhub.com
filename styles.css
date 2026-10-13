@@ -670,6 +670,13 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .qadha-logrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
 .qadha-logtx i { font-style: normal; opacity: .55; }
 .qadha-ts { opacity: .5; font-size: 13px; white-space: nowrap; }
+/* Ramadan fasting tracker (reuses .qadha-* card styles) */
+#ramadanSubRow { justify-content: center; }
+#ramadanSubRow .ghost.on { border-color: var(--gold); color: var(--gold); }
+.fast-progress { margin-top: 8px; font-size: 14px; opacity: .65; }
+.fast-badge { font-size: 15px; font-weight: 800; min-width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: color-mix(in srgb, var(--gold) 18%, transparent); color: var(--gold); }
+.fast-badge.miss { background: color-mix(in srgb, #e08080 18%, transparent); color: #e08080; }
+.qadha-row.done-mark { border-color: var(--green); }
 .learn-fig { margin: 10px 0; }
 .learn-fig img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
 .learn-support { margin-top: 20px; padding: 18px 16px 14px; border-radius: 16px; border: 1px solid var(--line); text-align: center; background: color-mix(in srgb, var(--ink) 4%, transparent); }

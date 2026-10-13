@@ -78,7 +78,11 @@ const I18N = {
     qadhaOwed: "prayers to make up", qadhaCaughtUp: "All caught up — nothing owed.",
     qadhaRakats: "rakats", qadhaMadeUp: "Made up one", qadhaMissed: "Missed one", qadhaMissDay: "+ Missed a full day",
     qadhaRecent: "Recent activity", qadhaMadeUpLog: "made up", qadhaMissedLog: "missed", qadhaFullDay: "Full day",
-    qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", wxToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
+    qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago",
+    ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
+    fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
+    fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
+    fastRecent: "Recent activity", fastFastedLog: "fasted", fastMissedLog: "missed", fastMadeUpLog: "made up", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", wxToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
@@ -156,7 +160,11 @@ const I18N = {
     qadhaOwed: "kılınacak namaz", qadhaCaughtUp: "Hepsi tamam — borç namaz yok.",
     qadhaRakats: "rekat", qadhaMadeUp: "Birini kıldım", qadhaMissed: "Birini kaçırdım", qadhaMissDay: "+ Koskoca bir gün kaçırdım",
     qadhaRecent: "Son hareketler", qadhaMadeUpLog: "kılındı", qadhaMissedLog: "kaçırıldı", qadhaFullDay: "Tüm gün",
-    qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", wxToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
+    qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce",
+    ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
+    fastCaughtUp: "Borç yok — tüm oruçlar tamam.", fastProgress: "tutuldu",
+    fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
+    fastRecent: "Son hareketler", fastFastedLog: "tutuldu", fastMissedLog: "kaçırıldı", fastMadeUpLog: "kaza edildi", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", wxToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
@@ -228,6 +236,7 @@ let searchTimer = 0;
 let currentChapter = 1;
 let startingAudio = false;
 let monthView = "month";
+let ramadanSub = "times"; // "times" | "fasts"
 let ramadan = [];
 let ramadanStartParts = null;
 function ramadanStartLabel() {
@@ -693,6 +702,25 @@ function renderDualCal() {
 }
 function renderMonth() {
   if (monthView === "month") { renderDualCal(); return; }
+  const _subRow = document.getElementById("ramadanSubRow");
+  const _fastBox = document.getElementById("ramadanFasts");
+  const _scrollTbl = document.querySelector("#panel-month .scroll");
+  const _isRam = monthView === "ramadan";
+  if (_subRow) _subRow.style.display = _isRam ? "" : "none";
+  if (_isRam && ramadanSub === "fasts") {
+    document.querySelector("#panel-month thead").style.display = "none";
+    if (_scrollTbl) _scrollTbl.style.display = "none";
+    if (_fastBox) _fastBox.style.display = "";
+    const _rt = document.getElementById("ramTimes"), _rf = document.getElementById("ramFasts");
+    if (_rt) _rt.classList.remove("on"); if (_rf) _rf.classList.add("on");
+    ensureRamadan().then(() => { if (monthView === "ramadan" && ramadanSub === "fasts" && typeof renderRamadanFasts === "function") renderRamadanFasts(); }).catch(() => {});
+    if (typeof renderRamadanFasts === "function") renderRamadanFasts();
+    return;
+  }
+  if (_scrollTbl) _scrollTbl.style.display = "";
+  if (_fastBox) _fastBox.style.display = "none";
+  const _rt2 = document.getElementById("ramTimes"), _rf2 = document.getElementById("ramFasts");
+  if (_rt2) _rt2.classList.add("on"); if (_rf2) _rf2.classList.remove("on");
   document.querySelector("#panel-month thead").style.display = "";
   const now = zoneParts(state.place.tz);
   const monthOf = d => +d.date.gregorian.month.number || +String(d.date.gregorian.date).split("-")[1];
@@ -1361,19 +1389,23 @@ function playRadio() {
   const pending = audio.play();
   if (pending) pending.catch(() => { btn.textContent = t("radioPlay"); toast(t("audioFail")); });
 }
+async function ensureRamadan() {
+  if (ramadan.length) return;
+  const today = zoneParts(state.place.tz);
+  const hijri = await (await fetch(`https://api.aladhan.com/v1/gToH/${pad(today.d)}-${pad(today.m)}-${today.y}`)).json();
+  const year = +hijri.data.hijri.year;
+  const month = +hijri.data.hijri.month.number;
+  ramadanHijriYear = month > 9 ? year + 1 : year;
+  const res = await fetch(`https://api.aladhan.com/v1/hijriCalendar/${ramadanHijriYear}/9?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`);
+  ramadan = (await res.json()).data || [];
+  const first = ramadan[0];
+  ramadanStartParts = first ? { day: first.date.gregorian.day, monthEn: first.date.gregorian.month.en, year: first.date.gregorian.year } : null;
+}
 async function showRamadan() {
   monthView = "ramadan";
   if (!ramadan.length) {
     document.getElementById("monthBody").innerHTML = `<tr><td colspan="7">${t("loading")}</td></tr>`;
-    const today = zoneParts(state.place.tz);
-    const hijri = await (await fetch(`https://api.aladhan.com/v1/gToH/${pad(today.d)}-${pad(today.m)}-${today.y}`)).json();
-    const year = +hijri.data.hijri.year;
-    const month = +hijri.data.hijri.month.number;
-    const ramadanYear = month > 9 ? year + 1 : year;
-    const res = await fetch(`https://api.aladhan.com/v1/hijriCalendar/${ramadanYear}/9?latitude=${state.place.lat}&longitude=${state.place.lon}&method=${state.method}&school=${state.school}`);
-    ramadan = (await res.json()).data || [];
-    const first = ramadan[0];
-    ramadanStartParts = first ? { day: first.date.gregorian.day, monthEn: first.date.gregorian.month.en, year: first.date.gregorian.year } : null;
+    await ensureRamadan();
   }
   renderMonth();
 }
@@ -1613,6 +1645,9 @@ document.getElementById("monthBody").addEventListener("click", e => {
   renderCalDetail();
 });
 document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
+const _ramTimes = document.getElementById("ramTimes"), _ramFastsBtn = document.getElementById("ramFasts");
+if (_ramTimes) _ramTimes.onclick = () => { ramadanSub = "times"; renderMonth(); };
+if (_ramFastsBtn) _ramFastsBtn.onclick = () => { ramadanSub = "fasts"; renderMonth(); };
 renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) setPlayLabel(t("play")); });
 document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) setPlayLabel(t("play")); });

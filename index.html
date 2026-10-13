@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=78" />
+  <link rel="stylesheet" href="/styles.css?v=79" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -99,6 +99,11 @@
           <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
           <button class="ghost" id="calNext" type="button" aria-label="Next month">›</button>
         </div>
+        <div class="row" id="ramadanSubRow" style="display:none;margin-top:8px">
+          <button class="ghost" id="ramTimes" type="button"><span data-i="ramTimes">Prayer times</span></button>
+          <button class="ghost" id="ramFasts" type="button"><span data-i="ramFasts">My fasts</span></button>
+        </div>
+        <div id="ramadanFasts" style="display:none"></div>
         <div id="calDetail" class="cal-detail"></div>
         <div class="scroll"><table><thead><tr>
           <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
@@ -443,10 +448,11 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=84"></script>
+  <script src="/app.js?v=85"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=2"></script>
+  <script src="/ramadan.js?v=1"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
