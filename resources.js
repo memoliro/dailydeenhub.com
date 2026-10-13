@@ -1,21 +1,21 @@
 /* DailyDeenHub Resources — Kutub al-Sittah library shelf. */
 const KUTUB = [
-  { id: "bukhari", cover: "/img/resources/covers/bukhari.png?v=1",
+  { id: "bukhari", cover: "/img/resources/covers/bukhari.jpg?v=1",
     en: "Sahih al-Bukhari", tr: "Sahih-i Buhârî",
     inapp: true, url: "https://sunnah.com/bukhari" },
-  { id: "muslim", cover: "/img/resources/covers/muslim.png?v=1",
+  { id: "muslim", cover: "/img/resources/covers/muslim.jpg?v=1",
     en: "Sahih Muslim", tr: "Sahih-i Müslim",
     url: "https://sunnah.com/muslim" },
-  { id: "abudawud", cover: "/img/resources/covers/abudawud.png?v=1",
+  { id: "abudawud", cover: "/img/resources/covers/abudawud.jpg?v=1",
     en: "Sunan Abu Dawud", tr: "Sünen-i Ebû Dâvûd",
     url: "https://sunnah.com/abudawud" },
-  { id: "tirmidhi", cover: "/img/resources/covers/tirmidhi.png?v=1",
+  { id: "tirmidhi", cover: "/img/resources/covers/tirmidhi.jpg?v=1",
     en: "Jami' at-Tirmidhi", tr: "Câmiu't-Tirmizî",
     url: "https://sunnah.com/tirmidhi" },
-  { id: "nasai", cover: "/img/resources/covers/nasai.png?v=1",
+  { id: "nasai", cover: "/img/resources/covers/nasai.jpg?v=1",
     en: "Sunan an-Nasa'i", tr: "Sünen-i Nesâî",
     url: "https://sunnah.com/nasai" },
-  { id: "ibnmajah", cover: "/img/resources/covers/ibnmajah.png?v=1",
+  { id: "ibnmajah", cover: "/img/resources/covers/ibnmajah.jpg?v=1",
     en: "Sunan Ibn Majah", tr: "Sünen-i İbn Mâce",
     url: "https://sunnah.com/ibnmajah" }
 ];

@@ -54,7 +54,7 @@ function hdPromptView(v) {
   v.innerHTML =
     '<button class="ghost hd-back" data-goto="resources" type="button">\u2190 ' + escapeHtml(t("hdBack")) + "</button>" +
     '<div class="hd-dlcard">' +
-    '<img class="hd-dlcover" src="/img/resources/covers/bukhari.png?v=1" alt="">' +
+    '<img class="hd-dlcover" src="/img/resources/covers/bukhari.jpg?v=1" alt="">' +
     '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(HD_BOOK.ar) + "</span><br>" +
     escapeHtml(tr ? HD_BOOK.tr : HD_BOOK.en) + "</h3>" +
     '<p class="note">' + escapeHtml(t("hdDlBody")) + "</p>" +
