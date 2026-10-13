@@ -85,7 +85,7 @@ const I18N = {
     ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
     fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
     fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
-    fastRecent: "Recent activity", fastFastedLog: "fasted", fastMissedLog: "missed", fastMadeUpLog: "made up", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", wxToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
+    fastRecent: "Recent activity", fastFastedLog: "fasted", fastMissedLog: "missed", fastMadeUpLog: "made up", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", dayToday: "Today", wxToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
@@ -170,7 +170,7 @@ const I18N = {
     ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
     fastCaughtUp: "Borç yok — tüm oruçlar tamam.", fastProgress: "tutuldu",
     fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
-    fastRecent: "Son hareketler", fastFastedLog: "tutuldu", fastMissedLog: "kaçırıldı", fastMadeUpLog: "kaza edildi", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", wxToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
+    fastRecent: "Son hareketler", fastFastedLog: "tutuldu", fastMissedLog: "kaçırıldı", fastMadeUpLog: "kaza edildi", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", dayToday: "Bugün", wxToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
@@ -546,13 +546,26 @@ const EN_WDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","S
 function renderDayBar(y, m, d) {
   const bar = document.getElementById("gridDayBar");
   if (!bar) return;
-  bar.classList.toggle("hidden", dayOffset === 0);
-  if (dayOffset === 0) return;
+  bar.classList.remove("hidden");
   let txt;
   if (dayOffset === -1) txt = t("dayYesterday");
   else if (dayOffset === 1) txt = t("dayTomorrow");
+  else if (dayOffset === 0) txt = t("dayToday");
   else txt = `${localWeekday(EN_WDAYS[gridDate.getDay()])} ${d} ${localMonth(EN_MONTHS[m - 1])} ${y}`;
   document.getElementById("gridDayLabel").textContent = txt;
+}
+/* Step the prayer-grid day with a little slide animation (page-turn feel). */
+function stepDay(d) {
+  const nd = Math.max(-60, Math.min(60, dayOffset + d));
+  if (nd === dayOffset || !d) return;
+  dayOffset = nd;
+  const el = document.getElementById("vaktGrid");
+  if (el) {
+    el.classList.remove("dslide-next", "dslide-prev");
+    void el.offsetWidth;
+    el.classList.add(d > 0 ? "dslide-next" : "dslide-prev");
+  }
+  renderTimes();
 }
 function renderTimes() {
   const entry = todayEntry();
@@ -2049,11 +2062,11 @@ maybeShowApkNotice();
 if (state.place && typeof state.place.lat === 'number') updateDeclination(state.place.lat, state.place.lon);
 // prayer-card checkboxes use delegation (cards re-render every second)
 const _gdp = document.getElementById("gridDayPrev");
-if (_gdp) _gdp.onclick = () => { dayOffset = Math.max(-60, dayOffset - 1); renderTimes(); };
+if (_gdp) _gdp.onclick = () => stepDay(-1);
 const _gdn = document.getElementById("gridDayNext");
-if (_gdn) _gdn.onclick = () => { dayOffset = Math.min(60, dayOffset + 1); renderTimes(); };
+if (_gdn) _gdn.onclick = () => stepDay(1);
 const _gdl = document.getElementById("gridDayLabel");
-if (_gdl) _gdl.onclick = () => { dayOffset = 0; renderTimes(); };
+if (_gdl) _gdl.onclick = () => stepDay(-dayOffset);
 // Swipe the prayer grid: left -> next day, right -> previous day (standard page-turn direction)
 (function () {
   const el = document.getElementById("vaktGrid");
@@ -2062,10 +2075,7 @@ if (_gdl) _gdl.onclick = () => { dayOffset = 0; renderTimes(); };
   el.addEventListener("touchstart", e => { const tc = e.touches[0]; sx = tc.clientX; sy = tc.clientY; }, { passive: true });
   el.addEventListener("touchend", e => {
     const tc = e.changedTouches[0], dx = tc.clientX - sx, dy = tc.clientY - sy;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      dayOffset = Math.max(-60, Math.min(60, dayOffset + (dx > 0 ? -1 : 1)));
-      renderTimes();
-    }
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) stepDay(dx > 0 ? -1 : 1);
   }, { passive: true });
 })();
 const vg = document.getElementById("vaktGrid");

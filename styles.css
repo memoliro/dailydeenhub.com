@@ -796,3 +796,8 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .grid-daybar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 4px 10px; }
 .grid-daylabel { background: none; border: none; color: var(--ink); font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; padding: 6px 12px; border-radius: 999px; }
 .grid-daylabel:active { opacity: .6; }
+/* prayer-grid day-step slide animation */
+#vaktGrid.dslide-next { animation: dslideNext .28s ease; }
+#vaktGrid.dslide-prev { animation: dslidePrev .28s ease; }
+@keyframes dslideNext { from { transform: translateX(34px); opacity: .25; } to { transform: none; opacity: 1; } }
+@keyframes dslidePrev { from { transform: translateX(-34px); opacity: .25; } to { transform: none; opacity: 1; } }
