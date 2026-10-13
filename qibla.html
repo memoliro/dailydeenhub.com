@@ -24,7 +24,7 @@
     button { border: 1px solid rgba(212,165,116,.28); background: #172033; color: #f6f1e8; border-radius: 999px; padding: 8px 12px; cursor: pointer; }
     #map { width: 100%; height: 100%; min-height: 320px; background: #12182b; }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px 12px 12px; }
-    .stats div { border: 1px solid rgba(212,165,116,.2); border-radius: 14px; padding: 8px 10px; }
+    .stats div { border: 1px solid rgba(212,165,116,.2); border-radius: 14px; padding: 8px 10px; background: #12182b; }
     .stats span { display: block; color: #a7b0c2; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
     .stats strong { font-variant-numeric: tabular-nums; font-size: 18px; }
     .maplibregl-ctrl-attrib { font-size: 11px; }
@@ -41,20 +41,20 @@
         <a href="/" id="home">Home</a>
         <a href="/" id="back">Back</a>
       </div>
-      <b>Qibla</b>
+      <b id="barTitle">Qibla</b>
       <input id="q" placeholder="Search a city" />
       <button id="locate" type="button">Locate</button>
       <ul class="results" id="results"></ul>
     </div>
     <div id="map"></div>
     <div class="stats">
-      <div><span>True qibla</span><strong id="bearing">—</strong></div>
-      <div><span>Distance</span><strong id="distance">—</strong></div>
-      <div><span>You</span><strong id="coords">—</strong></div>
-      <div><span>Line</span><strong id="status">Drag the map</strong></div>
+      <div><span id="lblBearing">True qibla</span><strong id="bearing">—</strong></div>
+      <div><span id="lblDistance">Distance</span><strong id="distance">—</strong></div>
+      <div><span id="lblYou">You</span><strong id="coords">—</strong></div>
+      <div><span id="lblLine">Line</span><strong id="status">Drag the map</strong></div>
     </div>
   </div>
   <script src="/vendor/maplibre/maplibre-gl.js"></script>
-  <script src="/qibla.js?v=1"></script>
+  <script src="/qibla.js?v=2"></script>
 </body>
 </html>

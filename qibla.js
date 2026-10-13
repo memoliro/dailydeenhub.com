@@ -1,6 +1,29 @@
 const KAABA = { lat: 21.4225, lon: 39.8262 };
 const params = new URLSearchParams(location.search);
 if (params.get("embed") === "1") document.body.classList.add("embed");
+/* Map page language: ?lang=tr from the parent app, English default */
+const LANG = params.get("lang") === "tr" ? "tr" : "en";
+const T = {
+  en: { docTitle: "Qibla map", home: "Home", back: "Back", barTitle: "Qibla",
+    searchPh: "Search a city", locate: "Locate",
+    bearing: "True qibla", distance: "Distance", you: "You", line: "Line",
+    dragMap: "Drag the map", locUnavailable: "Location unavailable",
+    locating: "Locating\u2026", myLocation: "My location", locBlocked: "Location blocked" },
+  tr: { docTitle: "K\u0131ble haritas\u0131", home: "Ana Sayfa", back: "Geri", barTitle: "K\u0131ble",
+    searchPh: "\u015eehir aray\u0131n", locate: "Bul",
+    bearing: "Ger\u00e7ek k\u0131ble", distance: "Mesafe", you: "Siz", line: "Hat",
+    dragMap: "Haritay\u0131 s\u00fcr\u00fckleyin", locUnavailable: "Konum al\u0131namad\u0131",
+    locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi" }
+}[LANG];
+(function applyMapI18n() {
+  document.documentElement.lang = LANG;
+  document.title = T.docTitle;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set("home", T.home); set("back", T.back); set("barTitle", T.barTitle); set("locate", T.locate);
+  set("lblBearing", T.bearing); set("lblDistance", T.distance); set("lblYou", T.you); set("lblLine", T.line);
+  const q = document.getElementById("q"); if (q) q.placeholder = T.searchPh;
+  const st = document.getElementById("status"); if (st && st.textContent === "Drag the map") st.textContent = T.dragMap;
+})();
 const start = {
   lat: Number(params.get("lat")) || 45.5017,
   lon: Number(params.get("lon")) || -73.5673,
@@ -102,14 +125,14 @@ map.on("load", () => {
 function goTo(lat, lon, label) { setOrigin(lat, lon, label); }
 function locate() {
   if (!navigator.geolocation) {
-    document.getElementById("status").textContent = "Location unavailable";
+    document.getElementById("status").textContent = T.locUnavailable;
     return;
   }
-  document.getElementById("status").textContent = "Locating…";
+  document.getElementById("status").textContent = T.locating;
   navigator.geolocation.getCurrentPosition(pos => {
-    goTo(pos.coords.latitude, pos.coords.longitude, "My location");
+    goTo(pos.coords.latitude, pos.coords.longitude, T.myLocation);
   }, err => {
-    document.getElementById("status").textContent = err.code === 1 ? "Location blocked" : "Location unavailable";
+    document.getElementById("status").textContent = err.code === 1 ? T.locBlocked : T.locUnavailable;
   }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
 }
 

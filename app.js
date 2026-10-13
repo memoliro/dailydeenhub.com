@@ -858,9 +858,9 @@ function renderQibla() {
   const frame = document.getElementById("qiblaFrame");
   const open = document.getElementById("qiblaOpen");
   if (frame) {
-    const src = `/qibla?embed=1&lat=${qp.lat}&lon=${qp.lon}&name=${encodeURIComponent(qp.name)}`;
+    const src = `/qibla?embed=1&lat=${qp.lat}&lon=${qp.lon}&name=${encodeURIComponent(qp.name)}&lang=${state.lang}`;
     if (frame.dataset.place !== src) { frame.dataset.place = src; frame.src = src; }
-    if (open) open.href = `/qibla?lat=${qp.lat}&lon=${qp.lon}&name=${encodeURIComponent(qp.name)}`;
+    if (open) open.href = `/qibla?lat=${qp.lat}&lon=${qp.lon}&name=${encodeURIComponent(qp.name)}&lang=${state.lang}`;
   }
   document.getElementById("qiblaCheck").textContent = atKaaba
     ? (state.lang === "tr" ? "Kâbe’desiniz." : "You are at the Kaaba.")
