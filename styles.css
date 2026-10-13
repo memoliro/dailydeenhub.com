@@ -809,6 +809,8 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 @media (min-width: 901px) {
   .app-main { width: min(1120px, calc(100% - 48px)); background: transparent; border: 0; border-radius: 0; padding: 26px 8px 120px; margin: 0 auto; max-height: none; overflow: visible; }
   .narrow { max-width: none; }
+  /* single-child tab panels: drop the empty second .layout column */
+  .layout:not(:has(> :nth-child(2))) { display: block; }
   .strip { grid-template-columns: repeat(6, 1fr); gap: 14px; }
   .dcards { grid-template-columns: repeat(2, 1fr); }
   .more-grid { grid-template-columns: repeat(5, 1fr); }
