@@ -6,16 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0a0f1e" />
   <meta name="description" content="Reklamsız namaz vakitleri, kıble, aylık imsakiye ve Kur'an okuyucu." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DailyDeenHub" />
+  <meta property="og:title" content="DailyDeenHub — Namaz Vakitleri" />
+  <meta property="og:description" content="Reklamsız namaz vakitleri, kıble, aylık imsakiye ve Kur&#x27;an okuyucu." />
+  <meta property="og:url" content="https://dailydeenhub.com/tr/" />
+  <meta property="og:image" content="https://dailydeenhub.com/icon-512.png" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DailyDeenHub — Namaz Vakitleri" />
+  <meta name="twitter:description" content="Reklamsız namaz vakitleri, kıble, aylık imsakiye ve Kur&#x27;an okuyucu." />
+  <meta name="twitter:image" content="https://dailydeenhub.com/icon-512.png" />
   <link rel="canonical" href="https://dailydeenhub.com/tr/" />
   <link rel="alternate" hreflang="en" href="https://dailydeenhub.com/" />
   <link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/" />
+  <link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/" />
   <title>DailyDeenHub — Namaz Vakitleri</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" href="/favicon.png?v=2" />
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=103" />
+  <link rel="stylesheet" href="/styles.css?v=104" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -42,6 +54,7 @@
     <div class="note" id="sourceLine" style="display:none"></div>
   </section>
   <main class="app-main">
+    <h1 class="sr-only">DailyDeenHub — Namaz Vakitleri</h1>
   <div id="panel-home">
     <div id="gridDayBar" class="grid-daybar hidden">
       <button type="button" class="icon-btn" id="gridDayPrev" aria-label="Previous day">«</button>
@@ -73,15 +86,15 @@
         <p id="asmaMeaning">—</p>
       </article>
       <article class="dcard" id="namesCard">
-        <div class="dcard-h"><span class="dcard-ic">👶</span><div><b data-i="namesDay">Names of the Day</b><span data-i="namesSub">Newborn name ideas</span></div></div>
+        <div class="dcard-h"><span class="dcard-ic">👶</span><div><b data-i="namesDay">Günün İsimleri</b><span data-i="namesSub">Yenidoğan isim önerileri</span></div></div>
         <p class="name-line" id="boyName">—</p>
         <p class="name-line" id="girlName">—</p>
       </article>
     </section>
     <section class="panel pad radio" id="radioCard">
       <div class="row" style="margin-top:0">
-        <h2 data-i="radioTitle" style="margin:0;flex:1">Quran radio</h2>
-        <button class="primary" id="radioBtn" type="button" data-i="radioPlay">Listen</button>
+        <h2 data-i="radioTitle" style="margin:0;flex:1">Kur'an radyosu</h2>
+        <button class="primary" id="radioBtn" type="button" data-i="radioPlay">Dinle</button>
       </div>
       <div class="stations" id="stations"></div>
       <audio id="radioAudio" preload="none"></audio>
@@ -95,23 +108,23 @@
         <p class="hint" id="monthNote"></p>
         <div class="row">
           <button class="ghost" id="calPrev" type="button" aria-label="Previous month">‹</button>
-          <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
-          <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
+          <button class="ghost" id="monthMode" type="button" data-i="thisMonth">Bu ay</button>
+          <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramazan</button>
           <button class="ghost" id="calNext" type="button" aria-label="Next month">›</button>
         </div>
         <div class="row" id="ramadanSubRow" style="display:none;margin-top:8px">
-          <button class="ghost" id="ramTimes" type="button"><span data-i="ramTimes">Prayer times</span></button>
-          <button class="ghost" id="ramFasts" type="button"><span data-i="ramFasts">My fasts</span></button>
+          <button class="ghost" id="ramTimes" type="button"><span data-i="ramTimes">Vakitler</span></button>
+          <button class="ghost" id="ramFasts" type="button"><span data-i="ramFasts">Oruçlarım</span></button>
         </div>
         <div id="ramadanFasts" style="display:none"></div>
         <div id="calDetail" class="cal-detail"></div>
         <div class="scroll"><table><thead><tr>
-          <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
-          <th data-i="dhuhr">Dhuhr</th><th data-i="asr">Asr</th><th data-i="maghrib">Maghrib</th><th data-i="isha">Isha</th>
+          <th data-i="thDate">Tarih</th><th data-i="fajr">İmsak</th><th data-i="sun">Güneş</th>
+          <th data-i="dhuhr">Öğle</th><th data-i="asr">İkindi</th><th data-i="maghrib">Akşam</th><th data-i="isha">Yatsı</th>
         </tr></thead><tbody id="monthBody"></tbody></table></div>
       </div>
       <div class="panel pad">
-        <h2 data-i="ayahTitle">A verse for the day</h2>
+        <h2 data-i="ayahTitle">Günün ayeti</h2>
         <div class="ayah" id="ayahAr"></div>
         <p class="hint" id="ayahText"></p>
         <div class="kicker" id="ayahRef"></div>
@@ -125,34 +138,34 @@
             <g id="dial"></g>
           </svg>
         </div>
-        <div class="row" style="justify-content:center;margin-top:2px"><button id="compassBtn" type="button" data-i="compass">Use compass</button></div>
+        <div class="row" style="justify-content:center;margin-top:2px"><button id="compassBtn" type="button" data-i="compass">Pusulayı aç</button></div>
         <p class="hint" id="qiblaCheck"></p>
         <p class="hint" id="qiblaDistance"></p>
         <p class="hint" id="qiblaLocNote" style="color:var(--gold,#d4a574)"></p>
         <p class="hint" id="qiblaTurn"></p>
       </div>
       <div class="panel pad hidden" id="kaabaView">
-        <p class="hint" id="kaabaHint" data-i="kaabaHint">Hold your phone upright and turn until the Kaaba is centered.</p>
+        <p class="hint" id="kaabaHint" data-i="kaabaHint">Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.</p>
         <div class="kaaba-pano"><img id="kaabaImg" src="/images/kaaba-pano.webp" alt="Kaaba" /></div>
         <div class="deg" id="kaabaDeg">—°</div>
         <p class="hint" id="kaabaTurn" style="text-align:center"></p>
       </div>
       <div class="panel pad map-panel">
-        <h2 data-i="mapTitle">Qibla map</h2>
-        <p class="hint" data-i="mapBody">Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.</p>
+        <h2 data-i="mapTitle">Kıble haritası</h2>
+        <p class="hint" data-i="mapBody">Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.</p>
         <iframe id="qiblaFrame" class="qibla-frame" title="Qibla map" src="/qibla?embed=1&lat=45.5017&lon=-73.5673&name=Montreal"></iframe>
-        <div class="row"><a id="qiblaOpen" href="/qibla.html" data-i="openMap">Open Qibla map</a></div>
+        <div class="row"><a id="qiblaOpen" href="/qibla.html" data-i="openMap">Kıble haritasını aç</a></div>
       </div>
     </section>
     <section id="panel-quran" class="quran-layout hidden">
       <div class="panel pad">
-        <h2 data-i="quranTitle">Quran</h2>
+        <h2 data-i="quranTitle">Kur'an</h2>
         <div class="surah-picker">
-          <input class="search" id="surahSearch" data-i-ph="surahPh" placeholder="Find a surah" autocomplete="off" />
+          <input class="search" id="surahSearch" data-i-ph="surahPh" placeholder="Sure ara" autocomplete="off" />
           <div class="chapters surah-drop hidden" id="chapterList"></div>
         </div>
         <div class="surah-picker" style="margin-top:8px">
-          <input class="search" id="verseSearch" data-i-ph="verseSearchPh" placeholder="Search verses" autocomplete="off" />
+          <input class="search" id="verseSearch" data-i-ph="verseSearchPh" placeholder="Ayetlerde ara…" autocomplete="off" />
           <div class="chapters surah-drop hidden" id="verseResults"></div>
         </div>
       </div>
@@ -164,13 +177,13 @@
         </div>
                 <div class="row" style="margin-top:10px;gap:10px;flex-wrap:wrap;align-items:center">
           <div class="seg" id="quranViewSeg">
-            <button type="button" data-qv="none" data-i="qvNone">None</button>
-            <button type="button" data-qv="trans" data-i="qvTrans">Translation</button>
-            <button type="button" data-qv="pron" data-i="qvPron">Pronunciation</button>
-            <button type="button" data-qv="both" data-i="qvBoth">Both</button>
+            <button type="button" data-qv="none" data-i="qvNone">Yok</button>
+            <button type="button" data-qv="trans" data-i="qvTrans">Meal</button>
+            <button type="button" data-qv="pron" data-i="qvPron">Okunuş</button>
+            <button type="button" data-qv="both" data-i="qvBoth">İkisi</button>
             <button type="button" data-qv="mushaf" data-i="qvMushaf">Mushaf</button>
           </div>
-          <label style="display:flex;gap:6px;align-items:center;font-size:14px"><input type="checkbox" id="followChk" /> <span data-i="followLbl">Follow recitation</span></label>
+          <label style="display:flex;gap:6px;align-items:center;font-size:14px"><input type="checkbox" id="followChk" /> <span data-i="followLbl">Okumayı takip et</span></label>
         </div>
         <audio id="audio" preload="metadata" style="width:100%;margin-top:12px" controls></audio>
         <div id="verses" class="scroll" style="max-height:640px"></div>
@@ -178,37 +191,37 @@
     </section>
     <section id="panel-quiet" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="tasbihTitle">Tasbih</h2>
+        <h2 data-i="tasbihTitle">Tesbih</h2>
         <div class="seg" id="tasbihModeSeg" style="margin-bottom:12px">
-          <button type="button" data-tm="classic" data-i="tmClassic">Classic</button>
-          <button type="button" data-tm="beads" data-i="tmBeads">Beads</button>
+          <button type="button" data-tm="classic" data-i="tmClassic">Klasik</button>
+          <button type="button" data-tm="beads" data-i="tmBeads">Tesbih</button>
         </div>
         <div id="tasbihClassic" class="tasbih-stage">
           <p class="sub" id="tasbihPhrase">Subhanallah</p>
           <div class="tasbih-bigcount"><b id="tasbihCount">0</b></div>
-          <p class="tasbih-hint"><span data-i="tap">Tap anywhere to count</span></p>
+          <p class="tasbih-hint"><span data-i="tap">Saymak için her yere dokunun</span></p>
           <p class="note" id="tasbihNote"></p>
-          <div class="row" style="justify-content:center"><button class="ghost" id="tasbihReset" type="button" data-i="reset">Reset</button></div>
+          <div class="row" style="justify-content:center"><button class="ghost" id="tasbihReset" type="button" data-i="reset">Sıfırla</button></div>
         </div>
         <div id="tasbihBeads" class="bead-stage hidden">
           <p class="sub" id="beadPhrase">Subhanallah</p>
           <div class="bead-count"><b id="beadCount">0</b> <span id="beadTarget">/ 33</span></div>
           <p class="note" id="beadLoop" style="text-align:center">Loop 1</p>
           <div id="beadStage"><div id="beadStrip"></div></div>
-          <p class="hint" style="text-align:center" data-i="beadTap">Tap the beads — each tap moves one bead</p>
+          <p class="hint" style="text-align:center" data-i="beadTap">Her yere dokunun — her dokunuş bir boncuk ilerletir</p>
           <div class="bead-styles" id="beadStyles"></div>
-          <div class="row" style="justify-content:center"><button class="ghost" id="beadReset" type="button" data-i="reset">Reset</button></div>
+          <div class="row" style="justify-content:center"><button class="ghost" id="beadReset" type="button" data-i="reset">Sıfırla</button></div>
         </div>
       </div>
-      <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
+      <div class="panel pad"><h2 data-i="focusTitle">Reklamsız</h2><p class="hint" id="focusBody"></p></div>
     </section>
     <section id="panel-mosques" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="mosquesTitle">Nearby mosques</h2>
-        <p class="sub" data-i="mosquesSub">Mosques near your selected place, from OpenStreetMap.</p>
+        <h2 data-i="mosquesTitle">Yakında bul</h2>
+        <p class="sub" data-i="mosquesSub">Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.</p>
         <div class="row" style="margin-top:0">
-          <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Find mosques near me</button>
-          <button class="primary" id="halalFind" type="button" data-i="halalFind">Find halal restaurants near me</button>
+          <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Yakınımdaki camileri bul</button>
+          <button class="primary" id="halalFind" type="button" data-i="halalFind">Yakınımdaki helal restoranları bul</button>
           <button class="primary" id="marketFind" type="button" data-i="marketFind">Yakınımdaki helal market/kasapları bul</button>
         </div>
                 <div class="row" style="margin-top:8px">
@@ -222,17 +235,17 @@
 
     <section id="panel-live" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="liveTitle">{title}</h2>
-        <p class="sub" data-i="liveSub">{sub}</p>
+        <h2 data-i="liveTitle">Canlı İzle</h2>
+        <p class="sub" data-i="liveSub">İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.</p>
         <div class="live-card">
-          <h3>🕋 <span data-i="liveHaram">{haram}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <h3>🕋 <span data-i="liveHaram">Mescid-i Haram — Mekke</span> <span class="live-badge" data-i="liveBadge">● CANLI</span></h3>
           <div class="live-frame"><iframe id="liveHaramFrame" data-live="haram" title="Masjid al-Haram live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">YouTube'da izle</a></p>
         </div>
         <div class="live-card">
-          <h3>🕌 <span data-i="liveNabawi">{nabawi}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <h3>🕌 <span data-i="liveNabawi">Mescid-i Nebevi — Medine</span> <span class="live-badge" data-i="liveBadge">● CANLI</span></h3>
           <div class="live-frame"><iframe id="liveNabawiFrame" data-live="nabawi" title="Masjid an-Nabawi live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">YouTube'da izle</a></p>
         </div>
       </div>
     </section>
@@ -264,18 +277,18 @@
     <section id="panel-settings" class="layout hidden">
       <div class="panel pad narrow">
       <div id="setMain">
-        <h3 data-i="setTitle">Settings</h3>
-        <button class="menu-row" data-setgo="loc" type="button"><span>📍 <span data-i="setLoc">Location</span></span><span>›</span></button>
-        <button class="menu-row" data-setgo="calc" type="button"><span>🕌 <span data-i="setCalc">Prayer Calculation</span></span><span>›</span></button>
-        <button class="menu-row" data-setgo="remind" type="button"><span>⏰ <span data-i="setRemind">Reminders</span></span><span>›</span></button>
-        <button class="menu-row" data-setgo="appear" type="button"><span>🎨 <span data-i="setAppear">Appearance</span></span><span>›</span></button>
-        <button class="menu-row" data-setgo="notif" type="button"><span>🔔 <span data-i="setNotif">Notifications</span></span><span>›</span></button>
+        <h3 data-i="setTitle">Ayarlar</h3>
+        <button class="menu-row" data-setgo="loc" type="button"><span>📍 <span data-i="setLoc">Konum</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="calc" type="button"><span>🕌 <span data-i="setCalc">Namaz Hesaplama</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="remind" type="button"><span>⏰ <span data-i="setRemind">Hatırlatıcılar</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="appear" type="button"><span>🎨 <span data-i="setAppear">Görünüm</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="notif" type="button"><span>🔔 <span data-i="setNotif">Bildirimler</span></span><span>›</span></button>
       </div>
       <div id="setSub-loc" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setLoc">Location</span></h3>
-        <p class="note" data-i="locNote">Choose your city for accurate prayer times.</p>
-        <div class="row"><button class="primary" id="setLocBtn" type="button" data-i="changeCity">Change city</button></div>
-        <label class="field"><span data-i="langLbl">Language</span>
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setLoc">Konum</span></h3>
+        <p class="note" data-i="locNote">Doğru namaz vakitleri için şehrinizi seçin.</p>
+        <div class="row"><button class="primary" id="setLocBtn" type="button" data-i="changeCity">Şehir değiştir</button></div>
+        <label class="field"><span data-i="langLbl">Dil</span>
           <select id="langSel2" class="field">
             <option value="system" data-i="langSystem">Sistem</option>
             <option value="en">English</option>
@@ -284,28 +297,28 @@
         </label>
       </div>
       <div id="setSub-calc" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setCalc">Prayer Calculation</span></h3>
-        <label class="field"><span data-i="method">Calculation method</span><select id="methodSel" class="field"></select></label>
-        <label class="field"><span data-i="madhab">Asr madhab</span>
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setCalc">Namaz Hesaplama</span></h3>
+        <label class="field"><span data-i="method">Hesap yöntemi</span><select id="methodSel" class="field"></select></label>
+        <label class="field"><span data-i="madhab">İkindi mezhebi</span>
           <select id="schoolSel" class="field">
             <option value="0">Shafi / Maliki / Hanbali</option>
             <option value="1">Hanafi</option>
           </select>
         </label>
-        <p class="note" data-i="methodNote">Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.</p>
+        <p class="note" data-i="methodNote">Vakitler hesaplanır, resmi cami ilanı değildir. Türkiye için Diyanet, Montreal varsayılanı ISNA.</p>
       </div>
       <div id="setSub-remind" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setRemind">Reminders</span></h3>
-        <div class="field"><span data-i="remindBefore">Minutes before prayer</span><div id="remindRows" class="rrows"></div></div>
-        <div class="field"><span data-i="soundLbl">Alert sound</span>
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setRemind">Hatırlatıcılar</span></h3>
+        <div class="field"><span data-i="remindBefore">Namazdan önce (dakika)</span><div id="remindRows" class="rrows"></div></div>
+        <div class="field"><span data-i="soundLbl">Uyarı sesi</span>
           <div class="sound-row"><select id="soundSel" class="field"></select><button class="icon-btn" id="soundPreview" type="button" aria-label="Preview sound">▶</button></div>
         </div>
-        <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Upload custom sound</span><input id="soundFile" type="file" accept="audio/*" class="field" /></label>
+        <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Özel ses yükle</span><input id="soundFile" type="file" accept="audio/*" class="field" /></label>
       </div>
       <div id="setSub-appear" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setAppear">Appearance</span></h3>
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setAppear">Görünüm</span></h3>
         
-        <label class="field"><span data-i="langLbl">Language</span>
+        <label class="field"><span data-i="langLbl">Dil</span>
           <select id="langSel" class="field">
             <option value="system" data-i="langSystem">Sistem</option>
             <option value="en">English</option>
@@ -314,20 +327,20 @@
         </label>
       </div>
       <div id="setSub-notif" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setNotif">Notifications</span></h3>
-        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts</span></label>
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setNotif">Bildirimler</span></h3>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Namaz uyarıları (sekme kapalıyken bile)</span></label>
         <p class="note" id="pushNote" style="margin-top:-6px"></p>
         <div id="installRow" class="hidden" style="margin-top:2px">
           <p class="note" id="installHint" style="margin:0 0 8px"></p>
           <button id="installBtn" class="primary hidden" type="button"></button>
         </div>
-        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while this tab is open</span></label>
-        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="adhanChk" type="checkbox" /> <span data-i="adhanAtTime">Play adhan at prayer time</span></label>
-        <p class="note" data-i="adhanNote">Plays the full adhan when the tab is open.</p>
-        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="vibChk" type="checkbox" /> <span data-i="vibLbl">Vibration</span></label>
-        <div class="field" style="margin-top:14px"><span data-i="widgetLbl">Widget</span><p class="note" data-i="widgetNote">Home-screen widget settings will appear here soon.</p></div>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Sekme açıkken haber ver</span></label>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="adhanChk" type="checkbox" /> <span data-i="adhanAtTime">Namaz vaktinde ezan çal</span></label>
+        <p class="note" data-i="adhanNote">Sekme açıkken vakit girince ezan çalar.</p>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="vibChk" type="checkbox" /> <span data-i="vibLbl">Titreşim</span></label>
+        <div class="field" style="margin-top:14px"><span data-i="widgetLbl">Widget</span><p class="note" data-i="widgetNote">Ana ekran widget ayarları yakında burada olacak.</p></div>
       </div>
-        <div class="set-foot"><button class="primary" id="setClose" type="button" data-i="done">Done</button></div>
+        <div class="set-foot"><button class="primary" id="setClose" type="button" data-i="done">Tamam</button></div>
       </div>
     </section>
     <section id="panel-more" class="layout hidden">
@@ -357,16 +370,16 @@
     <section id="panel-learn" class="layout hidden">
       <div class="panel pad narrow">
         <div id="learnListView">
-          <h3 data-i="learnTitle">Learning Center</h3>
-          <p class="note" data-i="learnSub">Step-by-step guides, daily duas and the essentials of the faith.</p>
+          <h3 data-i="learnTitle">Öğrenme Merkezi</h3>
+          <p class="note" data-i="learnSub">Adım adım rehberler, günlük dualar ve dinin esasları.</p>
           <div id="learnList" class="learn-list"></div>
           <div class="learn-support">
-            <p><span data-i="learnSupportTx">DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.</span></p>
-            <p><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Support us</span></a></p>
+            <p><span data-i="learnSupportTx">DailyDeenHub ücretsizdir ve hep öyle kalacak. Bu dersler size faydalı olduysa projeyi desteklemeyi düşünün.</span></p>
+            <p><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Bize destek ol</span></a></p>
           </div>
         </div>
         <div id="learnArticleView" class="hidden">
-          <button class="ghost" id="learnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <button class="ghost" id="learnBack" type="button">&larr; <span data-i="learnBack">Geri</span></button>
           <article id="learnArticle" class="learn-article"></article>
         </div>
       </div>
@@ -379,14 +392,14 @@
         <div id="qadhaList" class="qadha-list"></div>
         <button class="ghost" id="qadhaMissDay" type="button"><span data-i="qadhaMissDay">+ Koskoca bir gün kaçırdım</span></button>
         <div id="qadhaRecent"></div>
-        <p class="qadha-xlink"><button id="qadhaGoRamadan" type="button"><span data-i="qadhaRamadanNote">Fasting too?</span></button></p>
+        <p class="qadha-xlink"><button id="qadhaGoRamadan" type="button"><span data-i="qadhaRamadanNote">Oruç da tutuyor musun? Ramazan oruçlarını da aynı şekilde takip et →</span></button></p>
       </div>
     </section>
 
     <section id="panel-resources" class="layout hidden">
       <div class="panel pad narrow">
-        <h3 data-i="resTitle">Kutub al-Sittah</h3>
-        <p class="note" data-i="resSub">The six canonical hadith collections.</p>
+        <h3 data-i="resTitle">Kütüb-i Sitte</h3>
+        <p class="note" data-i="resSub">Altı sahih hadis kitabı.</p>
         <div id="resSearchWrap"></div>
         <div id="kutubList" class="kutub-list"></div>
       </div>
@@ -401,12 +414,12 @@
     <section id="panel-hisnul" class="layout hidden">
       <div class="panel pad narrow">
         <div id="hsnulCatsView">
-          <h3 data-i="hisnulTitle">Hisnul Muslim</h3>
-          <p class="note" data-i="hisnulSub">Authentic daily duas — Arabic, transliteration and translation.</p>
+          <h3 data-i="hisnulTitle">Hisnül Müslim</h3>
+          <p class="note" data-i="hisnulSub">Sahih günlük dualar — Arapça, okunuş ve meal.</p>
           <div id="hsnulList" class="learn-list"></div>
         </div>
         <div id="hsnulDuaView" class="hidden">
-          <button class="ghost" id="hsnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <button class="ghost" id="hsnBack" type="button">&larr; <span data-i="learnBack">Geri</span></button>
           <article id="hsnulArticle" class="learn-article"></article>
         </div>
       </div>
@@ -416,31 +429,31 @@
     <footer class="foot">
       <div class="footer-grid">
         <div class="footer-col">
-          <div class="footer-brand" data-i="brand">Daily Deen Hub</div>
-          <p class="footer-tag" data-i="footTag">Free prayer times, qibla, Quran and more. No account, no ads.</p>
+          <div class="footer-brand" data-i="brand">Günlük Din Merkezi</div>
+          <p class="footer-tag" data-i="footTag">Ücretsiz namaz vakitleri, kıble, Kur'an ve daha fazlası. Hesap yok, reklam yok.</p>
           <p class="footer-copy">&copy; 2026 DailyDeenHub.com</p>
-          <p class="foot-quiet"><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Support us</span></a></p>
+          <p class="foot-quiet"><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Bize destek ol</span></a></p>
         </div>
         <div class="footer-col">
-          <h4 data-i="footFeatures">Features</h4>
+          <h4 data-i="footFeatures">Özellikler</h4>
           <ul>
-            <li><a href="#" data-goto="month" data-i="monthTab">Month</a></li>
-            <li><a href="#" data-goto="qibla" data-i="qiblaTab">Qibla</a></li>
-            <li><a href="#" data-goto="quran" data-i="quranTab">Quran</a></li>
-            <li><a href="#" data-goto="quiet" data-i="tasbihTitle">Tasbih</a></li>
-            <li><a href="#" data-goto="mosques" data-i="mosquesTab">Find</a></li>
+            <li><a href="#" data-goto="month" data-i="monthTab">Ay</a></li>
+            <li><a href="#" data-goto="qibla" data-i="qiblaTab">Kıble</a></li>
+            <li><a href="#" data-goto="quran" data-i="quranTab">Kur'an</a></li>
+            <li><a href="#" data-goto="quiet" data-i="tasbihTitle">Tesbih</a></li>
+            <li><a href="#" data-goto="mosques" data-i="mosquesTab">Bul</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4 data-i="footResources">Resources</h4>
+          <h4 data-i="footResources">Kaynaklar</h4>
           <ul>
-            <li><a href="/tr/about.html" data-i="menuAbout">About</a></li>
-            <li><a href="/tr/terms.html" data-i="terms">Terms</a></li>
-            <li><a href="/tr/privacy.html" data-i="privacy">Privacy</a></li>
+            <li><a href="/tr/about.html" data-i="menuAbout">Hakkında</a></li>
+            <li><a href="/tr/terms.html" data-i="terms">Kullanım Şartları</a></li>
+            <li><a href="/tr/privacy.html" data-i="privacy">Gizlilik</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4 data-i="footFreeTools">Free tools</h4>
+          <h4 data-i="footFreeTools">Ücretsiz araçlar</h4>
           <ul>
             <li><a href="https://jsm-image.com" target="_blank" rel="noopener">JSM Image</a></li>
             <li><a href="https://jsm-video.com" target="_blank" rel="noopener">JSM Video</a></li>
@@ -455,12 +468,12 @@
   </main>
   <div class="modal hidden" id="locModal">
     <div class="sheet">
-      <h3 data-i="placeTitle">Place</h3>
-      <input class="search" id="citySearch" data-i-ph="searchPh" placeholder="Search a city" />
+      <h3 data-i="placeTitle">Yer</h3>
+      <input class="search" id="citySearch" data-i-ph="searchPh" placeholder="Şehir ara" />
       <ul class="results" id="cityResults"></ul>
       <div class="row">
-        <button class="primary" id="gpsBtn" type="button" data-i="gps">Use my location</button>
-        <button class="ghost" id="locClose" type="button" data-i="close">Close</button>
+        <button class="primary" id="gpsBtn" type="button" data-i="gps">Konumumu kullan</button>
+        <button class="ghost" id="locClose" type="button" data-i="close">Kapat</button>
       </div>
     </div>
   </div>
@@ -468,7 +481,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=100"></script>
+  <script src="/app.js?v=101"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>
@@ -479,12 +492,12 @@
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">
-      <h3 data-i="installPopTitle">Install DailyDeenHub</h3>
-      <p class="note" data-i="installPopBody">Get prayer alerts even when your browser is closed. Free, fast, no account needed.</p>
-      <p class="note hidden" id="installPopIOS" data-i="installIOS"></p>
+      <h3 data-i="installPopTitle">Günlük Din Merkezi’ni Yükle</h3>
+      <p class="note" data-i="installPopBody">Tarayıcınız kapalıyken bile namaz uyarıları alın. Ücretsiz, hızlı, hesap gerekmez.</p>
+      <p class="note hidden" id="installPopIOS" data-i="installIOS">📲 iPhone uyarıları için uygulamanın yüklü olması gerekir — 10 saniye sürer:<br><span class="steps">1.</span> Bu tarayıcıda <b>Paylaş</b>’a dokunun<br><span class="steps">2.</span> <b>“Ana Ekrana Ekle”</b>’yi seçin<br><span class="steps">3.</span> Günlük Din Merkezi’ni ana ekrandan açın — uyarılar orada çalışır.</p>
       <div class="row">
-        <button class="primary" id="installPopBtn" type="button" data-i="installBtn">Install app</button>
-        <button class="ghost" id="installPopLater" type="button" data-i="installPopLater">Not now</button>
+        <button class="primary" id="installPopBtn" type="button" data-i="installBtn">Uygulamayı yükle</button>
+        <button class="ghost" id="installPopLater" type="button" data-i="installPopLater">Şimdi değil</button>
       </div>
     </div>
   </div>

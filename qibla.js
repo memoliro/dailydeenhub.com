@@ -8,12 +8,12 @@ const T = {
     searchPh: "Search a city", locate: "Locate",
     bearing: "TRUE QIBLA", distance: "DISTANCE", you: "YOU", line: "LINE",
     dragMap: "Drag the map", locUnavailable: "Location unavailable",
-    locating: "Locating\u2026", myLocation: "My location", locBlocked: "Location blocked" },
+    locating: "Locating\u2026", myLocation: "My location", locBlocked: "Location blocked", liveLabel: "Live" },
   tr: { docTitle: "K\u0131ble haritas\u0131", home: "Ana Sayfa", back: "Geri", barTitle: "K\u0131ble",
     searchPh: "\u015eehir aray\u0131n", locate: "Bul",
     bearing: "GER\u00c7EK KIBLE", distance: "MESAFE", you: "S\u0130Z", line: "HAT",
     dragMap: "Haritay\u0131 s\u00fcr\u00fckleyin", locUnavailable: "Konum al\u0131namad\u0131",
-    locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi" }
+    locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi", liveLabel: "Canl\u0131 konum" }
 }[LANG];
 (function applyMapI18n() {
   document.documentElement.lang = LANG;
@@ -111,7 +111,7 @@ function redraw() {
   document.getElementById("bearing").textContent = data.km < 1 ? "Kaaba" : data.bearing.toFixed(2) + "°";
   document.getElementById("distance").textContent = data.km.toFixed(0) + " km";
   document.getElementById("coords").textContent = origin.lat.toFixed(4) + ", " + origin.lon.toFixed(4);
-  document.getElementById("status").textContent = origin.name || "Live";
+  document.getElementById("status").textContent = origin.name || T.liveLabel;
 }
 
 map.on("load", () => {

@@ -6,9 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0a0f1e" />
   <meta name="description" content="Ad-free prayer times, qibla, monthly timetable, and Quran reader." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DailyDeenHub" />
+  <meta property="og:title" content="DailyDeenHub — Prayer Times" />
+  <meta property="og:description" content="Ad-free prayer times, qibla, monthly timetable, and Quran reader." />
+  <meta property="og:url" content="https://dailydeenhub.com/" />
+  <meta property="og:image" content="https://dailydeenhub.com/icon-512.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DailyDeenHub — Prayer Times" />
+  <meta name="twitter:description" content="Ad-free prayer times, qibla, monthly timetable, and Quran reader." />
+  <meta name="twitter:image" content="https://dailydeenhub.com/icon-512.png" />
   <link rel="canonical" href="https://dailydeenhub.com/" />
   <link rel="alternate" hreflang="en" href="https://dailydeenhub.com/" />
   <link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/" />
+  <link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/" />
   <title>DailyDeenHub — Prayer Times</title>
   <!-- deploy retrigger 2026-10-13 -->
   <link rel="manifest" href="/manifest.json" />
@@ -16,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=103" />
+  <link rel="stylesheet" href="/styles.css?v=104" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -43,6 +55,7 @@
     <div class="note" id="sourceLine" style="display:none"></div>
   </section>
   <main class="app-main">
+    <h1 class="sr-only">DailyDeenHub — Prayer Times</h1>
   <div id="panel-home">
     <div id="gridDayBar" class="grid-daybar hidden">
       <button type="button" class="icon-btn" id="gridDayPrev" aria-label="Previous day">«</button>
@@ -153,7 +166,7 @@
           <div class="chapters surah-drop hidden" id="chapterList"></div>
         </div>
         <div class="surah-picker" style="margin-top:8px">
-          <input class="search" id="verseSearch" data-i-ph="verseSearchPh" placeholder="Search verses" autocomplete="off" />
+          <input class="search" id="verseSearch" data-i-ph="verseSearchPh" placeholder="Search verses…" autocomplete="off" />
           <div class="chapters surah-drop hidden" id="verseResults"></div>
         </div>
       </div>
@@ -196,7 +209,7 @@
           <div class="bead-count"><b id="beadCount">0</b> <span id="beadTarget">/ 33</span></div>
           <p class="note" id="beadLoop" style="text-align:center">Loop 1</p>
           <div id="beadStage"><div id="beadStrip"></div></div>
-          <p class="hint" style="text-align:center" data-i="beadTap">Tap the beads — each tap moves one bead</p>
+          <p class="hint" style="text-align:center" data-i="beadTap">Tap anywhere — each tap moves one bead</p>
           <div class="bead-styles" id="beadStyles"></div>
           <div class="row" style="justify-content:center"><button class="ghost" id="beadReset" type="button" data-i="reset">Reset</button></div>
         </div>
@@ -205,8 +218,8 @@
     </section>
     <section id="panel-mosques" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="mosquesTitle">Nearby mosques</h2>
-        <p class="sub" data-i="mosquesSub">Mosques near your selected place, from OpenStreetMap.</p>
+        <h2 data-i="mosquesTitle">Find nearby</h2>
+        <p class="sub" data-i="mosquesSub">Mosques and halal restaurants near you, from OpenStreetMap.</p>
         <div class="row" style="margin-top:0">
           <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Find mosques near me</button>
           <button class="primary" id="halalFind" type="button" data-i="halalFind">Find halal restaurants near me</button>
@@ -223,17 +236,17 @@
 
     <section id="panel-live" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="liveTitle">{title}</h2>
-        <p class="sub" data-i="liveSub">{sub}</p>
+        <h2 data-i="liveTitle">Watch Live</h2>
+        <p class="sub" data-i="liveSub">Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.</p>
         <div class="live-card">
-          <h3>🕋 <span data-i="liveHaram">{haram}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <h3>🕋 <span data-i="liveHaram">Masjid al-Haram — Makkah</span> <span class="live-badge" data-i="liveBadge">● LIVE</span></h3>
           <div class="live-frame"><iframe id="liveHaramFrame" data-live="haram" title="Masjid al-Haram live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">Watch on YouTube</a></p>
         </div>
         <div class="live-card">
-          <h3>🕌 <span data-i="liveNabawi">{nabawi}</span> <span class="live-badge" data-i="liveBadge">{badge}</span></h3>
+          <h3>🕌 <span data-i="liveNabawi">Masjid an-Nabawi — Madinah</span> <span class="live-badge" data-i="liveBadge">● LIVE</span></h3>
           <div class="live-frame"><iframe id="liveNabawiFrame" data-live="nabawi" title="Masjid an-Nabawi live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">{yt}</a></p>
+          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">Watch on YouTube</a></p>
         </div>
       </div>
     </section>
@@ -316,7 +329,7 @@
       </div>
       <div id="setSub-notif" class="hidden">
         <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setNotif">Notifications</span></h3>
-        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts</span></label>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts (even when tab is closed)</span></label>
         <p class="note" id="pushNote" style="margin-top:-6px"></p>
         <div id="installRow" class="hidden" style="margin-top:2px">
           <p class="note" id="installHint" style="margin:0 0 8px"></p>
@@ -380,7 +393,7 @@
         <div id="qadhaList" class="qadha-list"></div>
         <button class="ghost" id="qadhaMissDay" type="button"><span data-i="qadhaMissDay">+ Missed a full day</span></button>
         <div id="qadhaRecent"></div>
-        <p class="qadha-xlink"><button id="qadhaGoRamadan" type="button"><span data-i="qadhaRamadanNote">Fasting too?</span></button></p>
+        <p class="qadha-xlink"><button id="qadhaGoRamadan" type="button"><span data-i="qadhaRamadanNote">Fasting too? Track your Ramadan fasts the same way →</span></button></p>
       </div>
     </section>
 
@@ -469,7 +482,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=100"></script>
+  <script src="/app.js?v=101"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>
@@ -482,7 +495,7 @@
     <div class="sheet">
       <h3 data-i="installPopTitle">Install DailyDeenHub</h3>
       <p class="note" data-i="installPopBody">Get prayer alerts even when your browser is closed. Free, fast, no account needed.</p>
-      <p class="note hidden" id="installPopIOS" data-i="installIOS"></p>
+      <p class="note hidden" id="installPopIOS" data-i="installIOS">📲 iPhone alerts need the app installed — it takes 10 seconds:<br><span class="steps">1.</span> Tap <b>Share</b> in this browser<br><span class="steps">2.</span> Tap <b>“Add to Home Screen”</b><br><span class="steps">3.</span> Open DailyDeenHub from your home screen — alerts will work there.</p>
       <div class="row">
         <button class="primary" id="installPopBtn" type="button" data-i="installBtn">Install app</button>
         <button class="ghost" id="installPopLater" type="button" data-i="installPopLater">Not now</button>
