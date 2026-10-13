@@ -1,6 +1,6 @@
 :root {
   color-scheme: dark;
-  --bg: #0a0f1e;
+  --bg: #0c3a2a;
   --bg-2: #12182b;
   --panel: rgba(18, 24, 43, 0.82);
   --line: rgba(212, 165, 116, 0.22);
@@ -834,13 +834,3 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 
 /* Screen-reader-only (SEO h1, keeps visual design unchanged) */
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-
-/* Green cards (instead of dark): emerald card backgrounds */
-body:not([data-theme="day"]) .panel,
-body:not([data-theme="day"]) .sheet,
-body:not([data-theme="day"]) .vakt,
-body:not([data-theme="day"]) .dcard,
-body:not([data-theme="day"]) .tracker {
-  background-color: #0e6b4a;
-  background-image: none;
-}
