@@ -40,7 +40,7 @@ const AYAH = [
 ];
 const I18N = {
   en: {
-    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap the beads — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
+    tag: "Prayer times", next: "Next prayer", timeRemaining: "Time Remaining", kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap the beads — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran", quietTab: "Quiet",
     monthTitle: "This month", monthSub: "Imsak through isha for the selected place.", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -125,7 +125,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: {
-    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Boncuklara dokunun — her dokunuş bir boncuk ilerletir", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
+    tag: "Namaz vakitleri", timeRemaining: "Kalan Süre", kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Boncuklara dokunun — her dokunuş bir boncuk ilerletir", next: "Sonraki vakit", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an", quietTab: "Sükûnet",
     monthTitle: "Bu ay", monthSub: "Seçilen yer için imsaktan yatsıya.", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -1279,6 +1279,7 @@ async function openChapter(id, keepAudio = false) {
   verses.scrollTop = previousHeight;
   if (!keepAudio) { const a = document.getElementById("audio"); const p = RECITER_PATHS[state.reciter]; if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${id}.mp3`; a.load(); } else a.removeAttribute("src"); }
   if (state.quranView === "pron" || state.quranView === "both") ensurePron().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
+  if (state.quranView === "mushaf") ensureMushaf().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
 }
 let chapterData = null;
 async function ensurePron() {
@@ -1292,13 +1293,80 @@ function renderVerses() {
   const box = document.getElementById("verses");
   if (!box || !chapterData) return;
   const mode = state.quranView || "trans";
+  if (mode === "mushaf") { renderMushaf(box); }
+  else {
   box.innerHTML = chapterData.uthmani.map((v, i) => {
     const pron = chapterData.pron && chapterData.pron[i] ? `<div class="pron">${escapeHtml(chapterData.pron[i])}</div>` : "";
     const tr = `<div class="tr">${plainTranslation(chapterData.meal[i]?.text)}</div>`;
     const extra = mode === "none" ? "" : mode === "pron" ? pron : mode === "both" ? pron + tr : tr;
     return `<article class="verse" data-v="${i}"><div class="kicker">${escapeHtml(v.verse_key)}</div><div class="ar">${escapeHtml(v.text_uthmani)}</div>${extra}</article>`;
   }).join("");
+  }
   document.querySelectorAll("#quranViewSeg button").forEach(b => b.classList.toggle("on", b.dataset.qv === mode));
+  const fc = document.getElementById("followChk");
+  if (fc) fc.checked = !!state.quranFollow;
+}
+/* ===== Mushaf (book) view: continuous Madani-mushaf pages, word-level Uthmani ===== */
+function arDigits(n) {
+  return String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[+d]);
+}
+async function ensureMushaf() {
+  if (!chapterData || (chapterData.mushaf && chapterData.mushaf.id === chapterData.id)) return;
+  const id = chapterData.id;
+  try {
+    const j = await (await fetch(`https://api.quran.com/api/v4/verses/by_chapter/${id}?words=true&word_fields=text_uthmani,v1_page&per_page=500`)).json();
+    if (!j || !j.verses) return;
+    const verses = j.verses.map(v => ({
+      num: v.verse_number, juz: v.juz_number,
+      words: (v.words || []).map(w => ({ t: w.text_uthmani, page: w.v1_page, line: w.line_number, end: w.char_type_name === "end" }))
+    }));
+    if (chapterData && chapterData.id === id) chapterData.mushaf = { id, verses };
+  } catch { /* renderMushaf shows the loading state and retries */ }
+}
+function renderMushaf(box) {
+  const m = chapterData.mushaf;
+  if (!m || m.id !== chapterData.id) {
+    box.innerHTML = `<p class="hint">${t("loading")}</p>`;
+    ensureMushaf().then(() => {
+      if (chapterData && chapterData.mushaf && chapterData.mushaf.id === chapterData.id && state.quranView === "mushaf") renderVerses();
+    });
+    return;
+  }
+  const ch = (typeof chapters !== "undefined" ? chapters : []).find(c => c.id === chapterData.id) || {};
+  const surahAr = ch.name_arabic || "";
+  const pages = [], pageMap = new Map();
+  m.verses.forEach((v, vi) => v.words.forEach(w => {
+    let pg = pageMap.get(w.page);
+    if (!pg) { pg = { page: w.page, juz: v.juz, lines: new Map() }; pageMap.set(w.page, pg); pages.push(pg); }
+    if (!pg.lines.has(w.line)) pg.lines.set(w.line, []);
+    pg.lines.get(w.line).push({ t: w.t, end: w.end, vi });
+  }));
+  let h = "";
+  pages.forEach((pg, pi) => {
+    h += `<section class="mushaf-page">`;
+    h += `<div class="mushaf-pagehead"><span>${escapeHtml(t("juzLbl"))} ${arDigits(pg.juz)}</span><span class="mph-surah">${escapeHtml(surahAr)}</span></div>`;
+    if (pi === 0) {
+      if (surahAr) h += `<div class="mushaf-surahhead"><span>${escapeHtml(surahAr)}</span></div>`;
+      if (ch.bismillah_pre) h += `<div class="mushaf-basmala">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>`;
+    }
+    pg.lines.forEach(words => {
+      let line = "", curVi = -1, buf = [];
+      const flush = () => {
+        if (!buf.length) return;
+        line += `<span class="mverse" data-v="${curVi}">` + buf.map(w => w.end
+          ? `<span class="ayah-end">${escapeHtml(w.t)}</span>`
+          : `<span class="mw">${escapeHtml(w.t)}</span>`).join(" ") + `</span> `;
+        buf = [];
+      };
+      words.forEach(w => { if (w.vi !== curVi) { flush(); curVi = w.vi; } buf.push(w); });
+      flush();
+      h += `<div class="mline">${line}</div>`;
+    });
+    h += `<div class="mushaf-pagefoot"><span class="mpg-num">${arDigits(pg.page)}</span></div>`;
+    h += `</section>`;
+  });
+  box.innerHTML = h;
+  document.querySelectorAll("#quranViewSeg button").forEach(b => b.classList.toggle("on", b.dataset.qv === "mushaf"));
   const fc = document.getElementById("followChk");
   if (fc) fc.checked = !!state.quranFollow;
 }
@@ -1326,15 +1394,15 @@ async function ensureVerseAudio() {
   return followState.urls;
 }
 function markVerse(i) {
-  document.querySelectorAll("#verses .verse.on").forEach(el => el.classList.remove("on"));
-  const el = document.querySelector(`#verses .verse[data-v="${i}"]`);
-  if (el) { el.classList.add("on"); el.scrollIntoView({ block: "center", behavior: "smooth" }); }
+  document.querySelectorAll("#verses .verse.on, #verses .mverse.on").forEach(el => el.classList.remove("on"));
+  const els = document.querySelectorAll(`#verses .verse[data-v="${i}"], #verses .mverse[data-v="${i}"]`);
+  els.forEach((el, k) => { el.classList.add("on"); if (k === 0) el.scrollIntoView({ block: "center", behavior: "smooth" }); });
 }
 function setPlayLabel(txt) { const b = document.getElementById("playBtn"); if (b) b.textContent = txt; }
 function stopFollow() {
   if (!followState.playing && !followState.urls) return;
   followState.playing = false;
-  document.querySelectorAll("#verses .verse.on").forEach(el => el.classList.remove("on"));
+  document.querySelectorAll("#verses .verse.on, #verses .mverse.on").forEach(el => el.classList.remove("on"));
 }
 function playVerseAt(i) {
   const audio = document.getElementById("audio");
@@ -1663,6 +1731,7 @@ document.getElementById("reciterSel").onchange = e => { state.reciter = +e.targe
 document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async () => {
   state.quranView = b.dataset.qv; save();
   if (state.quranView === "pron" || state.quranView === "both") { await ensurePron(); }
+  if (state.quranView === "mushaf") { await ensureMushaf(); }
   renderVerses();
 });
 const _fc = document.getElementById("followChk");

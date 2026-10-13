@@ -149,6 +149,25 @@ tr.today td { color: var(--gold-2); background: color-mix(in srgb, var(--gold) 1
 .chapters small, .results small { color: var(--muted); display: block; }
 .verse { padding: 14px 0; border-bottom: 1px solid var(--line); }
 .verse .ar { font-family: var(--arab); font-size: 28px; line-height: 1.85; text-align: right; direction: rtl; }
+/* ===== Mushaf (book) view ===== */
+.mushaf-page { background: #f6efdb; color: #2b2118; border-radius: 14px; padding: 16px 14px 10px;
+  margin: 0 0 16px; border: 1px solid #d8c795; box-shadow: 0 2px 14px rgba(0,0,0,.4); direction: rtl; }
+.mushaf-pagehead { display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 13px; color: #7a5c2e; border-bottom: 1px solid #d8c795; padding-bottom: 6px; margin-bottom: 2px; }
+.mph-surah { font-family: var(--arab); font-size: 18px; color: #6b4d1c; }
+.mushaf-surahhead { text-align: center; margin: 12px 0 6px; }
+.mushaf-surahhead span { display: inline-block; border: 2px solid #b98a2f; border-radius: 12px;
+  padding: 6px 30px; font-family: var(--arab); font-size: 26px; color: #6b4d1c; background: #fbf6e8; }
+.mushaf-basmala { text-align: center; font-family: var(--arab); font-size: 23px; margin: 10px 0 6px; }
+.mline { text-align: justify; font-family: var(--arab); font-size: 21px; line-height: 2.15; }
+.mverse { border-radius: 6px; transition: background .3s; }
+.mverse.on { background: rgba(185,138,47,.32); }
+.mw { white-space: normal; }
+.ayah-end { display: inline-block; min-width: 1.6em; text-align: center; border: 1.5px solid #b98a2f;
+  border-radius: 50%; color: #8a5f1c; font-size: .68em; padding: .05em .2em; margin: 0 .2em; }
+.mushaf-pagefoot { text-align: center; margin-top: 10px; }
+.mpg-num { display: inline-block; border: 1.5px solid #b98a2f; border-radius: 8px;
+  padding: 1px 14px; font-size: 13px; color: #7a5c2e; }
 .verse .tr { color: var(--muted); margin-top: 6px; }
 .ayah { font-family: var(--arab); font-size: 28px; line-height: 1.7; text-align: right; direction: rtl; margin: 12px 0; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
