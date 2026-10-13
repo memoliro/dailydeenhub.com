@@ -600,6 +600,16 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .surah-drop { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 40; max-height: 320px; overflow-y: auto; background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0,0,0,.35); padding: 6px; }
 .surah-drop.hidden { display: none; }
 .surah-drop button { width: 100%; text-align: left; }
+/* ===== Quran verse search results ===== */
+.vres { display: block; width: 100%; text-align: left; background: transparent; border: 0;
+  border-bottom: 1px solid var(--line); padding: 10px 8px; cursor: pointer; color: inherit; }
+.vres:last-child { border-bottom: 0; }
+.vres-key { display: inline-block; font-size: 12px; color: var(--gold); border: 1px solid var(--gold);
+  border-radius: 8px; padding: 1px 8px; margin-bottom: 6px; }
+.vres-ar { display: block; font-family: var(--arab); font-size: 20px; line-height: 1.9; text-align: right; }
+.vres-tr { display: block; font-size: 14px; color: var(--muted); margin-top: 4px; }
+#verses .flash { animation: vflash 2.3s ease; border-radius: 8px; }
+@keyframes vflash { 0%, 55% { box-shadow: 0 0 0 2px var(--gold); } 100% { box-shadow: none; } }
 .surah-drop button.active { outline: 2px solid #c9a227; }
 /* Day theme: pattern more present — stronger behind the page, and cards
    go slightly translucent so it shows through them too */
