@@ -97,7 +97,6 @@
           <button class="ghost" id="calPrev" type="button" aria-label="Previous month">‹</button>
           <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
           <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
-          <button class="ghost" id="hijriMode" type="button" data-i="hijriCal">Hijri</button>
           <button class="ghost" id="calNext" type="button" aria-label="Next month">›</button>
         </div>
         <div id="calDetail" class="cal-detail"></div>
@@ -326,9 +325,8 @@
       <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
         <h3 data-i="moreTitle">Daha fazla</h3>
         <div class="more-grid">
-          <button class="tile" data-morego="month" type="button"><span class="tic">📅</span><span class="tlabel" data-i="thisMonth">Bu ay</span></button>
+          <button class="tile" data-morego="month" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Çift takvim</span></button>
           <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramazan</span></button>
-          <button class="tile" data-morego="hijri" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Çift takvim</span></button>
           <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Öğren</span></button>
           <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Kur'an</span></button>
           <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Kıble</span></button>
@@ -422,7 +420,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=78"></script>
+  <script src="/app.js?v=79"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/daily.js?v=3"></script>
 

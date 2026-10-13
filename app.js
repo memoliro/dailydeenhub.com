@@ -624,56 +624,7 @@ function gToHLocal(y, m, d) {
   if (typeof PrayerCalc !== "undefined" && PrayerCalc.gToH) return PrayerCalc.gToH(y, m, d);
   return null;
 }
-function renderHijriCal() {
-  const now = new Date();
-  const h0 = gToHLocal(now.getFullYear(), now.getMonth() + 1, now.getDate());
-  const heading = document.getElementById("monthHeading");
-  const note = document.getElementById("monthNote");
-  const body = document.getElementById("monthBody");
-  if (!h0) { if (heading) heading.textContent = t("hijriCal"); return; }
-  const hy = +h0.year, hm = +h0.month.number;
-  if (heading) heading.textContent = `${hijriName(hm)} ${hy}`;
-  if (note) note.textContent = t("hijriNote");
-  // find Gregorian date of Hijri day 1 by scanning back
-  const d = new Date(now);
-  for (let i = 0; i < 32; i++) {
-    const h = gToHLocal(d.getFullYear(), d.getMonth() + 1, d.getDate());
-    if (+h.day === 1 && +h.month.number === hm) break;
-    d.setDate(d.getDate() - 1);
-  }
-  const first = new Date(d);
-  // month length: scan forward until month changes
-  let len = 29;
-  const d2 = new Date(first);
-  for (let i = 1; i <= 30; i++) {
-    d2.setDate(d2.getDate() + 1);
-    const h = gToHLocal(d2.getFullYear(), d2.getMonth() + 1, d2.getDate());
-    if (+h.month.number !== hm) { len = i; break; }
-    if (i === 30) len = 30;
-  }
-  const startDow = (first.getDay() + 6) % 7; // Monday-first
-  const wd = state.lang === "tr" ? ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"] : ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  let html = `<tr>${wd.map(w => `<th>${w}</th>`).join("")}</tr><tr>`;
-  for (let i = 0; i < startDow; i++) html += "<td></td>";
-  const todayStr = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
-  for (let day = 1; day <= len; day++) {
-    const gd = new Date(first); gd.setDate(gd.getDate() + day - 1);
-    const isToday = `${gd.getFullYear()}-${gd.getMonth()}-${gd.getDate()}` === todayStr;
-    const col = (startDow + day - 1) % 7;
-    if (day > 1 && col === 0) html += "</tr><tr>";
-    html += `<td class="${isToday ? "today" : ""}"><b>${day}</b><span>${gd.getDate()}.${gd.getMonth() + 1}</span></td>`;
-  }
-  html += "</tr>";
-  // swap table head for calendar: use thead for weekdays is already in first row; hide original thead via class
-  body.innerHTML = html;
-  document.querySelector("#panel-month thead").style.display = "none";
-  document.getElementById("monthMode").classList.remove("on");
-  document.getElementById("ramadanMode").classList.remove("on");
-  document.getElementById("hijriMode").classList.add("on");
-  const _cp = document.getElementById("calPrev"), _cn = document.getElementById("calNext");
-  if (_cp) _cp.style.display = "none"; if (_cn) _cn.style.display = "none";
-  const _cd = document.getElementById("calDetail"); if (_cd) _cd.innerHTML = "";
-}
+
 let calY = null, calM = null, calSel = null; // dual-calendar grid state
 function calDayTimes(y, m, d) {
   const key = `${pad(d)}-${pad(m)}-${y}`;
@@ -702,7 +653,11 @@ function renderDualCal() {
   const heading = document.getElementById("monthHeading");
   const note = document.getElementById("monthNote");
   const body = document.getElementById("monthBody");
-  if (heading) heading.textContent = `${localMonth(EN_MONTHS[calM - 1])} ${calY}`;
+  if (heading) {
+    const hMid = gToHLocal(calY, calM, 15);
+    const hPart = hMid ? ` \u00b7 ${hijriName(+hMid.month.number)} ${hMid.year}` : "";
+    heading.textContent = `${localMonth(EN_MONTHS[calM - 1])} ${calY}${hPart}`;
+  }
   if (note) note.textContent = "";
   document.querySelector("#panel-month thead").style.display = "none";
   const daysInMonth = new Date(calY, calM, 0).getDate();
@@ -722,13 +677,11 @@ function renderDualCal() {
   body.innerHTML = html;
   document.getElementById("monthMode").classList.add("on");
   document.getElementById("ramadanMode").classList.remove("on");
-  document.getElementById("hijriMode").classList.remove("on");
   const cp = document.getElementById("calPrev"), cn = document.getElementById("calNext");
   if (cp) cp.style.display = ""; if (cn) cn.style.display = "";
   renderCalDetail();
 }
 function renderMonth() {
-  if (monthView === "hijri") { renderHijriCal(); return; }
   if (monthView === "month") { renderDualCal(); return; }
   document.querySelector("#panel-month thead").style.display = "";
   const now = zoneParts(state.place.tz);
@@ -751,7 +704,6 @@ function renderMonth() {
   const _cp2 = document.getElementById("calPrev"), _cn2 = document.getElementById("calNext");
   if (_cp2) _cp2.style.display = "none"; if (_cn2) _cn2.style.display = "none";
   const _cd2 = document.getElementById("calDetail"); if (_cd2) _cd2.innerHTML = "";
-  document.getElementById("hijriMode").classList.toggle("on", monthView === "hijri");
 }
 function renderAyah() {
   const a = AYAH[Math.floor(Date.now() / 86400000) % AYAH.length];
@@ -1497,7 +1449,7 @@ document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setSh
 document.querySelectorAll("[data-morego]").forEach(b => b.onclick = () => {
   const k = b.dataset.morego;
   showTab("month");
-  const modeBtn = document.getElementById(k === "ramadan" ? "ramadanMode" : k === "hijri" ? "hijriMode" : "monthMode");
+  const modeBtn = document.getElementById(k === "ramadan" ? "ramadanMode" : "monthMode");
   if (modeBtn) modeBtn.click();
   window.scrollTo({ top: 0 });
 });
@@ -1649,7 +1601,6 @@ document.getElementById("monthBody").addEventListener("click", e => {
   renderCalDetail();
 });
 document.getElementById("ramadanMode").onclick = () => showRamadan().catch(() => toast(t("loadFail")));
-document.getElementById("hijriMode").onclick = () => { monthView = "hijri"; renderMonth(); };
 renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) setPlayLabel(t("play")); });
 document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) setPlayLabel(t("play")); });
@@ -1708,7 +1659,6 @@ async function loadWeather() {
     el.innerHTML = wxCache.html;
   } catch { /* leave placeholder */ }
 }
-
 
 // Vertical Kaaba view: when phone is held upright (not flat), show the
 // Kaaba panorama instead of the compass. Pan it so the Kaaba centers
