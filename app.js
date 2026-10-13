@@ -1702,16 +1702,23 @@ async function loadWeather() {
   if (Date.now() - wxCache.t < 18e5 && wxCache.html && wxCache.lang === state.lang) { el.innerHTML = wxCache.html; return; }
   try {
     const { lat, lon } = state.place;
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto&forecast_days=1`);
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max&timezone=auto&forecast_days=3`);
     if (!r.ok) throw 0;
     const j = await r.json();
-    const temp = Math.round(j.current.temperature_2m);
-    const code = j.current.weather_code;
     const tr = state.lang === "tr";
-    const cond = (tr ? WX_CODE_TR : WX_CODE)[code] || "";
-    const icon = WX_ICON[code] || "";
-    wxCache = { t: Date.now(), html: `<span class="wx-t">${icon} ${temp}°</span><span class="wx-c">${cond}</span>`, lang: state.lang };
-    el.innerHTML = wxCache.html;
+    const loc = tr ? "tr-TR" : "en-US";
+    // Day 0 = current conditions; days 1-2 = daily max
+    const days = j.daily.time.map((ds, i) => {
+      const [y, m, d] = ds.split("-").map(Number);
+      const name = i === 0 ? (tr ? "Bugün" : "Today")
+        : new Date(y, m - 1, d).toLocaleDateString(loc, { weekday: "short" });
+      const code = i === 0 ? j.current.weather_code : j.daily.weather_code[i];
+      const temp = i === 0 ? Math.round(j.current.temperature_2m) : Math.round(j.daily.temperature_2m_max[i]);
+      const icon = WX_ICON[code] || "";
+      return `<div class="wx-day"><span class="wx-dn">${name}</span><span class="wx-di">${icon}</span><span class="wx-dt">${temp}°</span></div>`;
+    }).join("");
+    wxCache = { t: Date.now(), html: days, lang: state.lang };
+    el.innerHTML = days;
   } catch { /* leave placeholder */ }
 }
 
