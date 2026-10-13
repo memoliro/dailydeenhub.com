@@ -1145,7 +1145,22 @@ function renderRamadanHub(entry) {
     `<div class="rh-count">${label} <b>${hh}:${String(mm).padStart(2, "0")}</b></div>` +
     (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
+let settingsReturn = "home"; // tab to go back to when Settings' Done is tapped
+function visibleTab() {
+  const home = document.getElementById("panel-home");
+  if (home && !home.classList.contains("hidden")) return "home";
+  const ids = ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith"];
+  for (const k of ids) {
+    const p = document.getElementById("panel-" + k);
+    if (p && !p.classList.contains("hidden")) return k;
+  }
+  return "home";
+}
 function showTab(id) {
+  if (id === "settings") {
+    const cur = visibleTab();
+    if (cur !== "settings") settingsReturn = cur;
+  }
   const homeIds = ["homeHero", "panel-home"];
   const isHome = (id === "home");
   homeIds.forEach(hid => {
@@ -1654,7 +1669,7 @@ document.getElementById("setClose").onclick = () => {
   if (_lt2 !== _lh2) { try { history.replaceState(null, "", _lt2); } catch {} }
   state.vibration = document.getElementById("vibChk").checked;
   save();
-  showTab("home");
+  showTab(settingsReturn);
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
   refresh();
