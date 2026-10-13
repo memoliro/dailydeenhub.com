@@ -320,6 +320,7 @@ a { color: var(--green-bright); }
 #monthBody td.today { background: var(--green); color: #fff; border-radius: 10px; }
 #monthBody td[data-calday] { cursor: pointer; text-align: center; }
 #monthBody td span.hday { color: var(--gold); font-weight: 600; }
+#monthHeading .hh { color: var(--gold); font-size: .85em; font-weight: 400; }
 #monthBody td.today span.hday { color: #ffe9a8; }
 #monthBody td.sel { outline: 2px solid var(--gold); outline-offset: -2px; border-radius: 10px; }
 .cal-detail { margin: 12px 0 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.03); }

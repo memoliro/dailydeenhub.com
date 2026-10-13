@@ -655,8 +655,8 @@ function renderDualCal() {
   const body = document.getElementById("monthBody");
   if (heading) {
     const hMid = gToHLocal(calY, calM, 15);
-    const hPart = hMid ? ` \u00b7 ${hijriName(+hMid.month.number)} ${hMid.year}` : "";
-    heading.textContent = `${localMonth(EN_MONTHS[calM - 1])} ${calY}${hPart}`;
+    const hPart = hMid ? `<span class="hh"> \u00b7 ${hijriName(+hMid.month.number)} ${hMid.year}</span>` : "";
+    heading.innerHTML = `${localMonth(EN_MONTHS[calM - 1])} ${calY}${hPart}`;
   }
   if (note) note.textContent = "";
   document.querySelector("#panel-month thead").style.display = "none";
