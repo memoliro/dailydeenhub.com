@@ -1,20 +1,90 @@
-/* DailyDeenHub Hadith reader — Sahih al-Bukhari pilot.
-   Book data: /data/hadith/bukhari.json (Arabic: public domain; English: Dr. M. Muhsin Khan).
+/* DailyDeenHub Hadith reader — Kutub al-Sittah (all six books).
+   Book data: /data/hadith/<book>.json (Arabic: public domain; English: see per-book attribution).
+   One book downloads at a time, on demand, with an ask-first prompt (~5-12 MB each).
    Views: book (chapters + search) -> chapter (hadith list). EN/TR UI. */
+const HD_BOOKS = {
+  bukhari:  { file: "/data/hadith/bukhari.json?v=1",  ar: "صحيح البخاري", en: "Sahih al-Bukhari",   tr: "Sahih-i Buhârî",    cover: "/img/resources/covers/bukhari.jpg?v=1",  mb: 12, attr: { en: "Dr. M. Muhsin Khan", tr: "Dr. M. Muhsin Khan" } },
+  muslim:   { file: "/data/hadith/muslim.json?v=1",   ar: "صحيح مسلم",    en: "Sahih Muslim",      tr: "Sahih-i Müslim",    cover: "/img/resources/covers/muslim.jpg?v=1",   mb: 10, attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
+  abudawud: { file: "/data/hadith/abudawud.json?v=1", ar: "سنن أبي داود",  en: "Sunan Abu Dawud",   tr: "Sünen-i Ebû Dâvûd", cover: "/img/resources/covers/abudawud.jpg?v=1", mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
+  tirmidhi: { file: "/data/hadith/tirmidhi.json?v=1", ar: "جامع الترمذي",  en: "Jami' at-Tirmidhi", tr: "Câmiu't-Tirmizî",   cover: "/img/resources/covers/tirmidhi.jpg?v=1",  mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
+  nasai:    { file: "/data/hadith/nasai.json?v=1",    ar: "سنن النسائي",   en: "Sunan an-Nasa'i",   tr: "Sünen-i Nesâî",     cover: "/img/resources/covers/nasai.jpg?v=1",    mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
+  ibnmajah: { file: "/data/hadith/ibnmajah.json?v=1", ar: "سنن ابن ماجه",  en: "Sunan Ibn Majah",   tr: "Sünen-i İbn Mâce",  cover: "/img/resources/covers/ibnmajah.jpg?v=1", mb: 5,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } }
+};
+const HD_ORDER = ["bukhari", "muslim", "abudawud", "tirmidhi", "nasai", "ibnmajah"];
+
 const HD = {
-  data: null, loading: false, progress: 0,
+  book: "bukhari", cache: {}, data: null,
+  loading: false, progress: 0,
   view: "book", chapter: null, query: "", lang: "both", scrollIdx: -1
 };
 try {
   const _hl = localStorage.getItem("ddh-hadith-lang");
   if (_hl === "ar" || _hl === "en" || _hl === "both") HD.lang = _hl;
 } catch (e) {}
-const HD_BOOK = { file: "/data/hadith/bukhari.json?v=1", ar: "صحيح البخاري", en: "Sahih al-Bukhari", tr: "Sahih-i Buhârî" };
 
-function hdLast() { try { return JSON.parse(localStorage.getItem("ddh-hadith-last") || "null"); } catch (e) { return null; } }
-function hdSaveLast(s, idx, n) { try { localStorage.setItem("ddh-hadith-last", JSON.stringify({ s: s, idx: idx, n: n })); } catch (e) {} }
-function hdIsDownloaded() { try { return localStorage.getItem("ddh-hadith-dl") === "1"; } catch (e) { return false; } }
-function hdMarkDownloaded() { try { localStorage.setItem("ddh-hadith-dl", "1"); } catch (e) {} }
+function hdBook() { return HD_BOOKS[HD.book]; }
+function hdTitle(b) { const tr = state.lang === "tr"; return tr ? b.tr : b.en; }
+
+/* Per-book download flag + reading position (migrates the old single-book keys). */
+function hdDlKey(id) { return "ddh-hadith-dl-" + id; }
+function hdLastKey(id) { return "ddh-hadith-last-" + id; }
+function hdIsDownloaded(id) {
+  id = id || HD.book;
+  try {
+    if (localStorage.getItem(hdDlKey(id)) === "1") return true;
+    if (id === "bukhari" && localStorage.getItem("ddh-hadith-dl") === "1") return true; // legacy
+    return false;
+  } catch (e) { return false; }
+}
+function hdMarkDownloaded(id) { try { localStorage.setItem(hdDlKey(id || HD.book), "1"); } catch (e) {} }
+function hdLast(id) {
+  try {
+    let raw = localStorage.getItem(hdLastKey(id || HD.book));
+    if (!raw && (id || HD.book) === "bukhari") raw = localStorage.getItem("ddh-hadith-last"); // legacy
+    return JSON.parse(raw || "null");
+  } catch (e) { return null; }
+}
+function hdSaveLast(s, idx, n) { try { localStorage.setItem(hdLastKey(HD.book), JSON.stringify({ s: s, idx: idx, n: n })); } catch (e) {} }
+
+/* Open a book in the reader (from the shelf or search results). */
+function hdOpenBook(id) {
+  if (!HD_BOOKS[id]) return;
+  HD.book = id; HD.view = "book"; HD.chapter = null; HD.query = ""; HD.scrollIdx = -1;
+  HD.data = HD.cache[id] || null;
+  hdTrimCache();
+  showTab("hadith");
+  renderHadith();
+}
+
+/* Jump straight to a search hit: [bookId, hadithIndex]. */
+function hdOpenResult(bookId, idx) {
+  const go = function () {
+    HD.book = bookId; HD.data = HD.cache[bookId];
+    const hh = HD.data.hadiths[idx];
+    HD.view = "chapter"; HD.chapter = hh.s; HD.scrollIdx = idx; HD.query = "";
+    showTab("hadith");
+    renderHadith();
+    requestAnimationFrame(function () {
+      const el = document.getElementById("hdi-" + idx);
+      if (el) el.scrollIntoView({ block: "start" });
+    });
+  };
+  if (HD.cache[bookId]) { go(); return; }
+  hdLoadBookData(bookId).then(function (d) { HD.cache[bookId] = d; go(); });
+}
+
+/* Raw data loader (no prompt UI) — used by the cross-book search. */
+function hdLoadBookData(id) {
+  if (HD.cache[id]) return Promise.resolve(HD.cache[id]);
+  return fetch(HD_BOOKS[id].file).then(function (r) {
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  });
+}
+/* Drop cached books except the one being read, to keep memory low. */
+function hdTrimCache() {
+  Object.keys(HD.cache).forEach(function (k) { if (k !== HD.book) delete HD.cache[k]; });
+}
 
 function renderHadith() {
   const v = document.getElementById("hadithView");
@@ -49,15 +119,15 @@ function hdLoad(v) {
 /* Download prompt: the book lives on the device after a one-time download
    (the service worker also caches it, so it keeps working offline). */
 function hdPromptView(v) {
-  const tr = state.lang === "tr";
+  const b = hdBook(), tr = state.lang === "tr";
   v.className = "hd-wrap";
   v.innerHTML =
     '<button class="ghost hd-back" data-goto="resources" type="button">\u2190 ' + escapeHtml(t("hdBack")) + "</button>" +
     '<div class="hd-dlcard">' +
-    '<img class="hd-dlcover" src="/img/resources/covers/bukhari.jpg?v=1" alt="">' +
-    '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(HD_BOOK.ar) + "</span><br>" +
-    escapeHtml(tr ? HD_BOOK.tr : HD_BOOK.en) + "</h3>" +
-    '<p class="note">' + escapeHtml(t("hdDlBody")) + "</p>" +
+    '<img class="hd-dlcover" src="' + b.cover + '" alt="">' +
+    '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(b.ar) + "</span><br>" +
+    escapeHtml(hdTitle(b)) + "</h3>" +
+    '<p class="note">' + escapeHtml(hdTitle(b)) + " \u00b7 ~" + b.mb + " MB, " + escapeHtml(t("hdDlOnce")) + "</p>" +
     '<div class="hd-prog" id="hdDlProgWrap" style="display:none"><i id="hdProgBar"></i></div>' +
     '<p class="note" id="hdProgTxt" style="display:none"></p>' +
     '<div class="hd-dlbtns">' +
@@ -71,6 +141,7 @@ function hdPromptView(v) {
 function hdFetchBook(v) {
   if (HD.loading) return;
   HD.loading = true; HD.progress = 0;
+  const bookId = HD.book, b = hdBook();
   const w = document.getElementById("hdDlProgWrap");
   if (w) {
     w.style.display = "";
@@ -80,7 +151,7 @@ function hdFetchBook(v) {
   } else {
     hdLoadingView(v);
   }
-  fetch(HD_BOOK.file).then(function (r) {
+  fetch(b.file).then(function (r) {
     if (!r.ok) throw new Error("http " + r.status);
     const total = parseInt(r.headers.get("content-length") || "0", 10);
     const reader = r.body.getReader();
@@ -89,7 +160,7 @@ function hdFetchBook(v) {
       return reader.read().then(function (res) {
         if (res.done) return chunks;
         chunks.push(res.value); got += res.value.length;
-        if (total) { HD.progress = Math.round(got / total * 100); hdProgressView(); }
+        if (total && bookId === HD.book) { HD.progress = Math.round(got / total * 100); hdProgressView(); }
         return pump();
       });
     }
@@ -99,25 +170,29 @@ function hdFetchBook(v) {
       return JSON.parse(new TextDecoder().decode(buf));
     });
   }).then(function (d) {
-    HD.data = d; HD.loading = false; hdMarkDownloaded(); renderHadith();
+    HD.cache[bookId] = d;
+    if (bookId === HD.book) { HD.data = d; }
+    HD.loading = false; hdMarkDownloaded(bookId);
+    if (bookId === HD.book) renderHadith();
+    else if (typeof renderResources === "function") renderResources();
   }).catch(function () {
     HD.loading = false;
     v.innerHTML = '<p class="note">Failed to load the book. Please check your connection and try again.</p>' +
       '<button class="ghost" id="hdRetry" type="button">' + escapeHtml(t("hdRetry")) + "</button>";
-    const b = document.getElementById("hdRetry");
-    if (b) b.onclick = function () { hdFetchBook(v); };
+    const rb = document.getElementById("hdRetry");
+    if (rb) rb.onclick = function () { hdFetchBook(v); };
   });
 }
 
 function hdBookView(v) {
-  const tr = state.lang === "tr";
+  const b = hdBook(), tr = state.lang === "tr";
   const d = HD.data;
-  const secs = Object.keys(d.sections).sort(function (a, b) { return a - b; });
+  const secs = Object.keys(d.sections).sort(function (a, b2) { return a - b2; });
   const last = hdLast();
   let h = "";
   h += '<button class="ghost hd-back" data-goto="resources" type="button">\u2190 ' + escapeHtml(t("hdBack")) + "</button>";
-  h += '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(HD_BOOK.ar) + "</span><br>" +
-       escapeHtml(tr ? HD_BOOK.tr : HD_BOOK.en) + "</h3>";
+  h += '<h3 class="hd-title"><span dir="rtl" lang="ar">' + escapeHtml(b.ar) + "</span><br>" +
+       escapeHtml(hdTitle(b)) + "</h3>";
   h += '<p class="note">' + secs.length + " " + escapeHtml(t("hdChapters")) + " \u00b7 " +
        d.hadiths.length.toLocaleString() + " " + escapeHtml(t("resHadith")) + "</p>";
   if (last && d.sections[String(last.s)]) {
@@ -135,10 +210,11 @@ function hdBookView(v) {
       '<span class="hd-chc">' + s.n + " " + escapeHtml(t("resHadith")) + "</span></span>" +
       '<span class="hd-chev">\u203a</span></button>';
   }).join("") + "</div>";
-  h += '<p class="note hd-attr">' + escapeHtml(t("hdAttr")) + "</p>";
+  h += '<p class="note hd-attr">' + escapeHtml(t("hdAttrAr")) + " \u00b7 " + escapeHtml(t("hdAttrEn")) +
+       ": " + escapeHtml(tr ? b.attr.tr : b.attr.en) + "</p>";
   v.innerHTML = h;
-  v.querySelectorAll("[data-ch]").forEach(function (b) {
-    b.onclick = function () { hdOpenChapter(+b.dataset.ch, hdFirstIdx(+b.dataset.ch)); };
+  v.querySelectorAll("[data-ch]").forEach(function (btn) {
+    btn.onclick = function () { hdOpenChapter(+btn.dataset.ch, hdFirstIdx(+btn.dataset.ch)); };
   });
   const si = document.getElementById("hdSearch");
   let deb = 0;
@@ -183,8 +259,8 @@ function hdDoSearch(q) {
         '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
         '<span class="hd-rSnip"' + (enHit ? "" : ' dir="rtl" lang="ar"') + ">" + escapeHtml(snip) + "</span></span></button>";
     }).join("");
-  box.querySelectorAll("[data-i]").forEach(function (b) {
-    b.onclick = function () { const i = +b.dataset.i; hdOpenChapter(HD.data.hadiths[i].s, i); };
+  box.querySelectorAll("[data-i]").forEach(function (btn) {
+    btn.onclick = function () { const i = +btn.dataset.i; hdOpenChapter(HD.data.hadiths[i].s, i); };
   });
 }
 
@@ -198,7 +274,7 @@ function hdOpenChapter(s, idx) {
 }
 
 function hdChapterView(v) {
-  const tr = state.lang === "tr";
+  const b = hdBook(), tr = state.lang === "tr";
   const d = HD.data, s = d.sections[String(HD.chapter)];
   let h = "";
   h += '<button class="ghost hd-back" id="hdBackCh" type="button">\u2190 ' + escapeHtml(t("hdBackCh")) + "</button>";
@@ -223,17 +299,39 @@ function hdChapterView(v) {
   const back = function () { HD.view = "book"; renderHadith(); };
   document.getElementById("hdBackCh").onclick = back;
   document.getElementById("hdBackCh2").onclick = back;
-  v.querySelectorAll("[data-l]").forEach(function (b) {
-    b.onclick = function () {
-      HD.lang = b.dataset.l;
+  v.querySelectorAll("[data-l]").forEach(function (btn) {
+    btn.onclick = function () {
+      HD.lang = btn.dataset.l;
       try { localStorage.setItem("ddh-hadith-lang", HD.lang); } catch (e) {}
       v.className = "hd-wrap hd-show-" + HD.lang;
-      v.querySelectorAll("[data-l]").forEach(function (x) { x.classList.toggle("on", x === b); });
+      v.querySelectorAll("[data-l]").forEach(function (x) { x.classList.toggle("on", x === btn); });
     };
   });
   const fi = hdFirstIdx(HD.chapter);
   hdSaveLast(HD.chapter, fi, d.hadiths[fi].n);
   hdTrackScroll();
+}
+
+/* Cross-book keyword search: scans every downloaded book, one at a time
+   (keeps phone memory low). Returns [{book, hits: [hadithIdx...]}]. */
+function hdSearchAll(q, perBookCap) {
+  const ql = q.toLowerCase(), cap = perBookCap || 20;
+  const ids = HD_ORDER.filter(hdIsDownloaded);
+  const results = [];
+  let chain = Promise.resolve();
+  ids.forEach(function (id) {
+    chain = chain.then(function () {
+      return hdLoadBookData(id).then(function (d) {
+        const hits = [];
+        for (let i = 0; i < d.hadiths.length && hits.length < cap; i++) {
+          const hh = d.hadiths[i];
+          if (hh.ar.indexOf(q) !== -1 || hh.en.toLowerCase().indexOf(ql) !== -1) hits.push(i);
+        }
+        if (hits.length) results.push({ book: id, hits: hits, total: d.hadiths.length });
+      });
+    });
+  });
+  return chain.then(function () { hdTrimCache(); return results; });
 }
 
 let hdScrollBound = false;
