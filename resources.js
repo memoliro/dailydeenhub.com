@@ -41,15 +41,23 @@ function renderResources() {
   const box = document.getElementById("kutubList");
   if (!box) return;
   const tr = state.lang === "tr";
-  box.innerHTML = KUTUB.map((b, i) =>
-    `<a class="kutub-card" href="${b.url}" target="_blank" rel="noopener">` +
-    `<span class="kutub-num">${i + 1}</span>` +
-    `<span class="kutub-main">` +
-    `<span class="kutub-ar" dir="rtl" lang="ar">${escapeHtml(b.ar)}</span>` +
-    `<span class="kutub-en">${escapeHtml(tr ? b.tr : b.en)}</span>` +
-    `<span class="kutub-meta">${escapeHtml(tr ? b.compTr : b.compEn)} · ~${b.count} ${escapeHtml(t("resHadith"))}</span>` +
-    `<span class="kutub-desc">${escapeHtml(tr ? b.descTr : b.descEn)}</span>` +
-    `<span class="kutub-link">${escapeHtml(t("resRead"))} →</span>` +
-    `</span></a>`
-  ).join("");
+  box.innerHTML = KUTUB.map((b, i) => {
+    const inner =
+      `<span class="kutub-num">${i + 1}</span>` +
+      `<span class="kutub-main">` +
+      `<span class="kutub-ar" dir="rtl" lang="ar">${escapeHtml(b.ar)}</span>` +
+      `<span class="kutub-en">${escapeHtml(tr ? b.tr : b.en)}</span>` +
+      `<span class="kutub-meta">${escapeHtml(tr ? b.compTr : b.compEn)} · ~${b.count} ${escapeHtml(t("resHadith"))}</span>` +
+      `<span class="kutub-desc">${escapeHtml(tr ? b.descTr : b.descEn)}</span>`;
+    if (i === 0) {
+      // Sahih al-Bukhari pilot: read inside the app, or online as before.
+      return `<div class="kutub-card">` + inner +
+        `<span class="kutub-actions"><button type="button" class="kutub-inapp" data-goto="hadith">\uD83D\uDCD6 ${escapeHtml(t("resReadInApp"))}</button>` +
+        `<a class="kutub-link" href="${b.url}" target="_blank" rel="noopener">${escapeHtml(t("resRead"))} →</a></span>` +
+        `</span></div>`;
+    }
+    return `<a class="kutub-card" href="${b.url}" target="_blank" rel="noopener">` + inner +
+      `<span class="kutub-link">${escapeHtml(t("resRead"))} →</span>` +
+      `</span></a>`;
+  }).join("");
 }

@@ -81,7 +81,7 @@ const I18N = {
     qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago",
     qadhaRamadanNote: "Fasting too? Track your Ramadan fasts the same way \u2192",
     resTitle: "Kutub al-Sittah", resSub: "The six canonical hadith collections.",
-    resRead: "Read online", resHadith: "hadith",
+    resRead: "Read online", resHadith: "hadith", resReadInApp: "Read in app", hdBack: "Books", hdBackCh: "Chapters", hdChapters: "chapters", hdSearchPh: "Search all hadith\u2026", hdLoading: "Downloading the book\u2026 (one time only)", hdContinue: "Continue reading", hdNoRes: "No hadith found for this search.", hdResults: "results", hdAttr: "Arabic text: public domain \u00b7 English translation: Dr. M. Muhsin Khan", hdGeneralNote: "The source data did not specify a chapter for these hadith.", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdRetry: "Try again",
     ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
     fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
     fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
@@ -166,7 +166,7 @@ const I18N = {
     qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce",
     qadhaRamadanNote: "Oru\u00e7 da tutuyor musun? Ramazan oru\u00e7lar\u0131n\u0131 da ayn\u0131 \u015fekilde takip et \u2192",
     resTitle: "K\u00fct\u00fcb-i Sitte", resSub: "Alt\u0131 sahih hadis kitab\u0131.",
-    resRead: "\u00c7evrimi\u00e7i oku", resHadith: "hadis",
+    resRead: "\u00c7evrimi\u00e7i oku", resHadith: "hadis", resReadInApp: "Uygulamada oku", hdBack: "Kitaplar", hdBackCh: "B\u00f6l\u00fcmler", hdChapters: "b\u00f6l\u00fcm", hdSearchPh: "T\u00fcm hadislerde ara\u2026", hdLoading: "Kitap indiriliyor\u2026 (yaln\u0131zca bir kez)", hdContinue: "Okumaya devam et", hdNoRes: "Bu aramada hadis bulunamad\u0131.", hdResults: "sonu\u00e7", hdAttr: "Arap\u00e7a metin: kamu mal\u0131 \u00b7 \u0130ngilizce \u00e7eviri: Dr. M. Muhsin Khan", hdGeneralNote: "Kaynak veride bu hadislerin b\u00f6l\u00fcm\u00fc belirtilmemi\u015f.", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdRetry: "Tekrar dene",
     ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
     fastCaughtUp: "Borç yok — tüm oruçlar tamam.", fastProgress: "tutuldu",
     fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
@@ -1138,16 +1138,17 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith"))));
   if (id === "quran" && !chapters.length) loadChapters();
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
   if (id === "qadha" && typeof renderQadha === "function") renderQadha();
   if (id === "resources" && typeof renderResources === "function") renderResources();
+  if (id === "hadith" && typeof renderHadith === "function") renderHadith();
   if (id === "live") loadLiveFrames();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {
