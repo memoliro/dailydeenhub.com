@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=75" />
+  <link rel="stylesheet" href="/styles.css?v=76" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -336,7 +336,7 @@
           <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Geri Bildirim</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
           <button class="tile" data-goto="hisnul" type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
-          <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
+          <button class="tile" data-goto="qadha" type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Hatimler</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Kaynaklar</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Makaleler</span></button>
@@ -360,6 +360,14 @@
           <button class="ghost" id="learnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <article id="learnArticle" class="learn-article"></article>
         </div>
+      </div>
+    <section id="panel-qadha" class="layout hidden">
+      <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
+        <h3 data-i="qadhaTitle">Kaza Namazları</h3>
+        <p class="note" data-i="qadhaSub">Kaçırdığın namazı buraya kaydet, kıldıkça işaretle.</p>
+        <div id="qadhaTotal" class="qadha-total"></div>
+        <div id="qadhaList" class="qadha-list"></div>
+        <button class="ghost" id="qadhaMissDay" type="button"><span data-i="qadhaMissDay">+ Koskoca bir gün kaçırdım</span></button>
       </div>
     </section>
 
@@ -433,9 +441,10 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=81"></script>
+  <script src="/app.js?v=82"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/hisnul.js?v=1"></script>
+  <script src="/qadha.js?v=1"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">

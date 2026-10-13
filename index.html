@@ -336,7 +336,7 @@
           <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Feedback</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Quran radio</span></button>
           <button class="tile" data-goto="hisnul" type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
-          <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Qadha prayers</span></button>
+          <button class="tile" data-goto="qadha" type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Qadha prayers</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Khatms</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Resources</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Articles</span></button>
@@ -360,6 +360,14 @@
           <button class="ghost" id="learnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <article id="learnArticle" class="learn-article"></article>
         </div>
+      </div>
+    <section id="panel-qadha" class="layout hidden">
+      <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
+        <h3 data-i="qadhaTitle">Qadha Prayers</h3>
+        <p class="note" data-i="qadhaSub">Missed a prayer? Log it here, then mark each one as you make it up.</p>
+        <div id="qadhaTotal" class="qadha-total"></div>
+        <div id="qadhaList" class="qadha-list"></div>
+        <button class="ghost" id="qadhaMissDay" type="button"><span data-i="qadhaMissDay">+ Missed a full day</span></button>
       </div>
     </section>
 
@@ -433,9 +441,10 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=81"></script>
+  <script src="/app.js?v=82"></script>
   <script src="/learn.js?v=4"></script>
   <script src="/hisnul.js?v=1"></script>
+  <script src="/qadha.js?v=1"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
