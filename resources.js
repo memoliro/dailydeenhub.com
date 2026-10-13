@@ -1,5 +1,6 @@
 /* DailyDeenHub Resources — Kutub al-Sittah library shelf + cross-book keyword search. */
 const KUTUB = [
+  { id: "quran", quran: true, cover: "/img/resources/covers/quran.jpg?v=1" },
   { id: "bukhari",  cover: "/img/resources/covers/bukhari.jpg?v=1" },
   { id: "muslim",   cover: "/img/resources/covers/muslim.jpg?v=1" },
   { id: "abudawud", cover: "/img/resources/covers/abudawud.jpg?v=1" },
@@ -10,6 +11,7 @@ const KUTUB = [
 const RES = { query: "", results: null, searching: false, searchId: 0 };
 
 function kutubTitle(b) {
+  if (b.quran) return t("quranTab");
   const hb = (typeof HD_BOOKS !== "undefined") ? HD_BOOKS[b.id] : null;
   if (!hb) return b.id;
   return state.lang === "tr" ? hb.tr : hb.en;
@@ -26,12 +28,13 @@ function renderShelf() {
   box.className = "shelf-grid";
   box.innerHTML = KUTUB.map(function (b) {
     const title = kutubTitle(b);
-    const badge = (typeof hdIsDownloaded === "function" && hdIsDownloaded(b.id))
+    const badge = (!b.quran && typeof hdIsDownloaded === "function" && hdIsDownloaded(b.id))
       ? '<span class="shelf-dl">\u2713</span>' : "";
-    return '<button class="shelf-book" data-book="' + b.id + '" type="button">' +
-      '<span class="shelf-cover"><img src="' + b.cover + '" alt="' + escapeHtml(title) + '" loading="lazy">' +
-      badge + "</span>" +
-      '<span class="shelf-title">' + escapeHtml(title) + "</span></button>";
+    const inner = '<span class="shelf-cover"><img src="' + b.cover + '" alt="' +
+      escapeHtml(title) + '" loading="lazy">' + badge + "</span>" +
+      '<span class="shelf-title">' + escapeHtml(title) + "</span>";
+    if (b.quran) return '<button class="shelf-book" data-goto="quran" type="button">' + inner + "</button>";
+    return '<button class="shelf-book" data-book="' + b.id + '" type="button">' + inner + "</button>";
   }).join("");
   box.querySelectorAll("[data-book]").forEach(function (el) {
     el.onclick = function () { hdOpenBook(el.dataset.book); };
@@ -79,8 +82,8 @@ function resDoSearch(q) {
   });
 }
 
-function resSnippet(hh, q, ql) {
-  const enHit = hh.en.toLowerCase().indexOf(ql) !== -1;
+function resSnippet(hh, which) {
+  const enHit = which === "en";
   return { text: (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026", rtl: !enHit };
 }
 
@@ -105,10 +108,10 @@ function resRenderResults() {
     h += '<div class="res-bookhead"><img src="' + b.cover + '" alt="">' +
       '<span class="res-bookt">' + escapeHtml(hdTitle(b)) + "</span>" +
       '<span class="res-bookc">' + r.hits.length + " " + escapeHtml(t("hdResults")) + "</span></div>";
-    h += '<div class="res-hits">' + r.hits.map(function (i) {
-      const hh = d.hadiths[i];
+    h += '<div class="res-hits">' + r.hits.map(function (hit) {
+      const i = hit[0], hh = d.hadiths[i];
       const sec = d.sections[String(hh.s)];
-      const sn = resSnippet(hh, q, ql);
+      const sn = resSnippet(hh, hit[1]);
       return '<button class="hd-resrow" data-b="' + r.book + '" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
         '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
@@ -116,7 +119,7 @@ function resRenderResults() {
     }).join("") + "</div>";
   });
   // Books not yet downloaded: offer to add them to the search corpus.
-  const missing = KUTUB.filter(function (b) { return !hdIsDownloaded(b.id); });
+  const missing = KUTUB.filter(function (b) { return !b.quran && !hdIsDownloaded(b.id); });
   if (missing.length) {
     h += '<div class="res-bookhead"><span class="res-bookt">' + escapeHtml(t("resDlToSearch")) + "</span></div>";
     h += missing.map(function (b) {

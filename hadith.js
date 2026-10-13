@@ -12,6 +12,72 @@ const HD_BOOKS = {
 };
 const HD_ORDER = ["bukhari", "muslim", "abudawud", "tirmidhi", "nasai", "ibnmajah"];
 
+/* Turkish -> English keyword glossary. The hadith texts are Arabic+English, so a
+   Turkish query like "namaz" is expanded to its English equivalents ("prayer", "salat").
+   Keys are normalized (no diacritics); matching is substring-based. */
+const HD_TR_GLOSS = {
+"namaz": ["prayer", "salat"], "abdest": ["ablution", "wudu"], "gusul": ["ghusl", "bathing"],
+"oruc": ["fasting", "fast", "siyam"], "zekat": ["zakat", "zakah"], "fitre": ["fitr"],
+"hac": ["hajj", "pilgrimage"], "umre": ["umra"], "cuma": ["friday", "jumuah"],
+"bayram": ["eid"], "ezan": ["adhan", "call to prayer"], "kible": ["qibla"],
+"cami": ["mosque"], "mescit": ["mosque"], "kuran": ["quran", "koran"],
+"dua": ["supplication", "dua"], "tevbe": ["repentance"], "istigfar": ["forgiveness", "istighfar"],
+"zikir": ["remembrance", "dhikr"], "sadaka": ["charity", "sadaqah"], "kurban": ["sacrifice"],
+"cenaze": ["funeral", "janaza"], "nikah": ["marriage", "nikah"], "bosanma": ["divorce", "talaq"],
+"miras": ["inheritance"], "yemin": ["oath"], "adak": ["vow"], "ruya": ["dream"],
+"tip": ["medicine"], "giyim": ["clothing", "dress"], "ticaret": ["trade", "business", "commerce"],
+"cihad": ["jihad"], "savas": ["war", "battle", "fighting"], "cennet": ["paradise"],
+"cehennem": ["hell", "hellfire"], "kiyamet": ["judgment", "resurrection", "hour"],
+"iman": ["faith", "belief"], "ilim": ["knowledge"], "taharet": ["purification"],
+"temizlik": ["purification", "cleanliness"], "hayiz": ["menstruation"], "teyemmum": ["tayammum"],
+"vitir": ["witr"], "teravih": ["taraweeh"], "itikaf": ["itikaf"], "iftar": ["iftar", "breaking fast"],
+"sahur": ["suhoor"], "imsak": ["imsak"], "vakit": ["time"], "kaza": ["qada", "make up", "missed"],
+"sehiv": ["forgetfulness", "sahw"], "secde": ["prostration"], "ruku": ["bowing", "ruku"],
+"kiyam": ["standing", "qiyam"], "imam": ["imam"], "muezzin": ["muezzin"],
+"cemaat": ["congregation"], "hutbe": ["sermon", "khutbah"], "selam": ["greeting", "salam", "peace"],
+"hediye": ["gift"], "borc": ["debt"], "vasiyet": ["will", "bequest"], "kole": ["slave"],
+"emanet": ["trust"], "adalet": ["justice"], "zulum": ["injustice", "oppression"],
+"merhamet": ["mercy"], "sifa": ["healing", "cure"], "hastalik": ["illness", "sickness"],
+"olum": ["death"], "kader": ["destiny", "decree", "qadar"], "rizik": ["provision", "rizq"],
+"sabir": ["patience"], "sukur": ["gratitude"], "hamd": ["praise"], "tekbir": ["takbir"],
+"tesbih": ["tasbih", "glorification"], "salavat": ["salawat", "blessings"],
+"tevekkul": ["trust", "tawakkul"], "ihlas": ["sincerity"], "takva": ["piety", "taqwa"],
+"sunnet": ["sunnah", "circumcision"], "bidat": ["innovation"], "sirk": ["shirk", "polytheism"],
+"kufur": ["disbelief", "kufr"], "munafik": ["hypocrite"], "sahabe": ["companion"],
+"peygamber": ["prophet"], "melek": ["angel"], "seytan": ["satan", "devil"], "cin": ["jinn"],
+"ahiret": ["hereafter"], "kabir": ["grave"], "mahser": ["gathering"], "sirat": ["sirat"],
+"sefaat": ["intercession"], "tavaf": ["tawaf"], "arafat": ["arafah"], "ihram": ["ihram"],
+"akika": ["aqiqah"], "helal": ["halal", "lawful", "permissible"], "haram": ["haram", "forbidden", "prohibited"],
+"icki": ["wine", "alcohol", "drink", "intoxicant"], "kumar": ["gambling"], "faiz": ["usury", "interest", "riba"],
+"yalan": ["lie", "lying", "falsehood"], "gibet": ["backbiting"], "haset": ["envy"],
+"zina": ["adultery", "fornication", "zina"], "hirsizlik": ["theft", "stealing"],
+"diyet": ["blood money", "diya"], "kisas": ["retaliation", "qisas"], "kefaret": ["expiation"],
+"anne": ["mother"], "baba": ["father"], "akraba": ["relatives", "kinship", "kin"],
+"komsu": ["neighbor", "neighbour"], "misafir": ["guest"], "evlat": ["child", "offspring"],
+"kadin": ["woman", "women"], "erkek": ["man", "men"], "cocuk": ["child", "children"], "aile": ["family"],
+"kadir gecesi": ["laylat al-qadr", "night of decree"], "mirac": ["ascension", "miraj"]
+};
+function hdNormTr(s) {
+  return s.replace(/İ/g, "i").toLowerCase().replace(/â/g, "a").replace(/î/g, "i").replace(/û/g, "u");
+}
+/* All text variants to match: the raw query (Arabic direct) + English terms incl. TR glossary. */
+function hdQueryTerms(q) {
+  const qn = hdNormTr(q), seen = {}, out = [q.toLowerCase()];
+  for (const k in HD_TR_GLOSS) {
+    if (qn.indexOf(k) !== -1) HD_TR_GLOSS[k].forEach(function (en) {
+      if (!seen[en]) { seen[en] = 1; out.push(en); }
+    });
+  }
+  return out;
+}
+/* Returns "ar", "en", or null. */
+function hdMatchText(hh, q, terms) {
+  if (hh.ar.indexOf(q) !== -1) return "ar";
+  const enl = hh.en.toLowerCase();
+  for (let i = 0; i < terms.length; i++) if (enl.indexOf(terms[i]) !== -1) return "en";
+  return null;
+}
+
 const HD = {
   book: "bukhari", cache: {}, data: null,
   loading: false, progress: 0,
@@ -240,19 +306,20 @@ function hdDoSearch(q) {
   if (!box) return;
   if (!q) { box.innerHTML = ""; if (list) list.style.display = ""; return; }
   if (list) list.style.display = "none";
-  const ql = q.toLowerCase();
+  const terms = hdQueryTerms(q);
   const d = HD.data, tr = state.lang === "tr";
   const out = [];
   for (let i = 0; i < d.hadiths.length && out.length < 60; i++) {
     const hh = d.hadiths[i];
-    if (hh.ar.indexOf(q) !== -1 || hh.en.toLowerCase().indexOf(ql) !== -1) out.push([i, hh]);
+    const m = hdMatchText(hh, q, terms);
+    if (m) out.push([i, hh, m]);
   }
   if (!out.length) { box.innerHTML = '<p class="note">' + escapeHtml(t("hdNoRes")) + "</p>"; return; }
   box.innerHTML = '<p class="note">' + out.length + (out.length >= 60 ? "+" : "") + " " +
-    escapeHtml(t("hdResults")) + "</p>" + out.map(function (pair) {
-      const i = pair[0], hh = pair[1];
+    escapeHtml(t("hdResults")) + "</p>" + out.map(function (triple) {
+      const i = triple[0], hh = triple[1];
       const sec = d.sections[String(hh.s)];
-      const enHit = hh.en.toLowerCase().indexOf(ql) !== -1;
+      const enHit = triple[2] === "en";
       const snip = (enHit ? hh.en.slice(0, 140) : hh.ar.slice(0, 120)) + "\u2026";
       return '<button class="hd-resrow" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
@@ -315,7 +382,7 @@ function hdChapterView(v) {
 /* Cross-book keyword search: scans every downloaded book, one at a time
    (keeps phone memory low). Returns [{book, hits: [hadithIdx...]}]. */
 function hdSearchAll(q, perBookCap) {
-  const ql = q.toLowerCase(), cap = perBookCap || 20;
+  const terms = hdQueryTerms(q), cap = perBookCap || 20;
   const ids = HD_ORDER.filter(hdIsDownloaded);
   const results = [];
   let chain = Promise.resolve();
@@ -325,7 +392,8 @@ function hdSearchAll(q, perBookCap) {
         const hits = [];
         for (let i = 0; i < d.hadiths.length && hits.length < cap; i++) {
           const hh = d.hadiths[i];
-          if (hh.ar.indexOf(q) !== -1 || hh.en.toLowerCase().indexOf(ql) !== -1) hits.push(i);
+          const m = hdMatchText(hh, q, terms);
+          if (m) hits.push([i, m]);
         }
         if (hits.length) results.push({ book: id, hits: hits, total: d.hadiths.length });
       });
