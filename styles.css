@@ -363,18 +363,10 @@ a { color: var(--green-bright); }
 .hdr-place { background: none; border: 0; color: #fff; text-align: left; padding: 0; cursor: pointer; flex: 1 1 auto; min-width: 0; }
 .hdr-place b { display: block; font-size: 20px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hdr-place span { display: block; font-size: 11px; opacity: .75; line-height: 1.35; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hdr-in.hdr-centered { display: block; text-align: center; padding: 18px 0 10px; }
-.hdr-in.hdr-centered .hdr-place { display: inline-block; max-width: 94vw; text-align: center; }
-.hdr-in.hdr-centered .hdr-place b { font-size: 25px; }
-.hdr-in.hdr-centered .hdr-place span { margin: 0 auto; }
-.wx-strip { display: flex; gap: 10px; justify-content: center; padding: 12px 16px 14px; }
-.wx-strip:empty { display: none; }
-.wx-day { flex: 1 1 0; max-width: 150px; text-align: center; background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.09); border-radius: 14px; padding: 10px 6px 9px; }
-.wx-day.today { border-color: rgba(212,175,55,.5); }
-.wx-d { font-size: 11px; color: var(--gold); opacity: .9; text-transform: uppercase; letter-spacing: .5px; }
-.wx-i { font-size: 27px; line-height: 1.5; }
-.wx-hl { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.wx-hl span { opacity: .55; font-weight: 400; }
+.hdr-wx { text-align: right; display: flex; flex-direction: column; align-items: flex-end; flex: 0 0 auto; margin-left: 12px; }
+.wx-t { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wx-c { font-size: 10px; opacity: .75; white-space: nowrap; max-width: 90px; overflow: hidden; text-overflow: ellipsis; }
+
 
 .hero {
   display: block;

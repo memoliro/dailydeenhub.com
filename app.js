@@ -1620,26 +1620,23 @@ const WX_CODE_TR = {0:"Açık",1:"Çoğunlukla açık",2:"Parçalı bulutlu",3:"
 const WX_ICON = {0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"🌨️",80:"🌧️",81:"🌧️",82:"🌧️",95:"⛈️",96:"⛈️",99:"⛈️"};
 let wxCache = { t: 0, html: "", lang: "" };
 async function loadWeather() {
-  const el = document.getElementById("wxStrip");
+  const el = document.getElementById("hdrWx");
   if (!el || !state.place) return;
   // cache 30 min, per language
   if (Date.now() - wxCache.t < 18e5 && wxCache.html && wxCache.lang === state.lang) { el.innerHTML = wxCache.html; return; }
   try {
     const { lat, lon } = state.place;
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=4`);
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto&forecast_days=1`);
     if (!r.ok) throw 0;
     const j = await r.json();
+    const temp = Math.round(j.current.temperature_2m);
+    const code = j.current.weather_code;
     const tr = state.lang === "tr";
-    const html = j.daily.time.map((ds, i) => {
-      const p = ds.split("-"), dow = new Date(+p[0], +p[1] - 1, +p[2]).getDay();
-      const code = j.daily.weather_code[i], icon = WX_ICON[code] || "";
-      const hi = Math.round(j.daily.temperature_2m_max[i]), lo = Math.round(j.daily.temperature_2m_min[i]);
-      const day = i === 0 ? t("wxToday") : localWeekday(EN_WDAYS[dow], true);
-      return `<div class="wx-day${i === 0 ? " today" : ""}"><div class="wx-d">${day}</div><div class="wx-i">${icon}</div><div class="wx-hl">${hi}° <span>/ ${lo}°</span></div></div>`;
-    }).join("");
-    wxCache = { t: Date.now(), html, lang: state.lang };
-    el.innerHTML = html;
-  } catch { /* strip stays hidden */ }
+    const cond = (tr ? WX_CODE_TR : WX_CODE)[code] || "";
+    const icon = WX_ICON[code] || "";
+    wxCache = { t: Date.now(), html: `<span class="wx-t">${icon} ${temp}°</span><span class="wx-c">${cond}</span>`, lang: state.lang };
+    el.innerHTML = wxCache.html;
+  } catch { /* leave placeholder */ }
 }
 
 
