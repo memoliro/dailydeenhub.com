@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=74" />
+  <link rel="stylesheet" href="/styles.css?v=75" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -335,7 +335,7 @@
           <button class="tile" data-goto="live" type="button"><span class="tic">📺</span><span class="tlabel" data-i="watchLive">Canlı İzle</span></button>
           <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Geri Bildirim</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
-          <button class="tile soon" data-soon type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
+          <button class="tile" data-goto="hisnul" type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Hatimler</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Kaynaklar</span></button>
@@ -363,6 +363,19 @@
       </div>
     </section>
 
+    <section id="panel-hisnul" class="layout hidden">
+      <div class="panel pad" style="max-width:640px;margin:0 auto;width:100%">
+        <div id="hsnulCatsView">
+          <h3 data-i="hisnulTitle">Hisnul Muslim</h3>
+          <p class="note" data-i="hisnulSub">Authentic daily duas — Arabic, transliteration and translation.</p>
+          <div id="hsnulList" class="learn-list"></div>
+        </div>
+        <div id="hsnulDuaView" class="hidden">
+          <button class="ghost" id="hsnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <article id="hsnulArticle" class="learn-article"></article>
+        </div>
+      </div>
+    </section>
 
     </div>
     <footer class="foot">
@@ -420,8 +433,9 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=80"></script>
+  <script src="/app.js?v=81"></script>
   <script src="/learn.js?v=4"></script>
+  <script src="/hisnul.js?v=1"></script>
   <script src="/daily.js?v=3"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
