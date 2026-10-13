@@ -70,24 +70,37 @@ function hdQueryTerms(q) {
   }
   return out;
 }
-/* Returns "ar", "en", or null. */
+const HD_TASHKEEL = /[ً-ٰٟـ]/g; /* Arabic diacritics + tatweel */
+function hdStripTashkeel(s) { return s.replace(HD_TASHKEEL, ""); }
+/* Returns "ar", "en", or null. Arabic matching ignores diacritics so a plain
+   query like "صلاة" matches the fully vocalized text (الصَّلَاةَ). */
 function hdMatchText(hh, q, terms) {
-  if (hh.ar.indexOf(q) !== -1) return "ar";
+  const aq = hdStripTashkeel(q);
+  if (aq && hdStripTashkeel(hh.ar).indexOf(aq) !== -1) return "ar";
   const enl = hh.en.toLowerCase();
   for (let i = 0; i < terms.length; i++) if (enl.indexOf(terms[i]) !== -1) return "en";
   return null;
 }
-/* Wrap matched search terms in a subtle highlight. Applied after HTML-escaping. */
+/* Wrap matched search terms in a subtle highlight. Applied after HTML-escaping.
+   For Arabic, the pattern tolerates diacritics between the query's letters. */
 function hdHighlight(text, q, terms, isEn) {
   const esc = escapeHtml(text);
-  const words = (isEn ? terms : [q]).map(function (w) { return w.trim(); }).filter(Boolean);
-  const uniq = [];
-  words.forEach(function (w) { if (uniq.indexOf(w) === -1) uniq.push(w); });
-  uniq.sort(function (a, b) { return b.length - a.length; });
-  if (!uniq.length) return esc;
-  const pat = uniq.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }).join("|");
+  let pat = null;
+  if (isEn) {
+    const uniq = [];
+    terms.map(function (w) { return w.trim(); }).filter(Boolean).forEach(function (w) {
+      if (uniq.indexOf(w) === -1) uniq.push(w);
+    });
+    uniq.sort(function (a, b) { return b.length - a.length; });
+    if (uniq.length) pat = uniq.map(hdRxEsc).join("|");
+  } else {
+    const aq = hdStripTashkeel(q).trim();
+    if (aq) pat = aq.split("").map(hdRxEsc).join("[ً-ٰٟـ]*") + "[ً-ٰٟـ]*";
+  }
+  if (!pat) return esc;
   return esc.replace(new RegExp("(" + pat + ")", "gi"), '<span class="hd-hl">$1</span>');
 }
+function hdRxEsc(w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 
 const HD = {
   book: "bukhari", cache: {}, data: null,
