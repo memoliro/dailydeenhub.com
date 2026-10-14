@@ -1780,7 +1780,8 @@ document.getElementById("setClose").onclick = () => {
   if (_lt2 !== _lh2) { try { history.replaceState(null, "", _lt2); } catch {} }
   state.vibration = document.getElementById("vibChk").checked;
   save();
-  // Stay in Settings after Done — the user leaves via the bottom nav or the back arrow.
+  // Close the sub-screen back to the settings list, but stay in Settings.
+  setShow(null);
   toast(t("savedMsg"));
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
