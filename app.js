@@ -1662,6 +1662,26 @@ function renderExtraRows() {
     xRow("tahajjud", "xTahajjud", "xBeforeFajr") +
     xRow("fast", "xFast", "xBeforeFajr", true) +
     xRow("jumuah", "xJumuah", "xBeforeDhuhr");
+  // Temporary diagnostic: open the panel with ?dbgsync=1 to see raw sync state.
+  if (location.search.indexOf("dbgsync=1") >= 0) {
+    const pre = document.createElement("pre");
+    pre.className = "xdbg";
+    let stored = "?";
+    try { stored = localStorage.getItem("ddh-push-synced") || "(none)"; } catch (e) {}
+    pre.textContent = "extraRemind=" + JSON.stringify(state.extraRemind) +
+      "\nhasDDHPush=" + !!window.DDHPush +
+      "\nlastSynced=" + String(stored).slice(0, 400) +
+      "\nappJs=v123 pushSub=checking...";
+    box.appendChild(pre);
+    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+      navigator.serviceWorker.ready.then(r => r.pushManager.getSubscription()).then(
+        s => { pre.textContent = pre.textContent.replace("pushSub=checking...", "pushSub=" + (s ? "YES " + s.endpoint.slice(0, 45) : "NONE")); },
+        () => { pre.textContent = pre.textContent.replace("pushSub=checking...", "pushSub=ERROR"); }
+      );
+    } else {
+      pre.textContent = pre.textContent.replace("pushSub=checking...", "pushSub=no-SW");
+    }
+  }
   box.querySelectorAll("input[data-xon]").forEach(cb => {
     cb.onchange = () => {
       const id = cb.dataset.xon;
