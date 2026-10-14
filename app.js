@@ -1779,7 +1779,15 @@ const CARD_FONTS = {
   outfitB:   { stack: "Outfit, system-ui, sans-serif", weight: 700, label: "Outfit Bold" },
   amiri:     { stack: "Amiri, serif", weight: 400, label: "Amiri" },
   amiriB:    { stack: "Amiri, serif", weight: 700, label: "Amiri Bold" },
-  serif:     { stack: "Georgia, 'Times New Roman', serif", weight: 400, label: "Georgia" }
+  serif:     { stack: "Georgia, 'Times New Roman', serif", weight: 400, label: "Georgia" },
+  explora:   { stack: "Explora, Georgia, serif", weight: 400, label: "Explora" },
+  felipa:    { stack: "Felipa, cursive", weight: 400, label: "Felipa" },
+  tangerine: { stack: "Tangerine, cursive", weight: 400, label: "Tangerine" },
+  tangerineB:{ stack: "Tangerine, cursive", weight: 700, label: "Tangerine Bold" },
+  reemkufi:  { stack: "'Reem Kufi', serif", weight: 400, label: "Reem Kufi" },
+  reemkufiB: { stack: "'Reem Kufi', serif", weight: 700, label: "Reem Kufi Bold" },
+  reemkufiink:{ stack: "'Reem Kufi Ink', serif", weight: 400, label: "Reem Kufi Ink" },
+  qahiri:    { stack: "Qahiri, serif", weight: 400, label: "Qahiri" }
 };
 const CARD_FONT_OPTS = Object.keys(CARD_FONTS);
 const cardState = { bg: null, font: "fraunces", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
@@ -1967,7 +1975,7 @@ function openCardSheet(kind) {
       <label class="flabel">${esc(t("cardsFont"))}</label>
       <div class="fontrows">${CARD_FONT_OPTS.map(k => {
         const fi = CARD_FONTS[k];
-        return `<button type="button" data-f="${k}" class="fontrow${cardState.font === k ? " on" : ""}"><span class="fontprev" style="font-family:${fi.stack};font-weight:${fi.weight}">${k.startsWith("amiri") ? "ع" : "Ag"}</span><span class="fontname">${fi.label}</span>${cardState.font === k ? '<span class="fontcheck">✓</span>' : ""}</button>`;
+        return `<button type="button" data-f="${k}" class="fontrow${cardState.font === k ? " on" : ""}"><span class="fontprev" style="font-family:${fi.stack};font-weight:${fi.weight}">${/amiri|reemkufi|qahiri/.test(k) ? "ع" : "Ag"}</span><span class="fontname">${fi.label}</span>${cardState.font === k ? '<span class="fontcheck">✓</span>' : ""}</button>`;
       }).join("")}</div>
       <div class="swatches" style="margin-top:10px">${colors.map(c => `<button type="button" data-c="${c}" style="background:${c}" class="${cardState.color === c ? "on" : ""}"></button>`).join("")}</div>
       <label class="flabel">${esc(t("cardsSize"))}</label>
