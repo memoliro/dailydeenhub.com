@@ -935,3 +935,20 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .fontprev { font-size: 24px; line-height: 1; min-width: 44px; text-align: center; }
 .fontname { flex: 1; font-size: 15px; }
 .fontcheck { color: #c9a227; font-weight: 700; }
+
+/* Khatm tracker */
+.khatm-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+.khatm-tab { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: #fff; font-size: 14px; cursor: pointer; }
+.khatm-tab.on { border-color: #c9a227; background: rgba(201,162,39,.15); font-weight: 600; }
+.khatm-prog { margin: 12px 0; }
+.khatm-bar { height: 10px; border-radius: 6px; background: rgba(255,255,255,.08); overflow: hidden; }
+.khatm-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #0f6b4a, #c9a227); transition: width .3s; }
+.khatm-count { margin-top: 6px; font-size: 14px; color: #bbb; }
+.khatm-done { margin-top: 10px; padding: 12px; border-radius: 12px; background: rgba(201,162,39,.12); border: 1px solid #c9a227; text-align: center; font-weight: 600; }
+.khatm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.khatm-jz { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.04); color: #fff; cursor: pointer; }
+.khatm-jz.on { border-color: #0f6b4a; background: rgba(15,107,74,.25); }
+.kj-n { font-size: 12px; color: #999; }
+.khatm-jz.on .kj-n { color: #7fd6a8; }
+.kj-ar { font-size: 19px; font-family: Amiri, serif; line-height: 1.4; }
+.kj-t { font-size: 11px; color: #999; }

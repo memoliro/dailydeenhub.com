@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=125" />
+  <link rel="stylesheet" href="/styles.css?v=126" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -368,12 +368,30 @@
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Quran radio</span></button>
           <button class="tile" data-goto="hisnul" type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
           <button class="tile" data-goto="qadha" type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Qadha prayers</span></button>
-          <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Khatms</span></button>
+          <button class="tile" data-goto="khatm" type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Khatms</span></button>
           <button class="tile" data-goto="resources" type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Resources</span></button>
           <button class="tile" data-goto="library" type="button"><span class="tic">🏛</span><span class="tlabel" data-i="libraryTile">Library</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Articles</span></button>
         </div>
         <p class="more-legal"><a href="/about.html" data-i="aboutL">About</a> · <a href="/privacy.html" data-i="privacyL">Privacy</a> · <a href="/terms.html" data-i="termsL">Terms</a></p>
+      </div>
+    </section>
+
+    <section id="panel-khatm" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="khatmTitle">Khatms</h3>
+        <p class="note" data-i="khatmSub">Track your Quran completions, Juz by Juz. Tap a Juz to mark it read.</p>
+        <div id="khatmTabs" class="khatm-tabs"></div>
+        <div id="khatmProg" class="khatm-prog"></div>
+        <div id="khatmGrid" class="khatm-grid"></div>
+        <div id="khatmNewWrap" class="hidden" style="margin-top:10px;display:flex;gap:8px">
+          <input id="khatmNameIn" class="field" style="flex:1" maxlength="40">
+          <button class="ghost" id="khatmNameGo" type="button">✓</button>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="ghost" id="khatmNew" type="button"><span data-i="khatmNew">+ New khatm</span></button>
+          <button class="ghost danger" id="khatmDel" type="button"><span data-i="khatmDelete">Delete</span></button>
+        </div>
       </div>
     </section>
 
@@ -580,10 +598,11 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=12"></script>
-  <script src="/app.js?v=137"></script>
+  <script src="/app.js?v=138"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>
+  <script src="/khatm.js?v=1"></script>
   <script src="/ramadan.js?v=1"></script>
   <script src="/resources.js?v=7"></script>
 <script src="/hadith.js?v=9"></script>
