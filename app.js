@@ -83,6 +83,7 @@ const I18N = {
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     extraRem: "Extra reminders", extraSub: "Wake-up and fasting reminders, anchored to prayer times.",
     holyDays: "Holy days", holyDaysSub: "Islamic holy days and kandil nights.", holyDaysNote: "Dates follow Diyanet's calculation (Türkiye). Your local mosque may observe them a day earlier or later — especially Ramadan and the Eids, which depend on moon sighting.", holyDaysNext: "Next", holyDaysInDays: "days left", holyDaysToday: "today", holyDaysTomorrow: "tomorrow",
+    cardsTile: "Greeting cards", cardsSub: "Pick a background, write your message, share it with loved ones.", cardsPickBg: "Choose a background", cardsYourMsg: "Your message", cardsMsgPh: "Write your message…", cardsFont: "Font", cardsSize: "Size", cardsColor: "Color", cardsPos: "Position", cardsTop: "Top", cardsMid: "Middle", cardsBot: "Bottom", cardsShare: "Share", cardsDownload: "Save", cardsBack: "← Backgrounds", cardsForDay: "Make a card for", cardsSugg: "Suggestions", cardsShared: "Card shared!", cardsSaved: "Card saved to your device.", cardsShareFail: "Sharing isn't supported here — the card was saved instead.",
     extraHonest: "These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.",
     xSahur: "Sahur", xTahajjud: "Tahajjud", xFast: "Mon / Thu fast", xJumuah: "Jumu'ah",
     xBeforeFajr: "before Fajr", xBeforeDhuhr: "before Dhuhr (Friday)",
@@ -167,6 +168,7 @@ const I18N = {
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
     holyDays: "Dini günler", holyDaysSub: "Dini günler ve kandil geceleri.", holyDaysNote: "Tarihler Diyanet'in hesaplamasına göredir (Türkiye). Bulunduğunuz yerdeki camiler, özellikle hilal gözlemine bağlı Ramazan ve bayramları bir gün önce veya sonra idrak edebilir.", holyDaysNext: "Sıradaki", holyDaysInDays: "gün kaldı", holyDaysToday: "bugün", holyDaysTomorrow: "yarın",
+    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
     extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
     xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
     xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
@@ -1290,12 +1292,12 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays", "cards"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards"))));
   if (id === "quran" && !chapters.length) loadChapters();
   if (id === "library") renderLibrary(true);
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
@@ -1304,6 +1306,7 @@ function showTab(id) {
   if (id === "hadith" && typeof renderHadith === "function") renderHadith();
   if (id === "live") loadLiveFrames();
   if (id === "holydays") renderHolyDays();
+  if (id === "cards") renderCardsHome();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {
     window.scrollTo(0, 0);
@@ -1766,6 +1769,179 @@ function renderHolyDays() {
   box.innerHTML = html;
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+/* ===== Greeting cards (More tile): pick bg, write message, share ===== */
+const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
+const CARD_FONTS = { serif: "Georgia, 'Times New Roman', serif", sans: "system-ui, -apple-system, 'Segoe UI', sans-serif", arabic: "Amiri, 'Traditional Arabic', 'Scheherazade New', serif" };
+const cardState = { bg: null, msg: "", font: "serif", size: 64, color: "#ffffff", pos: "middle" };
+function cardMsgFor(hd, lang) {
+  const nm = (hd[lang] || hd.en || "").toLowerCase();
+  const isKandil = /kandil|mi'raj|bara'ah|raghaib|qadr|mawlid|decree|night/i.test(nm);
+  const isFitr = /fitr|ramazan bayram/i.test(nm);
+  const isAdha = /adha|kurban/i.test(nm);
+  const isRamadan = /ramadan begins|ramazan ba/i.test(nm);
+  if (lang === "tr") {
+    if (isFitr) return ["Ramazan Bayramınız mübarek olsun", "Hayırlı bayramlar"];
+    if (isAdha) return ["Kurban Bayramınız mübarek olsun", "Hayırlı bayramlar"];
+    if (isRamadan) return ["Hayırlı Ramazanlar", "Ramazanınız mübarek olsun"];
+    if (isKandil) return ["Kandiliniz mübarek olsun", "Dualarınız kabul olsun"];
+    return ["Mübarek olsun", "Hayırlı günler"];
+  }
+  if (isFitr || isAdha) return ["Eid Mubarak", "Blessed Eid"];
+  if (isRamadan) return ["Blessed Ramadan", "Ramadan Kareem"];
+  if (isKandil) return ["Blessed night", "May your prayers be accepted"];
+  return ["Blessed day", "With warm wishes"];
+}
+function renderCardsHome() {
+  const gal = document.getElementById("cardsGallery");
+  if (!gal) return;
+  document.getElementById("cardsGalleryWrap").classList.remove("hidden");
+  document.getElementById("cardsEditor").classList.add("hidden");
+  gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("");
+  gal.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => openCardEditor(b.dataset.bg));
+  // upcoming holy day nudge
+  const holy = document.getElementById("cardsHoly");
+  const lang = state.lang || "en";
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today && (e.date - today) / 86400000 <= 30)[0];
+  holy.innerHTML = up ? `<div class="rrow hd-next"><span>💌 <b>${esc(t("cardsForDay"))} ${esc(up[lang] || up.en)}</b></span></div>` : "";
+}
+function openCardEditor(bg) {
+  cardState.bg = bg;
+  const lang = state.lang || "en";
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today)[0];
+  const sugg = up ? cardMsgFor(up, lang) : (lang === "tr" ? ["Kandiliniz mübarek olsun", "Hayırlı günler"] : ["Blessed day", "With warm wishes"]);
+  cardState.msg = sugg[0];
+  document.getElementById("cardsMsg").value = sugg[0];
+  document.getElementById("cardsSuggest").innerHTML = `<span class="note">${esc(t("cardsSugg"))}:</span> ` + sugg.map(s => `<button type="button" class="chip" data-s="${esc(s)}">${esc(s)}</button>`).join("");
+  document.getElementById("cardsSuggest").querySelectorAll("[data-s]").forEach(c => c.onclick = () => {
+    document.getElementById("cardsMsg").value = c.dataset.s;
+    cardState.msg = c.dataset.s;
+    drawCard();
+  });
+  document.getElementById("cardsGalleryWrap").classList.add("hidden");
+  document.getElementById("cardsEditor").classList.remove("hidden");
+  bindCardControls();
+  drawCard();
+  window.scrollTo(0, 0);
+}
+function bindCardControls() {
+  const msg = document.getElementById("cardsMsg");
+  if (msg.dataset.bound) return;
+  msg.dataset.bound = "1";
+  msg.oninput = () => { cardState.msg = msg.value; drawCard(); };
+  document.getElementById("cardsFont").onchange = e => { cardState.font = e.target.value; drawCard(); };
+  document.getElementById("cardsSize").oninput = e => { cardState.size = +e.target.value; drawCard(); };
+  document.getElementById("cardsColors").querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
+    document.getElementById("cardsColors").querySelectorAll("[data-c]").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    cardState.color = b.dataset.c;
+    drawCard();
+  });
+  document.getElementById("cardsPosBtns").querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
+    document.getElementById("cardsPosBtns").querySelectorAll("[data-p]").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    cardState.pos = b.dataset.p;
+    drawCard();
+  });
+  document.getElementById("cardsBack").onclick = renderCardsHome;
+  document.getElementById("cardsShare").onclick = shareCard;
+  document.getElementById("cardsDownload").onclick = () => saveCard(true);
+}
+function drawCard() {
+  const cv = document.getElementById("cardsCanvas");
+  if (!cv || !cardState.bg) return;
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  const img = new Image();
+  img.onload = () => {
+    // cover-fit
+    const s = Math.max(W / img.width, H / img.height);
+    const dw = img.width * s, dh = img.height * s;
+    ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    // soft dark veil for readability
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "rgba(0,0,0,0.25)");
+    g.addColorStop(0.5, "rgba(0,0,0,0.05)");
+    g.addColorStop(1, "rgba(0,0,0,0.35)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+    // message
+    const msg = (cardState.msg || "").trim();
+    if (!msg) return;
+    const size = cardState.size;
+    ctx.font = `${size}px ${CARD_FONTS[cardState.font] || CARD_FONTS.serif}`;
+    ctx.textAlign = "center";
+    ctx.fillStyle = cardState.color;
+    ctx.shadowColor = "rgba(0,0,0,0.7)";
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 4;
+    // word wrap
+    const maxW = W * 0.84;
+    const words = msg.split(/\s+/);
+    const lines = [];
+    let line = "";
+    words.forEach(w => {
+      const test = line ? line + " " + w : w;
+      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+      else line = test;
+    });
+    if (line) lines.push(line);
+    const lh = size * 1.25;
+    const blockH = lines.length * lh;
+    let y0;
+    if (cardState.pos === "top") y0 = H * 0.16;
+    else if (cardState.pos === "bottom") y0 = H * 0.84 - blockH;
+    else y0 = H / 2 - blockH / 2;
+    lines.forEach((ln, i) => ctx.fillText(ln, W / 2, y0 + lh * (i + 1) - lh * 0.2));
+    ctx.shadowColor = "transparent";
+    // watermark
+    ctx.font = `28px ${CARD_FONTS.sans}`;
+    ctx.fillStyle = "rgba(255,255,255,0.55)";
+    ctx.shadowBlur = 8;
+    ctx.fillText("DailyDeenHub", W / 2, H - 48);
+  };
+  img.src = "/cards/" + cardState.bg;
+}
+function cardToast(msg) {
+  const el = document.getElementById("cardsToast");
+  el.textContent = msg;
+  el.classList.remove("hidden");
+  clearTimeout(cardToast._t);
+  cardToast._t = setTimeout(() => el.classList.add("hidden"), 3500);
+}
+function saveCard(announce) {
+  const cv = document.getElementById("cardsCanvas");
+  cv.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dailydeenhub-card.jpg";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    if (announce) cardToast(t("cardsSaved"));
+  }, "image/jpeg", 0.92);
+}
+function shareCard() {
+  const cv = document.getElementById("cardsCanvas");
+  cv.toBlob(async blob => {
+    const file = new File([blob], "dailydeenhub-card.jpg", { type: "image/jpeg" });
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: t("cardsTile") });
+        cardToast(t("cardsShared"));
+      } else {
+        saveCard(false);
+        cardToast(t("cardsShareFail"));
+      }
+    } catch (e) {
+      if (e && e.name !== "AbortError") { saveCard(false); cardToast(t("cardsShareFail")); }
+    }
+  }, "image/jpeg", 0.92);
+}
 
 function renderStations() {
   if (!STATIONS.some(s => s[0] === station)) station = STATIONS[0][0];

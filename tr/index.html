@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=121" />
+  <link rel="stylesheet" href="/styles.css?v=122" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -355,6 +355,7 @@
           <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramazan</span></button>
           <button class="tile" data-goto="extra" type="button"><span class="tic">⏰</span><span class="tlabel" data-i="extraRem">Ek hatırlatıcılar</span></button>
           <button class="tile" data-goto="holydays" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="holyDays">Dini günler</span></button>
+          <button class="tile" data-goto="cards" type="button"><span class="tic">💌</span><span class="tlabel" data-i="cardsTile">Tebrik kartları</span></button>
           <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Öğren</span></button>
           <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Kur'an</span></button>
           <button class="tile" id="voiceTile" type="button"><span class="tic">🎙</span><span class="tlabel" data-i="voiceTile">Sesli arama</span></button>
@@ -390,6 +391,60 @@
         <p class="note" data-i="holyDaysSub">Dini günler ve kandil geceleri.</p>
         <div id="holyDaysList" class="rrows"></div>
         <p class="note" data-i="holyDaysNote">Tarihler Diyanet'e göredir; ülkeye ve hilal gözlemine göre değişebilir.</p>
+      </div>
+    </section>
+
+    <section id="panel-cards" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="cardsTile">Tebrik kartları</h3>
+        <p class="note" data-i="cardsSub">Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.</p>
+        <div id="cardsHoly"></div>
+        <div id="cardsGalleryWrap">
+          <p class="note" data-i="cardsPickBg">Arka plan seçin</p>
+          <div id="cardsGallery" class="cards-grid"></div>
+        </div>
+        <div id="cardsEditor" class="hidden">
+          <button id="cardsBack" class="linkbtn" type="button" data-i="cardsBack">← Arka planlar</button>
+          <canvas id="cardsCanvas" width="1080" height="1350"></canvas>
+          <label class="flabel" data-i="cardsYourMsg">Mesajınız</label>
+          <textarea id="cardsMsg" rows="3" class="field" data-i-ph="cardsMsgPh" placeholder="Mesajınızı yazın…"></textarea>
+          <div id="cardsSuggest" class="chips"></div>
+          <div class="cards-row">
+            <label><span data-i="cardsFont">Yazı tipi</span>
+              <select id="cardsFont" class="field">
+                <option value="serif">Serif</option>
+                <option value="sans">Sans</option>
+                <option value="arabic">Amiri</option>
+              </select>
+            </label>
+            <label><span data-i="cardsSize">Boyut</span>
+              <input id="cardsSize" type="range" min="36" max="120" value="64">
+            </label>
+          </div>
+          <div class="cards-row">
+            <label><span data-i="cardsColor">Renk</span>
+              <span id="cardsColors" class="swatches">
+                <button type="button" data-c="#ffffff" style="background:#ffffff" class="on"></button>
+                <button type="button" data-c="#ffe9a8" style="background:#ffe9a8"></button>
+                <button type="button" data-c="#c9a227" style="background:#c9a227"></button>
+                <button type="button" data-c="#0f2e23" style="background:#0f2e23"></button>
+                <button type="button" data-c="#7a1f1f" style="background:#7a1f1f"></button>
+              </span>
+            </label>
+            <label><span data-i="cardsPos">Konum</span>
+              <span id="cardsPosBtns" class="segbtns">
+                <button type="button" data-p="top" data-i="cardsTop">Üst</button>
+                <button type="button" data-p="middle" class="on" data-i="cardsMid">Orta</button>
+                <button type="button" data-p="bottom" data-i="cardsBot">Alt</button>
+              </span>
+            </label>
+          </div>
+          <div class="cards-actions">
+            <button id="cardsShare" class="btn gold" type="button" data-i="cardsShare">Paylaş</button>
+            <button id="cardsDownload" class="btn" type="button" data-i="cardsDownload">Kaydet</button>
+          </div>
+          <p id="cardsToast" class="note hidden"></p>
+        </div>
       </div>
     </section>
 
@@ -550,7 +605,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=12"></script>
-  <script src="/app.js?v=127"></script>
+  <script src="/app.js?v=128"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>

@@ -888,3 +888,24 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .hd-next { border: 1px solid var(--gold, #c9a227); border-radius: 12px; padding: 10px 12px; background: rgba(201,162,39,.08); margin-bottom: 6px; }
 .hd-date, .hd-when { white-space: nowrap; font-size: 13px; color: var(--dim, #999); }
 .hd-when { color: var(--gold, #c9a227); font-weight: 700; }
+/* Greeting cards */
+.cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
+.card-thumb { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; padding: 0; background: none; cursor: pointer; aspect-ratio: 4/5; }
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#cardsCanvas { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); margin: 8px 0 12px; }
+.flabel { display: block; font-size: 13px; color: var(--dim, #999); margin: 10px 0 4px; }
+#cardsMsg { width: 100%; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; align-items: center; }
+.chips .chip { border: 1px solid var(--line); border-radius: 20px; padding: 6px 12px; background: none; color: inherit; font-size: 13px; cursor: pointer; }
+.cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0; }
+.cards-row label { display: block; font-size: 13px; color: var(--dim, #999); }
+.cards-row .field { width: 100%; margin-top: 4px; }
+.cards-row input[type="range"] { width: 100%; margin-top: 12px; }
+.swatches { display: flex; gap: 8px; margin-top: 6px; }
+.swatches button { width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; }
+.swatches button.on { border-color: var(--gold, #c9a227); }
+.segbtns { display: flex; gap: 6px; margin-top: 6px; }
+.segbtns button { flex: 1; border: 1px solid var(--line); border-radius: 8px; background: none; color: inherit; padding: 8px 4px; font-size: 13px; cursor: pointer; }
+.segbtns button.on { border-color: var(--gold, #c9a227); color: var(--gold, #c9a227); }
+.cards-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 6px; }
+.linkbtn { background: none; border: none; color: var(--gold, #c9a227); font-size: 14px; cursor: pointer; padding: 4px 0; margin-bottom: 4px; }
