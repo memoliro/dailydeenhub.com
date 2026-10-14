@@ -67,7 +67,7 @@ const I18N = {
     apkNoticeOk: "Got it",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
     focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings", setLoc: "Location", setCalc: "Prayer Calculation", setRemind: "Reminders", setAppear: "Language", setNotif: "Notifications", locNote: "Choose your city for accurate prayer times.", changeCity: "Change city", langLbl: "Language", vibLbl: "Vibration",
-    method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
+    method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done", savedMsg: "Settings saved",
     searchPh: "Search a city", surahPh: "Find a surah", menuAbout: "About", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", hisnulTitle: "Hisnul Muslim",
     qadhaTitle: "Qadha Prayers", qadhaSub: "Missed a prayer? Log it here, then mark each one as you make it up.",
     qadhaOwed: "prayers to make up", qadhaCaughtUp: "All caught up — nothing owed.",
@@ -126,7 +126,7 @@ const I18N = {
     ayahTitle: "Günün ayeti", compass: "Pusulayı aç", mapTitle: "Kıble haritası",
     mapBody: "Haritayı kaydırın. Eğri, Kâbe’ye giden büyük daire yoludur ve merkezden yeniden çizilir.",
     quranTitle: "Kur'an", play: "Oynat", pause: "Durdur", tasbihTitle: "Tesbih", tap: "Saymak için her yere dokunun", reset: "Sıfırla",
-    trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", markDone: "Tamamlanan namaza dokun",
+    trackerTitle: "Bugünkü namazlar", streak: "günlük seri", streaks: "günlük seri", done: "tamam", savedMsg: "Ayarlar kaydedildi", markDone: "Tamamlanan namaza dokun",
     cardHint: "Kıldığınız namazın kartındaki ✓'ye dokunun",
     congrats: "Tebrikler! Allah ibadetlerinizi kabul etsin.",
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", fasting: "Oruçlusun",
@@ -1235,7 +1235,6 @@ function renderRamadanHub(entry) {
     `<div class="rh-count">${label} <b>${hh}:${String(mm).padStart(2, "0")}</b></div>` +
     (nowMin >= fajr && nowMin < maghrib ? `<div class="rh-note">${t("fasting")}</div>` : "");
 }
-let settingsReturn = "home"; // tab to go back to when Settings' Done is tapped
 function visibleTab() {
   const home = document.getElementById("panel-home");
   if (home && !home.classList.contains("hidden")) return "home";
@@ -1247,10 +1246,6 @@ function visibleTab() {
   return "home";
 }
 function showTab(id) {
-  if (id === "settings") {
-    const cur = visibleTab();
-    if (cur !== "settings") settingsReturn = cur;
-  }
   const homeIds = ["homeHero", "panel-home"];
   const isHome = (id === "home");
   homeIds.forEach(hid => {
@@ -1785,7 +1780,8 @@ document.getElementById("setClose").onclick = () => {
   if (_lt2 !== _lh2) { try { history.replaceState(null, "", _lt2); } catch {} }
   state.vibration = document.getElementById("vibChk").checked;
   save();
-  showTab(settingsReturn);
+  // Stay in Settings after Done — the user leaves via the bottom nav or the back arrow.
+  toast(t("savedMsg"));
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
   refresh();
