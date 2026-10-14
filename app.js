@@ -168,7 +168,7 @@ const I18N = {
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
     holyDays: "Dini günler", holyDaysSub: "Dini günler ve kandil geceleri.", holyDaysNote: "Tarihler Diyanet'in hesaplamasına göredir (Türkiye). Bulunduğunuz yerdeki camiler, özellikle hilal gözlemine bağlı Ramazan ve bayramları bir gün önce veya sonra idrak edebilir.", holyDaysNext: "Sıradaki", holyDaysInDays: "gün kaldı", holyDaysToday: "bugün", holyDaysTomorrow: "yarın",
-    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsTapType: "Yazmak için dokunun…", cardsMnuBg: "Arka plan", cardsMnuText: "Yazı", cardsMnuAdj: "Ayarla", cardsBright: "Parlaklık", cardsBlur: "Bulanıklık", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
+    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsTapType: "Yazmak için dokunun…", cardsMnuBg: "Arka plan", cardsMnuText: "Yazı", cardsMnuAdj: "Ayarla", cardsBright: "Parlaklık", cardsBlur: "Buğu", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
     extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
     xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
     xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
@@ -1772,8 +1772,14 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
 const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
-const CARD_FONTS = { serif: "Georgia, 'Times New Roman', serif", sans: "system-ui, -apple-system, 'Segoe UI', sans-serif", arabic: "Amiri, 'Traditional Arabic', 'Scheherazade New', serif" };
-const cardState = { bg: null, font: "serif", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
+const CARD_FONTS = {
+  fraunces: "Fraunces, Georgia, serif",
+  outfit: "Outfit, system-ui, sans-serif",
+  amiri: "Amiri, serif",
+  serif: "Georgia, 'Times New Roman', serif"
+};
+const CARD_FONT_OPTS = [["fraunces", "Fraunces"], ["outfit", "Outfit"], ["amiri", "Amiri"], ["serif", "Georgia"]];
+const cardState = { bg: null, font: "fraunces", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
 function cardTextEl() { return document.getElementById("cardText"); }
 function cardStageEl() { return document.getElementById("cardStage"); }
 function cardApplyText() {
@@ -1952,19 +1958,14 @@ function openCardSheet(kind) {
       b.classList.add("sel");
     });
   } else if (kind === "text") {
-    const fonts = [["serif", "Serif"], ["sans", "Sans"], ["arabic", "Amiri"]];
     const colors = ["#ffffff", "#ffe9a8", "#c9a227", "#0f2e23", "#7a1f1f"];
     sh.innerHTML = `<div class="sheet-title">${esc(t("cardsMnuText"))}</div>
-      <div class="segbtns">${fonts.map(([v, l]) => `<button type="button" data-f="${v}" class="${cardState.font === v ? "on" : ""}">${l}</button>`).join("")}</div>
+      <label class="flabel">${esc(t("cardsFont"))}</label>
+      <select id="cardSheetFont" class="field" style="width:100%">${CARD_FONT_OPTS.map(([v, l]) => `<option value="${v}"${cardState.font === v ? " selected" : ""}>${l}</option>`).join("")}</select>
       <div class="swatches" style="margin-top:10px">${colors.map(c => `<button type="button" data-c="${c}" style="background:${c}" class="${cardState.color === c ? "on" : ""}"></button>`).join("")}</div>
       <label class="flabel">${esc(t("cardsSize"))}</label>
       <input id="cardSheetSize" type="range" min="0.04" max="0.22" step="0.005" value="${cardState.sizeFrac}" style="width:100%">`;
-    sh.querySelectorAll("[data-f]").forEach(b => b.onclick = () => {
-      cardState.font = b.dataset.f;
-      sh.querySelectorAll("[data-f]").forEach(x => x.classList.remove("on"));
-      b.classList.add("on");
-      cardApplyText();
-    });
+    sh.querySelector("#cardSheetFont").onchange = e => { cardState.font = e.target.value; cardApplyText(); };
     sh.querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
       cardState.color = b.dataset.c;
       sh.querySelectorAll("[data-c]").forEach(x => x.classList.remove("on"));
