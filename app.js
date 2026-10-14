@@ -54,7 +54,7 @@ const I18N = {
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", fasting: "Fasting now",
     mosquesTab: "Find", mosquesTitle: "Find nearby", mosquesSub: "Mosques and halal restaurants near you, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 10 km.", mosquesError: "Could not load mosques.",
-    mosquesRetrying: "Retrying…",
+    mosquesRetrying: "Retrying…", finderCached: "Showing saved results — the map server couldn't be reached.",
     halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 10 km.", marketFind: "Find halal markets/butchers near me", marketNone: "No halal markets found within 10 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites", addMosque: "Add mosque", addPrayer: "Add prayer room",
     mqMosqueTmpl: "🕌 New mosque suggestion\nPlace name: \nAddress: \nNotes (prayer times, Jumu'ah, parking…):",
     mqPrayerTmpl: "🛐 New prayer room suggestion\nPlace name (e.g. the mall, airport terminal, university building): \nLocation description — for people unfamiliar with this place (which floor, near what, how to find it): \nNotes (open hours, wudu facilities…):",
@@ -130,7 +130,7 @@ const I18N = {
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", fasting: "Oruçlusun",
     mosquesTab: "Bul", mosquesTitle: "Yakında bul", mosquesSub: "Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "10 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
-    mosquesRetrying: "Tekrar deneniyor…",
+    mosquesRetrying: "Tekrar deneniyor…", finderCached: "Kaydedilmiş sonuçlar gösteriliyor — harita sunucusuna ulaşılamadı.",
     halalFind: "Yakınımdaki helal restoranları bul", halalNone: "10 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal market/kasapları bul", marketNone: "10 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler", addMosque: "Cami ekle", addPrayer: "Namaz odası ekle",
     mqMosqueTmpl: "🕌 Yeni cami önerisi\nYer adı: \nAdres: \nNotlar (namaz vakitleri, Cuma, otopark…):",
     mqPrayerTmpl: "🛐 Yeni namaz odası önerisi\nYer adı (örn. AVM, havaalanı terminali, üniversite binası): \nKonum tarifi — burayı bilmeyenler için (kaçıncı kat, neyin yanında, nasıl bulunur?): \nNotlar (açık saatler, abdest imkânı…):",
@@ -1034,14 +1034,14 @@ function isFav(m) { return state.favs.some(f => f.key === favKey(m.lat, m.lon));
 function renderFinder() {
   const list = document.getElementById("mosqueList");
   if (!lastFinder) return;
-  const { items, kind } = lastFinder;
-  const icon = kind === "halal" ? "🍽️" : kind === "market" ? "🏪" : "🕌";
+  const { items, kind } = lastFinder;  const icon = kind === "halal" ? "🍽️" : kind === "market" ? "🏪" : "🕌";
   const favs = items.filter(isFav), rest = items.filter(m => !isFav(m));
   const row = m =>
     `<div class="mq-row"><a class="mosque" href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}" target="_blank" rel="noopener">` +
     `<span class="mq-name">${icon} ${escapeHtml(m.name)}</span><span class="mq-d">${m.d < 1 ? Math.round(m.d * 1000) + " m" : m.d.toFixed(1) + " km"}</span></a>` +
     `<button class="mq-fav${isFav(m) ? " on" : ""}" type="button" data-lat="${m.lat}" data-lon="${m.lon}" data-name="${escapeHtml(m.name)}" aria-label="${isFav(m) ? "★" : "☆"}">${isFav(m) ? "★" : "☆"}</button></div>`;
   list.innerHTML =
+    (lastFinder.stale ? `<p class="hint">${t("finderCached")}</p>` : "") +
     (favs.length ? `<p class="mq-favhead" data-i="mqFavTitle">${t("mqFavTitle")}</p>` + favs.map(row).join("") : "") +
     rest.map(row).join("");
   list.querySelectorAll(".mq-fav").forEach(b => b.onclick = () => {
@@ -1052,12 +1052,39 @@ function renderFinder() {
     save(); renderFinder();
   });
 }
+/* ---------- nearby finder cache (localStorage) ---------- */
+// Repeat searches from the same ~1km grid are instant and work offline-ish:
+// results are saved on every successful search and reused for 7 days.
+const FINDER_TTL = 7 * 24 * 3600 * 1000;
+function finderCacheKey(kind, lat, lon) { return kind + ":" + lat.toFixed(2) + "," + lon.toFixed(2); }
+function readFinderCache() { try { return JSON.parse(localStorage.getItem("ddh-finder") || "{}"); } catch { return {}; } }
+function writeFinderCache(c) {
+  try {
+    const keys = Object.keys(c);
+    if (keys.length > 20) { // keep it small: drop oldest beyond 20 grids
+      keys.sort((a, b) => (c[a].t || 0) - (c[b].t || 0));
+      for (const k of keys.slice(0, keys.length - 20)) delete c[k];
+    }
+    localStorage.setItem("ddh-finder", JSON.stringify(c));
+  } catch {}
+}
 async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
-  // 1) Prefer GPS location, fall back to selected place
+  // 0) Instant path: a fresh saved search for this grid needs no GPS and no network
   let lat = state.place.lat, lon = state.place.lon;
+  const ck = finderCacheKey(kind, lat, lon);
+  const cache = readFinderCache();
+  const hit = cache[ck];
+  const freshHit = hit && Date.now() - hit.t < FINDER_TTL && Array.isArray(hit.items) && hit.items.length;
+  if (freshHit) {
+    lastFinder = { kind, stale: false, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d) };
+    renderFinder();
+    btn.disabled = false;
+    return;
+  }
+  // 1) Prefer GPS location, fall back to selected place
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
   if (navigator.geolocation) {
     try {
@@ -1113,9 +1140,20 @@ async function nearbySearch(kind) {
     }
   }
   btn.disabled = false;
-  if (items === null) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
+  if (items === null) {
+    // Network failed everywhere — fall back to the last saved search for this grid, if any
+    if (hit && Array.isArray(hit.items) && hit.items.length) {
+      lastFinder = { kind, stale: true, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d) };
+      renderFinder();
+      return;
+    }
+    list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return;
+  }
   if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
-  lastFinder = { items, kind };
+  lastFinder = { items, kind, stale: false };
+  // remember this search — next time from here it's instant
+  cache[ck] = { t: Date.now(), items: items.map(m => ({ name: m.name, lat: m.lat, lon: m.lon })) };
+  writeFinderCache(cache);
   renderFinder();
 }
 async function findMosques() { return nearbySearch("mosque"); }
