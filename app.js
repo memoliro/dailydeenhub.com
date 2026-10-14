@@ -1076,10 +1076,11 @@ async function nearbySearch(kind) {
   const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
   const noneKey = kind === "halal" ? "halalNone" : kind === "market" ? "marketNone" : "mosquesNone";
   // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
+  // (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
   async function fetchOverpass(q) {
-    const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
+    const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter", "https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 12000);
+    const timer = setTimeout(() => ctrl.abort(), 20000);
     try {
       return await Promise.any(endpoints.map(ep =>
         fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal }).then(async res => {
