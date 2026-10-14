@@ -1771,6 +1771,8 @@ function renderHolyDays() {
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
+const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
+const CARD_FONTS = { serif: "Georgia, 'Times New Roman', serif", sans: "system-ui, -apple-system, 'Segoe UI', sans-serif", arabic: "Amiri, 'Traditional Arabic', 'Scheherazade New', serif" };
 const cardState = { bg: null, font: "serif", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
 function cardTextEl() { return document.getElementById("cardText"); }
 function cardStageEl() { return document.getElementById("cardStage"); }
