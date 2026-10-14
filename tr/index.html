@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=114" />
+  <link rel="stylesheet" href="/styles.css?v=115" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -355,6 +355,7 @@
           <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramazan</span></button>
           <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Öğren</span></button>
           <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Kur'an</span></button>
+          <button class="tile" id="voiceTile" type="button"><span class="tic">🎙</span><span class="tlabel" data-i="voiceTile">Sesli arama</span></button>
           <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Kıble</span></button>
           <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Camiler</span></button>
           <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tesbih</span></button>
@@ -365,6 +366,7 @@
           <button class="tile" data-goto="qadha" type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Kaza namazı</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Hatimler</span></button>
           <button class="tile" data-goto="resources" type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Kaynaklar</span></button>
+          <button class="tile" data-goto="library" type="button"><span class="tic">🏛</span><span class="tlabel" data-i="libraryTile">Kütüphane</span></button>
           <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Makaleler</span></button>
         </div>
         <p class="more-legal"><a href="/tr/about.html" data-i="aboutL">Hakkında</a> · <a href="/tr/privacy.html" data-i="privacyL">Gizlilik</a> · <a href="/tr/terms.html" data-i="termsL">Şartlar</a></p>
@@ -406,6 +408,21 @@
         <p class="note" data-i="resSub">Altı sahih hadis kitabı.</p>
         <div id="resSearchWrap"></div>
         <div id="kutubList" class="kutub-list"></div>
+      </div>
+    </section>
+
+    <section id="panel-library" class="layout hidden">
+      <div class="panel pad narrow">
+        <div id="libMain">
+          <h3 data-i="libraryTitle">Kütüphane</h3>
+          <p class="note" data-i="librarySub">Uygulama içi kitaplar anında açılır; dış bağlantılar güvenilir ücretsiz kütüphanelere gider.</p>
+          <div id="libraryGrid" class="shelf"></div>
+        </div>
+        <div id="libAsr" class="hidden">
+          <button class="ghost" id="asrBack" type="button">&larr; <span data-i="learnBack">Geri</span></button>
+          <h4 id="asrTitle" style="margin:10px 0"></h4>
+          <div id="asrList" class="learn-list"></div>
+        </div>
       </div>
     </section>
 
@@ -485,7 +502,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=116"></script>
+  <script src="/app.js?v=117"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>

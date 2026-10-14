@@ -39,7 +39,7 @@ const AYAH = [
   { ref: "At-Tawbah 9:40", ar: "لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", en: "Do not grieve; indeed Allah is with us.", tr: "Üzülme, Allah bizimle beraberdir." }
 ];
 const I18N = {
-  en: { kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
+  en: { kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceTile: "Voice search", libraryTile: "Library", libraryTitle: "Library", librarySub: "In-app books open instantly; external links open trusted free libraries.", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
     monthTitle: "This month", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -117,7 +117,7 @@ const I18N = {
     loading: "Loading times…", noResults: "No matches.", searching: "Searching…", gpsFail: "Location unavailable.",
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
-  tr: { kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
+  tr: { kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceTile: "Sesli arama", libraryTile: "K\u00fcthane", libraryTitle: "K\u00fcthane", librarySub: "Uygulama i\u00e7i kitaplar an\u0131nda a\u00e7\u0131l\u0131r; d\u0131\u015f ba\u011flant\u0131lar g\u00fcvenilir \u00fccretsiz k\u00fct\u00fcphanelere gider.", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
     monthTitle: "Bu ay", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -412,6 +412,7 @@ function applyI18n() {
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
   document.getElementById("locLabel").textContent = displayPlaceName();
   if (typeof refreshLearnView === "function") refreshLearnView();
+  if (typeof renderLibrary === "function") renderLibrary(false);
   const bw = document.getElementById("brandWord");
   if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
   const _fn = document.getElementById("footerNote"); if (_fn) _fn.textContent = t("footer");
@@ -1256,13 +1257,14 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library"))));
   if (id === "quran" && !chapters.length) loadChapters();
+  if (id === "library") renderLibrary(true);
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
   if (id === "qadha" && typeof renderQadha === "function") renderQadha();
   if (id === "resources" && typeof renderResources === "function") renderResources();
@@ -2068,6 +2070,94 @@ if (_vs) {
     try { rec.start(); } catch { setListening(false); restorePh(); }
   });
 })();
+/* Library shelf: in-app books + trusted free external libraries. */
+const LIB_BOOKS = [
+  { ic: "\U0001F4D6", t: { en: "Ya-Sin", tr: "Yasin" }, s: { en: "Surah 36, in the reader", tr: "36. sure, okuyucuda" }, act: "yasin" },
+  { ic: "\uD83D\uDD4C", t: { en: "Prayer Guide", tr: "Namaz Hocası" }, s: { en: "How to pray, step by step", tr: "Adım adım namaz" }, act: "prayer" },
+  { ic: "\uD83D\uDCFF", t: { en: "Tesbihat", tr: "Tesbihat" }, s: { en: "Dhikr counter", tr: "Zikir sayacı" }, act: "tasbih" },
+  { ic: "\uD83D\uDCDC", t: { en: "Select Passages", tr: "Aşr-ı Şerifler" }, s: { en: "Beloved verses to recite", tr: "Seçkin ayetler" }, act: "asr" },
+  { ic: "\uD83D\uDCDA", t: { en: "The Six Books", tr: "Kütüb-i Sitte" }, s: { en: "Hadith collections", tr: "Hadis koleksiyonları" }, act: "kutub" },
+  { ic: "\uD83E\uDD32", t: { en: "Hisnul Muslim", tr: "Hisnul Muslim" }, s: { en: "Authentic daily duas", tr: "Sahih günlük dualar" }, act: "hisnul" },
+  { ic: "\uD83D\uDD4C", t: { en: "Diyanet Tafsir", tr: "Diyanet Meal-Tefsir" }, s: { en: "Official TR portal", tr: "Resmî TR portal" }, act: "url", url: "https://kuran.diyanet.gov.tr/" },
+  { ic: "\U0001F4D6", t: { en: "Elmalılı Tafsir", tr: "Elmalılı Tefsiri" }, s: { en: "10 vols, free", tr: "10 cilt, ücretsiz" }, act: "url", url: "https://archive.org/details/hak-dini-kuran-dili-cilt-1-elmalili-hamdi-yazir" },
+  { ic: "\uD83C\uDF10", t: { en: "More Free Books", tr: "Ücretsiz Kitaplar" }, s: { en: "IslamHouse library", tr: "IslamHouse kütüphanesi" }, act: "url", url: { en: "https://islamhouse.com/en", tr: "https://islamhouse.com/tr" } }
+];
+const ASR_ITEMS = [
+  { t: { en: "Al-Fatiha", tr: "Fatiha Suresi" }, vk: "1:1" },
+  { t: { en: "Ayat al-Kursi", tr: "Ayet-el Kürsi" }, vk: "2:255" },
+  { t: { en: "Amana ar-Rasul", tr: "Amenerresulü" }, vk: "2:285" },
+  { t: { en: "Ya-Sin 58", tr: "Yasin 58" }, vk: "36:58" },
+  { t: { en: "Al-Hashr 22–24", tr: "Haşr 22–24" }, vk: "59:22" },
+  { t: { en: "Al-Ikhlas", tr: "İhlas Suresi" }, ch: 112 },
+  { t: { en: "Al-Falaq", tr: "Felak Suresi" }, ch: 113 },
+  { t: { en: "An-Nas", tr: "Nas Suresi" }, ch: 114 }
+];
+function libLang(o) { return (o && (o[state.lang] || o.en)) || ""; }
+function renderLibrary(resetView) {
+  const grid = document.getElementById("libraryGrid");
+  if (!grid) return;
+  if (resetView) {
+    document.getElementById("libMain").classList.remove("hidden");
+    document.getElementById("libAsr").classList.add("hidden");
+  } else if (!document.getElementById("libAsr").classList.contains("hidden")) {
+    renderAsrList();
+  }
+  grid.innerHTML = LIB_BOOKS.map((b, i) =>
+    `<button type="button" class="book${b.act === "url" ? " ext" : ""}" data-lib="${i}">` +
+    `<span class="book-cover">${b.ic}</span>` +
+    `<span class="book-name">${escapeHtml(libLang(b.t))}</span>` +
+    `<span class="book-sub">${escapeHtml(libLang(b.s))}</span></button>`
+  ).join("");
+  grid.querySelectorAll("[data-lib]").forEach(el => el.onclick = () => libAct(LIB_BOOKS[+el.dataset.lib]));
+}
+function libAct(b) {
+  if (!b) return;
+  if (b.act === "url") {
+    const u = typeof b.url === "string" ? b.url : (b.url && (b.url[state.lang] || b.url.en));
+    if (u) window.open(u, "_blank", "noopener");
+    return;
+  }
+  if (b.act === "asr") {
+    renderAsrList();
+    document.getElementById("libMain").classList.add("hidden");
+    document.getElementById("libAsr").classList.remove("hidden");
+    window.scrollTo(0, 0);
+    return;
+  }
+  if (b.act === "yasin") { showTab("quran"); openChapter(36); }
+  else if (b.act === "prayer") { showTab("learn"); openLearnArticle("prayer"); }
+  else if (b.act === "tasbih") showTab("quiet");
+  else if (b.act === "kutub") showTab("resources");
+  else if (b.act === "hisnul") showTab("hisnul");
+  window.scrollTo(0, 0);
+}
+function renderAsrList() {
+  const list = document.getElementById("asrList");
+  if (!list) return;
+  document.getElementById("asrTitle").textContent = libLang({ en: "Select Passages", tr: "Aşr-ı Şerifler" });
+  list.innerHTML = ASR_ITEMS.map((a, i) =>
+    `<button class="learn-card" data-asr="${i}" type="button"><span class="learn-ic">\uD83D\uDCDC</span>` +
+    `<span class="learn-tx"><span class="learn-ti">${escapeHtml(libLang(a.t))}</span>` +
+    `<span class="learn-de">${escapeHtml(a.vk || ("Surah " + a.ch))}</span></span>` +
+    `<span class="learn-go">\u203A</span></button>`
+  ).join("");
+  list.querySelectorAll("[data-asr]").forEach(el => el.onclick = () => {
+    const a = ASR_ITEMS[+el.dataset.asr];
+    showTab("quran");
+    if (a.ch) openChapter(a.ch); else gotoVerse(a.vk);
+    window.scrollTo(0, 0);
+  });
+}
+document.getElementById("asrBack").onclick = () => {
+  document.getElementById("libAsr").classList.add("hidden");
+  document.getElementById("libMain").classList.remove("hidden");
+};
+document.getElementById("voiceTile").onclick = () => {
+  showTab("quran");
+  window.scrollTo(0, 0);
+  const b = document.getElementById("voiceSearchBtn");
+  if (b) b.click();
+};
 document.getElementById("monthMode").onclick = () => { monthView = "month"; calSel = null; renderMonth(); };
 document.getElementById("calPrev").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM--; if (calM < 1) { calM = 12; calY--; } calSel = null; monthView = "month"; renderMonth(); };
 document.getElementById("calNext").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM++; if (calM > 12) { calM = 1; calY++; } calSel = null; monthView = "month"; renderMonth(); };
