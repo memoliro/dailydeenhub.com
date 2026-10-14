@@ -1079,7 +1079,7 @@ async function nearbySearch(kind) {
   const hit = cache[ck];
   const freshHit = hit && Date.now() - hit.t < FINDER_TTL && Array.isArray(hit.items) && hit.items.length;
   if (freshHit) {
-    lastFinder = { kind, stale: false, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d) };
+    lastFinder = { kind, stale: false, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
     renderFinder();
     btn.disabled = false;
     return;
@@ -1143,17 +1143,26 @@ async function nearbySearch(kind) {
   if (items === null) {
     // Network failed everywhere — fall back to the last saved search for this grid, if any
     if (hit && Array.isArray(hit.items) && hit.items.length) {
-      lastFinder = { kind, stale: true, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d) };
+      lastFinder = { kind, stale: true, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
       renderFinder();
       return;
     }
     list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return;
   }
   if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
-  lastFinder = { items, kind, stale: false };
-  // remember this search — next time from here it's instant
-  cache[ck] = { t: Date.now(), items: items.map(m => ({ name: m.name, lat: m.lat, lon: m.lon })) };
+  // merge into the saved results: keep what we had, add what's new, refresh names
+  const prev = (cache[ck] && Array.isArray(cache[ck].items)) ? cache[ck].items : [];
+  const byKey = new Map(prev.map(m => [m.lat.toFixed(5) + "," + m.lon.toFixed(5), m]));
+  for (const m of items) byKey.set(m.lat.toFixed(5) + "," + m.lon.toFixed(5), { name: m.name, lat: m.lat, lon: m.lon });
+  let merged = [...byKey.values()];
+  if (merged.length > 40) { // keep the saved list bounded: nearest 40 to the grid center
+    const [clat, clon] = ck.split(":")[1].split(",").map(Number);
+    merged = merged.map(m => ({ ...m, _d: mosqueDistKm(clat, clon, m.lat, m.lon) }))
+      .sort((a, b) => a._d - b._d).slice(0, 40).map(({ _d, ...m }) => m);
+  }
+  cache[ck] = { t: Date.now(), items: merged };
   writeFinderCache(cache);
+  lastFinder = { kind, stale: false, items: merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
   renderFinder();
 }
 async function findMosques() { return nearbySearch("mosque"); }
