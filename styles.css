@@ -135,7 +135,7 @@ th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--line
 th { color: var(--muted); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
 tr.today td { color: var(--gold-2); background: color-mix(in srgb, var(--gold) 12%, transparent); }
 .scroll { overflow: auto; max-height: 480px; }
-.compass { width: 300px; height: 300px; max-width: 86vw; margin: 8px auto; }
+.compass { width: min(92vw, 440px); aspect-ratio: 1; max-width: none; margin: 8px auto; }
 .compass svg { width: 100%; height: 100%; display: block; }
 .radio { margin-top: 16px; }
 .stations { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
@@ -544,7 +544,9 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
 #panel-month, #panel-qibla, #panel-quran, #panel-quiet, #panel-mosques, #panel-more {
   margin: 0; padding: 0 2px;
 }
-#panel-qibla .panel, #panel-quran .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel, #panel-live .panel, #panel-feedback .panel { padding: 14px 10px; }
+#panel-qibla .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel, #panel-live .panel, #panel-feedback .panel { padding: 14px 10px; }
+/* Quran reader: let the verses use nearly the full device width */
+#panel-quran .panel { padding: 14px 6px; }
 
 /* Settings page */
 #panel-settings { padding: 0 2px; }
