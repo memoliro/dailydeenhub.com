@@ -1068,6 +1068,61 @@ function writeFinderCache(c) {
     localStorage.setItem("ddh-finder", JSON.stringify(c));
   } catch {}
 }
+function finderQuery(kind, lat, lon) {
+  return kind === "halal"
+    ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
+    : kind === "market"
+    ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
+    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
+}
+function finderFallbackName(kind) {
+  return kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
+}
+// Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
+// (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
+async function fetchOverpass(q) {
+  const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter", "https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
+  try {
+    return await Promise.any(endpoints.map(ep =>
+      fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal }).then(async res => {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        if (!data || !Array.isArray(data.elements)) throw new Error("bad payload");
+        return data;
+      })
+    ));
+  } catch { return null; }
+  finally { clearTimeout(timer); }
+}
+function finderItemsFromData(data, lat, lon, fallbackName) {
+  const seen = new Set();
+  return (data.elements || []).map(el => {
+    const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
+    if (mlat == null) return null;
+    const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
+    if (seen.has(key)) return null;
+    seen.add(key);
+    return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+  }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
+}
+// Merge fresh items into the saved grid: keep old, add new, refresh names. Returns merged list.
+function mergeFinderCache(ck, items) {
+  const cache = readFinderCache();
+  const prev = (cache[ck] && Array.isArray(cache[ck].items)) ? cache[ck].items : [];
+  const byKey = new Map(prev.map(m => [m.lat.toFixed(5) + "," + m.lon.toFixed(5), m]));
+  for (const m of items) byKey.set(m.lat.toFixed(5) + "," + m.lon.toFixed(5), { name: m.name, lat: m.lat, lon: m.lon });
+  let merged = [...byKey.values()];
+  if (merged.length > 40) { // keep the saved list bounded: nearest 40 to the grid center
+    const [clat, clon] = ck.split(":")[1].split(",").map(Number);
+    merged = merged.map(m => ({ ...m, _d: mosqueDistKm(clat, clon, m.lat, m.lon) }))
+      .sort((a, b) => a._d - b._d).slice(0, 40).map(({ _d, ...m }) => m);
+  }
+  cache[ck] = { t: Date.now(), items: merged };
+  writeFinderCache(cache);
+  return merged;
+}
 async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
@@ -1094,47 +1149,17 @@ async function nearbySearch(kind) {
       lat = pos.coords.latitude; lon = pos.coords.longitude;
     } catch {} // fall back to selected place
   }
-  // 2) Build query
-  const q = kind === "halal"
-    ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
-    : kind === "market"
-    ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
-    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
-  const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
+  // 2) Ask the map servers
+  const q = finderQuery(kind, lat, lon);
+  const fallbackName = finderFallbackName(kind);
   const noneKey = kind === "halal" ? "halalNone" : kind === "market" ? "marketNone" : "mosquesNone";
-  // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
-  // (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
-  async function fetchOverpass(q) {
-    const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter", "https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 20000);
-    try {
-      return await Promise.any(endpoints.map(ep =>
-        fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal }).then(async res => {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-          if (!data || !Array.isArray(data.elements)) throw new Error("bad payload");
-          return data;
-        })
-      ));
-    } catch { return null; }
-    finally { clearTimeout(timer); }
-  }
   let items = null;
   const maxAttempts = 3;
   for (let attempt = 1; attempt <= maxAttempts && items === null; attempt++) {
     if (attempt > 1) list.innerHTML = `<p class="hint">${t("mosquesRetrying")} (${attempt}/${maxAttempts})</p>`;
     const data = await fetchOverpass(q);
     if (data) {
-      const seen = new Set();
-      items = (data.elements || []).map(el => {
-        const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
-        if (mlat == null) return null;
-        const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
-        if (seen.has(key)) return null;
-        seen.add(key);
-        return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
-      }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
+      items = finderItemsFromData(data, lat, lon, fallbackName);
     } else if (attempt < maxAttempts) {
       await new Promise(r => setTimeout(r, 1500 * attempt));
     }
@@ -1150,24 +1175,35 @@ async function nearbySearch(kind) {
     list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return;
   }
   if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
-  // merge into the saved results: keep what we had, add what's new, refresh names
-  const prev = (cache[ck] && Array.isArray(cache[ck].items)) ? cache[ck].items : [];
-  const byKey = new Map(prev.map(m => [m.lat.toFixed(5) + "," + m.lon.toFixed(5), m]));
-  for (const m of items) byKey.set(m.lat.toFixed(5) + "," + m.lon.toFixed(5), { name: m.name, lat: m.lat, lon: m.lon });
-  let merged = [...byKey.values()];
-  if (merged.length > 40) { // keep the saved list bounded: nearest 40 to the grid center
-    const [clat, clon] = ck.split(":")[1].split(",").map(Number);
-    merged = merged.map(m => ({ ...m, _d: mosqueDistKm(clat, clon, m.lat, m.lon) }))
-      .sort((a, b) => a._d - b._d).slice(0, 40).map(({ _d, ...m }) => m);
-  }
-  cache[ck] = { t: Date.now(), items: merged };
-  writeFinderCache(cache);
+  const merged = mergeFinderCache(ck, items);
   lastFinder = { kind, stale: false, items: merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
   renderFinder();
 }
 async function findMosques() { return nearbySearch("mosque"); }
 async function findHalal() { return nearbySearch("halal"); }
 async function findMarkets() { return nearbySearch("market"); }
+// Quietly pre-search all three finder kinds for the saved place after the app
+// opens, so "Find near me" is instant even on first tap. Best-effort: no GPS
+// (would pop a permission prompt), no UI — a failed warm just means the button
+// tap fetches normally.
+let finderWarmed = false;
+async function warmFinderCache() {
+  if (finderWarmed) return;
+  finderWarmed = true;
+  const lat = state.place.lat, lon = state.place.lon;
+  for (const kind of ["mosque", "halal", "market"]) {
+    try {
+      const ck = finderCacheKey(kind, lat, lon);
+      const hit = readFinderCache()[ck];
+      if (hit && Date.now() - hit.t < FINDER_TTL && Array.isArray(hit.items) && hit.items.length) continue;
+      const data = await fetchOverpass(finderQuery(kind, lat, lon));
+      if (data && Array.isArray(data.elements) && data.elements.length) {
+        mergeFinderCache(ck, finderItemsFromData(data, lat, lon, finderFallbackName(kind)));
+      }
+    } catch {}
+    await new Promise(r => setTimeout(r, 3000)); // stagger: polite to the free servers
+  }
+}
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
   const h = entry && entry.date && entry.date.hijri;
@@ -2141,6 +2177,9 @@ applyI18n();
 buildCompassDial();
 refresh();
 maybeShowApkNotice();
+// Warm the Find-near-me cache quietly in the background (mosques, halal, markets):
+// pre-searches the saved place a few seconds after load so first taps are instant.
+setTimeout(() => { try { warmFinderCache(); } catch {} }, 8000);
 // Fetch magnetic declination for the saved location (cached in localStorage).
 if (state.place && typeof state.place.lat === 'number') updateDeclination(state.place.lat, state.place.lon);
 // prayer-card checkboxes use delegation (cards re-render every second)
