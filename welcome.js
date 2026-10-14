@@ -14,7 +14,7 @@
       lcNo: 'NOT NOW',
       lcYes: 'AGREE',
       privTitle: '🔒 Your privacy comes first',
-      privBody: 'We do not collect your personal information. Daily Deen Hub is completely free — no sign-in, no account, nothing to pay. Your settings and location stay on your device, where they belong.'
+      privBody: 'We do not collect your personal information. Daily Deen Hub is completely free — no sign-in, no account, nothing to pay, no annoying ads. Your settings and location stay on your device, where they belong.'
     },
     tr: {
       brand: 'Günlük Din Merkezi', greet: 'Esselamu Aleykum',
@@ -27,7 +27,7 @@
       lcNo: 'ŞİMDİ DEĞİL',
       lcYes: 'KABUL ET',
       privTitle: '🔒 Gizliliğiniz önceliğimizdir',
-      privBody: 'Kişisel bilgilerinizi toplamıyoruz. Günlük Din Merkezi tamamen ücretsizdir — giriş yok, hesap yok, ödeme yok. Ayarlarınız ve konumunuz cihazınızda kalır.'
+      privBody: 'Kişisel bilgilerinizi toplamıyoruz. Günlük Din Merkezi tamamen ücretsizdir — giriş yok, hesap yok, ödeme yok, can sıkıcı reklam yok. Ayarlarınız ve konumunuz cihazınızda kalır.'
     }
   };
   function apply(l){
