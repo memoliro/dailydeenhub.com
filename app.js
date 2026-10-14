@@ -83,7 +83,7 @@ const I18N = {
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     extraRem: "Extra reminders", extraSub: "Wake-up and fasting reminders, anchored to prayer times.",
     holyDays: "Holy days", holyDaysSub: "Islamic holy days and kandil nights.", holyDaysNote: "Dates follow Diyanet's calculation (Türkiye). Your local mosque may observe them a day earlier or later — especially Ramadan and the Eids, which depend on moon sighting.", holyDaysNext: "Next", holyDaysInDays: "days left", holyDaysToday: "today", holyDaysTomorrow: "tomorrow",
-    cardsTile: "Greeting cards", cardsSub: "Pick a background, write your message, share it with loved ones.", cardsPickBg: "Choose a background", cardsYourMsg: "Your message", cardsMsgPh: "Write your message…", cardsFont: "Font", cardsSize: "Size", cardsColor: "Color", cardsPos: "Position", cardsTop: "Top", cardsMid: "Middle", cardsBot: "Bottom", cardsShare: "Share", cardsDownload: "Save", cardsBack: "← Backgrounds", cardsForDay: "Make a card for", cardsSugg: "Suggestions", cardsShared: "Card shared!", cardsSaved: "Card saved to your device.", cardsShareFail: "Sharing isn't supported here — the card was saved instead.",
+    cardsTile: "Greeting cards", cardsSub: "Pick a background, write your message, share it with loved ones.", cardsPickBg: "Choose a background", cardsTapType: "Tap to write…", cardsMnuBg: "Background", cardsMnuText: "Text", cardsMnuAdj: "Adjust", cardsBright: "Brightness", cardsBlur: "Blur", cardsYourMsg: "Your message", cardsMsgPh: "Write your message…", cardsFont: "Font", cardsSize: "Size", cardsColor: "Color", cardsPos: "Position", cardsTop: "Top", cardsMid: "Middle", cardsBot: "Bottom", cardsShare: "Share", cardsDownload: "Save", cardsBack: "← Backgrounds", cardsForDay: "Make a card for", cardsSugg: "Suggestions", cardsShared: "Card shared!", cardsSaved: "Card saved to your device.", cardsShareFail: "Sharing isn't supported here — the card was saved instead.",
     extraHonest: "These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.",
     xSahur: "Sahur", xTahajjud: "Tahajjud", xFast: "Mon / Thu fast", xJumuah: "Jumu'ah",
     xBeforeFajr: "before Fajr", xBeforeDhuhr: "before Dhuhr (Friday)",
@@ -168,7 +168,7 @@ const I18N = {
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
     holyDays: "Dini günler", holyDaysSub: "Dini günler ve kandil geceleri.", holyDaysNote: "Tarihler Diyanet'in hesaplamasına göredir (Türkiye). Bulunduğunuz yerdeki camiler, özellikle hilal gözlemine bağlı Ramazan ve bayramları bir gün önce veya sonra idrak edebilir.", holyDaysNext: "Sıradaki", holyDaysInDays: "gün kaldı", holyDaysToday: "bugün", holyDaysTomorrow: "yarın",
-    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
+    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsTapType: "Yazmak için dokunun…", cardsMnuBg: "Arka plan", cardsMnuText: "Yazı", cardsMnuAdj: "Ayarla", cardsBright: "Parlaklık", cardsBlur: "Bulanıklık", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
     extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
     xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
     xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
@@ -1770,139 +1770,225 @@ function renderHolyDays() {
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
-/* ===== Greeting cards (More tile): pick bg, write message, share ===== */
-const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
-const CARD_FONTS = { serif: "Georgia, 'Times New Roman', serif", sans: "system-ui, -apple-system, 'Segoe UI', sans-serif", arabic: "Amiri, 'Traditional Arabic', 'Scheherazade New', serif" };
-const cardState = { bg: null, msg: "", font: "serif", size: 64, color: "#ffffff", pos: "middle" };
-function cardMsgFor(hd, lang) {
-  const nm = (hd[lang] || hd.en || "").toLowerCase();
-  const isKandil = /kandil|mi'raj|bara'ah|raghaib|qadr|mawlid|decree|night/i.test(nm);
-  const isFitr = /fitr|ramazan bayram/i.test(nm);
-  const isAdha = /adha|kurban/i.test(nm);
-  const isRamadan = /ramadan begins|ramazan ba/i.test(nm);
-  if (lang === "tr") {
-    if (isFitr) return ["Ramazan Bayramınız mübarek olsun", "Hayırlı bayramlar"];
-    if (isAdha) return ["Kurban Bayramınız mübarek olsun", "Hayırlı bayramlar"];
-    if (isRamadan) return ["Hayırlı Ramazanlar", "Ramazanınız mübarek olsun"];
-    if (isKandil) return ["Kandiliniz mübarek olsun", "Dualarınız kabul olsun"];
-    return ["Mübarek olsun", "Hayırlı günler"];
-  }
-  if (isFitr || isAdha) return ["Eid Mubarak", "Blessed Eid"];
-  if (isRamadan) return ["Blessed Ramadan", "Ramadan Kareem"];
-  if (isKandil) return ["Blessed night", "May your prayers be accepted"];
-  return ["Blessed day", "With warm wishes"];
+/* ===== Greeting cards v2: direct manipulation on the image ===== */
+const cardState = { bg: null, font: "serif", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
+function cardTextEl() { return document.getElementById("cardText"); }
+function cardStageEl() { return document.getElementById("cardStage"); }
+function cardApplyText() {
+  const el = cardTextEl(), st = cardStageEl();
+  if (!el || !st) return;
+  el.style.left = (cardState.pos.x * 100) + "%";
+  el.style.top = (cardState.pos.y * 100) + "%";
+  el.style.fontSize = (st.clientWidth * cardState.sizeFrac) + "px";
+  el.style.fontFamily = CARD_FONTS[cardState.font] || CARD_FONTS.serif;
+  el.style.color = cardState.color;
 }
-function renderCardsHome() {
-  const gal = document.getElementById("cardsGallery");
-  if (!gal) return;
-  document.getElementById("cardsGalleryWrap").classList.remove("hidden");
-  document.getElementById("cardsEditor").classList.add("hidden");
-  gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("");
-  gal.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => openCardEditor(b.dataset.bg));
-  // upcoming holy day nudge
-  const holy = document.getElementById("cardsHoly");
-  const lang = state.lang || "en";
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today && (e.date - today) / 86400000 <= 30)[0];
-  holy.innerHTML = up ? `<div class="rrow hd-next"><span>💌 <b>${esc(t("cardsForDay"))} ${esc(up[lang] || up.en)}</b></span></div>` : "";
+function cardApplyBg() {
+  const img = document.getElementById("cardBgImg");
+  if (!img) return;
+  img.style.filter = `brightness(${cardState.bright}) blur(${cardState.blur}px)`;
 }
 function openCardEditor(bg) {
   cardState.bg = bg;
   const lang = state.lang || "en";
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today)[0];
-  const sugg = up ? cardMsgFor(up, lang) : (lang === "tr" ? ["Kandiliniz mübarek olsun", "Hayırlı günler"] : ["Blessed day", "With warm wishes"]);
-  cardState.msg = sugg[0];
-  document.getElementById("cardsMsg").value = sugg[0];
-  document.getElementById("cardsSuggest").innerHTML = `<span class="note">${esc(t("cardsSugg"))}:</span> ` + sugg.map(s => `<button type="button" class="chip" data-s="${esc(s)}">${esc(s)}</button>`).join("");
-  document.getElementById("cardsSuggest").querySelectorAll("[data-s]").forEach(c => c.onclick = () => {
-    document.getElementById("cardsMsg").value = c.dataset.s;
-    cardState.msg = c.dataset.s;
-    drawCard();
-  });
+  const sugg = up ? cardMsgFor(up, lang) : (lang === "tr" ? ["Kandiliniz mübarek olsun"] : ["Blessed day"]);
   document.getElementById("cardsGalleryWrap").classList.add("hidden");
   document.getElementById("cardsEditor").classList.remove("hidden");
-  bindCardControls();
-  drawCard();
+  const img = document.getElementById("cardBgImg");
+  img.src = "/cards/" + bg;
+  const tel = cardTextEl();
+  tel.textContent = sugg[0];
+  cardState.pos = { x: 0.5, y: 0.30 };
+  cardApplyBg();
+  // apply after layout so clientWidth is real
+  requestAnimationFrame(cardApplyText);
+  bindCardStage();
+  closeCardSheet();
+  document.getElementById("cardPlusMenu").classList.add("hidden");
   window.scrollTo(0, 0);
 }
-function bindCardControls() {
-  const msg = document.getElementById("cardsMsg");
-  if (msg.dataset.bound) return;
-  msg.dataset.bound = "1";
-  msg.oninput = () => { cardState.msg = msg.value; drawCard(); };
-  document.getElementById("cardsFont").onchange = e => { cardState.font = e.target.value; drawCard(); };
-  document.getElementById("cardsSize").oninput = e => { cardState.size = +e.target.value; drawCard(); };
-  document.getElementById("cardsColors").querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
-    document.getElementById("cardsColors").querySelectorAll("[data-c]").forEach(x => x.classList.remove("on"));
-    b.classList.add("on");
-    cardState.color = b.dataset.c;
-    drawCard();
-  });
-  document.getElementById("cardsPosBtns").querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
-    document.getElementById("cardsPosBtns").querySelectorAll("[data-p]").forEach(x => x.classList.remove("on"));
-    b.classList.add("on");
-    cardState.pos = b.dataset.p;
-    drawCard();
-  });
-  document.getElementById("cardsBack").onclick = renderCardsHome;
-  document.getElementById("cardsShare").onclick = shareCard;
-  document.getElementById("cardsDownload").onclick = () => saveCard(true);
-}
-function drawCard() {
-  const cv = document.getElementById("cardsCanvas");
-  if (!cv || !cardState.bg) return;
-  const ctx = cv.getContext("2d");
-  const W = cv.width, H = cv.height;
-  const img = new Image();
-  img.onload = () => {
-    // cover-fit
-    const s = Math.max(W / img.width, H / img.height);
-    const dw = img.width * s, dh = img.height * s;
-    ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
-    // soft dark veil for readability
-    const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, "rgba(0,0,0,0.25)");
-    g.addColorStop(0.5, "rgba(0,0,0,0.05)");
-    g.addColorStop(1, "rgba(0,0,0,0.35)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-    // message
-    const msg = (cardState.msg || "").trim();
-    if (!msg) return;
-    const size = cardState.size;
-    ctx.font = `${size}px ${CARD_FONTS[cardState.font] || CARD_FONTS.serif}`;
-    ctx.textAlign = "center";
-    ctx.fillStyle = cardState.color;
-    ctx.shadowColor = "rgba(0,0,0,0.7)";
-    ctx.shadowBlur = 18;
-    ctx.shadowOffsetY = 4;
-    // word wrap
-    const maxW = W * 0.84;
-    const words = msg.split(/\s+/);
-    const lines = [];
-    let line = "";
-    words.forEach(w => {
-      const test = line ? line + " " + w : w;
-      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
-      else line = test;
-    });
-    if (line) lines.push(line);
-    const lh = size * 1.25;
-    const blockH = lines.length * lh;
-    let y0;
-    if (cardState.pos === "top") y0 = H * 0.16;
-    else if (cardState.pos === "bottom") y0 = H * 0.84 - blockH;
-    else y0 = H / 2 - blockH / 2;
-    lines.forEach((ln, i) => ctx.fillText(ln, W / 2, y0 + lh * (i + 1) - lh * 0.2));
-    ctx.shadowColor = "transparent";
-    // watermark
-    ctx.font = `28px ${CARD_FONTS.sans}`;
-    ctx.fillStyle = "rgba(255,255,255,0.55)";
-    ctx.shadowBlur = 8;
-    ctx.fillText("DailyDeenHub", W / 2, H - 48);
+function bindCardStage() {
+  const st = cardStageEl(), tel = cardTextEl();
+  if (st.dataset.bound) return;
+  st.dataset.bound = "1";
+  // --- drag + pinch on the text ---
+  let drag = null, pinch = null;
+  const posOf = t => {
+    const r = st.getBoundingClientRect();
+    return { x: (t.clientX - r.left) / r.width, y: (t.clientY - r.top) / r.height };
   };
-  img.src = "/cards/" + cardState.bg;
+  tel.addEventListener("touchstart", e => {
+    if (e.touches.length === 1) {
+      const p = posOf(e.touches[0]);
+      drag = { sx: p.x, sy: p.y, ox: cardState.pos.x, oy: cardState.pos.y, moved: false };
+    } else if (e.touches.length === 2) {
+      pinch = { d: Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY), s0: cardState.sizeFrac };
+      drag = null;
+      e.preventDefault();
+    }
+  }, { passive: true });
+  tel.addEventListener("touchmove", e => {
+    if (pinch && e.touches.length === 2) {
+      e.preventDefault();
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      if (pinch.d > 0) {
+        cardState.sizeFrac = Math.min(0.22, Math.max(0.04, pinch.s0 * d / pinch.d));
+        cardApplyText();
+      }
+      return;
+    }
+    if (drag && e.touches.length === 1) {
+      const p = posOf(e.touches[0]);
+      if (Math.abs(p.x - drag.sx) + Math.abs(p.y - drag.sy) > 0.02) drag.moved = true;
+      if (drag.moved) {
+        e.preventDefault();
+        cardState.pos.x = Math.min(0.95, Math.max(0.05, drag.ox + (p.x - drag.sx)));
+        cardState.pos.y = Math.min(0.95, Math.max(0.05, drag.oy + (p.y - drag.sy)));
+        cardApplyText();
+      }
+    }
+  }, { passive: false });
+  tel.addEventListener("touchend", e => {
+    if (e.touches.length === 0) { drag = null; pinch = null; }
+    else if (e.touches.length === 1) pinch = null;
+  });
+  // mouse drag for desktop
+  tel.addEventListener("mousedown", e => {
+    const p = posOf(e);
+    drag = { sx: p.x, sy: p.y, ox: cardState.pos.x, oy: cardState.pos.y, moved: false };
+    const mv = ev => {
+      const q = posOf(ev);
+      if (Math.abs(q.x - drag.sx) + Math.abs(q.y - drag.sy) > 0.02) drag.moved = true;
+      if (drag.moved) {
+        cardState.pos.x = Math.min(0.95, Math.max(0.05, drag.ox + (q.x - drag.sx)));
+        cardState.pos.y = Math.min(0.95, Math.max(0.05, drag.oy + (q.y - drag.sy)));
+        cardApplyText();
+      }
+    };
+    const up = () => { document.removeEventListener("mousemove", mv); document.removeEventListener("mouseup", up); drag = null; };
+    document.addEventListener("mousemove", mv);
+    document.addEventListener("mouseup", up);
+  });
+  // --- FABs ---
+  document.getElementById("cardBackBtn").onclick = renderCardsHome;
+  document.getElementById("cardShareFab").onclick = shareCard;
+  const plus = document.getElementById("cardPlusFab");
+  const menu = document.getElementById("cardPlusMenu");
+  plus.onclick = e => { e.stopPropagation(); menu.classList.toggle("hidden"); closeCardSheet(); };
+  st.addEventListener("click", e => {
+    if (!menu.classList.contains("hidden") && !menu.contains(e.target) && e.target !== plus) menu.classList.add("hidden");
+  });
+  menu.querySelectorAll("[data-m]").forEach(b => b.onclick = e => {
+    e.stopPropagation();
+    menu.classList.add("hidden");
+    openCardSheet(b.dataset.m);
+  });
+  // keep text style in sync on resize/orientation
+  window.addEventListener("resize", cardApplyText);
+}
+function closeCardSheet() {
+  const sh = document.getElementById("cardSheet");
+  if (sh) { sh.classList.add("hidden"); sh.innerHTML = ""; }
+}
+function openCardSheet(kind) {
+  const sh = document.getElementById("cardSheet");
+  sh.classList.remove("hidden");
+  if (kind === "bg") {
+    sh.innerHTML = `<div class="sheet-title">${esc(t("cardsPickBg"))}</div><div class="sheet-grid">` +
+      CARD_BGS.map(f => `<button type="button" class="card-thumb${f === cardState.bg ? " sel" : ""}" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("") + `</div>`;
+    sh.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => {
+      cardState.bg = b.dataset.bg;
+      document.getElementById("cardBgImg").src = "/cards/" + b.dataset.bg;
+      sh.querySelectorAll("[data-bg]").forEach(x => x.classList.remove("sel"));
+      b.classList.add("sel");
+    });
+  } else if (kind === "text") {
+    const fonts = [["serif", "Serif"], ["sans", "Sans"], ["arabic", "Amiri"]];
+    const colors = ["#ffffff", "#ffe9a8", "#c9a227", "#0f2e23", "#7a1f1f"];
+    sh.innerHTML = `<div class="sheet-title">${esc(t("cardsMnuText"))}</div>
+      <div class="segbtns">${fonts.map(([v, l]) => `<button type="button" data-f="${v}" class="${cardState.font === v ? "on" : ""}">${l}</button>`).join("")}</div>
+      <div class="swatches" style="margin-top:10px">${colors.map(c => `<button type="button" data-c="${c}" style="background:${c}" class="${cardState.color === c ? "on" : ""}"></button>`).join("")}</div>
+      <label class="flabel">${esc(t("cardsSize"))}</label>
+      <input id="cardSheetSize" type="range" min="0.04" max="0.22" step="0.005" value="${cardState.sizeFrac}" style="width:100%">`;
+    sh.querySelectorAll("[data-f]").forEach(b => b.onclick = () => {
+      cardState.font = b.dataset.f;
+      sh.querySelectorAll("[data-f]").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      cardApplyText();
+    });
+    sh.querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
+      cardState.color = b.dataset.c;
+      sh.querySelectorAll("[data-c]").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      cardApplyText();
+    });
+    sh.querySelector("#cardSheetSize").oninput = e => { cardState.sizeFrac = +e.target.value; cardApplyText(); };
+  } else if (kind === "adj") {
+    sh.innerHTML = `<div class="sheet-title">${esc(t("cardsMnuAdj"))}</div>
+      <label class="flabel">${esc(t("cardsBright"))}</label>
+      <input id="cardSheetBright" type="range" min="0.4" max="1.6" step="0.05" value="${cardState.bright}" style="width:100%">
+      <label class="flabel">${esc(t("cardsBlur"))}</label>
+      <input id="cardSheetBlur" type="range" min="0" max="12" step="0.5" value="${cardState.blur}" style="width:100%">`;
+    sh.querySelector("#cardSheetBright").oninput = e => { cardState.bright = +e.target.value; cardApplyBg(); };
+    sh.querySelector("#cardSheetBlur").oninput = e => { cardState.blur = +e.target.value; cardApplyBg(); };
+  }
+}
+/* render the live stage to an export canvas (1080x1350) */
+function renderCardToCanvas() {
+  return new Promise(resolve => {
+    const W = 1080, H = 1350;
+    const cv = document.createElement("canvas");
+    cv.width = W; cv.height = H;
+    const ctx = cv.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.max(W / img.width, H / img.height);
+      const dw = img.width * s, dh = img.height * s;
+      ctx.filter = `brightness(${cardState.bright}) blur(${cardState.blur * (W / cardStageEl().clientWidth)}px)`;
+      ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+      ctx.filter = "none";
+      const g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, "rgba(0,0,0,0.25)");
+      g.addColorStop(0.5, "rgba(0,0,0,0.05)");
+      g.addColorStop(1, "rgba(0,0,0,0.35)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      const msg = (cardTextEl().innerText || "").trim();
+      if (msg) {
+        const size = cardState.sizeFrac * W;
+        ctx.font = `${size}px ${CARD_FONTS[cardState.font] || CARD_FONTS.serif}`;
+        ctx.textAlign = "center";
+        ctx.fillStyle = cardState.color;
+        ctx.shadowColor = "rgba(0,0,0,0.7)";
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 4;
+        const maxW = W * 0.84;
+        const lines = [];
+        msg.split("\n").forEach(para => {
+          let line = "";
+          para.split(/\s+/).forEach(w => {
+            const test = line ? line + " " + w : w;
+            if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+            else line = test;
+          });
+          lines.push(line);
+        });
+        const lh = size * 1.3;
+        const cx = cardState.pos.x * W;
+        const topY = cardState.pos.y * H;
+        lines.forEach((ln, i) => ctx.fillText(ln, cx, topY + size * 0.85 + lh * i));
+        ctx.shadowColor = "transparent";
+      }
+      ctx.font = `28px ${CARD_FONTS.sans}`;
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      ctx.textAlign = "center";
+      ctx.fillText("DailyDeenHub", W / 2, H - 48);
+      resolve(cv);
+    };
+    img.src = "/cards/" + cardState.bg;
+  });
 }
 function cardToast(msg) {
   const el = document.getElementById("cardsToast");
@@ -1911,36 +1997,40 @@ function cardToast(msg) {
   clearTimeout(cardToast._t);
   cardToast._t = setTimeout(() => el.classList.add("hidden"), 3500);
 }
-function saveCard(announce) {
-  const cv = document.getElementById("cardsCanvas");
-  cv.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "dailydeenhub-card.jpg";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 4000);
-    if (announce) cardToast(t("cardsSaved"));
-  }, "image/jpeg", 0.92);
+async function cardExportBlob() {
+  const cv = await renderCardToCanvas();
+  return new Promise(res => cv.toBlob(res, "image/jpeg", 0.92));
 }
-function shareCard() {
-  const cv = document.getElementById("cardsCanvas");
-  cv.toBlob(async blob => {
-    const file = new File([blob], "dailydeenhub-card.jpg", { type: "image/jpeg" });
-    try {
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: t("cardsTile") });
-        cardToast(t("cardsShared"));
-      } else {
-        saveCard(false);
-        cardToast(t("cardsShareFail"));
-      }
-    } catch (e) {
-      if (e && e.name !== "AbortError") { saveCard(false); cardToast(t("cardsShareFail")); }
+async function saveCard() {
+  const blob = await cardExportBlob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "dailydeenhub-card.jpg";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  cardToast(t("cardsSaved"));
+}
+async function shareCard() {
+  const blob = await cardExportBlob();
+  const file = new File([blob], "dailydeenhub-card.jpg", { type: "image/jpeg" });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: t("cardsTile") });
+      cardToast(t("cardsShared"));
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "dailydeenhub-card.jpg";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      cardToast(t("cardsShareFail"));
     }
-  }, "image/jpeg", 0.92);
+  } catch (e) {
+    if (!e || e.name !== "AbortError") cardToast(t("cardsShareFail"));
+  }
 }
 
 function renderStations() {
