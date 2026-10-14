@@ -225,8 +225,10 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .menu-link, .menu-row {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   width: 100%; padding: 10px 12px; border: 0; background: transparent;
-  color: var(--ink); text-decoration: none; border-radius: 10px; font-size: 15px; text-align: left;
+  color: var(--ink); text-decoration: none; border-radius: 10px; font-size: 17px; text-align: left;
 }
+/* Find-near-me buttons: slightly larger text */
+#mosqueFind, #halalFind, #marketFind { font-size: 17px; }
 .menu-link:hover, .menu-row:hover { background: color-mix(in srgb, var(--gold) 12%, transparent); }
 .menu-div { border-top: 1px solid var(--line); margin: 6px 4px; }
 .menu-row .seg.sm button { padding: 6px 10px; font-size: 13px; }
@@ -409,7 +411,7 @@ a { color: var(--green-bright); }
   text-align: center; padding: 18px 16px 40px;
 }
 body[data-theme="day"] .date-pill { border-color: var(--line); }
-.hero-label { color: #f59e0b; font-size: 15px; font-weight: 600; letter-spacing: .3px; }
+.hero-label { color: #f59e0b; font-size: clamp(20px, 5vw, 26px); font-weight: 700; letter-spacing: .3px; }
 .hero-clock {
   font-size: clamp(52px, 15vw, 88px); font-weight: 700;
   font-variant-numeric: tabular-nums; line-height: 1.05; letter-spacing: 2px;
