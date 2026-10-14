@@ -1751,7 +1751,7 @@ function renderHolyDays() {
   let html = "";
   if (upcoming.length) {
     const nx = upcoming[0];
-    const days = Math.round((nx.date - today) / 86400000);
+    const days = Math.floor((nx.date - today) / 86400000);
     const when = days === 0 ? t("holyDaysToday") : days === 1 ? t("holyDaysTomorrow") : days + " " + t("holyDaysInDays");
     html += `<div class="rrow hd-next"><span>🌙 <b>${esc(nx[lang] || nx.en)}</b><br><span class="dim">${esc(nx.date.toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric", weekday: "long" }))} · ${esc(nx.h)}</span></span><span class="hd-when">${esc(when)}</span></div>`;
   }
