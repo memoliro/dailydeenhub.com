@@ -200,7 +200,7 @@ async function enable() {
       }),
     });
     if (!res.ok) throw new Error('subscribe ' + res.status);
-    lastSynced = JSON.stringify(settingsPayload());
+    setLastSynced(JSON.stringify(settingsPayload()));
     try { localStorage.setItem('ddh-push', '1'); localStorage.removeItem('ddh-push-off'); } catch (e) {}
     if (note) note.textContent = t('pushOn');
     toast(t('pushEnabled'));
@@ -234,6 +234,11 @@ async function disable() {
    save() fires on EVERY state change (even tasbih taps), so: debounce, and skip when the
    payload the server cares about hasn't actually changed. */
 var lastSynced = '';
+try { lastSynced = localStorage.getItem('ddh-push-synced') || ''; } catch (e) {}
+function setLastSynced(p) {
+  lastSynced = p;
+  try { localStorage.setItem('ddh-push-synced', p); } catch (e) {}
+}
 var syncTimer = 0;
 function resync() {
   clearTimeout(syncTimer);
@@ -254,7 +259,7 @@ async function doResync() {
         settings: settingsPayload(),
       }),
     });
-    if (res.ok) lastSynced = payload;
+    if (res.ok) setLastSynced(payload);
   } catch (e) {}
 }
 
@@ -271,6 +276,9 @@ function boot() {
   var popLater = $('installPopLater');
   if (popLater) popLater.addEventListener('click', function () { hideInstallPopup(true); });
   refreshUI();
+  // Self-heal: if a settings sync was ever missed (failed POST, killed tab),
+  // re-send the current payload once per app open. doResync skips when unchanged.
+  resync();
   maybeShowInstallPopup();
   try {
     if (supported() && !localStorage.getItem('ddh-push') && !localStorage.getItem('ddh-push-off') && !localStorage.getItem('ddh-push-asked')) {
