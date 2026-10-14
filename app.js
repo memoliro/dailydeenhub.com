@@ -98,7 +98,9 @@ const I18N = {
     soundAdhan: "Adhan (prayer call)", soundAdhanShort: "Adhan (short)", soundAlarm: "Alarm",
     soundMobile: "Mobile alert", soundBell: "Bell", soundHonk: "Car honk",
     soundChick: "Chick chirp", soundNostalgia: "Nostalgia",
-    soundCustom: "Custom", uploadLbl: "Upload custom sound",
+    soundCustom: "Custom", soundSystem: "System default", soundSystemPreview: "System sound preview",
+    soundSystemNeedNotif: "Turn on Notifications to hear the system sound", uploadLbl: "Upload custom sound",
+    uploadNote: "On iPhone, tapping Upload may ask for photo access — the app never sees your photos; choose Files to pick an audio file.",
     inMinutes: "{n} min left", timeNow: "time",
     soundTooBig: "File too large (max 1.5 MB)", soundSaved: "Custom sound saved",
     terms: "Terms", privacy: "Privacy",
@@ -174,7 +176,9 @@ const I18N = {
     soundAdhan: "Ezan", soundAdhanShort: "Ezan (kısa)", soundAlarm: "Alarm",
     soundMobile: "Mobil uyarı", soundBell: "Çan", soundHonk: "Korna",
     soundChick: "Civciv sesi", soundNostalgia: "Nostalji",
-    soundCustom: "Özel", uploadLbl: "Özel ses yükle",
+    soundCustom: "Özel", soundSystem: "Sistem varsayılanı", soundSystemPreview: "Sistem sesi önizlemesi",
+    soundSystemNeedNotif: "Sistem sesini duymak için Bildirimleri açın", uploadLbl: "Özel ses yükle",
+    uploadNote: "iPhone'da Yükle'ye dokununca fotoğraf erişimi istenebilir — uygulama fotoğraflarınızı asla görmez; ses dosyası seçmek için Dosyalar'ı seçin.",
     inMinutes: "{n} dk kaldı", timeNow: "vakti",
     soundTooBig: "Dosya çok büyük (en fazla 1,5 MB)", soundSaved: "Özel ses kaydedildi",
     terms: "Kullanım Şartları", privacy: "Gizlilik",
@@ -451,7 +455,8 @@ function fillSelects() {
     };
   });
   document.getElementById("soundSel").innerHTML =
-    [["adhan-prayer-call.mp3", t("soundAdhan")], ["adhan-prayer-call-trimmed.mp3", t("soundAdhanShort")],
+    [["system", t("soundSystem")],
+     ["adhan-prayer-call.mp3", t("soundAdhan")], ["adhan-prayer-call-trimmed.mp3", t("soundAdhanShort")],
      ["alarm.mp3", t("soundAlarm")], ["alert-on-mobile.wav", t("soundMobile")],
      ["bell.wav", t("soundBell")], ["double-car-honk.mp3", t("soundHonk")],
      ["nikin-short-chick-sound.mp3", t("soundChick")], ["nostalgia.wav", t("soundNostalgia")],
@@ -1642,6 +1647,12 @@ document.getElementById("locBtn").onclick = () => { document.getElementById("loc
 document.getElementById("locClose").onclick = () => document.getElementById("locModal").classList.add("hidden");
 const _sb = document.getElementById("setBtn"); if (_sb) _sb.onclick = () => { showTab("settings"); syncSetControls(); setShow(null); };
 function playAlert() {
+  // "system" = the OS plays its default notification sound via the Web Notification; no in-page audio.
+  if (state.sound === "system") {
+    if ("Notification" in window && Notification.permission === "granted") return;
+    try { const a = new Audio("/audio/bell.wav"); a.play().catch(() => {}); } catch {}
+    return;
+  }
   let src;
   if (state.sound === "custom" && state.customSound) src = state.customSound;
   else src = "/audio/" + (state.sound === "custom" ? "bell.wav" : state.sound);
@@ -1650,8 +1661,22 @@ function playAlert() {
 document.getElementById("soundSel").onchange = e => {
   state.sound = e.target.value; save();
   document.getElementById("soundUploadRow").style.display = state.sound === "custom" ? "" : "none";
+  if (state.sound === "system" && (!("Notification" in window) || Notification.permission !== "granted")) {
+    toast(t("soundSystemNeedNotif"));
+  }
 };
-document.getElementById("soundPreview").onclick = () => playAlert();
+document.getElementById("soundPreview").onclick = () => {
+  // Preview the real system sound by firing an actual OS notification.
+  if (state.sound === "system") {
+    if ("Notification" in window && Notification.permission === "granted") {
+      showLocalNotification("\uD83D\uDD14 " + t("soundSystemPreview"));
+    } else {
+      toast(t("soundSystemNeedNotif"));
+    }
+    return;
+  }
+  playAlert();
+};
 document.getElementById("soundFile").onchange = e => {
   const f = e.target.files && e.target.files[0];
   if (!f) return;

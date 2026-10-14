@@ -116,6 +116,7 @@ main { padding: 28px 0 64px; }
 }
 .clock { font-variant-numeric: tabular-nums; font-size: clamp(28px, 4vw, 42px); color: var(--gold-2); }
 .sub, .hint { color: var(--muted); line-height: 1.5; }
+small.muted { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.45; margin-top: 6px; }
 .ring-wrap { display: grid; place-items: center; padding: 22px; }
 .ring { width: min(280px, 100%); }
 .vakt-grid { margin-top: 18px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
