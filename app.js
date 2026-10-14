@@ -1701,12 +1701,25 @@ if (menuPanel) {
 }
 } // end menu guard (settings code below is top-level)
 // Multi-screen settings navigation
+// The Done button only appears once the user has changed something that isn't
+// auto-saved (reminder minutes/toggles, notification checkboxes). Method,
+// madhab, language, alert sound and push toggle all save the moment they change.
+function setDoneVisible(v) {
+  const foot = document.querySelector("#panel-settings .set-foot");
+  if (foot) foot.classList.toggle("hidden", !v);
+}
 function setShow(name){
   document.getElementById("setMain").classList.toggle("hidden", !!name);
   ["loc","calc","remind","appear","notif"].forEach(k => {
     document.getElementById("setSub-"+k).classList.toggle("hidden", k !== name);
   });
 }
+// Show Done as soon as the user changes something that needs saving.
+document.getElementById("remindRows").addEventListener("change", () => setDoneVisible(true));
+["notifyChk", "adhanChk", "vibChk"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("change", () => setDoneVisible(true));
+});
 document.querySelectorAll("[data-setgo]").forEach(b => b.onclick = () => setShow(b.dataset.setgo));
 document.querySelectorAll("[data-setback]").forEach(b => b.onclick = () => setShow(null));
 document.querySelectorAll("[data-morego]").forEach(b => b.onclick = () => {
@@ -1762,7 +1775,7 @@ function applyLangImmediate(v) {
 // Reset to main screen whenever the modal opens
 ["setBtn","mSet"].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.addEventListener("click", () => { setShow(null); syncSetControls(); }, true);
+  if (el) el.addEventListener("click", () => { setShow(null); syncSetControls(); setDoneVisible(false); }, true);
 });
 document.getElementById("setClose").onclick = () => {
   state.method = +document.getElementById("methodSel").value;
@@ -1785,6 +1798,7 @@ document.getElementById("setClose").onclick = () => {
   save();
   // Close the sub-screen back to the settings list, but stay in Settings.
   setShow(null);
+  setDoneVisible(false);
   toast(t("savedMsg"));
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
