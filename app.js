@@ -209,7 +209,7 @@ const MONTHS = {
   tr: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
 };
 const COMPASS = { en: ["N", "E", "S", "W"], tr: ["K", "D", "G", "B"] };
-const HIJRI_TR = ["", "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir", "Cemaziyelevvel", "Cemaziyelahir", "Recep", "Şaban", "Ramazan", "Şevval", "Zilkade", "Zilhicce"];
+// Hijri month names live in HIJRI_MONTHS_TR / HIJRI_MONTHS_EN (used via hijriName()).
 
 const state = load();
 // Magnetic declination (degrees, +east/-west) for Android compass true-north correction.
@@ -578,9 +578,12 @@ function renderTimes() {
   const start = prev ? prev.min : minutes(entry.timings.Fajr) - 1440;
   const pct = Math.min(1, Math.max(0, (nowMin - start) / ((nextAt || start + 1) - start)));
   const _arc = document.getElementById("arc"); if (_arc) _arc.setAttribute("stroke-dashoffset", String(314 * (1 - pct)));
-  const g = entry.date.gregorian, h = entry.date.hijri;
+  const g = entry.date.gregorian;
+  // Single Hijri source of truth: the offline Kuwaiti calc (same as the dual-calendar grid),
+  // so the hero pill always agrees with the month view on both the day and the month name.
+  const h = gToHLocal(now.y, now.m, now.d) || entry.date.hijri;
   document.getElementById("gDate").textContent = `${localWeekday(g.weekday.en)} ${g.day} ${localMonth(g.month.en)} ${g.year}`;
-  document.getElementById("hDate").textContent = `${h.day} ${state.lang === "tr" ? HIJRI_TR[+h.month.number] || h.month.en : h.month.en} ${h.year}`;
+  document.getElementById("hDate").textContent = `${h.day} ${hijriName(+h.month.number)} ${h.year}`;
   const sun = minutes(entry.timings.Sunrise), dhuhr = minutes(entry.timings.Dhuhr), maghrib = minutes(entry.timings.Maghrib);
   const kerahat = (nowMin >= sun && nowMin < sun + 18) || (nowMin >= dhuhr - 8 && nowMin < dhuhr) || (nowMin >= maghrib - 18 && nowMin < maghrib);
   document.getElementById("kerahat").textContent = kerahat ? t("kerahat") : "";
