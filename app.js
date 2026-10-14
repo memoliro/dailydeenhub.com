@@ -1773,12 +1773,15 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
 const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
 const CARD_FONTS = {
-  fraunces: "Fraunces, Georgia, serif",
-  outfit: "Outfit, system-ui, sans-serif",
-  amiri: "Amiri, serif",
-  serif: "Georgia, 'Times New Roman', serif"
+  fraunces:  { stack: "Fraunces, Georgia, serif", weight: 400, label: "Fraunces" },
+  frauncesB: { stack: "Fraunces, Georgia, serif", weight: 700, label: "Fraunces Bold" },
+  outfit:    { stack: "Outfit, system-ui, sans-serif", weight: 400, label: "Outfit" },
+  outfitB:   { stack: "Outfit, system-ui, sans-serif", weight: 700, label: "Outfit Bold" },
+  amiri:     { stack: "Amiri, serif", weight: 400, label: "Amiri" },
+  amiriB:    { stack: "Amiri, serif", weight: 700, label: "Amiri Bold" },
+  serif:     { stack: "Georgia, 'Times New Roman', serif", weight: 400, label: "Georgia" }
 };
-const CARD_FONT_OPTS = [["fraunces", "Fraunces"], ["outfit", "Outfit"], ["amiri", "Amiri"], ["serif", "Georgia"]];
+const CARD_FONT_OPTS = Object.keys(CARD_FONTS);
 const cardState = { bg: null, font: "fraunces", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
 function cardTextEl() { return document.getElementById("cardText"); }
 function cardStageEl() { return document.getElementById("cardStage"); }
@@ -1788,7 +1791,8 @@ function cardApplyText() {
   el.style.left = (cardState.pos.x * 100) + "%";
   el.style.top = (cardState.pos.y * 100) + "%";
   el.style.fontSize = (st.clientWidth * cardState.sizeFrac) + "px";
-  el.style.fontFamily = CARD_FONTS[cardState.font] || CARD_FONTS.serif;
+  el.style.fontFamily = (CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).stack;
+  el.style.fontWeight = (CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).weight;
   el.style.color = cardState.color;
 }
 function cardApplyBg() {
@@ -1961,11 +1965,20 @@ function openCardSheet(kind) {
     const colors = ["#ffffff", "#ffe9a8", "#c9a227", "#0f2e23", "#7a1f1f"];
     sh.innerHTML = `<div class="sheet-title">${esc(t("cardsMnuText"))}</div>
       <label class="flabel">${esc(t("cardsFont"))}</label>
-      <select id="cardSheetFont" class="field" style="width:100%">${CARD_FONT_OPTS.map(([v, l]) => `<option value="${v}"${cardState.font === v ? " selected" : ""}>${l}</option>`).join("")}</select>
+      <div class="fontrows">${CARD_FONT_OPTS.map(k => {
+        const fi = CARD_FONTS[k];
+        return `<button type="button" data-f="${k}" class="fontrow${cardState.font === k ? " on" : ""}"><span class="fontprev" style="font-family:${fi.stack};font-weight:${fi.weight}">${k.startsWith("amiri") ? "ع" : "Ag"}</span><span class="fontname">${fi.label}</span>${cardState.font === k ? '<span class="fontcheck">✓</span>' : ""}</button>`;
+      }).join("")}</div>
       <div class="swatches" style="margin-top:10px">${colors.map(c => `<button type="button" data-c="${c}" style="background:${c}" class="${cardState.color === c ? "on" : ""}"></button>`).join("")}</div>
       <label class="flabel">${esc(t("cardsSize"))}</label>
       <input id="cardSheetSize" type="range" min="0.04" max="0.22" step="0.005" value="${cardState.sizeFrac}" style="width:100%">`;
-    sh.querySelector("#cardSheetFont").onchange = e => { cardState.font = e.target.value; cardApplyText(); };
+    sh.querySelectorAll("[data-f]").forEach(b => b.onclick = () => {
+      cardState.font = b.dataset.f;
+      sh.querySelectorAll("[data-f]").forEach(x => { x.classList.remove("on"); const c = x.querySelector(".fontcheck"); if (c) c.remove(); });
+      b.classList.add("on");
+      b.insertAdjacentHTML("beforeend", '<span class="fontcheck">✓</span>');
+      cardApplyText();
+    });
     sh.querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
       cardState.color = b.dataset.c;
       sh.querySelectorAll("[data-c]").forEach(x => x.classList.remove("on"));
@@ -2006,7 +2019,7 @@ function renderCardToCanvas() {
       const msg = (cardTextEl().innerText || "").trim();
       if (msg) {
         const size = cardState.sizeFrac * W;
-        ctx.font = `${size}px ${CARD_FONTS[cardState.font] || CARD_FONTS.serif}`;
+        ctx.font = `${(CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).weight} ${size}px ${(CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).stack}`;
         ctx.textAlign = "center";
         ctx.fillStyle = cardState.color;
         ctx.shadowColor = "rgba(0,0,0,0.7)";
@@ -2029,7 +2042,7 @@ function renderCardToCanvas() {
         lines.forEach((ln, i) => ctx.fillText(ln, cx, topY + size * 0.85 + lh * i));
         ctx.shadowColor = "transparent";
       }
-      ctx.font = `28px ${CARD_FONTS.sans}`;
+      ctx.font = `400 28px ${CARD_FONTS.outfit.stack}`;
       ctx.fillStyle = "rgba(255,255,255,0.55)";
       ctx.textAlign = "center";
       ctx.fillText("DailyDeenHub", W / 2, H - 48);

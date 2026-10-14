@@ -929,3 +929,9 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 #cardSheet .card-thumb.sel { outline: 3px solid var(--gold, #c9a227); }
 #cardSheet .segbtns button { color: #fff; }
 #cardSheet .flabel { color: #bbb; }
+.fontrows { display: flex; flex-direction: column; gap: 6px; }
+.fontrow { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 12px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid transparent; color: #fff; text-align: left; cursor: pointer; }
+.fontrow.on { border-color: #c9a227; background: rgba(201,162,39,.12); }
+.fontprev { font-size: 24px; line-height: 1; min-width: 44px; text-align: center; }
+.fontname { flex: 1; font-size: 15px; }
+.fontcheck { color: #c9a227; font-weight: 700; }
