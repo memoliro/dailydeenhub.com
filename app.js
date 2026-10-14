@@ -81,6 +81,11 @@ const I18N = {
     fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
     fastRecent: "Recent activity", fastFastedLog: "fasted", fastMissedLog: "missed", fastMadeUpLog: "made up", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", dayToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
+    extraRem: "Extra reminders", extraSub: "Wake-up and fasting reminders, anchored to prayer times.",
+    extraHonest: "These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.",
+    xSahur: "Sahur", xTahajjud: "Tahajjud", xFast: "Mon / Thu fast", xJumuah: "Jumu'ah",
+    xBeforeFajr: "before Fajr", xBeforeDhuhr: "before Dhuhr (Friday)",
+    xFastEve: "Nudge the evening before (9 PM)", xFastEveTitle: "Fast tomorrow",
     pushLbl: "Prayer alerts (even when tab is closed)", langSystem: "System", watchLive: "Watch Live", feedback: "Feedback", fbTitle: "Feedback & requests", fbSub: "Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.", fbType: "Type", fbOptFeedback: "Feedback", fbOptProblem: "Report a problem", fbOptRequest: "Feature request", fbOptSuggestion: "Suggestion", fbMsg: "Your message", fbMsgPh: "Write your message…", fbName: "Name (optional)", fbEmail: "Email (optional — only if you want a reply)", fbSend: "Send feedback", fbSending: "Sending…", fbThanks: "Thank you! Your message was sent.", fbError: "Something went wrong — please try again.", fbEmpty: "Please write a message first.", liveTitle: "Watch Live", liveSub: "Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.", liveHaram: "Masjid al-Haram — Makkah", liveNabawi: "Masjid an-Nabawi — Madinah", liveBadge: "● LIVE", liveYt: "Watch on YouTube",
     pushOn: "Alerts on — you'll be notified even with the tab closed.",
     pushOff: "Alerts off.",
@@ -159,6 +164,11 @@ const I18N = {
     fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
     fastRecent: "Son hareketler", fastFastedLog: "tutuldu", fastMissedLog: "kaçırıldı", fastMadeUpLog: "kaza edildi", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", dayToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
+    extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
+    extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
+    xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
+    xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
+    xFastEve: "Bir gün önce akşam hatırlat (21.00)", xFastEveTitle: "Yarın oruç",
     pushLbl: "Namaz uyarıları (sekme kapalıyken bile)", langSystem: "Sistem", watchLive: "Canlı İzle", feedback: "Geri Bildirim", fbTitle: "Geri bildirim ve istekler", fbSub: "Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.", fbType: "Tür", fbOptFeedback: "Geri bildirim", fbOptProblem: "Sorun bildir", fbOptRequest: "Özellik isteği", fbOptSuggestion: "Öneri", fbMsg: "Mesajınız", fbMsgPh: "Mesajınızı yazın…", fbName: "İsim (isteğe bağlı)", fbEmail: "E-posta (isteğe bağlı — yalnızca yanıt isterseniz)", fbSend: "Gönder", fbSending: "Gönderiliyor…", fbThanks: "Teşekkürler! Mesajınız gönderildi.", fbError: "Bir şeyler ters gitti — lütfen tekrar deneyin.", fbEmpty: "Lütfen önce bir mesaj yazın.", liveTitle: "Canlı İzle", liveSub: "İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.", liveHaram: "Mescid-i Haram — Mekke", liveNabawi: "Mescid-i Nebevi — Medine", liveBadge: "● CANLI", liveYt: "YouTube'da izle",
     pushOn: "Uyarılar açık — sekme kapalıyken bile bildirim alırsınız.",
     pushOff: "Uyarılar kapalı.",
@@ -277,6 +287,7 @@ function load() {
     customSound: saved.customSound || null,
     reciter: saved.reciter ?? 7,
     remindOn: saved.remindOn || {},
+    extraRemind: normalizeExtra(saved.extraRemind),
     vibration: saved.vibration ?? true,
     quranView: saved.quranView || "trans",
     quranFollow: !!saved.quranFollow,
@@ -307,6 +318,22 @@ function plainTranslation(v) {
   return escapeHtml(decodeEnt(stripped));
 }
 function t(key) { return I18N[state.lang][key]; }
+/* Extra reminders (More tile): sahur/tahajjud = minutes before Fajr;
+   fast = Mon/Thu minutes before Fajr (+ optional 9 PM evening-before nudge);
+   jumuah = minutes before Friday Dhuhr. All off by default. */
+function defaultExtra() {
+  return {
+    sahur: { on: false, mins: 90 },
+    tahajjud: { on: false, mins: 120 },
+    fast: { on: false, mins: 60, eve: false },
+    jumuah: { on: false, mins: 60 },
+  };
+}
+function normalizeExtra(s) {
+  const d = defaultExtra();
+  if (s) for (const k of Object.keys(d)) if (s[k] && typeof s[k] === "object") d[k] = { ...d[k], ...s[k] };
+  return d;
+}
 // Early nav: event delegation so bottom nav works even if later JS fails
 document.addEventListener("click", e => {
   const g = e.target.closest("[data-goto]");
@@ -429,6 +456,7 @@ function applyI18n() {
   renderMonth();
   renderQibla();
   renderChapters();
+  if (typeof renderExtraRows === "function") renderExtraRows();
   const audio = document.getElementById("audio");
   setPlayLabel(audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play"));
   document.querySelectorAll("[data-cardinal]").forEach(el => { el.textContent = (COMPASS[state.lang] || COMPASS.en)[+el.dataset.cardinal]; });
@@ -625,6 +653,9 @@ function renderTimes() {
       const title = rm === 0 ? `${nameOf(nextKey)} ${t("timeNow")}` : `${nameOf(nextKey)} — ${t("inMinutes").replace("{n}", rm)}`;
       showLocalNotification(title);
     }
+  }
+  if (dayOffset === 0 && state.notify && "Notification" in window && Notification.permission === "granted") {
+    try { checkExtraReminders(slots, nowMin, now); } catch (e) { /* extras never break the main render */ }
   }
 }
 function showLocalNotification(title) {
@@ -1612,6 +1643,75 @@ document.addEventListener("pointerdown", e => {
   if (m && !m.classList.contains("hidden") && !e.target.closest("#verseMenu")) verseMenuHide();
 }, true);
 document.addEventListener("keydown", e => { if (e.key === "Escape") verseMenuHide(); });
+
+/* ===== Extra reminders (More tile): same .rrow look as Settings > Reminders ===== */
+const X_MIN_OPTS = [15, 30, 45, 60, 90, 120, 180];
+function xRow(id, nameKey, anchorKey, hasEve) {
+  const ex = normalizeExtra(state.extraRemind)[id];
+  const opts = X_MIN_OPTS.map(n => `<option value="${n}"${ex.mins === n ? " selected" : ""}>${n} ${t("minBefore")}</option>`).join("");
+  const eve = hasEve
+    ? `<label class="xrow-eve"><input type="checkbox" data-xeve="${id}"${ex.eve ? " checked" : ""} /><span>${t("xFastEve")}</span></label>`
+    : "";
+  return `<div class="rrow"><span>${t(nameKey)} <small class="muted">${t(anchorKey)}</small></span><input type="checkbox" data-xon="${id}"${ex.on ? " checked" : ""} aria-label="${t(nameKey)}" /><select data-xmins="${id}" class="field"${ex.on ? "" : " disabled"}>${opts}</select></div>${eve}`;
+}
+function renderExtraRows() {
+  const box = document.getElementById("extraRows");
+  if (!box) return;
+  box.innerHTML =
+    xRow("sahur", "xSahur", "xBeforeFajr") +
+    xRow("tahajjud", "xTahajjud", "xBeforeFajr") +
+    xRow("fast", "xFast", "xBeforeFajr", true) +
+    xRow("jumuah", "xJumuah", "xBeforeDhuhr");
+  box.querySelectorAll("input[data-xon]").forEach(cb => {
+    cb.onchange = () => {
+      const id = cb.dataset.xon;
+      state.extraRemind = normalizeExtra(state.extraRemind);
+      state.extraRemind[id].on = cb.checked;
+      const sel = box.querySelector(`select[data-xmins="${id}"]`);
+      if (sel) sel.disabled = !cb.checked;
+      save();
+    };
+  });
+  box.querySelectorAll("select[data-xmins]").forEach(sel => {
+    sel.onchange = () => {
+      state.extraRemind = normalizeExtra(state.extraRemind);
+      state.extraRemind[sel.dataset.xmins].mins = +sel.value;
+      save();
+    };
+  });
+  box.querySelectorAll("input[data-xeve]").forEach(cb => {
+    cb.onchange = () => {
+      state.extraRemind = normalizeExtra(state.extraRemind);
+      state.extraRemind[cb.dataset.xeve].eve = cb.checked;
+      save();
+    };
+  });
+}
+let extraFired = {};
+function checkExtraReminders(slots, nowMin, now) {
+  const ex = normalizeExtra(state.extraRemind);
+  if (!ex.sahur.on && !ex.tahajjud.on && !ex.fast.on && !ex.jumuah.on) return;
+  const fajr = slots.find(s => s.key === "Fajr"), dhuhr = slots.find(s => s.key === "Dhuhr");
+  if (!fajr || !dhuhr) return;
+  const wd = new Date(now.y, now.m - 1, now.d).getDay(); // 0=Sun..6=Sat, place's date
+  const dateStr = `${now.y}-${String(now.m).padStart(2, "0")}-${String(now.d).padStart(2, "0")}`;
+  const fire = (id, atMin, title) => {
+    const key = dateStr + "-" + id;
+    if (atMin >= 0 && nowMin >= atMin && nowMin < atMin + 1 && !extraFired[key]) {
+      extraFired[key] = 1;
+      playAlert();
+      showLocalNotification(title);
+    }
+  };
+  const inMin = n => t("inMinutes").replace("{n}", n);
+  if (ex.sahur.on) fire("sahur", fajr.min - ex.sahur.mins, `${t("xSahur")} — ${inMin(ex.sahur.mins)}`);
+  if (ex.tahajjud.on) fire("tahajjud", fajr.min - ex.tahajjud.mins, `${t("xTahajjud")} — ${inMin(ex.tahajjud.mins)}`);
+  if (ex.fast.on && (wd === 1 || wd === 4))
+    fire("fast", fajr.min - ex.fast.mins, `${t("xFast")} — ${inMin(ex.fast.mins)}`);
+  if (ex.fast.on && ex.fast.eve && (wd === 0 || wd === 3))
+    fire("fastEve", 21 * 60, t("xFastEveTitle"));
+  if (ex.jumuah.on && wd === 5) fire("jumuah", dhuhr.min - ex.jumuah.mins, `${t("xJumuah")} — ${inMin(ex.jumuah.mins)}`);
+}
 
 function renderStations() {
   if (!STATIONS.some(s => s[0] === station)) station = STATIONS[0][0];

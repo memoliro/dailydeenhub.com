@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=118" />
+  <link rel="stylesheet" href="/styles.css?v=119" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -353,6 +353,7 @@
         <div class="more-grid">
           <button class="tile" data-morego="month" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Çift takvim</span></button>
           <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramazan</span></button>
+          <button class="tile" data-goto="extra" type="button"><span class="tic">⏰</span><span class="tlabel" data-i="extraRem">Ek hatırlatıcılar</span></button>
           <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Öğren</span></button>
           <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Kur'an</span></button>
           <button class="tile" id="voiceTile" type="button"><span class="tic">🎙</span><span class="tlabel" data-i="voiceTile">Sesli arama</span></button>
@@ -370,6 +371,15 @@
           <button class="tile soon" data-soon type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Makaleler</span></button>
         </div>
         <p class="more-legal"><a href="/tr/about.html" data-i="aboutL">Hakkında</a> · <a href="/tr/privacy.html" data-i="privacyL">Gizlilik</a> · <a href="/tr/terms.html" data-i="termsL">Şartlar</a></p>
+      </div>
+    </section>
+
+    <section id="panel-extra" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="extraRem">Ek hatırlatıcılar</h3>
+        <p class="note" data-i="extraSub">Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.</p>
+        <div id="extraRows" class="rrows"></div>
+        <p class="note" data-i="extraHonest">Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.</p>
       </div>
     </section>
 
@@ -529,8 +539,8 @@
   <div class="toast hidden" id="toast"></div>
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
-  <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=120"></script>
+  <script src="/push-alerts.js?v=10"></script>
+  <script src="/app.js?v=121"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>

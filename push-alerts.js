@@ -155,6 +155,12 @@ function settingsPayload() {
       var on = st.remindOn || {};
       var out = {};
       Object.keys(rm).forEach(function(k) { if (on[k] !== false) out[k] = rm[k]; });
+      // Extra reminders ride the same payload as x:<key> so the worker needs no schema change.
+      var nx = (typeof normalizeExtra === 'function') ? normalizeExtra(st.extraRemind) : (st.extraRemind || {});
+      if (nx.sahur && nx.sahur.on) out['x:sahur'] = +nx.sahur.mins || 90;
+      if (nx.tahajjud && nx.tahajjud.on) out['x:tahajjud'] = +nx.tahajjud.mins || 120;
+      if (nx.fast && nx.fast.on) { out['x:fast'] = +nx.fast.mins || 60; if (nx.fast.eve) out['x:fastEve'] = 1; }
+      if (nx.jumuah && nx.jumuah.on) out['x:jumuah'] = +nx.jumuah.mins || 60;
       return out;
     })(),
     lang: st.lang || 'en',
