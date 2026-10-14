@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=120" />
+  <link rel="stylesheet" href="/styles.css?v=121" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -355,6 +355,7 @@
           <button class="tile" data-morego="month" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Dual calendar</span></button>
           <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramadan</span></button>
           <button class="tile" data-goto="extra" type="button"><span class="tic">⏰</span><span class="tlabel" data-i="extraRem">Extra reminders</span></button>
+          <button class="tile" data-goto="holydays" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="holyDays">Holy days</span></button>
           <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Learning</span></button>
           <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Quran</span></button>
           <button class="tile" id="voiceTile" type="button"><span class="tic">🎙</span><span class="tlabel" data-i="voiceTile">Voice search</span></button>
@@ -381,6 +382,15 @@
         <p class="note" data-i="extraSub">Wake-up and fasting reminders, anchored to prayer times.</p>
         <div id="extraRows" class="rrows"></div>
         <p class="note" data-i="extraHonest">These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.</p>
+      </div>
+    </section>
+
+    <section id="panel-holydays" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="holyDays">Holy days</h3>
+        <p class="note" data-i="holyDaysSub">Islamic holy days and kandil nights.</p>
+        <div id="holyDaysList" class="rrows"></div>
+        <p class="note" data-i="holyDaysNote">Dates follow Diyanet (Türkiye); they can differ by country and moon sighting.</p>
       </div>
     </section>
 
@@ -541,7 +551,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=12"></script>
-  <script src="/app.js?v=124"></script>
+  <script src="/app.js?v=125"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>

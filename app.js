@@ -82,6 +82,7 @@ const I18N = {
     fastRecent: "Recent activity", fastFastedLog: "fasted", fastMissedLog: "missed", fastMadeUpLog: "made up", hisnulSub: "Authentic daily duas — Arabic, transliteration and translation.", dayYesterday: "Yesterday", dayTomorrow: "Tomorrow", dayToday: "Today", learnSupportTx: "DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.",
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     extraRem: "Extra reminders", extraSub: "Wake-up and fasting reminders, anchored to prayer times.",
+    holyDays: "Holy days", holyDaysSub: "Islamic holy days and kandil nights.", holyDaysNote: "Dates follow Diyanet (Türkiye); they can differ by country and moon sighting.", holyDaysNext: "Next", holyDaysInDays: "days left", holyDaysToday: "today", holyDaysTomorrow: "tomorrow",
     extraHonest: "These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.",
     xSahur: "Sahur", xTahajjud: "Tahajjud", xFast: "Mon / Thu fast", xJumuah: "Jumu'ah",
     xBeforeFajr: "before Fajr", xBeforeDhuhr: "before Dhuhr (Friday)",
@@ -165,6 +166,7 @@ const I18N = {
     fastRecent: "Son hareketler", fastFastedLog: "tutuldu", fastMissedLog: "kaçırıldı", fastMadeUpLog: "kaza edildi", hisnulSub: "Sahih günlük dualar — Arapça, okunuş ve meal.", dayYesterday: "Dün", dayTomorrow: "Yarın", dayToday: "Bugün", learnSupportTx: "DailyDeenHub \u00fccretsizdir ve hep \u00f6yle kalacak. Bu dersler size faydal\u0131 olduysa projeyi desteklemeyi d\u00fc\u015f\u00fcn\u00fcn.",
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
+    holyDays: "Dini günler", holyDaysSub: "Dini günler ve kandil geceleri.", holyDaysNote: "Tarihler Diyanet'e göredir; ülkeye ve hilal gözlemine göre değişebilir.", holyDaysNext: "Sıradaki", holyDaysInDays: "gün kaldı", holyDaysToday: "bugün", holyDaysTomorrow: "yarın",
     extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
     xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
     xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
@@ -1288,12 +1290,12 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays"))));
   if (id === "quran" && !chapters.length) loadChapters();
   if (id === "library") renderLibrary(true);
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
@@ -1301,6 +1303,7 @@ function showTab(id) {
   if (id === "resources" && typeof renderResources === "function") renderResources();
   if (id === "hadith" && typeof renderHadith === "function") renderHadith();
   if (id === "live") loadLiveFrames();
+  if (id === "holydays") renderHolyDays();
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {
     window.scrollTo(0, 0);
@@ -1712,6 +1715,57 @@ function checkExtraReminders(slots, nowMin, now) {
     fire("fastEve", 21 * 60, t("xFastEveTitle"));
   if (ex.jumuah.on && wd === 5) fire("jumuah", dhuhr.min - ex.jumuah.mins, `${t("xJumuah")} — ${inMin(ex.jumuah.mins)}`);
 }
+
+/* ===== Holy days (More tile): Diyanet-based 2026-2027 list, EN/TR ===== */
+const HOLY_DAYS = [
+  { d: "2026-12-10", en: "The three holy months begin", tr: "Üç ayların başlangıcı", h: "Receb 1, 1448" },
+  { d: "2026-12-10", en: "Raghaib Night", tr: "Regaib Kandili", h: "Receb 1, 1448" },
+  { d: "2027-01-04", en: "Mi'raj Night", tr: "Miraç Kandili", h: "Receb 27, 1448" },
+  { d: "2027-01-22", en: "Night of Bara'ah", tr: "Berat Kandili", h: "Şaban 14, 1448" },
+  { d: "2027-02-08", en: "Ramadan begins", tr: "Ramazan başlangıcı", h: "Ramazan 1, 1448" },
+  { d: "2027-03-05", en: "Night of Decree", tr: "Kadir Gecesi", h: "Ramazan 27, 1448" },
+  { d: "2027-03-08", en: "Eid al-Fitr Eve", tr: "Ramazan Bayramı arefesi", h: "Ramazan 29, 1448" },
+  { d: "2027-03-09", en: "Eid al-Fitr (Day 1)", tr: "Ramazan Bayramı 1. gün", h: "Şevval 1, 1448" },
+  { d: "2027-03-10", en: "Eid al-Fitr (Day 2)", tr: "Ramazan Bayramı 2. gün", h: "Şevval 2, 1448" },
+  { d: "2027-03-11", en: "Eid al-Fitr (Day 3)", tr: "Ramazan Bayramı 3. gün", h: "Şevval 3, 1448" },
+  { d: "2027-05-15", en: "Eid al-Adha Eve", tr: "Kurban Bayramı arefesi", h: "Zilhicce 9, 1448" },
+  { d: "2027-05-16", en: "Eid al-Adha (Day 1)", tr: "Kurban Bayramı 1. gün", h: "Zilhicce 10, 1448" },
+  { d: "2027-05-17", en: "Eid al-Adha (Day 2)", tr: "Kurban Bayramı 2. gün", h: "Zilhicce 11, 1448" },
+  { d: "2027-05-18", en: "Eid al-Adha (Day 3)", tr: "Kurban Bayramı 3. gün", h: "Zilhicce 12, 1448" },
+  { d: "2027-05-19", en: "Eid al-Adha (Day 4)", tr: "Kurban Bayramı 4. gün", h: "Zilhicce 13, 1448" },
+  { d: "2027-06-06", en: "Islamic New Year (1449)", tr: "Hicri yılbaşı (1449)", h: "Muharrem 1, 1449" },
+  { d: "2027-06-15", en: "Day of Ashura", tr: "Aşure günü", h: "Muharrem 10, 1449" },
+  { d: "2027-08-13", en: "Mawlid — Prophet's birthday", tr: "Mevlid Kandili", h: "Rebiülevvel 12, 1449" },
+  { d: "2027-11-29", en: "The three holy months begin", tr: "Üç ayların başlangıcı", h: "Receb 1, 1449" },
+  { d: "2027-12-02", en: "Raghaib Night", tr: "Regaib Kandili", h: "Receb 4, 1449" },
+  { d: "2027-12-24", en: "Mi'raj Night", tr: "Miraç Kandili", h: "Receb 27, 1449" },
+];
+function renderHolyDays() {
+  const box = document.getElementById("holyDaysList");
+  if (!box) return;
+  const lang = (typeof state !== "undefined" && state.lang) || "en";
+  const loc = lang === "tr" ? "tr-TR" : "en-US";
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const items = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") }));
+  const upcoming = items.filter(e => e.date >= today);
+  let html = "";
+  if (upcoming.length) {
+    const nx = upcoming[0];
+    const days = Math.round((nx.date - today) / 86400000);
+    const when = days === 0 ? t("holyDaysToday") : days === 1 ? t("holyDaysTomorrow") : days + " " + t("holyDaysInDays");
+    html += `<div class="rrow hd-next"><span>🌙 <b>${esc(nx[lang] || nx.en)}</b><br><span class="dim">${esc(nx.date.toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric", weekday: "long" }))} · ${esc(nx.h)}</span></span><span class="hd-when">${esc(when)}</span></div>`;
+  }
+  let lastYear = "";
+  items.forEach(e => {
+    const y = e.d.slice(0, 4);
+    if (y !== lastYear) { html += `<div class="hd-year">${y}</div>`; lastYear = y; }
+    const past = e.date < today;
+    const isNext = upcoming.length && e.d === upcoming[0].d && e[lang] === upcoming[0][lang];
+    html += `<div class="rrow${past ? " hd-past" : ""}${isNext ? " hd-isnext" : ""}"><span><b>${esc(e[lang] || e.en)}</b><br><span class="dim">${esc(e.h)}</span></span><span class="hd-date">${esc(e.date.toLocaleDateString(loc, { day: "numeric", month: "short", weekday: "short" }))}</span></div>`;
+  });
+  box.innerHTML = html;
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
 function renderStations() {
   if (!STATIONS.some(s => s[0] === station)) station = STATIONS[0][0];
