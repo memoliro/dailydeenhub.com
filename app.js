@@ -1788,6 +1788,37 @@ function cardApplyBg() {
   if (!img) return;
   img.style.filter = `brightness(${cardState.bright}) blur(${cardState.blur}px)`;
 }
+function cardMsgFor(hd, lang) {
+  const nm = (hd[lang] || hd.en || "").toLowerCase();
+  const isKandil = /kandil|mi'raj|bara'ah|raghaib|qadr|mawlid|decree|night/i.test(nm);
+  const isFitr = /fitr|ramazan bayram/i.test(nm);
+  const isAdha = /adha|kurban/i.test(nm);
+  const isRamadan = /ramadan begins|ramazan ba/i.test(nm);
+  if (lang === "tr") {
+    if (isFitr) return ["Ramazan Bayramınız mübarek olsun", "Hayırlı bayramlar"];
+    if (isAdha) return ["Kurban Bayramınız mübarek olsun", "Hayırlı bayramlar"];
+    if (isRamadan) return ["Hayırlı Ramazanlar", "Ramazanınız mübarek olsun"];
+    if (isKandil) return ["Kandiliniz mübarek olsun", "Dualarınız kabul olsun"];
+    return ["Mübarek olsun", "Hayırlı günler"];
+  }
+  if (isFitr || isAdha) return ["Eid Mubarak", "Blessed Eid"];
+  if (isRamadan) return ["Blessed Ramadan", "Ramadan Kareem"];
+  if (isKandil) return ["Blessed night", "May your prayers be accepted"];
+  return ["Blessed day", "With warm wishes"];
+}
+function renderCardsHome() {
+  const gal = document.getElementById("cardsGallery");
+  if (!gal) return;
+  document.getElementById("cardsGalleryWrap").classList.remove("hidden");
+  document.getElementById("cardsEditor").classList.add("hidden");
+  gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("");
+  gal.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => openCardEditor(b.dataset.bg));
+  const holy = document.getElementById("cardsHoly");
+  const lang = state.lang || "en";
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today && (e.date - today) / 86400000 <= 30)[0];
+  holy.innerHTML = up ? `<div class="rrow hd-next"><span>💌 <b>${esc(t("cardsForDay"))} ${esc(up[lang] || up.en)}</b></span></div>` : "";
+}
 function openCardEditor(bg) {
   cardState.bg = bg;
   const lang = state.lang || "en";
