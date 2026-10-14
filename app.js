@@ -1811,7 +1811,7 @@ async function healFallbackPlaceName() {
   const p = state.place;
   if (!p || (p.name !== "My location" && p.name !== "Konumum") || typeof p.lat !== "number" || typeof p.lon !== "number") return;
   try {
-    const j = await (await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+    const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
     const label = j.city || j.locality || j.principalSubdivision;
     if (label && label !== p.name) {
       state.place.name = label;
@@ -1836,12 +1836,18 @@ document.getElementById("gpsBtn").onclick = () => {
   if (!navigator.geolocation) return toast(t("gpsFail"));
   navigator.geolocation.getCurrentPosition(async pos => {
     const lat = pos.coords.latitude, lon = pos.coords.longitude;
-    let name = state.lang === "tr" ? "Konumum" : "My location", tz = state.place.tz;
+    const fallback = state.lang === "tr" ? "Konumum" : "My location";
+    const tz = state.place.tz;
+    let name = null;
     try {
-      const j = await (await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
-      const label = j.city || j.locality || j.principalSubdivision;
-      if (label) name = label;
+      const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+      name = j.city || j.locality || j.principalSubdivision || null;
     } catch {}
+    if (!name) {
+      // Lookup failed: keep the existing real name rather than clobbering it with the fallback.
+      const cur = state.place.name;
+      name = (cur && cur !== "Konumum" && cur !== "My location") ? cur : fallback;
+    }
     choosePlace({ name, latitude: lat, longitude: lon, timezone: tz });
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
 };
