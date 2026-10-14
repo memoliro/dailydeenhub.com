@@ -237,7 +237,14 @@ var lastSynced = '';
 try { lastSynced = localStorage.getItem('ddh-push-synced') || ''; } catch (e) {}
 function setLastSynced(p) {
   lastSynced = p;
-  try { localStorage.setItem('ddh-push-synced', p); } catch (e) {}
+  try {
+    localStorage.setItem('ddh-push-synced', p);
+    // If the write didn't stick (e.g. storage quota), don't trust it:
+    // drop the stored value so the next app open re-syncs for real.
+    if (localStorage.getItem('ddh-push-synced') !== p) throw new Error('verify failed');
+  } catch (e) {
+    try { localStorage.removeItem('ddh-push-synced'); } catch (e2) {}
+  }
 }
 var syncTimer = 0;
 function resync() {
