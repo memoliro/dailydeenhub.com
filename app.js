@@ -66,7 +66,7 @@ const I18N = {
     apkNoticeBody: "If you still have the old DailyDeenHub icon on your home screen, long-press it and uninstall it — this new app replaces it.",
     apkNoticeOk: "Got it",
     adhanAtTime: "Play adhan at prayer time", adhanNote: "Plays the full adhan when the tab is open.",
-    focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings", setLoc: "Location", setCalc: "Prayer Calculation", setRemind: "Reminders", setAppear: "Appearance", setNotif: "Notifications", locNote: "Choose your city for accurate prayer times.", changeCity: "Change city", langLbl: "Language", vibLbl: "Vibration",
+    focusTitle: "No ads", placeTitle: "Place", gps: "Use my location", close: "Close", setTitle: "Settings", setLoc: "Location", setCalc: "Prayer Calculation", setRemind: "Reminders", setAppear: "Language", setNotif: "Notifications", locNote: "Choose your city for accurate prayer times.", changeCity: "Change city", langLbl: "Language", vibLbl: "Vibration",
     method: "Calculation method", madhab: "Asr madhab", notify: "Notify while this tab is open", done: "Done",
     searchPh: "Search a city", surahPh: "Find a surah", menuAbout: "About", comingSoon: "Coming soon", learnTile: "Learning", learnTitle: "Learning Center", learnSub: "Step-by-step guides, daily duas and the essentials of the faith.", learnBack: "Back", hisnulTitle: "Hisnul Muslim",
     qadhaTitle: "Qadha Prayers", qadhaSub: "Missed a prayer? Log it here, then mark each one as you make it up.",
@@ -142,7 +142,7 @@ const I18N = {
     apkNoticeBody: "Ana ekranında eski Günlük Din Merkezi simgesi duruyorsa, üzerine uzun basıp kaldır — bu yeni uygulama onun yerini alıyor.",
     apkNoticeOk: "Anladım",
     adhanAtTime: "Namaz vaktinde ezan çal", adhanNote: "Sekme açıkken vakit girince ezan çalar.",
-    focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar", setLoc: "Konum", setCalc: "Namaz Hesaplama", setRemind: "Hatırlatıcılar", setAppear: "Görünüm", setNotif: "Bildirimler", locNote: "Doğru namaz vakitleri için şehrinizi seçin.", changeCity: "Şehir değiştir", langLbl: "Dil", vibLbl: "Titreşim",
+    focusTitle: "Reklamsız", placeTitle: "Yer", gps: "Konumumu kullan", close: "Kapat", setTitle: "Ayarlar", setLoc: "Konum", setCalc: "Namaz Hesaplama", setRemind: "Hatırlatıcılar", setAppear: "Dil", setNotif: "Bildirimler", locNote: "Doğru namaz vakitleri için şehrinizi seçin.", changeCity: "Şehir değiştir", langLbl: "Dil", vibLbl: "Titreşim",
     method: "Hesap yöntemi", madhab: "İkindi mezhebi", notify: "Sekme açıkken haber ver", done: "Tamam",
     searchPh: "Şehir ara", surahPh: "Sure ara", menuAbout: "Hakkında", comingSoon: "Yakında", learnTile: "Öğren", learnTitle: "Öğrenme Merkezi", learnSub: "Adım adım rehberler, günlük dualar ve dinin esasları.", learnBack: "Geri", hisnulTitle: "Hisnül Müslim",
     qadhaTitle: "Kaza Namazları", qadhaSub: "Kaçırdığın namazı buraya kaydet, kıldıkça işaretle.",
@@ -402,10 +402,10 @@ function applyI18n() {
   const mTv = document.getElementById("mThemeVal");
   if (mTv) mTv.textContent = state.theme === "night" ? "☾" : "☀";
   const mLv = document.getElementById("mLocVal");
-  if (mLv) mLv.textContent = state.place.name;
+  if (mLv) mLv.textContent = displayPlaceName();
   const _tb = document.getElementById("themeBtn"); if (_tb) _tb.textContent = state.theme === "night" ? "☾" : "☀";
   document.body.dataset.theme = state.theme === "day" ? "day" : "";
-  document.getElementById("locLabel").textContent = state.place.name;
+  document.getElementById("locLabel").textContent = displayPlaceName();
   if (typeof refreshLearnView === "function") refreshLearnView();
   const bw = document.getElementById("brandWord");
   if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
@@ -1528,7 +1528,7 @@ function choosePlace(r) {
   state.place = { name: r.name, country: r.country || "", lat: r.latitude, lon: r.longitude, tz: r.timezone || "UTC" };
   save();
   updateDeclination(r.latitude, r.longitude);
-  document.getElementById("locLabel").textContent = r.name;
+  document.getElementById("locLabel").textContent = displayPlaceName();
   document.getElementById("locModal").classList.add("hidden");
   refresh();
 }
@@ -1609,7 +1609,7 @@ document.addEventListener("click", e => {
   if (e.target.closest("#panel-settings")) return;
   setShow(null);
 });
-// Keep Location + Appearance language selects in sync
+// Keep Location + Language screen selects in sync
 (function() {
   const a = document.getElementById("langSel"), b = document.getElementById("langSel2");
   if (a && b) {
@@ -1678,6 +1678,12 @@ document.getElementById("setLocBtn").onclick = () => {
   document.getElementById("locModal").classList.remove("hidden");
   document.getElementById("citySearch").focus();
 };
+// The GPS fallback name is saved in whatever language was active when the user
+// tapped it — localize it on display so it always matches the current language.
+function displayPlaceName() {
+  const n = state.place.name;
+  return (n === "Konumum" || n === "My location") ? (state.lang === "tr" ? "Konumum" : "My location") : n;
+}
 // Sync new controls when the settings modal opens
 function syncSetControls(){
   var ts = document.getElementById("themeSel");
