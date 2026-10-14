@@ -1913,6 +1913,20 @@ function bindCardStage() {
   st.addEventListener("click", e => {
     if (!menu.classList.contains("hidden") && !menu.contains(e.target) && e.target !== plus) menu.classList.add("hidden");
   });
+  // tapping outside menu/sheet collapses them (capture phase, before text handlers)
+  const dismissOnOutside = e => {
+    const m = document.getElementById("cardPlusMenu");
+    const sh = document.getElementById("cardSheet");
+    const pb = document.getElementById("cardPlusFab");
+    const t = e.target;
+    const outside = t !== pb && !pb.contains(t) && !m.contains(t) && !sh.contains(t);
+    if (outside && (!m.classList.contains("hidden") || !sh.classList.contains("hidden"))) {
+      m.classList.add("hidden");
+      closeCardSheet();
+    }
+  };
+  st.addEventListener("touchstart", dismissOnOutside, { passive: true, capture: true });
+  st.addEventListener("mousedown", dismissOnOutside);
   menu.querySelectorAll("[data-m]").forEach(b => b.onclick = e => {
     e.stopPropagation();
     menu.classList.add("hidden");
