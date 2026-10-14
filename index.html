@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=1" />
-  <link rel="stylesheet" href="/styles.css?v=116" />
+  <link rel="stylesheet" href="/styles.css?v=117" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -499,6 +499,18 @@
       </div>
     </div>
   </div>
+  <div class="modal hidden" id="voiceModal">
+    <div class="sheet voice-sheet">
+      <p class="voice-title" data-i="voiceWinTitle">Find a recited verse</p>
+      <button class="voice-mic" id="voiceMicBig" type="button" data-i-aria="voiceBtn" aria-label="Find a recited verse">🎙</button>
+      <p class="voice-status" id="voiceStatus">Tap the microphone and recite</p>
+      <p class="voice-lang" data-i="voiceLangName">Arabic (Saudi Arabia)</p>
+      <p class="hint" data-i="voiceNote"></p>
+      <div class="row" style="margin-top:12px;justify-content:center">
+        <button class="ghost" id="voiceClose" type="button" data-i="close">Close</button>
+      </div>
+    </div>
+  </div>
   <div class="modal hidden" id="verseModal">
     <div class="sheet">
       <p class="vm-key" id="vmKey"></p>
@@ -515,7 +527,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=9"></script>
-  <script src="/app.js?v=118"></script>
+  <script src="/app.js?v=119"></script>
   <script src="/learn.js?v=6"></script>
   <script src="/hisnul.js?v=1"></script>
   <script src="/qadha.js?v=3"></script>
