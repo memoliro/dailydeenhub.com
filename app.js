@@ -1062,7 +1062,7 @@ async function nearbySearch(kind) {
   if (navigator.geolocation) {
     try {
       const pos = await new Promise((res, rej) => {
-        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000, maximumAge: 600000 });
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000, maximumAge: 600000 });
       });
       lat = pos.coords.latitude; lon = pos.coords.longitude;
     } catch {} // fall back to selected place
@@ -1073,35 +1073,43 @@ async function nearbySearch(kind) {
     : kind === "market"
     ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
     : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
-  const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
   const fallbackName = kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
   const noneKey = kind === "halal" ? "halalNone" : kind === "market" ? "marketNone" : "mosquesNone";
-  let items = null, attempt = 0;
-  const maxAttempts = 6;
-  while (items === null && attempt < maxAttempts) {
-    attempt++;
+  // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
+  async function fetchOverpass(q) {
+    const endpoints = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"];
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 12000);
+    try {
+      return await Promise.any(endpoints.map(ep =>
+        fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal }).then(async res => {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const data = await res.json();
+          if (!data || !Array.isArray(data.elements)) throw new Error("bad payload");
+          return data;
+        })
+      ));
+    } catch { return null; }
+    finally { clearTimeout(timer); }
+  }
+  let items = null;
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts && items === null; attempt++) {
     if (attempt > 1) list.innerHTML = `<p class="hint">${t("mosquesRetrying")} (${attempt}/${maxAttempts})</p>`;
-    for (const ep of endpoints) {
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 20000);
-        const res = await fetch(ep + "?data=" + encodeURIComponent(q), { signal: ctrl.signal });
-        clearTimeout(timer);
-        if (!res.ok) continue;
-        const data = await res.json();
-        const seen = new Set();
-        items = (data.elements || []).map(el => {
-          const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
-          if (mlat == null) return null;
-          const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
-          if (seen.has(key)) return null;
-          seen.add(key);
-          return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
-        }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
-        break;
-      } catch {}
+    const data = await fetchOverpass(q);
+    if (data) {
+      const seen = new Set();
+      items = (data.elements || []).map(el => {
+        const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
+        if (mlat == null) return null;
+        const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
+        if (seen.has(key)) return null;
+        seen.add(key);
+        return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+      }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
+    } else if (attempt < maxAttempts) {
+      await new Promise(r => setTimeout(r, 1500 * attempt));
     }
-    if (items === null && attempt < maxAttempts) await new Promise(r => setTimeout(r, 2000 * attempt));
   }
   btn.disabled = false;
   if (items === null) { list.innerHTML = `<p class="hint">${t("mosquesError")}</p>`; return; }
