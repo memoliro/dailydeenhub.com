@@ -39,7 +39,7 @@ const AYAH = [
   { ref: "At-Tawbah 9:40", ar: "لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", en: "Do not grieve; indeed Allah is with us.", tr: "Üzülme, Allah bizimle beraberdir." }
 ];
 const I18N = {
-  en: { kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceTile: "Voice search", libraryTile: "Library", libraryTitle: "Library", librarySub: "In-app books open instantly; external links open trusted free libraries.", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
+  en: { kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widget settings will appear here soon.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceTile: "Voice search", libraryTile: "Library", libraryTitle: "Library", librarySub: "In-app books open instantly; external links open trusted free libraries.", vmPlay: "Play verse", vmPause: "Pause", vmOpen: "Open in reader", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
     monthTitle: "This month", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -117,7 +117,7 @@ const I18N = {
     loading: "Loading times…", noResults: "No matches.", searching: "Searching…", gpsFail: "Location unavailable.",
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
-  tr: { kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceTile: "Sesli arama", libraryTile: "K\u00fcthane", libraryTitle: "K\u00fcthane", librarySub: "Uygulama i\u00e7i kitaplar an\u0131nda a\u00e7\u0131l\u0131r; d\u0131\u015f ba\u011flant\u0131lar g\u00fcvenilir \u00fccretsiz k\u00fct\u00fcphanelere gider.", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
+  tr: { kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget ayarları yakında burada olacak.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceTile: "Sesli arama", libraryTile: "K\u00fcthane", libraryTitle: "K\u00fcthane", librarySub: "Uygulama i\u00e7i kitaplar an\u0131nda a\u00e7\u0131l\u0131r; d\u0131\u015f ba\u011flant\u0131lar g\u00fcvenilir \u00fccretsiz k\u00fct\u00fcphanelere gider.", vmPlay: "Ayeti dinle", vmPause: "Duraklat", vmOpen: "Okuyucuda a\u00e7", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
     monthTitle: "Bu ay", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -1539,6 +1539,7 @@ function playVerseAt(i) {
   if (p) p.catch(() => { followState.playing = false; setPlayLabel(t("play")); toast(t("audioFail")); });
 }
 async function toggleFollow() {
+  if (typeof vmStop === "function") vmStop();
   const audio = document.getElementById("audio");
   const btn = document.getElementById("playBtn");
   if (followState.playing && !audio.paused) { audio.pause(); followState.playing = false; setPlayLabel(t("play")); return; }
@@ -2005,7 +2006,7 @@ async function doVerseSearch(q) {
       box.classList.add("hidden");
       const inp = document.getElementById("verseSearch");
       if (inp) inp.value = "";
-      gotoVerse(b.dataset.vk);
+      openVerseWindow(b.dataset.vk);
     });
   } catch {
     if (my !== verseSearchToken) return;
@@ -2072,14 +2073,14 @@ if (_vs) {
 })();
 /* Library shelf: in-app books + trusted free external libraries. */
 const LIB_BOOKS = [
-  { ic: "\U0001F4D6", t: { en: "Ya-Sin", tr: "Yasin" }, s: { en: "Surah 36, in the reader", tr: "36. sure, okuyucuda" }, act: "yasin" },
+  { ic: "📖", t: { en: "Ya-Sin", tr: "Yasin" }, s: { en: "Surah 36, in the reader", tr: "36. sure, okuyucuda" }, act: "yasin" },
   { ic: "\uD83D\uDD4C", t: { en: "Prayer Guide", tr: "Namaz Hocası" }, s: { en: "How to pray, step by step", tr: "Adım adım namaz" }, act: "prayer" },
   { ic: "\uD83D\uDCFF", t: { en: "Tesbihat", tr: "Tesbihat" }, s: { en: "Dhikr counter", tr: "Zikir sayacı" }, act: "tasbih" },
   { ic: "\uD83D\uDCDC", t: { en: "Select Passages", tr: "Aşr-ı Şerifler" }, s: { en: "Beloved verses to recite", tr: "Seçkin ayetler" }, act: "asr" },
   { ic: "\uD83D\uDCDA", t: { en: "The Six Books", tr: "Kütüb-i Sitte" }, s: { en: "Hadith collections", tr: "Hadis koleksiyonları" }, act: "kutub" },
   { ic: "\uD83E\uDD32", t: { en: "Hisnul Muslim", tr: "Hisnul Muslim" }, s: { en: "Authentic daily duas", tr: "Sahih günlük dualar" }, act: "hisnul" },
   { ic: "\uD83D\uDD4C", t: { en: "Diyanet Tafsir", tr: "Diyanet Meal-Tefsir" }, s: { en: "Official TR portal", tr: "Resmî TR portal" }, act: "url", url: "https://kuran.diyanet.gov.tr/" },
-  { ic: "\U0001F4D6", t: { en: "Elmalılı Tafsir", tr: "Elmalılı Tefsiri" }, s: { en: "10 vols, free", tr: "10 cilt, ücretsiz" }, act: "url", url: "https://archive.org/details/hak-dini-kuran-dili-cilt-1-elmalili-hamdi-yazir" },
+  { ic: "📖", t: { en: "Elmalılı Tafsir", tr: "Elmalılı Tefsiri" }, s: { en: "10 vols, free", tr: "10 cilt, ücretsiz" }, act: "url", url: "https://archive.org/details/hak-dini-kuran-dili-cilt-1-elmalili-hamdi-yazir" },
   { ic: "\uD83C\uDF10", t: { en: "More Free Books", tr: "Ücretsiz Kitaplar" }, s: { en: "IslamHouse library", tr: "IslamHouse kütüphanesi" }, act: "url", url: { en: "https://islamhouse.com/en", tr: "https://islamhouse.com/tr" } }
 ];
 const ASR_ITEMS = [
@@ -2144,7 +2145,7 @@ function renderAsrList() {
   list.querySelectorAll("[data-asr]").forEach(el => el.onclick = () => {
     const a = ASR_ITEMS[+el.dataset.asr];
     showTab("quran");
-    if (a.ch) openChapter(a.ch); else gotoVerse(a.vk);
+    if (a.ch) openChapter(a.ch); else openVerseWindow(a.vk);
     window.scrollTo(0, 0);
   });
 }
@@ -2158,6 +2159,68 @@ document.getElementById("voiceTile").onclick = () => {
   const b = document.getElementById("voiceSearchBtn");
   if (b) b.click();
 };
+/* Verse window: a focused single-ayah view (from verse search or the Asr list)
+   with its own play button. Per-ayah audio comes from everyayah.com, mapped to
+   the app's four reciters; it never touches the chapter player. */
+const VERSE_AUDIO_ED = { 7: "Alafasy_128kbps", 3: "Abdurrahmaan_As-Sudais_192kbps", 9: "Minshawy_Murattal_128kbps", 2: "Abdul_Basit_Murattal_192kbps" };
+let vmKey = null, vmAudio = null;
+function vmSetPlayUI(playing) {
+  const ic = document.getElementById("vmPlayIc"), tx = document.getElementById("vmPlayTx");
+  if (ic) ic.textContent = playing ? "\u23F8" : "\u25B6";
+  if (tx) tx.textContent = t(playing ? "vmPause" : "vmPlay");
+}
+function vmStop() {
+  try { if (vmAudio) vmAudio.pause(); } catch {}
+  vmSetPlayUI(false);
+}
+async function openVerseWindow(vk) {
+  const parts = String(vk).split(":");
+  if (!(+parts[0] >= 1) || !(+parts[1] >= 1)) return;
+  vmKey = vk;
+  vmStop();
+  document.getElementById("vmKey").textContent = vk;
+  document.getElementById("vmAr").textContent = t("loading");
+  document.getElementById("vmTr").textContent = "";
+  document.getElementById("verseModal").classList.remove("hidden");
+  try {
+    const trId = state.lang === "tr" ? 77 : 20;
+    const j = await (await fetch(`https://api.quran.com/api/v4/verses/by_key/${vk}?words=false&translations=${trId}&language=${state.lang === "tr" ? "tr" : "en"}&fields=text_uthmani`)).json();
+    if (vmKey !== vk) return;
+    const v = j.verse || {};
+    document.getElementById("vmAr").textContent = v.text_uthmani || "";
+    const tr = v.translations && v.translations[0];
+    document.getElementById("vmTr").textContent = tr ? String(tr.text).replace(/<sup[^>]*>.*?<\/sup>/g, "").replace(/<[^>]+>/g, "") : "";
+  } catch {
+    if (vmKey !== vk) return;
+    document.getElementById("vmAr").textContent = t("loadFail");
+  }
+}
+document.getElementById("vmPlay").onclick = () => {
+  if (!vmKey) return;
+  const parts = vmKey.split(":"), s = +parts[0], a = +parts[1];
+  const ed = VERSE_AUDIO_ED[state.reciter] || VERSE_AUDIO_ED[7];
+  const url = `https://everyayah.com/data/${ed}/${String(s).padStart(3, "0")}${String(a).padStart(3, "0")}.mp3`;
+  try { const main = document.getElementById("audio"); if (main && !main.paused) main.pause(); } catch {}
+  try {
+    if (!vmAudio) {
+      vmAudio = new Audio();
+      vmAudio.onended = () => vmSetPlayUI(false);
+      vmAudio.onerror = () => { vmSetPlayUI(false); toast(t("loadFail")); };
+    }
+    if (!vmAudio.paused && vmAudio.getAttribute("src") === url) { vmAudio.pause(); vmSetPlayUI(false); return; }
+    if (vmAudio.getAttribute("src") !== url) vmAudio.src = url;
+    vmAudio.play().then(() => vmSetPlayUI(true)).catch(() => { vmSetPlayUI(false); toast(t("loadFail")); });
+  } catch { vmSetPlayUI(false); }
+};
+document.getElementById("vmOpen").onclick = () => {
+  if (!vmKey) return;
+  document.getElementById("verseModal").classList.add("hidden");
+  vmStop();
+  gotoVerse(vmKey);
+};
+const vmCloseFn = () => { document.getElementById("verseModal").classList.add("hidden"); vmStop(); };
+document.getElementById("vmClose").onclick = vmCloseFn;
+document.getElementById("verseModal").addEventListener("click", e => { if (e.target.id === "verseModal") vmCloseFn(); });
 document.getElementById("monthMode").onclick = () => { monthView = "month"; calSel = null; renderMonth(); };
 document.getElementById("calPrev").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM--; if (calM < 1) { calM = 12; calY--; } calSel = null; monthView = "month"; renderMonth(); };
 document.getElementById("calNext").onclick = () => { if (calY === null) { const n = zoneParts(state.place.tz); calY = n.y; calM = n.m; } calM++; if (calM > 12) { calM = 1; calY++; } calSel = null; monthView = "month"; renderMonth(); };

@@ -620,6 +620,10 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .book-name { padding: 8px 4px 2px; font-size: 13px; font-weight: 700; line-height: 1.25; }
 .book-sub { padding: 0 4px 9px; font-size: 11px; color: var(--muted); line-height: 1.3; }
 .book.ext .book-sub::after { content: " \2197"; }
+/* Verse window (single-ayah view from search / Asr list) */
+.vm-key { font-weight: 700; color: var(--gold, #c9a227); margin: 0 0 6px; font-size: 15px; }
+.vm-ar { font-family: var(--arab); font-size: 27px; line-height: 2; text-align: right; margin: 0 0 10px; }
+.vm-tr { color: var(--muted); line-height: 1.6; margin: 0; font-size: 14.5px; }
 .more-legal { text-align: center; margin: 18px 0 2px; font-size: 14px; }
 .more-legal a { color: var(--accent2); }
 /* Quran: searchable surah dropdown */
