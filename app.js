@@ -1801,6 +1801,25 @@ function displayPlaceName() {
   const n = state.place.name;
   return (n === "Konumum" || n === "My location") ? (state.lang === "tr" ? "Konumum" : "My location") : n;
 }
+// A past GPS tap may have saved only the fallback name ("My location") because the
+// reverse-geocode lookup was blocked. If so, try once per session to resolve the
+// real city name from the saved coordinates and heal the saved place.
+let _geoNameHealed = false;
+async function healFallbackPlaceName() {
+  if (_geoNameHealed) return;
+  _geoNameHealed = true;
+  const p = state.place;
+  if (!p || (p.name !== "My location" && p.name !== "Konumum") || typeof p.lat !== "number" || typeof p.lon !== "number") return;
+  try {
+    const j = await (await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+    const label = j.city || j.locality || j.principalSubdivision;
+    if (label && label !== p.name) {
+      state.place.name = label;
+      save();
+      document.getElementById("locLabel").textContent = displayPlaceName();
+    }
+  } catch {}
+}
 // Sync new controls when the settings modal opens
 function syncSetControls(){
   var ts = document.getElementById("themeSel");
@@ -2201,6 +2220,8 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").cat
 applyI18n();
 buildCompassDial();
 refresh();
+// Heal a stuck GPS fallback place name ("My location") once the CSP allows the lookup.
+try { healFallbackPlaceName(); } catch {}
 maybeShowApkNotice();
 // Warm the Find-near-me cache quietly in the background (mosques, halal, markets):
 // pre-searches the saved place a few seconds after load so first taps are instant.
