@@ -952,3 +952,13 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .khatm-jz.on .kj-n { color: #7fd6a8; }
 .kj-ar { font-size: 19px; font-family: Amiri, serif; line-height: 1.4; }
 .kj-t { font-size: 11px; color: #999; }
+
+/* Articles: About + FAQ accordion */
+.art-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.art-item { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.03); }
+.art-q { display: flex; align-items: center; gap: 10px; width: 100%; padding: 13px 14px; background: none; border: none; color: #fff; text-align: left; cursor: pointer; font-size: 15px; }
+.art-ic { font-size: 20px; }
+.art-ti { flex: 1; font-weight: 600; }
+.art-ch { color: #c9a227; font-size: 20px; font-weight: 700; }
+.art-a { padding: 0 14px 14px; color: #ddd; font-size: 14.5px; line-height: 1.65; }
+.art-a p + p { margin-top: 8px; }
