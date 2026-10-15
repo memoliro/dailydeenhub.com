@@ -2107,7 +2107,7 @@ function renderCardToCanvas() {
         ctx.shadowColor = "rgba(0,0,0,0.7)";
         ctx.shadowBlur = 18;
         ctx.shadowOffsetY = 4;
-        const maxW = W * 0.84;
+        const maxW = W * 0.92;
         const lines = [];
         msg.split("\n").forEach(para => {
           let line = "";
