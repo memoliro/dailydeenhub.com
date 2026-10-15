@@ -234,7 +234,7 @@ const DAILY_NAMES = [
   ["Salih","The prophet sent to the people of Thamud.","Semud kavmine gönderilen peygamber.","Ramla","Umm Habiba, wife of the Prophet ﷺ, steadfast in exile.","Ümmü Habibe; gurbette sebat eden, Peygamber'in ﷺ eşi."]
 ];
 /* Moment card backgrounds: no-text images, rotated daily per card */
-const MOMENT_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "mosque-dawn.jpg", "pattern-navy.jpg", "dunes-night.jpg", "window-light.jpg", "arabesque-dark.jpg", "olive-morning.jpg", "lake-dusk.jpg", "tasbih-dark.jpg", "wall-carved.jpg", "garden-fountain.jpg", "lanterns-bokeh.jpg", "quran-window.jpg", "prayer-mat.jpg", "milky-way.jpg", "marble-hall.jpg", "rain-window.jpg"];
+const MOMENT_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "mosque-dawn.jpg", "pattern-navy.jpg", "dunes-night.jpg", "window-light.jpg", "arabesque-dark.jpg", "olive-morning.jpg", "lake-dusk.jpg", "tasbih-dark.jpg", "wall-carved.jpg", "garden-fountain.jpg", "lanterns-bokeh.jpg", "quran-window.jpg", "prayer-mat.jpg", "milky-way.jpg", "marble-hall.jpg", "rain-window.jpg", "roses-dark-red.jpg", "roses-night.jpg", "roses-white-dark.jpg", "rose-petals.jpg", "roses-dusk.jpg", "rose-arch.jpg", "rose-single.jpg", "roses-rain.jpg"];
 function momentBg(cardIdx) {
   const day = Math.floor(Date.now() / 864e5);
   return "/cards/" + MOMENT_BGS[(day + cardIdx * 3) % MOMENT_BGS.length];
