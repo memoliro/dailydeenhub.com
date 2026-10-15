@@ -91,6 +91,29 @@ const ASMA = [
   ["ٱلشَّكُورُ","Ash-Shakur","The Most Appreciative","Şükre karşılık veren"]
 ];
 
+const DAILY_DUAS = [
+  { ar: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", src: "Tirmidhi",
+    en: "In the name of Allah, with whose name nothing on earth or in heaven can cause harm — and He is the All-Hearing, the All-Knowing.",
+    tr: "İsmiyle yerde ve gökte hiçbir şeyin zarar veremeyeceği Allah'ın adıyla. O, hakkıyla işiten, hakkıyla bilendir." },
+  { ar: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", src: "Muslim",
+    en: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+    tr: "Yarattıklarının şerrinden Allah'ın eksiksiz kelimelerine sığınırım." },
+  { ar: "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ", src: "Abu Dawud",
+    en: "O Allah, grant me health in my body; O Allah, grant me health in my hearing; O Allah, grant me health in my sight. There is no deity but You.",
+    tr: "Allah'ım! Bedenime âfiyet ver; Allah'ım! Kulağıma âfiyet ver; Allah'ım! Gözüme âfiyet ver. Senden başka ilâh yoktur." },
+  { ar: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", src: "Abu Dawud",
+    en: "Allah is sufficient for me; there is no deity but Him. In Him I put my trust, and He is the Lord of the Mighty Throne.",
+    tr: "Allah bana yeter; O'ndan başka ilâh yoktur. O'na tevekkül ettim; O, büyük Arş'ın Rabbidir." },
+  { ar: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ", src: "Abu Dawud",
+    en: "O Allah, protect me from Your punishment on the Day You resurrect Your servants.",
+    tr: "Allah'ım! Kullarını dirilteceğin gün beni azabından koru." },
+  { ar: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا", src: "Abu Dawud",
+    en: "I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.",
+    tr: "Rab olarak Allah'tan, din olarak İslâm'dan, peygamber olarak Muhammed'den (sallallahu aleyhi ve sellem) razı oldum." },
+  { ar: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", src: "Muslim",
+    en: "O Allah, You are Peace and from You comes peace. Blessed are You, O Possessor of majesty and honor.",
+    tr: "Allah'ım! Sen Selâm'sın, selâmet Sendendir. Ey celâl ve ikram sahibi, Sen münezzehsin." },
+];
 const DAILY_NAMES = [
   ["Yusuf","The prophet famed for patience, beauty and forgiveness.","Sabır, güzellik ve affediciliğiyle tanınan peygamber.","Maryam","The only woman named in the Quran; a symbol of purity and devotion.","Kur'an'da adı geçen tek kadın; saflık ve adanmışlığın simgesi."],
   ["Ibrahim","Father of the prophets, known for unwavering faith.","Peygamberlerin atası; sarsılmaz imanıyla bilinir.","Fatimah","Beloved daughter of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ sevgili kızı."],
@@ -130,6 +153,10 @@ function renderDaily() {
   set('verseAr', v.ar);
   set('verseTrans', v.trans);
   set('verseText', tr ? v.tr : v.en);
+  const du = DAILY_DUAS[day % DAILY_DUAS.length];
+  set('duaAr', du.ar);
+  set('duaText', tr ? du.tr : du.en);
+  set('duaRef', du.src);
   set('hadithRef', tr ? h.tr_ref : h.ref);
   set('hadithText', tr ? h.tr : h.en);
   set('asmaAr', a[0]);
@@ -142,3 +169,119 @@ function renderDaily() {
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderDaily);
 else renderDaily();
+
+/* Shareable daily card images (2026-10-15) */
+const DCARD_COLORS = { verse: "#3b82f6", hadith: "#22c55e", dua: "#a855f7" };
+const DCARD_LABELS = {
+  verse: { en: "VERSE OF THE DAY", tr: "GÜNÜN AYETİ" },
+  hadith: { en: "HADITH OF THE DAY", tr: "GÜNÜN HADİSİ" },
+  dua: { en: "DUA OF THE DAY", tr: "GÜNÜN DUASI" }
+};
+function dailyCardData(type) {
+  const day = Math.floor(Date.now() / 864e5);
+  const lang = (window.DDHLang && window.DDHLang()) || document.documentElement.lang || 'en';
+  const tr = lang === 'tr';
+  if (type === 'verse') {
+    const v = DAILY_VERSES[day % DAILY_VERSES.length];
+    return { ar: v.ar, text: tr ? v.tr : v.en, ref: tr ? v.tr_ref : v.ref, tr };
+  }
+  if (type === 'hadith') {
+    const h = DAILY_HADITH[day % DAILY_HADITH.length];
+    return { ar: null, text: tr ? h.tr : h.en, ref: tr ? h.tr_ref : h.ref, tr };
+  }
+  const d = DAILY_DUAS[day % DAILY_DUAS.length];
+  return { ar: d.ar, text: tr ? d.tr : d.en, ref: d.src, tr };
+}
+async function shareDailyCard(type) {
+  const d = dailyCardData(type);
+  const color = DCARD_COLORS[type];
+  const label = (d.tr ? DCARD_LABELS[type].tr : DCARD_LABELS[type].en);
+  const W = 1080, H = 1350;
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const cx = cv.getContext("2d");
+  // dark background matching app theme
+  const bg = cx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#1a1a2e"); bg.addColorStop(1, "#0f0f1a");
+  cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+  let y = 120;
+  // pill badge
+  cx.font = "700 32px sans-serif";
+  const tw = cx.measureText(label).width;
+  const pw = tw + 80, ph = 72, px = (W - pw) / 2;
+  cx.fillStyle = color + "22";
+  cx.strokeStyle = color; cx.lineWidth = 3;
+  cx.beginPath(); cx.roundRect(px, y, pw, ph, 36); cx.fill(); cx.stroke();
+  cx.fillStyle = color; cx.textAlign = "center"; cx.textBaseline = "middle";
+  cx.fillText(label, W / 2, y + ph / 2 + 2);
+  y += ph + 70;
+  // Arabic text
+  if (d.ar) {
+    cx.fillStyle = color;
+    cx.font = "400 64px serif";
+    cx.direction = "rtl";
+    const maxW = W * 0.84;
+    const words = d.ar.split(/\s+/);
+    const lines = [];
+    let line = "";
+    words.forEach(w => {
+      const t = line ? line + " " + w : w;
+      if (cx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
+      else line = t;
+    });
+    if (line) lines.push(line);
+    const lh = 96;
+    lines.forEach((ln, i) => cx.fillText(ln, W / 2, y + lh * i));
+    y += lh * lines.length + 50;
+    cx.direction = "ltr";
+    // divider
+    cx.fillStyle = color + "66";
+    cx.fillRect(W / 2 - 60, y, 120, 6);
+    y += 60;
+  }
+  // translation
+  cx.fillStyle = "#e8e8f0";
+  cx.font = "italic 400 44px serif";
+  const maxW2 = W * 0.84;
+  const words2 = d.text.split(/\s+/);
+  const lines2 = [];
+  let line2 = "";
+  words2.forEach(w => {
+    const t = line2 ? line2 + " " + w : w;
+    if (cx.measureText(t).width > maxW2 && line2) { lines2.push(line2); line2 = w; }
+    else line2 = t;
+  });
+  if (line2) lines2.push(line2);
+  const lh2 = 68;
+  lines2.forEach((ln, i) => cx.fillText('"' + ln + (i === lines2.length - 1 ? '"' : ""), W / 2, y + lh2 * i));
+  y += lh2 * lines2.length + 50;
+  // reference
+  cx.fillStyle = "#888899";
+  cx.font = "400 36px sans-serif";
+  cx.fillText("— " + d.ref, W / 2, y);
+  // watermark bottom-left
+  const wfs = 30;
+  cx.font = `400 ${wfs}px sans-serif`;
+  cx.textAlign = "left"; cx.textBaseline = "bottom";
+  cx.shadowColor = "rgba(0,0,0,0.85)"; cx.shadowBlur = 10;
+  cx.fillStyle = "#ffffff";
+  cx.fillText("dailydeenhub", 28, H - 28);
+  cx.shadowBlur = 0;
+  const blob = await new Promise(res => cv.toBlob(res, "image/jpeg", 0.92));
+  const file = new File([blob], `dailydeenhub-${type}.jpg`, { type: "image/jpeg" });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: label });
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `dailydeenhub-${type}.jpg`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }
+  } catch (e) { /* user cancelled */ }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-share]");
+  if (b) shareDailyCard(b.dataset.share);
+});
