@@ -1998,6 +1998,7 @@ function bindCardStage() {
   // --- FABs ---
   document.getElementById("cardBackBtn").onclick = renderCardsHome;
   document.getElementById("cardShareFab").onclick = shareCard;
+  document.getElementById("cardBigShare").onclick = shareCard;
   const plus = document.getElementById("cardPlusFab");
   const menu = document.getElementById("cardPlusMenu");
   plus.onclick = e => { e.stopPropagation(); menu.classList.toggle("hidden"); closeCardSheet(); };
@@ -2123,10 +2124,13 @@ function renderCardToCanvas() {
         lines.forEach((ln, i) => ctx.fillText(ln, cx, topY + size * 0.85 + lh * i));
         ctx.shadowColor = "transparent";
       }
-      ctx.font = `400 28px ${CARD_FONTS.outfit.stack}`;
-      ctx.fillStyle = "rgba(255,255,255,0.55)";
-      ctx.textAlign = "center";
-      ctx.fillText("DailyDeenHub", W / 2, H - 48);
+      const wfs = 30;
+      ctx.font = `400 ${wfs}px sans-serif`;
+      ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+      ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 10;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("dailydeenhub", 24, H - 24);
+      ctx.shadowBlur = 0;
       resolve(cv);
     };
     img.src = "/cards/" + cardState.bg;
