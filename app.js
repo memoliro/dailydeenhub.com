@@ -1957,7 +1957,7 @@ function renderCardsHome() {
   renderGreetings();
   document.getElementById("cardsGalleryWrap").classList.remove("hidden");
   document.getElementById("cardsEditor").classList.add("hidden");
-  gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("");
+  gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy" onerror="if(!this.dataset.retried){this.dataset.retried=1;this.src='/cards/${f}?r='+Date.now();}"></button>`).join("");
   gal.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => openCardEditor(b.dataset.bg));
   const holy = document.getElementById("cardsHoly");
   const lang = state.lang || "en";
@@ -2090,7 +2090,7 @@ function openCardSheet(kind) {
   sh.classList.remove("hidden");
   if (kind === "bg") {
     sh.innerHTML = `<div class="sheet-title">${esc(t("cardsPickBg"))}</div><div class="sheet-grid">` +
-      CARD_BGS.map(f => `<button type="button" class="card-thumb${f === cardState.bg ? " sel" : ""}" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("") + `</div>`;
+      CARD_BGS.map(f => `<button type="button" class="card-thumb${f === cardState.bg ? " sel" : ""}" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy" onerror="if(!this.dataset.retried){this.dataset.retried=1;this.src='/cards/${f}?r='+Date.now();}"></button>`).join("") + `</div>`;
     sh.querySelectorAll("[data-bg]").forEach(b => b.onclick = () => {
       cardState.bg = b.dataset.bg;
       document.getElementById("cardBgImg").src = "/cards/" + b.dataset.bg;
