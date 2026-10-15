@@ -487,6 +487,8 @@ body[data-theme="day"] .sheet { background: #fffdf8; }
   background: var(--bg-2); border: 1px solid var(--line);
   border-radius: 20px; padding: 18px;
 }
+.dcard-share { width: 100%; border: none; border-radius: 999px; background: #3b82f6; color: #fff; padding: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+.dcard-share svg { width: 18px; height: 18px; fill: #fff; }
 body[data-theme="day"] .dcard { background: #fff; }
 .dcard-h { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .dcard-ic {
