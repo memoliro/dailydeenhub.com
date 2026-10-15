@@ -1818,8 +1818,8 @@ async function shareGreeting(file) {
   const cx = cv.getContext("2d");
   cx.drawImage(img, 0, 0);
   // watermark: clearly visible "dailydeenhub" bottom-left
-  const fs = Math.max(18, Math.round(cv.width / 28));
-  cx.font = `700 ${fs}px sans-serif`;
+  const fs = Math.max(14, Math.round(cv.width / 36));
+  cx.font = `400 ${fs}px sans-serif`;
   cx.textBaseline = "bottom";
   const pad = Math.round(fs * 0.7);
   cx.shadowColor = "rgba(0,0,0,0.85)"; cx.shadowBlur = Math.round(fs / 3);
