@@ -263,6 +263,10 @@ function renderDaily() {
   set('mAsmaAr', a[0]);
   set('mAsmaTx', a[1]);
   set('mAsmaRef', tr ? a[3] : a[2]);
+  const nm = DAILY_NAMES[day % DAILY_NAMES.length];
+  const setHTML = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  setHTML('mBoyName', `👦 <b>${nm[0]}</b> — ${tr ? nm[2] : nm[1]}`);
+  setHTML('mGirlName', `👧 <b>${nm[3]}</b> — ${tr ? nm[5] : nm[4]}`);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderDaily);
 else renderDaily();
