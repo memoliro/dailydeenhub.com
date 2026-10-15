@@ -83,7 +83,7 @@ const I18N = {
     remindBefore: "Minutes before prayer", atTimeOpt: "At prayer time", minBefore: "min before",
     extraRem: "Extra reminders", extraSub: "Wake-up and fasting reminders, anchored to prayer times.",
     holyDays: "Holy days", holyDaysSub: "Islamic holy days and kandil nights.", holyDaysNote: "Dates follow Diyanet's calculation (Türkiye). Your local mosque may observe them a day earlier or later — especially Ramadan and the Eids, which depend on moon sighting.", holyDaysNext: "Next", holyDaysInDays: "days left", holyDaysToday: "today", holyDaysTomorrow: "tomorrow",
-    cardsTile: "Greeting cards", cardsSub: "Pick a background, write your message, share it with loved ones.", cardsPickBg: "Choose a background", cardsTapType: "Tap to write…", cardsMnuBg: "Background", cardsMnuText: "Text", cardsMnuAdj: "Adjust", cardsBright: "Brightness", cardsBlur: "Blur", cardsYourMsg: "Your message", cardsMsgPh: "Write your message…", cardsFont: "Font", cardsSize: "Size", cardsColor: "Color", cardsPos: "Position", cardsTop: "Top", cardsMid: "Middle", cardsBot: "Bottom", cardsShare: "Share", cardsDownload: "Save", cardsBack: "← Backgrounds", cardsForDay: "Make a card for", cardsSugg: "Suggestions", cardsShared: "Card shared!", cardsSaved: "Card saved to your device.", cardsShareFail: "Sharing isn't supported here — the card was saved instead.",
+    cardsTile: "Greeting cards", greetTitle: "Ready-made greetings — tap share to send", cardsSub: "Pick a background, write your message, share it with loved ones.", cardsPickBg: "Choose a background", cardsTapType: "Tap to write…", cardsMnuBg: "Background", cardsMnuText: "Text", cardsMnuAdj: "Adjust", cardsBright: "Brightness", cardsBlur: "Blur", cardsYourMsg: "Your message", cardsMsgPh: "Write your message…", cardsFont: "Font", cardsSize: "Size", cardsColor: "Color", cardsPos: "Position", cardsTop: "Top", cardsMid: "Middle", cardsBot: "Bottom", cardsShare: "Share", cardsDownload: "Save", cardsBack: "← Backgrounds", cardsForDay: "Make a card for", cardsSugg: "Suggestions", cardsShared: "Card shared!", cardsSaved: "Card saved to your device.", cardsShareFail: "Sharing isn't supported here — the card was saved instead.",
     extraHonest: "These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.",
     xSahur: "Sahur", xTahajjud: "Tahajjud", xFast: "Mon / Thu fast", xJumuah: "Jumu'ah",
     xBeforeFajr: "before Fajr", xBeforeDhuhr: "before Dhuhr (Friday)",
@@ -168,7 +168,7 @@ const I18N = {
     remindBefore: "Namazdan önce (dakika)", atTimeOpt: "Vakit girince", minBefore: "dk önce",
     extraRem: "Ek hatırlatıcılar", extraSub: "Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.",
     holyDays: "Dini günler", holyDaysSub: "Dini günler ve kandil geceleri.", holyDaysNote: "Tarihler Diyanet'in hesaplamasına göredir (Türkiye). Bulunduğunuz yerdeki camiler, özellikle hilal gözlemine bağlı Ramazan ve bayramları bir gün önce veya sonra idrak edebilir.", holyDaysNext: "Sıradaki", holyDaysInDays: "gün kaldı", holyDaysToday: "bugün", holyDaysTomorrow: "yarın",
-    cardsTile: "Tebrik kartları", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsTapType: "Yazmak için dokunun…", cardsMnuBg: "Arka plan", cardsMnuText: "Yazı", cardsMnuAdj: "Ayarla", cardsBright: "Parlaklık", cardsBlur: "Buğu", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
+    cardsTile: "Tebrik kartları", greetTitle: "Hazır tebrikler — paylaşmak için dokunun", cardsSub: "Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.", cardsPickBg: "Arka plan seçin", cardsTapType: "Yazmak için dokunun…", cardsMnuBg: "Arka plan", cardsMnuText: "Yazı", cardsMnuAdj: "Ayarla", cardsBright: "Parlaklık", cardsBlur: "Buğu", cardsYourMsg: "Mesajınız", cardsMsgPh: "Mesajınızı yazın…", cardsFont: "Yazı tipi", cardsSize: "Boyut", cardsColor: "Renk", cardsPos: "Konum", cardsTop: "Üst", cardsMid: "Orta", cardsBot: "Alt", cardsShare: "Paylaş", cardsDownload: "Kaydet", cardsBack: "← Arka planlar", cardsForDay: "Kart hazırla:", cardsSugg: "Öneriler", cardsShared: "Kart paylaşıldı!", cardsSaved: "Kart cihazınıza kaydedildi.", cardsShareFail: "Paylaşım burada desteklenmiyor — kart kaydedildi.",
     extraHonest: "Bunlar hatırlatıcıdır, alarm değil — özellikle sekme kapalıyken bildirimler her zaman ulaşmayabilir. Sahur için telefon alarmı kurun.",
     xSahur: "Sahur", xTahajjud: "Teheccüd", xFast: "Pzt / Per orucu", xJumuah: "Cuma namazı",
     xBeforeFajr: "İmsak'tan önce", xBeforeDhuhr: "öğleden önce (cuma)",
@@ -1774,6 +1774,74 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
 const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "red-roses-on-white-1.webp", "red-roses-1.webp", "end-of-ramadan-1.webp"];
+/* Ready-made shareable greetings: [file, category]. Categories: friday, eid. */
+const GREETINGS = [
+  ["greetings/hayirli-cumalar-1.webp", "friday"],
+  ["greetings/hayirli-cumalar-2.webp", "friday"],
+  ["greetings/hayirli-cumalar-3.webp", "friday"],
+  ["greetings/hayirli-cumalar-4.webp", "friday"],
+  ["greetings/hayirli-cumalar-5.webp", "friday"],
+  ["greetings/hayirli-cumalar-6.webp", "friday"],
+  ["greetings/happy-friday-in-islam-1.webp", "friday"],
+  ["greetings/happy-friday-in-islam-2.webp", "friday"],
+  ["greetings/happy-friday-in-islam-3.webp", "friday"],
+  ["greetings/happy-friday-in-islam-4.webp", "friday"],
+  ["greetings/png-transparent-friday-jumu-ah-islam-ar-friday-jumu-ah-islam.webp", "friday"],
+  ["greetings/pngtree-eid-mubarak-and-ramadan-kareem.webp", "eid"],
+  ["greetings/pngtree-nice-eid-mubarak.webp", "eid"],
+];
+function renderGreetings() {
+  const wrap = document.getElementById("greetGallery");
+  if (!wrap) return;
+  const lang = state.lang || "en";
+  const isFriday = new Date().getDay() === 5;
+  // Friday images first on Fridays, Eid images surface near holy days
+  const sorted = [...GREETINGS].sort((a, b) => {
+    if (isFriday && a[1] === "friday" && b[1] !== "friday") return -1;
+    if (isFriday && b[1] === "friday" && a[1] !== "friday") return 1;
+    return 0;
+  });
+  wrap.innerHTML = sorted.map(([f]) =>
+    `<div class="greet-item"><img src="/cards/${f}" alt="" loading="lazy"><button type="button" class="greet-share" data-greet="${f}" aria-label="${esc(t("cardsShare"))}">⤴ ${esc(t("cardsShare"))}</button></div>`
+  ).join("");
+  wrap.querySelectorAll("[data-greet]").forEach(b => b.onclick = () => shareGreeting(b.dataset.greet));
+}
+async function shareGreeting(file) {
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.src = "/cards/" + file;
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+  const cv = document.createElement("canvas");
+  cv.width = img.naturalWidth; cv.height = img.naturalHeight;
+  const cx = cv.getContext("2d");
+  cx.drawImage(img, 0, 0);
+  // watermark: clearly visible "dailydeenhub" bottom-left
+  const fs = Math.max(18, Math.round(cv.width / 28));
+  cx.font = `700 ${fs}px sans-serif`;
+  cx.textBaseline = "bottom";
+  const pad = Math.round(fs * 0.7);
+  cx.shadowColor = "rgba(0,0,0,0.85)"; cx.shadowBlur = Math.round(fs / 3);
+  cx.fillStyle = "#ffffff";
+  cx.fillText("dailydeenhub", pad, cv.height - pad);
+  cx.shadowBlur = 0;
+  const blob = await new Promise(res => cv.toBlob(res, "image/jpeg", 0.92));
+  const dl = new File([blob], "dailydeenhub-greeting.jpg", { type: "image/jpeg" });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [dl] })) {
+      await navigator.share({ files: [dl], title: t("cardsTile") });
+      cardToast(t("cardsShared"));
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "dailydeenhub-greeting.jpg";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      cardToast(t("cardsShareFail"));
+    }
+  } catch (e) {
+    if (!e || e.name !== "AbortError") cardToast(t("cardsShareFail"));
+  }
+}
 const CARD_FONTS = {
   fraunces:  { stack: "Fraunces, Georgia, serif", weight: 400, label: "Fraunces" },
   frauncesB: { stack: "Fraunces, Georgia, serif", weight: 700, label: "Fraunces Bold" },
@@ -1831,6 +1899,7 @@ function cardMsgFor(hd, lang) {
 function renderCardsHome() {
   const gal = document.getElementById("cardsGallery");
   if (!gal) return;
+  renderGreetings();
   document.getElementById("cardsGalleryWrap").classList.remove("hidden");
   document.getElementById("cardsEditor").classList.add("hidden");
   gal.innerHTML = CARD_BGS.map(f => `<button type="button" class="card-thumb" data-bg="${f}"><img src="/cards/${f}" alt="" loading="lazy"></button>`).join("");
