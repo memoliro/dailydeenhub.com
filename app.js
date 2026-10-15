@@ -655,19 +655,19 @@ function renderTimes() {
       notifiedKey = key;
       playAlert();
       const title = rm === 0 ? `${nameOf(nextKey)} ${t("timeNow")}` : `${nameOf(nextKey)} — ${t("inMinutes").replace("{n}", rm)}`;
-      showLocalNotification(title);
+      showLocalNotification(title, "prayer-" + nextKey);
     }
   }
   if (dayOffset === 0 && state.notify && "Notification" in window && Notification.permission === "granted") {
     try { checkExtraReminders(slots, nowMin, now); } catch (e) { /* extras never break the main render */ }
   }
 }
-function showLocalNotification(title) {
+function showLocalNotification(title, tag) {
   const fallback = () => { try { new Notification(title); } catch {} };
   if (navigator.serviceWorker && navigator.serviceWorker.ready) {
     // Android Chrome forbids `new Notification()`; go through the service worker.
     navigator.serviceWorker.ready
-      .then(reg => reg.showNotification(title, { icon: "/icon-192.png", badge: "/icon-192.png", tag: "ddh-local" }))
+      .then(reg => reg.showNotification(title, { icon: "/icon-192.png", badge: "/icon-192.png", tag: tag || "ddh-local" }))
       .catch(fallback);
   } else fallback();
 }
