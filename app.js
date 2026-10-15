@@ -2554,6 +2554,7 @@ function setLanguage(lang) {
   const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
   if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
   applyI18n();
+  if (typeof renderDaily === "function") renderDaily();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
 }
 const _le2 = document.getElementById("langEn"); if (_le2) _le2.onclick = () => setLanguage("en");
