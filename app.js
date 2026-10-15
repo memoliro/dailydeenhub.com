@@ -1773,7 +1773,7 @@ function renderHolyDays() {
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
-const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "mosque-dawn.jpg", "pattern-navy.jpg", "dunes-night.jpg", "window-light.jpg", "arabesque-dark.jpg", "olive-morning.jpg", "lake-dusk.jpg", "tasbih-dark.jpg", "wall-carved.jpg", "garden-fountain.jpg", "lanterns-bokeh.jpg", "quran-window.jpg", "prayer-mat.jpg", "milky-way.jpg", "marble-hall.jpg", "rain-window.jpg", "red-roses-on-white-1.webp", "red-roses-1.webp", "end-of-ramadan-1.webp"];
+const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "mosque-dawn.jpg", "pattern-navy.jpg", "dunes-night.jpg", "window-light.jpg", "arabesque-dark.jpg", "olive-morning.jpg", "lake-dusk.jpg", "tasbih-dark.jpg", "wall-carved.jpg", "garden-fountain.jpg", "lanterns-bokeh.jpg", "quran-window.jpg", "prayer-mat.jpg", "milky-way.jpg", "marble-hall.jpg", "rain-window.jpg", "red-roses-on-white-1.webp", "red-roses-1.webp", "end-of-ramadan-1.webp", "roses-dark-red.jpg", "roses-night.jpg", "roses-white-dark.jpg", "rose-petals.jpg", "roses-dusk.jpg", "rose-arch.jpg", "rose-single.jpg", "roses-rain.jpg"];
 /* Ready-made shareable greetings: [file, category]. Categories: friday, eid. */
 const GREETINGS = [
   ["greetings/hayirli-cumalar-1.webp", "friday"],
