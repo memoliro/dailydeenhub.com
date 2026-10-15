@@ -1862,7 +1862,7 @@ const CARD_FONTS = {
   qahiri:    { stack: "Qahiri, serif", weight: 400, label: "Qahiri" }
 };
 const CARD_FONT_OPTS = Object.keys(CARD_FONTS);
-const cardState = { bg: null, font: "fraunces", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, bright: 1, blur: 0 };
+const cardState = { bg: null, font: "fraunces", sizeFrac: 0.085, color: "#ffffff", pos: { x: 0.5, y: 0.30 }, widthFrac: 0.96, bright: 1, blur: 0 };
 function cardTextEl() { return document.getElementById("cardText"); }
 function cardStageEl() { return document.getElementById("cardStage"); }
 function cardApplyText() {
@@ -1871,9 +1871,62 @@ function cardApplyText() {
   el.style.left = (cardState.pos.x * 100) + "%";
   el.style.top = (cardState.pos.y * 100) + "%";
   el.style.fontSize = (st.clientWidth * cardState.sizeFrac) + "px";
+  el.style.width = (cardState.widthFrac * 100) + "%";
+  el.style.maxWidth = "none";
   el.style.fontFamily = (CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).stack;
   el.style.fontWeight = (CARD_FONTS[cardState.font] || CARD_FONTS.fraunces).weight;
   el.style.color = cardState.color;
+  cardPositionHandles();
+}
+function cardPositionHandles() {
+  const el = cardTextEl(), st = cardStageEl();
+  const hl = document.getElementById("cardWH"), hr = document.getElementById("cardWHr");
+  if (!el || !st || !hl || !hr) return;
+  const active = document.activeElement === el || el.dataset.touched === "1";
+  hl.classList.toggle("hidden", !active);
+  hr.classList.toggle("hidden", !active);
+  if (!active) return;
+  const leftPct = cardState.pos.x * 100 - cardState.widthFrac * 50;
+  const rightPct = cardState.pos.x * 100 + cardState.widthFrac * 50;
+  const topPct = cardState.pos.y * 100;
+  hl.style.left = leftPct + "%"; hl.style.top = topPct + "%";
+  hr.style.left = rightPct + "%"; hr.style.top = topPct + "%";
+}
+function cardBindWidthHandles() {
+  const st = cardStageEl(), tel = cardTextEl();
+  const hl = document.getElementById("cardWH"), hr = document.getElementById("cardWHr");
+  if (!st || !tel || !hl || !hr || hl.dataset.bound) return;
+  hl.dataset.bound = "1";
+  let wdrag = null;
+  const startW = (e, side) => {
+    const t = e.touches ? e.touches[0] : e;
+    const r = st.getBoundingClientRect();
+    wdrag = { side, sx: (t.clientX - r.left) / r.width, w0: cardState.widthFrac };
+    e.preventDefault(); e.stopPropagation();
+  };
+  const moveW = e => {
+    if (!wdrag) return;
+    const t = e.touches ? e.touches[0] : e;
+    const r = st.getBoundingClientRect();
+    const px = (t.clientX - r.left) / r.width;
+    const dx = px - wdrag.sx;
+    const delta = wdrag.side === "r" ? dx * 2 : -dx * 2;
+    cardState.widthFrac = Math.min(0.98, Math.max(0.3, wdrag.w0 + delta));
+    cardApplyText();
+    e.preventDefault();
+  };
+  const endW = () => { wdrag = null; };
+  [hl, hr].forEach((h, i) => {
+    const side = i === 0 ? "l" : "r";
+    h.addEventListener("touchstart", e => startW(e, side), { passive: false });
+    h.addEventListener("mousedown", e => startW(e, side));
+  });
+  document.addEventListener("touchmove", moveW, { passive: false });
+  document.addEventListener("mousemove", moveW);
+  document.addEventListener("touchend", endW);
+  document.addEventListener("mouseup", endW);
+  tel.addEventListener("touchstart", () => { tel.dataset.touched = "1"; cardPositionHandles(); }, { passive: true });
+  tel.addEventListener("blur", () => { setTimeout(cardPositionHandles, 200); });
 }
 function cardApplyBg() {
   const img = document.getElementById("cardBgImg");
@@ -1929,6 +1982,7 @@ function openCardEditor(bg) {
   // apply after layout so clientWidth is real
   requestAnimationFrame(cardApplyText);
   bindCardStage();
+  cardBindWidthHandles();
   closeCardSheet();
   document.getElementById("cardPlusMenu").classList.add("hidden");
   window.scrollTo(0, 0);
@@ -2107,7 +2161,7 @@ function renderCardToCanvas() {
         ctx.shadowColor = "rgba(0,0,0,0.7)";
         ctx.shadowBlur = 18;
         ctx.shadowOffsetY = 4;
-        const maxW = W * 0.92;
+        const maxW = W * cardState.widthFrac * 0.96;
         const lines = [];
         msg.split("\n").forEach(para => {
           let line = "";
