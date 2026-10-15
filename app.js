@@ -1773,7 +1773,7 @@ function renderHolyDays() {
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
 /* ===== Greeting cards v2: direct manipulation on the image ===== */
-const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "red-roses-on-white-1.jpg", "red-roses-1.jpg", "end-of-ramadan-1.jpeg"];
+const CARD_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg", "red-roses-on-white-1.webp", "red-roses-1.webp", "end-of-ramadan-1.webp"];
 const CARD_FONTS = {
   fraunces:  { stack: "Fraunces, Georgia, serif", weight: 400, label: "Fraunces" },
   frauncesB: { stack: "Fraunces, Georgia, serif", weight: 700, label: "Fraunces Bold" },
