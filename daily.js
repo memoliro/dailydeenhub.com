@@ -233,41 +233,47 @@ const DAILY_NAMES = [
   ["Hud","The prophet sent to the people of 'Ad.","Âd kavmine gönderilen peygamber.","Maymunah","The last wife of the Prophet Muhammad ﷺ.","Peygamber Efendimiz'in ﷺ son eşi."],
   ["Salih","The prophet sent to the people of Thamud.","Semud kavmine gönderilen peygamber.","Ramla","Umm Habiba, wife of the Prophet ﷺ, steadfast in exile.","Ümmü Habibe; gurbette sebat eden, Peygamber'in ﷺ eşi."]
 ];
+/* Moment card backgrounds: no-text images, rotated daily per card */
+const MOMENT_BGS = ["mosque-sunset.jpg", "lanterns.jpg", "kaaba-night.jpg", "pattern-emerald.jpg", "crescent-lake.jpg", "quran-light.jpg", "dome-sky.jpg", "desert-dunes.jpg"];
+function momentBg(cardIdx) {
+  const day = Math.floor(Date.now() / 864e5);
+  return "/cards/" + MOMENT_BGS[(day + cardIdx * 3) % MOMENT_BGS.length];
+}
+
 function renderDaily() {
   const day = Math.floor(Date.now() / 864e5);
   const lang = (window.DDHLang && window.DDHLang()) || document.documentElement.lang || 'en';
   const tr = lang === 'tr';
-  const v = DAILY_VERSES[day % DAILY_VERSES.length];
-  const h = DAILY_HADITH[day % DAILY_HADITH.length];
-  const a = ASMA[day % ASMA.length];
   const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  set('verseRef', tr ? v.tr_ref : v.ref);
-  set('verseAr', v.ar);
-  set('verseTrans', v.trans);
-  set('verseText', tr ? v.tr : v.en);
+  const setBg = (id, cardIdx) => { const el = document.getElementById(id); if (el) el.src = momentBg(cardIdx); };
+  // backgrounds rotate daily, offset per card
+  setBg('mDuaBg', 0); setBg('mHadithBg', 1); setBg('mAyahBg', 2); setBg('mAsmaBg', 3);
   const du = DAILY_DUAS[day % DAILY_DUAS.length];
-  set('duaAr', du.ar);
-  set('duaText', tr ? du.tr : du.en);
-  set('duaRef', du.src);
-  set('hadithRef', tr ? h.tr_ref : h.ref);
-  set('hadithText', tr ? h.tr : h.en);
-  set('asmaAr', a[0]);
-  set('asmaTrans', a[1]);
-  set('asmaMeaning', tr ? a[3] : a[2]);
-  const nm = DAILY_NAMES[day % DAILY_NAMES.length];
-  const setHTML = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
-  setHTML('boyName', `👦 <b>${nm[0]}</b> — ${tr ? nm[2] : nm[1]}`);
-  setHTML('girlName', `👧 <b>${nm[3]}</b> — ${tr ? nm[5] : nm[4]}`);
+  set('mDuaAr', du.ar);
+  set('mDuaTx', '"' + (tr ? du.tr : du.en) + '"');
+  set('mDuaRef', du.src);
+  const h = DAILY_HADITH[day % DAILY_HADITH.length];
+  set('mHadithTx', '"' + (tr ? h.tr : h.en) + '"');
+  set('mHadithRef', tr ? h.tr_ref : h.ref);
+  const v = DAILY_VERSES[day % DAILY_VERSES.length];
+  set('mAyahAr', v.ar);
+  set('mAyahTx', '"' + (tr ? v.tr : v.en) + '"');
+  set('mAyahRef', tr ? v.tr_ref : v.ref);
+  const a = ASMA[day % ASMA.length];
+  set('mAsmaAr', a[0]);
+  set('mAsmaTx', a[1]);
+  set('mAsmaRef', tr ? a[3] : a[2]);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderDaily);
 else renderDaily();
 
 /* Shareable daily card images (2026-10-15) */
-const DCARD_COLORS = { verse: "#3b82f6", hadith: "#22c55e", dua: "#a855f7" };
+const DCARD_COLORS = { verse: "#e8734a", hadith: "#22c55e", dua: "#3b82f6", asma: "#a855f7" };
 const DCARD_LABELS = {
   verse: { en: "VERSE OF THE DAY", tr: "GÜNÜN AYETİ" },
   hadith: { en: "HADITH OF THE DAY", tr: "GÜNÜN HADİSİ" },
-  dua: { en: "DUA OF THE DAY", tr: "GÜNÜN DUASI" }
+  dua: { en: "DUA OF THE DAY", tr: "GÜNÜN DUASI" },
+  asma: { en: "ASMA-UL HUSNA", tr: "ESMA-ÜL HÜSNA" }
 };
 function dailyCardData(type) {
   const day = Math.floor(Date.now() / 864e5);
@@ -281,10 +287,14 @@ function dailyCardData(type) {
     const h = DAILY_HADITH[day % DAILY_HADITH.length];
     return { ar: null, text: tr ? h.tr : h.en, ref: tr ? h.tr_ref : h.ref, tr };
   }
+  if (type === 'asma') {
+    const a = ASMA[day % ASMA.length];
+    return { ar: a[0], text: a[1], ref: tr ? a[3] : a[2], tr };
+  }
   const d = DAILY_DUAS[day % DAILY_DUAS.length];
   return { ar: d.ar, text: tr ? d.tr : d.en, ref: d.src, tr };
 }
-const DCARD_BGS = { verse: "/cards/quran-light.jpg", hadith: "/cards/lanterns.jpg", dua: "/cards/crescent-lake.jpg" };
+const DCARD_BGIDX = { verse: 2, hadith: 1, dua: 0, asma: 3 };
 async function shareDailyCard(type) {
   const d = dailyCardData(type);
   const color = DCARD_COLORS[type];
@@ -297,7 +307,7 @@ async function shareDailyCard(type) {
   const bgImg = await new Promise(res => {
     const im = new Image();
     im.onload = () => res(im); im.onerror = () => res(null);
-    im.src = DCARD_BGS[type];
+    im.src = momentBg(DCARD_BGIDX[type] || 0);
   });
   if (bgImg) {
     const s = Math.max(W / bgImg.width, H / bgImg.height);
@@ -370,7 +380,7 @@ async function shareDailyCard(type) {
   cx.textAlign = "left"; cx.textBaseline = "bottom";
   cx.shadowColor = "rgba(0,0,0,0.85)"; cx.shadowBlur = 10;
   cx.fillStyle = "#ffffff";
-  cx.fillText("dailydeenhub", 28, H - 28);
+  cx.fillText("— dailydeenhub", 28, H - 28);
   cx.shadowBlur = 0;
   const blob = await new Promise(res => cv.toBlob(res, "image/jpeg", 0.92));
   const file = new File([blob], `dailydeenhub-${type}.jpg`, { type: "image/jpeg" });
@@ -387,8 +397,8 @@ async function shareDailyCard(type) {
   } catch (e) { /* user cancelled */ }
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest("[data-share]");
-  if (b) shareDailyCard(b.dataset.share);
+  const b = e.target.closest("[data-mshare]");
+  if (b) shareDailyCard(b.dataset.mshare);
 });
 
 /* Daily content engine (2026-10-15): rotates sources each day —
