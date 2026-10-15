@@ -337,7 +337,7 @@ async function shareDailyCard(type) {
   // Arabic text
   if (d.ar) {
     cx.fillStyle = color;
-    cx.font = "400 64px serif";
+    cx.font = "400 64px Amiri, serif";
     cx.direction = "rtl";
     const maxW = W * 0.84;
     const words = d.ar.split(/\s+/);
