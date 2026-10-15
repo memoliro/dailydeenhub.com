@@ -44,20 +44,24 @@ self.addEventListener("fetch", event => {
 self.addEventListener('push', function (event) {
   var data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) {}
-  var title = data.title || 'Prayer time';
-  var body = data.body || (data.prayer === 'Test' ? 'Push notifications are working!' : 'Tap to open DailyDeenHub');
-  var options = {
-    body: body,
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
-    tag: 'prayer-' + (data.prayer || 'now'),
-    renotify: true,
-    requireInteraction: false,
-    data: { url: data.url || '/' },
-  };
-  // vibrate in a gentle pattern on Android
-  try { options.vibrate = [300, 100, 300]; } catch (e) {}
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clients) {
+    // If the app is visibly open, the tab already showed a local reminder — skip the duplicate push
+    var visible = clients.some(function (c) { return c.visibilityState === 'visible'; });
+    if (visible) return;
+    var title = data.title || 'Prayer time';
+    var body = data.body || (data.prayer === 'Test' ? 'Push notifications are working!' : 'Tap to open DailyDeenHub');
+    var options = {
+      body: body,
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
+      tag: 'prayer-' + (data.prayer || 'now'),
+      renotify: true,
+      requireInteraction: false,
+      data: { url: data.url || '/' },
+    };
+    try { options.vibrate = [300, 100, 300]; } catch (e) {}
+    return self.registration.showNotification(title, options);
+  }));
 });
 
 self.addEventListener('notificationclick', function (event) {
