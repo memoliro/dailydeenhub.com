@@ -284,6 +284,7 @@ function dailyCardData(type) {
   const d = DAILY_DUAS[day % DAILY_DUAS.length];
   return { ar: d.ar, text: tr ? d.tr : d.en, ref: d.src, tr };
 }
+const DCARD_BGS = { verse: "/cards/quran-light.jpg", hadith: "/cards/lanterns.jpg", dua: "/cards/crescent-lake.jpg" };
 async function shareDailyCard(type) {
   const d = dailyCardData(type);
   const color = DCARD_COLORS[type];
@@ -292,10 +293,22 @@ async function shareDailyCard(type) {
   const cv = document.createElement("canvas");
   cv.width = W; cv.height = H;
   const cx = cv.getContext("2d");
-  // dark background matching app theme
-  const bg = cx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, "#1a1a2e"); bg.addColorStop(1, "#0f0f1a");
-  cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+  // background image with dark overlay
+  const bgImg = await new Promise(res => {
+    const im = new Image();
+    im.onload = () => res(im); im.onerror = () => res(null);
+    im.src = DCARD_BGS[type];
+  });
+  if (bgImg) {
+    const s = Math.max(W / bgImg.width, H / bgImg.height);
+    const dw = bgImg.width * s, dh = bgImg.height * s;
+    cx.drawImage(bgImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  } else {
+    const bg = cx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, "#1a1a2e"); bg.addColorStop(1, "#0f0f1a");
+    cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+  }
+  cx.fillStyle = "rgba(10,10,20,0.62)"; cx.fillRect(0, 0, W, H);
   let y = 120;
   // pill badge
   cx.font = "700 32px sans-serif";
