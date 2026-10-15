@@ -2444,6 +2444,7 @@ function applyLangImmediate(v) {
   const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
   if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
   applyI18n();
+  if (typeof renderDaily === "function") renderDaily();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
   setShow(null);
 }
@@ -2481,6 +2482,7 @@ document.getElementById("setClose").onclick = () => {
   toast(t("savedMsg"));
   if (state.notify && "Notification" in window) Notification.requestPermission();
   applyI18n();
+  if (typeof renderDaily === "function") renderDaily();
   refresh();
 };
 // Location shortcut inside settings
