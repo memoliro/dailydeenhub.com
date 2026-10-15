@@ -34,7 +34,63 @@ const DAILY_VERSES = [
     ar: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
     trans: "Lā yukallifu Allāhu nafsan illā wus'ahā.",
     en: "Allah does not burden a soul beyond that it can bear.",
-    tr: "Allah hiçbir nefse gücünün üstünde bir şey yüklemez." }
+    tr: "Allah hiçbir nefse gücünün üstünde bir şey yüklemez." },
+  { ref: "Al-Fatiha 1:2", tr_ref: "Fâtiha 1:2",
+    ar: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+    en: "All praise is due to Allah, Lord of the worlds.",
+    tr: "Hamd, âlemlerin Rabbi Allah'adır." },
+  { ref: "Al-Baqarah 2:153", tr_ref: "Bakara 2:153",
+    ar: "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+    en: "O you who believe, seek help through patience and prayer. Indeed, Allah is with the patient.",
+    tr: "Ey iman edenler! Sabır ve namazla yardım dileyin. Şüphesiz Allah sabredenlerle beraberdir." },
+  { ref: "Aal Imran 3:139", tr_ref: "Âl-i İmrân 3:139",
+    ar: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنْتُمُ الْأَعْلَوْنَ إِنْ كُنْتُمْ مُؤْمِنِينَ",
+    en: "Do not lose heart and do not grieve, for you will be superior if you are believers.",
+    tr: "Gevşemeyin, üzülmeyin; eğer iman etmişseniz üstün olan sizsiniz." },
+  { ref: "An-Nisa 4:110", tr_ref: "Nisâ 4:110",
+    ar: "وَمَنْ يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ ثُمَّ يَسْتَغْفِرِ اللَّهَ يَجِدِ اللَّهَ غَفُورًا رَحِيمًا",
+    en: "Whoever does evil or wrongs himself then seeks Allah's forgiveness will find Allah Forgiving, Merciful.",
+    tr: "Kim bir kötülük yapar veya kendine zulmeder de sonra Allah'tan bağışlanma dilerse, Allah'ı çok bağışlayıcı ve merhametli bulur." },
+  { ref: "Al-Ma'idah 5:8", tr_ref: "Mâide 5:8",
+    ar: "وَلَا يَجْرِمَنَّكُمْ شَنَآنُ قَوْمٍ عَلَىٰ أَلَّا تَعْدِلُوا ۚ اعْدِلُوا هُوَ أَقْرَبُ لِلتَّقْوَىٰ",
+    en: "Let not hatred of a people prevent you from being just. Be just; that is nearer to righteousness.",
+    tr: "Bir topluluğa olan kininiz, sizi adaletsizliğe sevk etmesin. Adil olun; bu, takvaya daha yakındır." },
+  { ref: "Al-An'am 6:160", tr_ref: "En'âm 6:160",
+    ar: "مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا",
+    en: "Whoever comes with a good deed will have ten times the like thereof.",
+    tr: "Kim bir iyilikle gelirse, ona on katı vardır." },
+  { ref: "Al-A'raf 7:56", tr_ref: "A'râf 7:56",
+    ar: "إِنَّ رَحْمَتَ اللَّهِ قَرِيبٌ مِنَ الْمُحْسِنِينَ",
+    en: "Indeed, the mercy of Allah is near to the doers of good.",
+    tr: "Şüphesiz Allah'ın rahmeti, iyilik edenlere yakındır." },
+  { ref: "At-Tawbah 9:51", tr_ref: "Tevbe 9:51",
+    ar: "قُلْ لَنْ يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا ۚ وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ",
+    en: "Say: Nothing will befall us except what Allah has decreed for us; He is our Protector. And in Allah let the believers put their trust.",
+    tr: "De ki: Bize Allah'ın yazdığından başkası isabet etmez. O bizim Mevlamızdır. Müminler yalnız Allah'a tevekkül etsinler." },
+  { ref: "Yunus 10:62", tr_ref: "Yûnus 10:62",
+    ar: "أَلَا إِنَّ أَوْلِيَاءَ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
+    en: "Unquestionably, for the allies of Allah there is no fear, nor shall they grieve.",
+    tr: "İyi bilin ki Allah'ın dostlarına korku yoktur ve onlar üzülmeyeceklerdir." },
+  { ref: "Ar-Ra'd 13:28", tr_ref: "Ra'd 13:28",
+    ar: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+    en: "Unquestionably, by the remembrance of Allah hearts find rest.",
+    tr: "İyi bilin ki kalpler ancak Allah'ı anmakla huzur bulur." },
+  { ref: "Ibrahim 14:7", tr_ref: "İbrâhim 14:7",
+    ar: "لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+    en: "If you are grateful, I will surely increase you.",
+    tr: "Eğer şükrederseniz, elbette size artırırım." },
+  { ref: "Al-Isra 17:82", tr_ref: "İsrâ 17:82",
+    ar: "وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ",
+    en: "We send down of the Quran that which is healing and mercy for the believers.",
+    tr: "Kur'an'dan, müminler için şifa ve rahmet olanı indiriyoruz." },
+  { ref: "Taha 20:114", tr_ref: "Tâhâ 20:114",
+    ar: "رَبِّ زِدْنِي عِلْمًا",
+    en: "My Lord, increase me in knowledge.",
+    tr: "Rabbim! İlmimi artır." },
+  { ref: "Al-Furqan 25:74", tr_ref: "Furkân 25:74",
+    ar: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+    en: "Our Lord, grant us from our spouses and offspring comfort to our eyes, and make us leaders of the righteous.",
+    tr: "Rabbimiz! Bize eşlerimizden ve soyumuzdan göz aydınlığı ver; bizi takva sahiplerine önder kıl." },
 ];
 const DAILY_HADITH = [
   { ref: "Tabarani, el-Mujemul Kabir", tr_ref: "Taberânî, el-Mu'cemü'l-Kebîr",
@@ -51,7 +107,43 @@ const DAILY_HADITH = [
     tr: "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir." },
   { ref: "Bukhari", tr_ref: "Buhârî",
     en: "None of you truly believes until he loves for his brother what he loves for himself.",
-    tr: "Hiçbiriniz, kendisi için istediğini kardeşi için de istemedikçe gerçekten iman etmiş olmaz." }
+    tr: "Hiçbiriniz, kendisi için istediğini kardeşi için de istemedikçe gerçekten iman etmiş olmaz." },
+  { ref: "Bukhari & Muslim", tr_ref: "Buhârî ve Müslim",
+    en: "Actions are but by intentions, and every person shall have only what they intended.",
+    tr: "Ameller ancak niyetlere göredir; herkese niyet ettiği şey vardır." },
+  { ref: "Muslim", tr_ref: "Müslim",
+    en: "The strong is not the one who overcomes people by wrestling; the strong is the one who controls himself in anger.",
+    tr: "Güçlü, güreşte rakibini yenen değil; öfke anında kendine hâkim olandır." },
+  { ref: "Bukhari", tr_ref: "Buhârî",
+    en: "Make things easy and do not make them difficult; give glad tidings and do not repel people.",
+    tr: "Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin." },
+  { ref: "Tirmidhi", tr_ref: "Tirmizî",
+    en: "The most beloved places to Allah are the mosques, and the most disliked places to Allah are the markets.",
+    tr: "Allah'a en sevimli yerler mescitler, en sevimsiz yerler çarşılardır." },
+  { ref: "Abu Dawud", tr_ref: "Ebû Dâvûd",
+    en: "Whoever believes in Allah and the Last Day, let him speak good or remain silent.",
+    tr: "Allah'a ve ahiret gününe iman eden, ya hayır söylesin ya sussun." },
+  { ref: "Ibn Majah", tr_ref: "İbn Mâce",
+    en: "The best of you are the best to their families, and I am the best of you to my family.",
+    tr: "Sizin en hayırlınız, ailesine en hayırlı olandır; ben de aileme karşı en hayırlınızım." },
+  { ref: "Muslim", tr_ref: "Müslim",
+    en: "Do not envy one another, do not hate one another, and do not turn away from one another. Be, O servants of Allah, brothers.",
+    tr: "Birbirinize haset etmeyin, kin beslemeyin, sırt çevirmeyin. Ey Allah'ın kulları, kardeş olun." },
+  { ref: "Bukhari", tr_ref: "Buhârî",
+    en: "The example of a good companion and a bad one is like that of a perfume seller and a blacksmith.",
+    tr: "İyi arkadaşla kötü arkadaşın misali, misk satanla demirci gibidir." },
+  { ref: "Tirmidhi", tr_ref: "Tirmizî",
+    en: "Have taqwa of Allah wherever you are, follow a bad deed with a good one to erase it, and treat people with good character.",
+    tr: "Nerede olursan ol Allah'tan kork; kötülüğün ardından iyilik yap ki onu silsin; insanlara güzel ahlakla davran." },
+  { ref: "Muslim", tr_ref: "Müslim",
+    en: "Allah is Gentle and loves gentleness in all things.",
+    tr: "Allah latiftir ve her işte letafeti sever." },
+  { ref: "Bukhari", tr_ref: "Buhârî",
+    en: "Whoever fasts Ramadan out of faith and hope for reward, his previous sins are forgiven.",
+    tr: "Kim inanarak ve sevabını umarak Ramazan orucunu tutarsa, geçmiş günahları bağışlanır." },
+  { ref: "Muslim", tr_ref: "Müslim",
+    en: "The five daily prayers, Friday to Friday, and Ramadan to Ramadan expiate sins between them, if major sins are avoided.",
+    tr: "Beş vakit namaz, bir cumadan diğerine ve bir ramazandan diğerine, büyük günahlardan kaçınıldıkça aralarındaki günahlara kefarettir." }
 ];
 const ASMA = [
   ["ٱلرَّحْمَـٰنُ","Ar-Rahman","The All-Merciful","Merhameti sonsuz olan"],
@@ -285,3 +377,27 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-share]");
   if (b) shareDailyCard(b.dataset.share);
 });
+
+/* Daily content engine (2026-10-15): rotates sources each day —
+   verse → hadith → dua → verse… Special days override the rotation:
+   Friday gets a Jumu'ah hadith, Ramadan gets a fasting verse. */
+const JUMUAH_HADITH_IDX = [16]; // "five daily prayers, Friday to Friday…"
+const RAMADAN_VERSE_IDX = [13]; // At-Tawbah 9:51 (trust in Allah) — swap for fasting verse when curated
+function dailySource() {
+  const now = new Date();
+  const day = Math.floor(Date.now() / 864e5);
+  // Friday override
+  if (now.getDay() === 5) return { kind: "hadith", idx: JUMUAH_HADITH_IDX[day % JUMUAH_HADITH_IDX.length] };
+  // Ramadan override (approx via holy-days list if present)
+  if (typeof HOLY_DAYS !== "undefined") {
+    const iso = now.toISOString().slice(0, 10);
+    const ramadan = HOLY_DAYS.find(e => /ramadan/i.test(e.en || "") && e.d <= iso && iso <= e.end);
+    if (ramadan) return { kind: "verse", idx: RAMADAN_VERSE_IDX[day % RAMADAN_VERSE_IDX.length] };
+  }
+  const kinds = ["verse", "hadith", "dua"];
+  const kind = kinds[day % 3];
+  const pool = kind === "verse" ? DAILY_VERSES : kind === "hadith" ? DAILY_HADITH : DAILY_DUAS;
+  // stagger the index so each source cycles independently
+  const idx = Math.floor(day / 3) % pool.length;
+  return { kind, idx };
+}
