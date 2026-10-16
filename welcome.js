@@ -28,6 +28,19 @@
       lcYes: 'KABUL ET',
       privTitle: '🔒 Gizliliğiniz önceliğimizdir',
       privBody: 'Kişisel bilgilerinizi toplamıyoruz. Günlük Din Merkezi tamamen ücretsizdir — giriş yok, hesap yok, ödeme yok, can sıkıcı reklam yok. Ayarlarınız ve konumunuz cihazınızda kalır.'
+    },
+    fr: {
+      brand: 'Daily Deen Hub', greet: 'Assalamou Alaikoum',
+      tag: 'Votre compagnon au quotidien',
+      cta: 'TROUVER MA POSITION',
+      terms: 'J\'accepte les <a href="/fr/terms.html">Conditions d\'utilisation</a> et la <a href="/fr/privacy.html">Politique de confidentialité</a> de l\'application.',
+      label: 'Français',
+      lcTitle: 'Pour votre information',
+      lcBody: 'Daily Deen Hub utilise votre position pour calculer des horaires de prière précis, trouver la direction de la Qibla et localiser les mosquées à proximité.',
+      lcNo: 'PAS MAINTENANT',
+      lcYes: 'ACCEPTER',
+      privTitle: '🔒 Votre vie privée d\'abord',
+      privBody: 'Nous ne collectons pas vos informations personnelles. Daily Deen Hub est entièrement gratuit — pas de connexion, pas de compte, rien à payer, pas de pubs agaçantes. Vos réglages et votre position restent sur votre appareil, où ils doivent être.'
     }
   };
   function apply(l){
