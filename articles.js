@@ -55,17 +55,31 @@ tr: [
   body: ["Evet, tamamen \u00fccretsiz; reklam yok, premium s\u00fcr\u00fcm yok. DailyDeenHub size faydal\u0131 oluyorsa, sunucu masraflar\u0131na destek i\u00e7in iste\u011fe ba\u011fl\u0131 tek seferlik ba\u011f\u0131\u015f ba\u011flant\u0131s\u0131 (Bize destek olun) vard\u0131r. \u0130badet anlar\u0131nda asla g\u00f6sterilmez."] }
 ],
 fr: [
-{ icon: "\u2139\uFE0F", title: "\u00c0 propos de DailyDeenHub" },
-{ icon: "\uD83D\uDD4C", title: "Comment les horaires de pri\u00e8re sont-ils calcul\u00e9s ?" },
-{ icon: "\uD83D\uDD4C", title: "Pourquoi les horaires diff\u00e8rent-ils de ceux de ma mosqu\u00e9e ?" },
-{ icon: "\uD83D\uDCF6", title: "Ai-je besoin d'internet pour utiliser l'app ?" },
-{ icon: "\uD83D\uDD12", title: "Mes donn\u00e9es sont-elles priv\u00e9es ?" },
-{ icon: "\uD83D\uDD14", title: "Comment fonctionnent les alertes de pri\u00e8re ?" },
-{ icon: "\uD83D\uDCF1", title: "Comment l'installer sur mon \u00e9cran d'accueil ?" },
-{ icon: "\uD83E\uDDED", title: "La boussole Qibla est-elle pr\u00e9cise ?" },
-{ icon: "\uD83C\uDF19", title: "Pourquoi les dates des jours saints mentionnent-elles l'observation lunaire ?" },
-{ icon: "\u2699\uFE0F", title: "Puis-je changer de langue ?" },
-{ icon: "\uD83D\uDCB0", title: "L'app est-elle vraiment gratuite ?" }
+{ icon: "\u2139\uFE0F", title: "\u00c0 propos de DailyDeenHub",
+  body: ["DailyDeenHub est une application islamique gratuite : horaires de pri\u00e8re pr\u00e9cis avec rappels, boussole Qibla, lecteur de Coran avec audio, compteur de tasbih, recherche de mosqu\u00e9es et de restaurants halal, outils pour le Ramadan, calendrier hijri, comptes \u00e0 rebours des jours saints, cartes de v\u0153ux, et bien plus.",
+  "Aucun compte, aucune inscription, aucune publicit\u00e9. Vos r\u00e9glages et votre progression restent sur votre appareil. L'application fonctionne hors ligne pour toutes les fonctions essentielles."] },
+{ icon: "\uD83D\uDD4C", title: "Comment les horaires de pri\u00e8re sont-ils calcul\u00e9s ?",
+  body: ["Les horaires de pri\u00e8re sont calcul\u00e9s sur votre appareil \u00e0 partir de votre position, selon des m\u00e9thodes de calcul reconnues (Diyanet, ISNA, Muslim World League, et d'autres). Vous pouvez changer de m\u00e9thode et d'\u00e9cole pour l'Asr \u00e0 tout moment dans R\u00e9glages \u203a Calcul des pri\u00e8res.",
+  "Si l'application ne peut pas acc\u00e9der au r\u00e9seau, elle bascule sur le calcul hors ligne int\u00e9gr\u00e9, qui correspond \u00e9troitement aux sources en ligne."] },
+{ icon: "\uD83D\uDD4C", title: "Pourquoi les horaires diff\u00e8rent-ils de ceux de ma mosqu\u00e9e ?",
+  body: ["Les mosqu\u00e9es peuvent suivre une m\u00e9thode de calcul diff\u00e9rente ou appliquer des ajustements locaux (par exemple quelques minutes de pr\u00e9caution). V\u00e9rifiez la m\u00e9thode utilis\u00e9e par votre mosqu\u00e9e et s\u00e9lectionnez la m\u00eame dans R\u00e9glages \u203a Calcul des pri\u00e8res. De petites diff\u00e9rences de quelques minutes sont normales."] },
+{ icon: "\uD83D\uDCF6", title: "Ai-je besoin d'internet pour utiliser l'app ?",
+  body: ["Non. Les horaires de pri\u00e8re, la Qibla, le texte du Coran, le tasbih, le suivi de khatm et vos r\u00e9glages enregistr\u00e9s fonctionnent tous hors ligne. La recherche de mosqu\u00e9es/halal, la radio Coran et les diffusions en direct n\u00e9cessitent une connexion."] },
+{ icon: "\uD83D\uDD12", title: "Mes donn\u00e9es sont-elles priv\u00e9es ?",
+  body: ["Oui. Tout \u2014 votre position, vos r\u00e9glages, vos suivis, vos favoris \u2014 est stock\u00e9 uniquement sur votre appareil. Il n'y a aucun compte et rien n'est t\u00e9l\u00e9vers\u00e9. Seule exception : si vous activez les alertes de pri\u00e8re pour quand l'onglet est ferm\u00e9, l'abonnement push de votre navigateur et vos r\u00e9glages de pri\u00e8re sont stock\u00e9s sur notre serveur pour que la notification puisse vous parvenir. Voir la page Confidentialit\u00e9 pour plus de d\u00e9tails."] },
+{ icon: "\uD83D\uDD14", title: "Comment fonctionnent les alertes de pri\u00e8re ?",
+  body: ["Deux sortes. Les rappels d'onglet ouvert jouent un son et affichent une notification pendant que l'application est ouverte. \u00ab Alertes de pri\u00e8re (m\u00eame quand l'onglet est ferm\u00e9) \u00bb utilise le push web, donc le rappel arrive m\u00eame si l'application est ferm\u00e9e \u2014 votre navigateur doit rester install\u00e9 et les notifications autoris\u00e9es.",
+  "Remarque : les rappels sont une aide, pas un r\u00e9veil. Pour le Fajr, gardez aussi votre alarme habituelle."] },
+{ icon: "\uD83D\uDCF1", title: "Comment l'installer sur mon \u00e9cran d'accueil ?",
+  body: ["Android (Chrome) : ouvrez le menu du navigateur (\u22EE) et touchez \u00ab Ajouter \u00e0 l'\u00e9cran d'accueil \u00bb ou \u00ab Installer l'application \u00bb. iPhone (Safari) : touchez Partager, puis \u00ab Sur l'\u00e9cran d'accueil \u00bb. L'application install\u00e9e s'ouvre en plein \u00e9cran et fonctionne hors ligne."] },
+{ icon: "\uD83E\uDDED", title: "La boussole Qibla est-elle pr\u00e9cise ?",
+  body: ["La boussole utilise le magn\u00e9tom\u00e8tre et le GPS de votre t\u00e9l\u00e9phone. Pour de meilleurs r\u00e9sultats, tenez le t\u00e9l\u00e9phone \u00e0 la verticale et d\u00e9crivez un 8 pour calibrer le capteur, et restez \u00e0 l'\u00e9cart des objets m\u00e9talliques et des aimants. Le GPS est utilis\u00e9 une fois pour situer votre position par rapport \u00e0 la Kaaba."] },
+{ icon: "\uD83C\uDF19", title: "Pourquoi les dates des jours saints mentionnent-elles l'observation lunaire ?",
+  body: ["Les dates des jours saints suivent le calcul du Diyanet (Turquie). Votre mosqu\u00e9e locale peut observer le Ramadan ou l'A\u00efd un jour plus t\u00f4t ou plus tard selon l'observation r\u00e9elle de la lune \u2014 en cas de doute, suivez votre mosqu\u00e9e locale."] },
+{ icon: "\u2699\uFE0F", title: "Puis-je changer de langue ?",
+  body: ["Oui. Ouvrez R\u00e9glages \u203a Langue et choisissez English, T\u00fcrk\u00e7e ou Fran\u00e7ais. Toute l'application \u2014 y compris cette page \u2014 change instantan\u00e9ment sans rechargement."] },
+{ icon: "\uD83D\uDCB0", title: "L'app est-elle vraiment gratuite ?",
+  body: ["Oui, enti\u00e8rement gratuite, sans publicit\u00e9 ni offre premium. Si DailyDeenHub vous est utile, un lien de don unique optionnel (Soutenez-nous) aide \u00e0 couvrir les frais de serveur. Il n'est jamais affich\u00e9 pendant les moments de culte."] }
 ]
 };
 
@@ -77,7 +91,7 @@ function renderArticles() {
     const frByIcon = {};
     ARTICLES.fr.forEach(function (f, i) { frByIcon[i] = f; });
     items = ARTICLES.en.map(function (a, i) {
-      return frByIcon[i] ? Object.assign({}, a, { title: frByIcon[i].title }) : a;
+      return frByIcon[i] ? Object.assign({}, a, { title: frByIcon[i].title, body: frByIcon[i].body || a.body }) : a;
     });
   }
   el.innerHTML = items.map((a, i) =>
