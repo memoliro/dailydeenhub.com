@@ -198,6 +198,16 @@ tr: [
   { id: "mosque", icon: "🕌", title: "Cami", desc: "Yolda, girerken ve çıkarken." },
   { id: "food", icon: "🍽️", title: "Yemek", desc: "Yemekten önce ve sonra." },
   { id: "distress", icon: "💙", title: "Sıkıntı & Kaygı", desc: "Zor anlarda teselli." }
+],
+fr: [
+  { id: "morn", icon: "🌅", title: "Matin & Soir", desc: "Commencez et terminez votre journée par le dhikr." },
+  { id: "prayer", icon: "📿", title: "Après la prière", desc: "Dhikr après chaque prière obligatoire." },
+  { id: "sleep", icon: "🌙", title: "Avant de dormir", desc: "Dou'as pour la nuit." },
+  { id: "wake", icon: "☀️", title: "Au réveil", desc: "Les premières paroles du jour." },
+  { id: "home", icon: "🏠", title: "Maison", desc: "En sortant et en rentrant chez vous." },
+  { id: "mosque", icon: "🕌", title: "Mosquée", desc: "Sur le chemin, en entrant et en sortant." },
+  { id: "food", icon: "🍽️", title: "Repas", desc: "Avant et après les repas." },
+  { id: "distress", icon: "💙", title: "Détresse & Anxiété", desc: "Réconfort dans les moments difficiles." }
 ]
 };
 let hsnCurrent = null;
