@@ -53,13 +53,33 @@ tr: [
   body: ["Evet. Ayarlar \u203A Dil b\u00f6l\u00fcm\u00fcnden English veya T\u00fcrk\u00e7e se\u00e7in. Bu sayfa dahil t\u00fcm uygulama yeniden y\u00fcklenmeden an\u0131nda de\u011fi\u015fir."] },
 { icon: "\uD83D\uDCB0", title: "Uygulama ger\u00e7ekten \u00fccretsiz mi?",
   body: ["Evet, tamamen \u00fccretsiz; reklam yok, premium s\u00fcr\u00fcm yok. DailyDeenHub size faydal\u0131 oluyorsa, sunucu masraflar\u0131na destek i\u00e7in iste\u011fe ba\u011fl\u0131 tek seferlik ba\u011f\u0131\u015f ba\u011flant\u0131s\u0131 (Bize destek olun) vard\u0131r. \u0130badet anlar\u0131nda asla g\u00f6sterilmez."] }
+],
+fr: [
+{ icon: "\u2139\uFE0F", title: "\u00c0 propos de DailyDeenHub" },
+{ icon: "\uD83D\uDD4C", title: "Comment les horaires de pri\u00e8re sont-ils calcul\u00e9s ?" },
+{ icon: "\uD83D\uDD4C", title: "Pourquoi les horaires diff\u00e8rent-ils de ceux de ma mosqu\u00e9e ?" },
+{ icon: "\uD83D\uDCF6", title: "Ai-je besoin d'internet pour utiliser l'app ?" },
+{ icon: "\uD83D\uDD12", title: "Mes donn\u00e9es sont-elles priv\u00e9es ?" },
+{ icon: "\uD83D\uDD14", title: "Comment fonctionnent les alertes de pri\u00e8re ?" },
+{ icon: "\uD83D\uDCF1", title: "Comment l'installer sur mon \u00e9cran d'accueil ?" },
+{ icon: "\uD83E\uDDED", title: "La boussole Qibla est-elle pr\u00e9cise ?" },
+{ icon: "\uD83C\uDF19", title: "Pourquoi les dates des jours saints mentionnent-elles l'observation lunaire ?" },
+{ icon: "\u2699\uFE0F", title: "Puis-je changer de langue ?" },
+{ icon: "\uD83D\uDCB0", title: "L'app est-elle vraiment gratuite ?" }
 ]
 };
 
 function renderArticles() {
   const el = document.getElementById("articlesList");
   if (!el) return;
-  const items = ARTICLES[state.lang] || ARTICLES.en;
+  let items = ARTICLES[state.lang] || ARTICLES.en;
+  if (state.lang === "fr" && ARTICLES.fr) {
+    const frByIcon = {};
+    ARTICLES.fr.forEach(function (f, i) { frByIcon[i] = f; });
+    items = ARTICLES.en.map(function (a, i) {
+      return frByIcon[i] ? Object.assign({}, a, { title: frByIcon[i].title }) : a;
+    });
+  }
   el.innerHTML = items.map((a, i) =>
     `<div class="art-item"><button type="button" class="art-q" data-ai="${i}"><span class="art-ic">${a.icon}</span><span class="art-ti">${esc(a.title)}</span><span class="art-ch">+</span></button>` +
     `<div class="art-a hidden">${a.body.map(p => `<p>${esc(p)}</p>`).join("")}</div></div>`
