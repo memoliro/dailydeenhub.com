@@ -405,9 +405,9 @@ a { color: var(--green-bright); }
   position: sticky; top: 0; z-index: 30;
 }
 .hdr-in {
-  width: min(1120px, 100%); margin: 0 auto; padding-left: 12px; padding-right: 12px;
+  width: min(1120px, 100%); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0 8px;
+  padding: 10px 12px 8px;
 }
 .hdr-place { background: none; border: 0; color: #fff; text-align: left; padding: 0; cursor: pointer; flex: 1 1 auto; min-width: 0; }
 .hdr-place b { display: block; font-size: 20px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
