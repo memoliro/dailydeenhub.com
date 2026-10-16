@@ -1,14 +1,14 @@
 /* DailyDeenHub Hadith reader — Kutub al-Sittah (all six books).
    Book data: /data/hadith/<book>.json (Arabic: public domain; English: see per-book attribution).
    One book downloads at a time, on demand, with an ask-first prompt (~5-12 MB each).
-   Views: book (chapters + search) -> chapter (hadith list). EN/TR UI. */
+   Views: book (chapters + search) -> chapter (hadith list). EN/TR/FR UI. */
 const HD_BOOKS = {
-  bukhari:  { file: "/data/hadith/bukhari.json?v=1",  ar: "صحيح البخاري", en: "Sahih al-Bukhari",   tr: "Sahih-i Buhârî",    cover: "/img/resources/covers/bukhari.jpg?v=1",  mb: 12, attr: { en: "Dr. M. Muhsin Khan", tr: "Dr. M. Muhsin Khan" } },
-  muslim:   { file: "/data/hadith/muslim.json?v=1",   ar: "صحيح مسلم",    en: "Sahih Muslim",      tr: "Sahih-i Müslim",    cover: "/img/resources/covers/muslim.jpg?v=1",   mb: 10, attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
-  abudawud: { file: "/data/hadith/abudawud.json?v=1", ar: "سنن أبي داود",  en: "Sunan Abu Dawud",   tr: "Sünen-i Ebû Dâvûd", cover: "/img/resources/covers/abudawud.jpg?v=1", mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
-  tirmidhi: { file: "/data/hadith/tirmidhi.json?v=1", ar: "جامع الترمذي",  en: "Jami' at-Tirmidhi", tr: "Câmiu't-Tirmizî",   cover: "/img/resources/covers/tirmidhi.jpg?v=1",  mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
-  nasai:    { file: "/data/hadith/nasai.json?v=1",    ar: "سنن النسائي",   en: "Sunan an-Nasa'i",   tr: "Sünen-i Nesâî",     cover: "/img/resources/covers/nasai.jpg?v=1",    mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } },
-  ibnmajah: { file: "/data/hadith/ibnmajah.json?v=1", ar: "سنن ابن ماجه",  en: "Sunan Ibn Majah",   tr: "Sünen-i İbn Mâce",  cover: "/img/resources/covers/ibnmajah.jpg?v=1", mb: 5,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)" } }
+  bukhari:  { file: "/data/hadith/bukhari.json?v=2",  ar: "صحيح البخاري", en: "Sahih al-Bukhari",   tr: "Sahih-i Buhârî",    fr: "Sahih al-Boukhari", cover: "/img/resources/covers/bukhari.jpg?v=1",  mb: 12, attr: { en: "Dr. M. Muhsin Khan", tr: "Dr. M. Muhsin Khan", fr: "Dr. M. Muhsin Khan" } },
+  muslim:   { file: "/data/hadith/muslim.json?v=2",   ar: "صحيح مسلم",    en: "Sahih Muslim",      tr: "Sahih-i Müslim",    fr: "Sahih Mouslim",     cover: "/img/resources/covers/muslim.jpg?v=1",   mb: 10, attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)", fr: "édition hadith-api (le traducteur varie selon le livre)" } },
+  abudawud: { file: "/data/hadith/abudawud.json?v=2", ar: "سنن أبي داود",  en: "Sunan Abu Dawud",   tr: "Sünen-i Ebû Dâvûd", fr: "Sunan Abou Dawoud", cover: "/img/resources/covers/abudawud.jpg?v=1", mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)", fr: "édition hadith-api (le traducteur varie selon le livre)" } },
+  tirmidhi: { file: "/data/hadith/tirmidhi.json?v=2", ar: "جامع الترمذي",  en: "Jami' at-Tirmidhi", tr: "Câmiu't-Tirmizî",   fr: "Jâmi' at-Tirmidhî",  cover: "/img/resources/covers/tirmidhi.jpg?v=1",  mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)", fr: "édition hadith-api (le traducteur varie selon le livre)" } },
+  nasai:    { file: "/data/hadith/nasai.json?v=2",    ar: "سنن النسائي",   en: "Sunan an-Nasa'i",   tr: "Sünen-i Nesâî",     fr: "Sunan an-Nassaï",   cover: "/img/resources/covers/nasai.jpg?v=1",    mb: 7,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)", fr: "édition hadith-api (le traducteur varie selon le livre)" } },
+  ibnmajah: { file: "/data/hadith/ibnmajah.json?v=2", ar: "سنن ابن ماجه",  en: "Sunan Ibn Majah",   tr: "Sünen-i İbn Mâce",  fr: "Sunan Ibn Madja",   cover: "/img/resources/covers/ibnmajah.jpg?v=1", mb: 5,  attr: { en: "hadith-api edition (translator varies by book)", tr: "hadith-api sürümü (çevirmen kitaba göre değişir)", fr: "édition hadith-api (le traducteur varie selon le livre)" } }
 };
 const HD_ORDER = ["bukhari", "muslim", "abudawud", "tirmidhi", "nasai", "ibnmajah"];
 
@@ -148,7 +148,7 @@ try {
 } catch (e) {}
 
 function hdBook() { return HD_BOOKS[HD.book]; }
-function hdTitle(b) { const tr = state.lang === "tr"; return tr ? b.tr : b.en; }
+function hdTitle(b) { return pickL(b.tr, b.fr, b.en); }
 
 /* Per-book download flag + reading position (migrates the old single-book keys). */
 function hdDlKey(id) { return "ddh-hadith-dl-" + id; }
@@ -245,7 +245,7 @@ function hdLoad(v) {
 /* Download prompt: the book lives on the device after a one-time download
    (the service worker also caches it, so it keeps working offline). */
 function hdPromptView(v) {
-  const b = hdBook(), tr = state.lang === "tr";
+  const b = hdBook();
   v.className = "hd-wrap";
   v.innerHTML =
     '<button class="ghost hd-back" data-goto="resources" type="button">\u2190 ' + escapeHtml(t("hdBack")) + "</button>" +
@@ -311,7 +311,7 @@ function hdFetchBook(v) {
 }
 
 function hdBookView(v) {
-  const b = hdBook(), tr = state.lang === "tr";
+  const b = hdBook();
   const d = HD.data;
   const secs = Object.keys(d.sections).sort(function (a, b2) { return a - b2; });
   const last = hdLast();
@@ -332,12 +332,12 @@ function hdBookView(v) {
     const s = d.sections[k];
     return '<button class="hd-chrow" data-ch="' + k + '" type="button">' +
       '<span class="kutub-num">' + k + "</span>" +
-      '<span class="hd-cht"><span class="hd-chen">' + escapeHtml(tr ? s.tr : s.en) + "</span>" +
+      '<span class="hd-cht"><span class="hd-chen">' + escapeHtml(pickL(s.tr, s.fr, s.en)) + "</span>" +
       '<span class="hd-chc">' + s.n + " " + escapeHtml(t("resHadith")) + "</span></span>" +
       '<span class="hd-chev">\u203a</span></button>';
   }).join("") + "</div>";
   h += '<p class="note hd-attr">' + escapeHtml(t("hdAttrAr")) + " \u00b7 " + escapeHtml(t("hdAttrEn")) +
-       ": " + escapeHtml(tr ? b.attr.tr : b.attr.en) + "</p>";
+       ": " + escapeHtml(pickL(b.attr.tr, b.attr.fr, b.attr.en)) + "</p>";
   v.innerHTML = h;
   v.querySelectorAll("[data-ch]").forEach(function (btn) {
     btn.onclick = function () { hdOpenChapter(+btn.dataset.ch, hdFirstIdx(+btn.dataset.ch)); };
@@ -367,7 +367,7 @@ function hdDoSearch(q) {
   if (!q) { box.innerHTML = ""; if (list) list.style.display = ""; return; }
   if (list) list.style.display = "none";
   const terms = hdQueryTerms(q);
-  const d = HD.data, tr = state.lang === "tr";
+  const d = HD.data;
   const out = [];
   for (let i = 0; i < d.hadiths.length && out.length < 60; i++) {
     const hh = d.hadiths[i];
@@ -383,7 +383,7 @@ function hdDoSearch(q) {
       const snip = hdSnippet(enHit ? hh.en : hh.ar, q, terms, enHit);
       return '<button class="hd-resrow" data-i="' + i + '" type="button">' +
         '<span class="hd-num">#' + hh.n + "</span>" +
-        '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(tr ? sec.tr : sec.en) + "</span>" +
+        '<span class="hd-rMain"><span class="hd-rSec">' + escapeHtml(pickL(sec.tr, sec.fr, sec.en)) + "</span>" +
         '<span class="hd-rSnip"' + (enHit ? "" : ' dir="rtl" lang="ar"') + ">" + snip + "</span></span></button>";
     }).join("");
   box.querySelectorAll("[data-i]").forEach(function (btn) {
@@ -401,13 +401,13 @@ function hdOpenChapter(s, idx) {
 }
 
 function hdChapterView(v) {
-  const b = hdBook(), tr = state.lang === "tr";
+  const b = hdBook();
   const d = HD.data, s = d.sections[String(HD.chapter)];
   let h = "";
   h += '<button class="ghost hd-back" id="hdBackCh" type="button">\u2190 ' + escapeHtml(t("hdBackCh")) + "</button>";
   h += '<input id="hdSearchCh" class="hd-search" type="search" autocomplete="off" placeholder="' +
        escapeHtml(t("hdSearchPh")) + '">';
-  h += '<h3 class="hd-title">' + escapeHtml(tr ? s.tr : s.en) + "</h3>";
+  h += '<h3 class="hd-title">' + escapeHtml(pickL(s.tr, s.fr, s.en)) + "</h3>";
   if (String(HD.chapter) === "0") h += '<p class="note">' + escapeHtml(t("hdGeneralNote")) + "</p>";
   h += '<div class="hd-langrow">' + ["both", "ar", "en"].map(function (l) {
     return '<button type="button" class="hd-langbtn' + (HD.lang === l ? " on" : "") + '" data-l="' + l + '">' +
