@@ -581,13 +581,15 @@ const WEEKDAYS = {
 };
 const WEEKDAYS_SHORT = {
   en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  tr: ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"]
+  tr: ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"],
+  fr: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."]
 };
 const MONTHS = {
   en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-  tr: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+  tr: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+  fr: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
 };
-const COMPASS = { en: ["N", "E", "S", "W"], tr: ["K", "D", "G", "B"] };
+const COMPASS = { en: ["N", "E", "S", "W"], tr: ["K", "D", "G", "B"], fr: ["N", "E", "S", "O"] };
 // Hijri month names live in HIJRI_MONTHS_TR / HIJRI_MONTHS_EN (used via hijriName()).
 
 const state = load();
