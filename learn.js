@@ -2,7 +2,17 @@
    Body blocks: ["h", text] heading | ["p", text] paragraph | ["ar", text] Arabic
    | ["tn", text] transliteration | ["dua", {ar, tn, mean}] dua card. */
 let learnCurrent = null;
-function learnArticles() { return (LEARN[state.lang] || LEARN.en); }
+function learnArticles() {
+  if (state.lang === "fr" && LEARN.fr) {
+    const frById = {};
+    LEARN.fr.forEach(function (f) { frById[f.id] = f; });
+    return LEARN.en.map(function (e) {
+      const f = frById[e.id];
+      return f ? Object.assign({}, e, { title: f.title, desc: f.desc }) : e;
+    });
+  }
+  return (LEARN[state.lang] || LEARN.en);
+}
 function learnBlock(b) {
   if (b[0] === "h") return "<h4>" + escapeHtml(b[1]) + "</h4>";
   if (b[0] === "p") return "<p>" + escapeHtml(b[1]) + "</p>";
@@ -300,6 +310,13 @@ body: [
 ["h", "Fitre ve bayram"],
 ["p", "Bayram namazından önce fitreyi verin \u2014 evdeki her kişi için bir ölçü temel gıda (veya bedeli) \u2014 ki yoksullar da bayramı yaşayabilsin. Ramazan Bayramı, cemaatle kılınan bayram namazı ve tekbirlerle başlar; ardından sevinç günleri gelir: akraba ziyareti, sofra paylaşımı ve Allah'ı anmak."]
 ] }
+],
+fr: [
+{ id: "wudu", title: "Comment faire le Wudu", desc: "Les ablutions rituelles avant la pri\u00e8re, \u00e9tape par \u00e9tape" },
+{ id: "prayer", title: "Comment prier \u2014 \u00c9tape par \u00e9tape", desc: "Une pri\u00e8re de deux rak'ahs, du takbir au salam" },
+{ id: "pillars", title: "Les cinq piliers de l'islam", desc: "Le fondement de la foi" },
+{ id: "duas", title: "Invocations du matin et du soir", desc: "Adhkar quotidiens tir\u00e9s de Hisnul Muslim" },
+{ id: "ramadan", title: "Guide du Ramadan", desc: "Je\u00fbne, tarawih, Laylat al-Qadr et l'A\u00efd" }
 ]
 };
 
