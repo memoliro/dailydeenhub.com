@@ -183,6 +183,11 @@ async function enable() {
     }
     var reg = await getReg();
     if (!reg) throw new Error('no sw');
+    // Clear any stale subscription (e.g. from a previous VAPID key) before subscribing
+    try {
+      var oldSub = await reg.pushManager.getSubscription();
+      if (oldSub) await oldSub.unsubscribe();
+    } catch (e) {}
     // VAPID public key from worker
     var kr = await fetch(PUSH_API + '/api/vapid-key');
     var kj = await kr.json();
