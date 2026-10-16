@@ -568,7 +568,7 @@ const I18N = {
     comingSoon: "Bientôt disponible",
     setRemind: "Rappels",
     markDone: "Touchez une prière pour la marquer comme accomplie",
-},
+    names: { Fajr: "Fajr", Sunrise: "Lever du soleil", Dhuhr: "Dhuhr", Asr: "Asr", Maghrib: "Maghrib", Isha: "Isha", Witr: "Witr" } },
 
 };
 const WEEKDAYS = {
