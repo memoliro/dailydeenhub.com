@@ -169,33 +169,40 @@ function settingsPayload() {
 
 async function enable() {
   var note = $('pushNote');
+  var step = 'start';
   try {
     if (Notification.permission === 'denied') {
       if (note) note.textContent = t('pushBlocked');
       $('pushChk').checked = false;
       return;
     }
+    step = 'permission';
     var perm = await Notification.requestPermission();
     if (perm !== 'granted') {
       if (note) note.textContent = t('pushOff');
       $('pushChk').checked = false;
       return;
     }
+    step = 'sw-reg';
     var reg = await getReg();
     if (!reg) throw new Error('no sw');
     // Clear any stale subscription (e.g. from a previous VAPID key) before subscribing
+    step = 'unsubscribe-old';
     try {
       var oldSub = await reg.pushManager.getSubscription();
       if (oldSub) await oldSub.unsubscribe();
     } catch (e) {}
     // VAPID public key from worker
+    step = 'vapid-key';
     var kr = await fetch(PUSH_API + '/api/vapid-key');
     var kj = await kr.json();
+    step = 'subscribe';
     var sub = await reg.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: b64ToBytes(kj.key),
     });
     var sj = sub.toJSON();
+    step = 'server-subscribe';
     var res = await fetch(PUSH_API + '/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -210,7 +217,8 @@ async function enable() {
     if (note) note.textContent = t('pushOn');
     toast(t('pushEnabled'));
   } catch (e) {
-    if (note) note.textContent = t('pushError');
+    var msg = t('pushError') + ' (' + step + ': ' + (e && e.message ? e.message : e) + ')';
+    if (note) note.textContent = msg;
     var c = $('pushChk'); if (c) c.checked = false;
   }
 }
