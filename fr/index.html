@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<!-- HEADER/MARKUP: keep in sync with /tr/index.html -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0f1e" />
+  <meta name="description" content="Horaires de prière sans pub, qibla, calendrier mensuel et lecteur du Coran." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DailyDeenHub" />
+  <meta property="og:title" content="DailyDeenHub — Horaires de Prière" />
+  <meta property="og:description" content="Horaires de prière sans pub, qibla, calendrier mensuel et lecteur du Coran." />
+  <meta property="og:url" content="https://dailydeenhub.com/fr/" />
+  <meta property="og:image" content="https://dailydeenhub.com/icon-512.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DailyDeenHub — Horaires de Prière" />
+  <meta name="twitter:description" content="Horaires de prière sans pub, qibla, calendrier mensuel et lecteur du Coran." />
+  <meta name="twitter:image" content="https://dailydeenhub.com/icon-512.png" />
+  <link rel="canonical" href="https://dailydeenhub.com/fr/" />
+  <link rel="alternate" hreflang="en" href="https://dailydeenhub.com/" />
+  <link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/" />
+  <link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/" />
+  <link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/" />
+  <title>DailyDeenHub — Prayer Times</title>
+  <!-- deploy retrigger 2026-10-13 -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
+  <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/fonts.css?v=2" />
+  <link rel="stylesheet" href="/styles.css?v=136" />
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
+<script src="/ga.js?v=1"></script>
+</head>
+<body>
+  <header class="app-hdr">
+    <div class="hdr-in">
+      <button class="hdr-place" id="locBtn" type="button">
+        <b id="locLabel">Montreal</b>
+        <span id="hdrMethod">—</span>
+      </button>
+      <div class="hdr-wx" id="hdrWx">
+        <span class="wx-t" id="wxTemp">—</span>
+        <span class="wx-c" id="wxCond">—</span>
+      </div>
+    </div>
+  </header>
+  <section class="hero" id="homeHero">
+    <div class="hero-label" id="nextName">—</div>
+    <div class="hero-clock" id="countdown">--:--:--</div>
+    <div class="date-pill"><span id="gDate">—</span><span class="dp-dot">•</span><span id="hDate">—</span></div>
+    <div class="hero-sub" id="nextMeta">—</div>
+    <div class="hero-k" id="kerahat"></div>
+    <div class="note" id="sourceLine" style="display:none"></div>
+  </section>
+  <main class="app-main">
+    <h1 class="sr-only">DailyDeenHub — Prayer Times</h1>
+  <div id="panel-home">
+    <div id="gridDayBar" class="grid-daybar hidden">
+      <button type="button" class="icon-btn" id="gridDayPrev" aria-label="Previous day">«</button>
+      <button type="button" class="grid-daylabel" id="gridDayLabel"></button>
+      <button type="button" class="icon-btn" id="gridDayNext" aria-label="Next day">»</button>
+    </div>
+    <div class="strip" id="vaktGrid"></div>
+    <div class="tracker" id="trackerBox"></div>
+    <div class="quick">
+      <button class="qc" type="button" data-goto="qibla"><span class="qc-i">🧭</span><span data-i="qiblaTab">Qibla</span></button>
+      <button class="qc" type="button" data-goto="quran"><span class="qc-i">📖</span><span data-i="quranTab">Quran</span></button>
+      <button class="qc" type="button" data-goto="quiet"><span class="qc-i">📿</span><span data-i="tasbihTitle">Tasbih</span></button>
+      <button class="qc" type="button" data-goto="mosques"><span class="qc-i">🕌</span><span data-i="mosquesTab">Find</span></button>
+    </div>
+    <section class="moment">
+      <h2 data-i="momentTitle">A moment for today</h2>
+      <p class="moment-sub"><span data-i="momentSub">Read, reflect, then share with someone you love.</span><span class="moment-lang">ⓘ <span data-i="momentLang">Cards follow your selected language</span></span></p>
+      <div class="moment-cards">
+        <article class="mcard" id="mAyah">
+          <img class="mcard-bg" id="mAyahBg" alt="" loading="lazy">
+          <div class="mcard-veil"></div>
+          <span class="mcard-pill" data-i="verseOfDay">Ayah of the day</span>
+          <div class="mcard-body">
+            <div class="mcard-ar" id="mAyahAr">—</div>
+            <p class="mcard-tx" id="mAyahTx">—</p>
+            <p class="mcard-ref" id="mAyahRef">—</p>
+            <p class="mcard-wm">— dailydeenhub</p>
+          </div>
+          <button class="mcard-share" type="button" data-mshare="verse" style="background:#e8734a"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg> <span data-i="cardsShare">Share</span></button>
+        </article>
+        <article class="mcard" id="mHadith">
+          <img class="mcard-bg" id="mHadithBg" alt="" loading="lazy">
+          <div class="mcard-veil"></div>
+          <span class="mcard-pill" data-i="hadithOfDay">Hadith of the day</span>
+          <div class="mcard-body">
+            <p class="mcard-tx" id="mHadithTx">—</p>
+            <p class="mcard-ref" id="mHadithRef">—</p>
+            <p class="mcard-wm">— dailydeenhub</p>
+          </div>
+          <button class="mcard-share" type="button" data-mshare="hadith" style="background:#22c55e"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg> <span data-i="cardsShare">Share</span></button>
+        </article>
+        <article class="mcard" id="mDua">
+          <img class="mcard-bg" id="mDuaBg" alt="" loading="lazy">
+          <div class="mcard-veil"></div>
+          <span class="mcard-pill" data-i="duaOfDay">Dua of the day</span>
+          <div class="mcard-body">
+            <div class="mcard-ar" id="mDuaAr">—</div>
+            <p class="mcard-tx" id="mDuaTx">—</p>
+            <p class="mcard-ref" id="mDuaRef">—</p>
+            <p class="mcard-wm">— dailydeenhub</p>
+          </div>
+          <button class="mcard-share" type="button" data-mshare="dua" style="background:#3b82f6"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg> <span data-i="cardsShare">Share</span></button>
+        </article>
+        <article class="mcard" id="mAsma">
+          <img class="mcard-bg" id="mAsmaBg" alt="" loading="lazy">
+          <div class="mcard-veil"></div>
+          <span class="mcard-pill" data-i="asmaDay">Asma-ul Husna</span>
+          <div class="mcard-body">
+            <div class="mcard-ar" id="mAsmaAr">—</div>
+            <p class="mcard-tx" id="mAsmaTx">—</p>
+            <p class="mcard-ref" id="mAsmaRef">—</p>
+            <p class="mcard-wm">— dailydeenhub</p>
+          </div>
+          <button class="mcard-share" type="button" data-mshare="asma" style="background:#a855f7"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg> <span data-i="cardsShare">Share</span></button>
+        </article>
+      </div>
+      <article class="mcard mcard-names" id="mNames">
+        <span class="mcard-pill" data-i="namesDay">Names of the day</span>
+        <div class="mcard-faces">
+          <img src="/cards/baby-boy.webp" alt="" loading="lazy">
+          <img src="/cards/baby-girl.webp" alt="" loading="lazy">
+        </div>
+        <div class="mcard-body">
+          <p class="name-line" id="mBoyName">—</p>
+          <p class="name-line" id="mGirlName">—</p>
+          <p class="mcard-wm">— dailydeenhub</p>
+        </div>
+      </article>
+    </section>
+    <section class="panel pad radio" id="radioCard">
+      <div class="row" style="margin-top:0">
+        <h2 data-i="radioTitle" style="margin:0;flex:1">Quran radio</h2>
+        <button class="primary" id="radioBtn" type="button" data-i="radioPlay">Listen</button>
+      </div>
+      <div class="stations" id="stations"></div>
+      <audio id="radioAudio" preload="none"></audio>
+    </section>
+  </div>
+    <div class="wrap">
+
+    <section id="panel-month" class="layout hidden">
+      <div class="panel pad">
+        <h2 id="monthHeading">This month</h2>
+        <p class="hint" id="monthNote"></p>
+        <div class="row">
+          <button class="ghost" id="calPrev" type="button" aria-label="Previous month">‹</button>
+          <button class="ghost" id="monthMode" type="button" data-i="thisMonth">This month</button>
+          <button class="ghost" id="ramadanMode" type="button" data-i="ramadan">Ramadan</button>
+          <button class="ghost" id="calNext" type="button" aria-label="Next month">›</button>
+        </div>
+        <div class="row" id="ramadanSubRow" style="display:none;margin-top:8px">
+          <button class="ghost" id="ramTimes" type="button"><span data-i="ramTimes">Prayer times</span></button>
+          <button class="ghost" id="ramFasts" type="button"><span data-i="ramFasts">My fasts</span></button>
+        </div>
+        <div id="ramadanFasts" style="display:none"></div>
+        <div id="calDetail" class="cal-detail"></div>
+        <div class="scroll"><table><thead><tr>
+          <th data-i="thDate">Date</th><th data-i="fajr">Fajr</th><th data-i="sun">Sunrise</th>
+          <th data-i="dhuhr">Dhuhr</th><th data-i="asr">Asr</th><th data-i="maghrib">Maghrib</th><th data-i="isha">Isha</th>
+        </tr></thead><tbody id="monthBody"></tbody></table></div>
+      </div>
+      <div class="panel pad">
+        <h2 data-i="ayahTitle">A verse for the day</h2>
+        <div class="ayah" id="ayahAr"></div>
+        <p class="hint" id="ayahText"></p>
+        <div class="kicker" id="ayahRef"></div>
+      </div>
+    </section>
+    <section id="panel-qibla" class="layout hidden">
+      <div class="panel pad" id="compassView">
+        <div class="compass">
+          <svg viewBox="0 0 220 220" aria-label="Qibla compass">
+            <path d="M110 6 L118 22 H102 Z" fill="#d4a574"/>
+            <g id="dial"></g>
+          </svg>
+        </div>
+        <div class="row" style="justify-content:center;margin-top:2px"><button id="compassBtn" type="button" data-i="compass">Use compass</button></div>
+        <p class="hint" id="qiblaCheck"></p>
+        <p class="hint" id="qiblaDistance"></p>
+        <p class="hint" id="qiblaLocNote" style="color:var(--gold,#d4a574)"></p>
+        <p class="hint" id="qiblaTurn"></p>
+      </div>
+      <div class="panel pad hidden" id="kaabaView">
+        <p class="hint" id="kaabaHint" data-i="kaabaHint">Hold your phone upright and turn until the Kaaba is centered.</p>
+        <div class="kaaba-pano"><img id="kaabaImg" src="/images/kaaba-pano.webp" alt="Kaaba" /></div>
+        <div class="deg" id="kaabaDeg">—°</div>
+        <p class="hint" id="kaabaTurn" style="text-align:center"></p>
+      </div>
+      <div class="panel pad map-panel">
+        <h2 data-i="mapTitle">Qibla map</h2>
+        <p class="hint" data-i="mapBody">Drag the map. The curve is the great-circle path to the Kaaba, and it redraws from the center.</p>
+        <iframe id="qiblaFrame" class="qibla-frame" title="Qibla map" src="/qibla?embed=1&lat=45.5017&lon=-73.5673&name=Montreal"></iframe>
+        <div class="row"><a id="qiblaOpen" href="/qibla.html" data-i="openMap">Open Qibla map</a></div>
+      </div>
+    </section>
+    <section id="panel-quran" class="quran-layout hidden">
+      <div class="panel pad">
+        <h2 data-i="quranTitle">Quran</h2>
+        <div class="surah-picker">
+          <input class="search" id="surahSearch" data-i-ph="surahPh" placeholder="Find a surah" autocomplete="off" />
+          <div class="chapters surah-drop hidden" id="chapterList"></div>
+        </div>
+        <div class="surah-picker" style="margin-top:8px">
+          <div class="vsearch-row">
+            <input class="search" id="verseSearch" data-i-ph="verseSearchPh" placeholder="Search verses…" autocomplete="off" />
+            <button class="icon-btn mic-btn" id="voiceSearchBtn" type="button" data-i-aria="voiceBtn" aria-label="Find a recited verse">🎙</button>
+          </div>
+          <p class="hint" data-i="voiceNote" style="margin:6px 2px 0"></p>
+          <div class="chapters surah-drop hidden" id="verseResults"></div>
+        </div>
+      </div>
+      <div class="panel pad">
+        <div class="row" style="margin-top:0">
+          <h2 id="surahTitle" style="margin:0;flex:1">Al-Fatihah</h2>
+          <select id="reciterSel" class="field" style="width:auto"></select>
+          
+        </div>
+                <div class="row" style="margin-top:10px;gap:10px;flex-wrap:wrap;align-items:center">
+          <div class="seg" id="quranViewSeg">
+            <button type="button" data-qv="none" data-i="qvNone">None</button>
+            <button type="button" data-qv="trans" data-i="qvTrans">Translation</button>
+            <button type="button" data-qv="pron" data-i="qvPron">Pronunciation</button>
+            <button type="button" data-qv="both" data-i="qvBoth">Both</button>
+            <button type="button" data-qv="mushaf" data-i="qvMushaf">Mushaf</button>
+          </div>
+          <label style="display:flex;gap:6px;align-items:center;font-size:14px"><input type="checkbox" id="followChk" /> <span data-i="followLbl">Follow recitation</span></label>
+        </div>
+        <audio id="audio" preload="metadata" style="width:100%;margin-top:12px" controls></audio>
+        <div id="verses" class="scroll" style="max-height:640px"></div>
+      </div>
+    </section>
+    <section id="panel-quiet" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="tasbihTitle">Tasbih</h2>
+        <div class="seg" id="tasbihModeSeg" style="margin-bottom:12px">
+          <button type="button" data-tm="classic" data-i="tmClassic">Classic</button>
+          <button type="button" data-tm="beads" data-i="tmBeads">Beads</button>
+        </div>
+        <div id="tasbihClassic" class="tasbih-stage">
+          <p class="sub" id="tasbihPhrase">Subhanallah</p>
+          <div class="tasbih-bigcount"><b id="tasbihCount">0</b></div>
+          <p class="tasbih-hint"><span data-i="tap">Tap anywhere to count</span></p>
+          <p class="note" id="tasbihNote"></p>
+          <div class="row" style="justify-content:center"><button class="ghost" id="tasbihReset" type="button" data-i="reset">Reset</button></div>
+        </div>
+        <div id="tasbihBeads" class="bead-stage hidden">
+          <p class="sub" id="beadPhrase">Subhanallah</p>
+          <div class="bead-count"><b id="beadCount">0</b> <span id="beadTarget">/ 33</span></div>
+          <p class="note" id="beadLoop" style="text-align:center">Loop 1</p>
+          <div id="beadStage"><div id="beadStrip"></div></div>
+          <p class="hint" style="text-align:center" data-i="beadTap">Tap anywhere — each tap moves one bead</p>
+          <div class="bead-styles" id="beadStyles"></div>
+          <div class="row" style="justify-content:center"><button class="ghost" id="beadReset" type="button" data-i="reset">Reset</button></div>
+        </div>
+      </div>
+      <div class="panel pad"><h2 data-i="focusTitle">No ads</h2><p class="hint" id="focusBody"></p></div>
+    </section>
+    <section id="panel-mosques" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="mosquesTitle">Find nearby</h2>
+        <p class="sub" data-i="mosquesSub">Mosques and halal restaurants near you, from OpenStreetMap.</p>
+        <div class="row" style="margin-top:0">
+          <button class="primary" id="mosqueFind" type="button" data-i="mosquesFind">Find mosques near me</button>
+          <button class="primary" id="halalFind" type="button" data-i="halalFind">Find halal restaurants near me</button>
+          <button class="primary" id="marketFind" type="button" data-i="marketFind">Find halal markets/butchers near me</button>
+        </div>
+                <div class="row" style="margin-top:8px">
+          <button class="primary" id="mqAddMosque" type="button" data-i="addMosque">Add mosque</button>
+          <button class="primary" id="mqAddPrayer" type="button" data-i="addPrayer">Add prayer room</button>
+        </div>
+        <div id="mosqueList" class="mosque-list"></div>
+        <p class="note" style="margin-top:10px"><a href="#" id="mqSuggest" data-i="mqSuggest" style="color:var(--gold)">Missing a place? Suggest it to us →</a></p>
+      </div>
+    </section>
+
+    <section id="panel-live" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="liveTitle">Watch Live</h2>
+        <p class="sub" data-i="liveSub">Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.</p>
+        <div class="live-card">
+          <h3>🕋 <span data-i="liveHaram">Masjid al-Haram — Makkah</span> <span class="live-badge" data-i="liveBadge">● LIVE</span></h3>
+          <div class="live-frame"><iframe id="liveHaramFrame" data-live="haram" title="Masjid al-Haram live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <p class="note"><a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener" data-i="liveYt">Watch on YouTube</a></p>
+        </div>
+        <div class="live-card">
+          <h3>🕌 <span data-i="liveNabawi">Masjid an-Nabawi — Madinah</span> <span class="live-badge" data-i="liveBadge">● LIVE</span></h3>
+          <div class="live-frame"><iframe id="liveNabawiFrame" data-live="nabawi" title="Masjid an-Nabawi live" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <p class="note"><a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener" data-i="liveYt">Watch on YouTube</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-feedback" class="layout hidden">
+      <div class="panel pad">
+        <h2 data-i="fbTitle">Feedback &amp; requests</h2>
+        <p class="sub" data-i="fbSub">Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.</p>
+        <form id="fbForm" novalidate>
+          <label class="field"><span data-i="fbType">Type</span>
+            <select id="fbTypeSel" class="field">
+              <option value="Feedback" data-i="fbOptFeedback">Feedback</option>
+              <option value="Problem" data-i="fbOptProblem">Report a problem</option>
+              <option value="Request" data-i="fbOptRequest">Feature request</option>
+              <option value="Suggestion" data-i="fbOptSuggestion">Suggestion</option>
+            </select></label>
+          <label class="field"><span data-i="fbMsg">Your message</span>
+            <textarea id="fbMsgTxt" class="field" rows="5" maxlength="2000" data-i-ph="fbMsgPh" placeholder="Write your message…"></textarea></label>
+          <label class="field"><span data-i="fbName">Name (optional)</span>
+            <input id="fbNameInp" class="field" type="text" maxlength="80" autocomplete="name" /></label>
+          <label class="field"><span data-i="fbEmail">Email (optional — only if you want a reply)</span>
+            <input id="fbEmailInp" class="field" type="email" maxlength="120" autocomplete="email" /></label>
+          <input type="text" id="fbHoney" style="display:none" tabindex="-1" autocomplete="off" />
+          <div class="row"><button class="primary" id="fbSend" type="submit" data-i="fbSend">Send feedback</button></div>
+          <p class="note" id="fbStatus" style="margin-top:10px"></p>
+        </form>
+      </div>
+    </section>
+    <section id="panel-settings" class="layout hidden">
+      <div class="panel pad narrow">
+      <div id="setMain">
+        <h3 data-i="setTitle">Settings</h3>
+        <button class="menu-row" data-setgo="loc" type="button"><span>📍 <span data-i="setLoc">Location</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="calc" type="button"><span>🕌 <span data-i="setCalc">Prayer Calculation</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="remind" type="button"><span>⏰ <span data-i="setRemind">Reminders</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="appear" type="button"><span>🌐 <span data-i="setAppear">Language</span></span><span>›</span></button>
+        <button class="menu-row" data-setgo="notif" type="button"><span>🔔 <span data-i="setNotif">Notifications</span></span><span>›</span></button>
+      </div>
+      <div id="setSub-loc" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setLoc">Location</span></h3>
+        <p class="note" data-i="locNote">Choose your city for accurate prayer times.</p>
+        <div class="row"><button class="primary" id="setLocBtn" type="button" data-i="changeCity">Change city</button></div>
+        <label class="field"><span data-i="langLbl">Language</span>
+          <select id="langSel2" class="field">
+            <option value="system" data-i="langSystem">System</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+            <option value="fr">Français</option>
+          </select>
+        </label>
+      </div>
+      <div id="setSub-calc" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setCalc">Prayer Calculation</span></h3>
+        <label class="field"><span data-i="method">Calculation method</span><select id="methodSel" class="field"></select></label>
+        <label class="field"><span data-i="madhab">Asr madhab</span>
+          <select id="schoolSel" class="field">
+            <option value="0">Shafi / Maliki / Hanbali</option>
+            <option value="1">Hanafi</option>
+          </select>
+        </label>
+        <p class="note" data-i="methodNote">Times are calculated, not an official mosque feed. Diyanet suits Turkey; ISNA is the Montreal default.</p>
+      </div>
+      <div id="setSub-remind" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setRemind">Reminders</span></h3>
+        <div class="field"><span data-i="remindBefore">Minutes before prayer</span><div id="remindRows" class="rrows"></div></div>
+        <div class="field"><span data-i="soundLbl">Alert sound</span>
+          <div class="sound-row"><select id="soundSel" class="field"></select><button class="icon-btn" id="soundPreview" type="button" aria-label="Preview sound">▶</button></div>
+        </div>
+        <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Upload custom sound</span><input id="soundFile" type="file" accept="audio/*" class="field" /><small id="soundUploadNote" class="muted" data-i="uploadNote">On iPhone, tapping Upload may ask for photo access — the app never sees your photos; choose Files to pick an audio file.</small></label>
+      </div>
+      <div id="setSub-appear" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setAppear">Language</span></h3>
+        
+        <label class="field"><span data-i="langLbl">Language</span>
+          <select id="langSel" class="field">
+            <option value="system" data-i="langSystem">System</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+            <option value="fr">Français</option>
+          </select>
+        </label>
+      </div>
+      <div id="setSub-notif" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setNotif">Notifications</span></h3>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Prayer alerts (even when the app is closed)</span></label>
+        <p class="note" id="pushNote" style="margin-top:-6px"></p>
+        <div id="installRow" class="hidden" style="margin-top:2px">
+          <p class="note" id="installHint" style="margin:0 0 8px"></p>
+          <button id="installBtn" class="primary hidden" type="button"></button>
+        </div>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="notifyChk" type="checkbox" /> <span data-i="notify">Notify while the App is open</span></label>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="adhanChk" type="checkbox" /> <span data-i="adhanAtTime">Play adhan at prayer time</span></label>
+        <p class="note" data-i="adhanNote">Plays the full adhan when the tab is open.</p>
+        <label class="field" style="display:flex;gap:8px;align-items:center"><input id="vibChk" type="checkbox" /> <span data-i="vibLbl">Vibration</span></label>
+        <div class="field" style="margin-top:14px"><span data-i="widgetLbl">Widget</span><p class="note" data-i="widgetNote">Home-screen widget settings will appear here soon.</p></div>
+      </div>
+        <div class="set-foot hidden"><button class="primary" id="setClose" type="button" data-i="done">Done</button></div>
+      </div>
+    </section>
+    <section id="panel-more" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="moreTitle">More</h3>
+        <div class="more-grid">
+          <button class="tile" data-morego="month" type="button"><span class="tic">🗓</span><span class="tlabel" data-i="dualCal">Dual calendar</span></button>
+          <button class="tile" data-morego="ramadan" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="ramadan">Ramadan</span></button>
+          <button class="tile" data-goto="extra" type="button"><span class="tic">⏰</span><span class="tlabel" data-i="extraRem">Extra reminders</span></button>
+          <button class="tile" data-goto="holydays" type="button"><span class="tic">🌙</span><span class="tlabel" data-i="holyDays">Holy days</span></button>
+          <button class="tile" data-goto="cards" type="button"><span class="tic">💌</span><span class="tlabel" data-i="cardsTile">Greeting cards</span></button>
+          <button class="tile" data-goto="learn" type="button"><span class="tic">📚</span><span class="tlabel" data-i="learnTile">Learning</span></button>
+          <button class="tile" data-goto="quran" type="button"><span class="tic">📖</span><span class="tlabel" data-i="quranTab">Quran</span></button>
+          <button class="tile" id="voiceTile" type="button"><span class="tic">🎙</span><span class="tlabel" data-i="voiceTile">Voice search</span></button>
+          <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Qibla</span></button>
+          <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Mosques</span></button>
+          <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tasbih</span></button>
+          <button class="tile" data-goto="live" type="button"><span class="tic">📺</span><span class="tlabel" data-i="watchLive">Watch Live</span></button>
+          <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Feedback</span></button>
+          <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Quran radio</span></button>
+          <button class="tile" data-goto="hisnul" type="button"><span class="tic">🤲</span><span class="tlabel" data-i="hisnul">Hisnul Muslim</span></button>
+          <button class="tile" data-goto="qadha" type="button"><span class="tic">✅</span><span class="tlabel" data-i="qadha">Qadha prayers</span></button>
+          <button class="tile" data-goto="khatm" type="button"><span class="tic">📗</span><span class="tlabel" data-i="khatm">Khatms</span></button>
+          <button class="tile" data-goto="resources" type="button"><span class="tic">📚</span><span class="tlabel" data-i="resources">Resources</span></button>
+          <button class="tile" data-goto="library" type="button"><span class="tic">🏛</span><span class="tlabel" data-i="libraryTile">Library</span></button>
+          <button class="tile" data-goto="articles" type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Articles</span></button>
+        </div>
+        <p class="more-legal"><a href="/about.html" data-i="aboutL">About</a> · <a href="/privacy.html" data-i="privacyL">Privacy</a> · <a href="/terms.html" data-i="termsL">Terms</a></p>
+      </div>
+    </section>
+
+    <section id="panel-articles" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="articlesTitle">About &amp; FAQ</h3>
+        <p class="note" data-i="articlesSub">How DailyDeenHub works, and answers to common questions.</p>
+        <div id="articlesList" class="art-list"></div>
+      </div>
+    </section>
+
+    <section id="panel-khatm" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="khatmTitle">Khatms</h3>
+        <p class="note" data-i="khatmSub">Track your Quran completions, Juz by Juz. Tap a Juz to mark it read.</p>
+        <div id="khatmTabs" class="khatm-tabs"></div>
+        <div id="khatmProg" class="khatm-prog"></div>
+        <div id="khatmGrid" class="khatm-grid"></div>
+        <div id="khatmNewWrap" class="hidden" style="margin-top:10px;display:flex;gap:8px">
+          <input id="khatmNameIn" class="field" style="flex:1" maxlength="40">
+          <button class="ghost" id="khatmNameGo" type="button">✓</button>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="ghost" id="khatmNew" type="button"><span data-i="khatmNew">+ New khatm</span></button>
+          <button class="ghost danger" id="khatmDel" type="button"><span data-i="khatmDelete">Delete</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-extra" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="extraRem">Extra reminders</h3>
+        <p class="note" data-i="extraSub">Wake-up and fasting reminders, anchored to prayer times.</p>
+        <div id="extraRows" class="rrows"></div>
+        <p class="note" data-i="extraHonest">These are reminders, not alarms — notifications are best-effort, especially with the tab closed. Keep a phone alarm for sahur.</p>
+      </div>
+    </section>
+
+    <section id="panel-holydays" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="holyDays">Holy days</h3>
+        <p class="note" data-i="holyDaysSub">Islamic holy days and kandil nights.</p>
+        <div id="holyDaysList" class="rrows"></div>
+        <p class="note" data-i="holyDaysNote">Dates follow Diyanet (Türkiye); they can differ by country and moon sighting.</p>
+      </div>
+    </section>
+
+    <section id="panel-cards" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="cardsTile">Greeting cards</h3>
+        <p class="note" data-i="cardsSub">Pick a background, write your message, share it with loved ones.</p>
+        <div id="cardsHoly"></div>
+        <div id="greetWrap">
+          <p class="note" data-i="greetTitle">Ready-made greetings</p>
+          <div id="greetGallery" class="greet-grid"></div>
+        </div>
+        <div id="cardsGalleryWrap">
+          <p class="note" data-i="cardsPickBg">Choose a background</p>
+          <div id="cardsGallery" class="cards-grid"></div>
+        </div>
+        <div id="cardsEditor" class="hidden">
+          <div id="cardStage" class="card-stage">
+            <img id="cardBgImg" alt="">
+            <div id="cardText" contenteditable="true" spellcheck="false" data-i-ph="cardsTapType" placeholder="Tap to write…"></div>
+            <div id="cardWH" class="card-wh hidden"></div>
+            <div id="cardWHr" class="card-wh hidden"></div>
+            <button id="cardBackBtn" class="fabbtn small" type="button">←</button>
+            <button id="cardShareFab" class="fabbtn small" type="button">⤴</button>
+            <button id="cardPlusFab" class="fabbtn" type="button">+</button>
+            <div id="cardPlusMenu" class="hidden">
+              <button type="button" data-m="bg">🖼 <span data-i="cardsMnuBg">Background</span></button>
+              <button type="button" data-m="text">🔤 <span data-i="cardsMnuText">Text</span></button>
+              <button type="button" data-m="adj">☀️ <span data-i="cardsMnuAdj">Adjust</span></button>
+            </div>
+            <div id="cardSheet" class="hidden"></div>
+          </div>
+          <button id="cardBigShare" class="greet-share" type="button" style="background:#3b82f6"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg> <span data-i="cardsShare">Share</span></button>
+          <p id="cardsToast" class="note hidden"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-learn" class="layout hidden">
+      <div class="panel pad narrow">
+        <div id="learnListView">
+          <h3 data-i="learnTitle">Learning Center</h3>
+          <p class="note" data-i="learnSub">Step-by-step guides, daily duas and the essentials of the faith.</p>
+          <div id="learnList" class="learn-list"></div>
+          <div class="learn-support">
+            <p><span data-i="learnSupportTx">DailyDeenHub is free and always will be. If these lessons helped you, consider supporting the project.</span></p>
+            <p><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Support us</span></a></p>
+          </div>
+        </div>
+        <div id="learnArticleView" class="hidden">
+          <button class="ghost" id="learnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <article id="learnArticle" class="learn-article"></article>
+        </div>
+      </div>
+    </section>
+    <section id="panel-qadha" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="qadhaTitle">Qadha Prayers</h3>
+        <p class="note" data-i="qadhaSub">Missed a prayer? Log it here, then mark each one as you make it up.</p>
+        <div id="qadhaTotal" class="qadha-total"></div>
+        <div id="qadhaList" class="qadha-list"></div>
+        <button class="ghost" id="qadhaMissDay" type="button"><span data-i="qadhaMissDay">+ Missed a full day</span></button>
+        <div id="qadhaRecent"></div>
+        <p class="qadha-xlink"><button id="qadhaGoRamadan" type="button"><span data-i="qadhaRamadanNote">Fasting too? Track your Ramadan fasts the same way →</span></button></p>
+      </div>
+    </section>
+
+    <section id="panel-resources" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="resTitle">Kutub al-Sittah</h3>
+        <p class="note" data-i="resSub">The six canonical hadith collections.</p>
+        <div id="resSearchWrap"></div>
+        <div id="kutubList" class="kutub-list"></div>
+      </div>
+    </section>
+
+    <section id="panel-library" class="layout hidden">
+      <div class="panel pad narrow">
+        <div id="libMain">
+          <h3 data-i="libraryTitle">Library</h3>
+          <p class="note" data-i="librarySub">In-app books open instantly; external links open trusted free libraries.</p>
+          <div id="libraryGrid" class="shelf"></div>
+        </div>
+        <div id="libAsr" class="hidden">
+          <button class="ghost" id="asrBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <h4 id="asrTitle" style="margin:10px 0"></h4>
+          <div id="asrList" class="learn-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-hadith" class="layout hidden">
+      <div class="panel pad narrow">
+        <div id="hadithView"></div>
+      </div>
+    </section>
+
+    <section id="panel-hisnul" class="layout hidden">
+      <div class="panel pad narrow">
+        <div id="hsnulCatsView">
+          <h3 data-i="hisnulTitle">Hisnul Muslim</h3>
+          <p class="note" data-i="hisnulSub">Authentic daily duas — Arabic, transliteration and translation.</p>
+          <div id="hsnulList" class="learn-list"></div>
+        </div>
+        <div id="hsnulDuaView" class="hidden">
+          <button class="ghost" id="hsnBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
+          <article id="hsnulArticle" class="learn-article"></article>
+        </div>
+      </div>
+    </section>
+
+    </div>
+    <footer class="foot">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand" data-i="brand">Daily Deen Hub</div>
+          <p class="footer-tag" data-i="footTag">Free prayer times, qibla, Quran and more. No account, no ads.</p>
+          <p class="footer-copy">&copy; 2026 DailyDeenHub.com</p>
+          <p class="foot-quiet"><a href="https://buy.stripe.com/fZubJ33xK4cu1W96k15gc00" target="_blank" rel="noopener"><span data-i="supportUs">Support us</span></a></p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footFeatures">Features</h4>
+          <ul>
+            <li><a href="#" data-goto="month" data-i="monthTab">Month</a></li>
+            <li><a href="#" data-goto="qibla" data-i="qiblaTab">Qibla</a></li>
+            <li><a href="#" data-goto="quran" data-i="quranTab">Quran</a></li>
+            <li><a href="#" data-goto="quiet" data-i="tasbihTitle">Tasbih</a></li>
+            <li><a href="#" data-goto="mosques" data-i="mosquesTab">Find</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footResources">Resources</h4>
+          <ul>
+            <li><a href="/about.html" data-i="menuAbout">About</a></li>
+            <li><a href="/terms.html" data-i="terms">Terms</a></li>
+            <li><a href="/privacy.html" data-i="privacy">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i="footFreeTools">Free tools</h4>
+          <ul>
+            <li><a href="https://jsm-image.com" target="_blank" rel="noopener">JSM Image</a></li>
+            <li><a href="https://jsm-video.com" target="_blank" rel="noopener">JSM Video</a></li>
+            <li><a href="https://jsm-loudness.com" target="_blank" rel="noopener">JSM Loudness</a></li>
+            <li><a href="https://jsm-options.com" target="_blank" rel="noopener">JSM Options</a></li>
+            <li><a href="https://lyricprep.com" target="_blank" rel="noopener">LyricPrep</a></li>
+            <li><a href="https://jsm-enhance.com" target="_blank" rel="noopener">JSM Enhance <span class="paid-note" data-i="paidNote">(paid · no account needed)</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <div class="modal hidden" id="locModal">
+    <div class="sheet">
+      <h3 data-i="placeTitle">Place</h3>
+      <input class="search" id="citySearch" data-i-ph="searchPh" placeholder="Search a city" />
+      <ul class="results" id="cityResults"></ul>
+      <div class="row">
+        <button class="primary" id="gpsBtn" type="button" data-i="gps">Use my location</button>
+        <button class="ghost" id="locClose" type="button" data-i="close">Close</button>
+      </div>
+    </div>
+  </div>
+  <div id="verseMenu" class="vmenu hidden">
+    <button type="button" id="vmenuFrom">▶ <span data-i="vPlayFrom">Play from here</span></button>
+    <button type="button" id="vmenuOne">🔂 <span data-i="vPlayOne">Play this verse</span></button>
+  </div>
+  <div class="modal hidden" id="voiceModal">
+    <div class="sheet voice-sheet">
+      <p class="voice-title" data-i="voiceWinTitle">Find a recited verse</p>
+      <button class="voice-mic" id="voiceMicBig" type="button" data-i-aria="voiceBtn" aria-label="Find a recited verse">🎙</button>
+      <p class="voice-status" id="voiceStatus">Tap the microphone and recite</p>
+      <p class="voice-lang" data-i="voiceLangName">Arabic (Saudi Arabia)</p>
+      <p class="hint" data-i="voiceNote"></p>
+      <div class="row" style="margin-top:12px;justify-content:center">
+        <button class="ghost" id="voiceClose" type="button" data-i="close">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal hidden" id="verseModal">
+    <div class="sheet">
+      <p class="vm-key" id="vmKey"></p>
+      <p class="vm-ar" id="vmAr" dir="rtl" lang="ar"></p>
+      <p class="vm-tr" id="vmTr"></p>
+      <div class="row" style="margin-top:14px">
+        <button class="primary" id="vmPlay" type="button"><span id="vmPlayIc">▶</span> <span id="vmPlayTx" data-i="vmPlay">Play verse</span></button>
+        <button class="ghost" id="vmOpen" type="button" data-i="vmOpen">Open in reader</button>
+        <button class="ghost" id="vmClose" type="button" data-i="close">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast hidden" id="toast"></div>
+  <script src="/prayer-calc.js?v=3"></script>
+  <script src="/prayer-api.js?v=6"></script>
+  <script src="/push-alerts.js?v=14"></script>
+  <script src="/app.js?v=158"></script>
+  <script src="/learn.js?v=6"></script>
+  <script src="/hisnul.js?v=1"></script>
+  <script src="/qadha.js?v=3"></script>
+  <script src="/khatm.js?v=1"></script>
+  <script src="/articles.js?v=1"></script>
+  <script src="/ramadan.js?v=1"></script>
+  <script src="/resources.js?v=7"></script>
+<script src="/hadith.js?v=9"></script>
+  <script src="/daily.js?v=13"></script>
+
+  <div class="modal hidden" id="installPopup" style="z-index:60">
+    <div class="sheet">
+      <h3 data-i="installPopTitle">Install DailyDeenHub</h3>
+      <p class="note" data-i="installPopBody">Get prayer alerts even when your browser is closed. Free, fast, no account needed.</p>
+      <p class="note hidden" id="installPopIOS" data-i="installIOS">📲 iPhone alerts need the app installed — it takes 10 seconds:<br><span class="steps">1.</span> Tap <b>Share</b> in this browser<br><span class="steps">2.</span> Tap <b>“Add to Home Screen”</b><br><span class="steps">3.</span> Open DailyDeenHub from your home screen — alerts will work there.</p>
+      <div class="row">
+        <button class="primary" id="installPopBtn" type="button" data-i="installBtn">Install app</button>
+        <button class="ghost" id="installPopLater" type="button" data-i="installPopLater">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bnav" aria-label="Main">
+    <button type="button" data-goto="home" class="on" aria-label="Home">🏠</button>
+    <button type="button" data-goto="quran" aria-label="Quran">📖</button>
+    <button type="button" data-goto="qibla" aria-label="Qibla">🧭</button>
+    <button type="button" data-goto="quiet" aria-label="Tasbih">📿</button>
+    <button type="button" data-goto="mosques" aria-label="Find">🕌</button>
+    <button type="button" id="bnavSet" aria-label="Settings">⚙</button>
+    <button type="button" data-goto="more" aria-label="More">☰</button>
+  </nav>
+</body>
+</html>
