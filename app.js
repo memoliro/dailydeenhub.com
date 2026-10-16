@@ -2089,27 +2089,27 @@ function checkExtraReminders(slots, nowMin, now) {
 
 /* ===== Holy days (More tile): Diyanet-based 2026-2027 list, EN/TR ===== */
 const HOLY_DAYS = [
-  { d: "2026-12-10", en: "The three holy months begin", tr: "Üç ayların başlangıcı", h: "Receb 1, 1448" },
-  { d: "2026-12-10", en: "Raghaib Night", tr: "Regaib Kandili", h: "Receb 1, 1448" },
-  { d: "2027-01-04", en: "Mi'raj Night", tr: "Miraç Kandili", h: "Receb 27, 1448" },
-  { d: "2027-01-22", en: "Night of Bara'ah", tr: "Berat Kandili", h: "Şaban 14, 1448" },
-  { d: "2027-02-08", en: "Ramadan begins", tr: "Ramazan başlangıcı", h: "Ramazan 1, 1448" },
-  { d: "2027-03-05", en: "Night of Decree", tr: "Kadir Gecesi", h: "Ramazan 27, 1448" },
-  { d: "2027-03-08", en: "Eid al-Fitr Eve", tr: "Ramazan Bayramı arefesi", h: "Ramazan 29, 1448" },
-  { d: "2027-03-09", en: "Eid al-Fitr (Day 1)", tr: "Ramazan Bayramı 1. gün", h: "Şevval 1, 1448" },
-  { d: "2027-03-10", en: "Eid al-Fitr (Day 2)", tr: "Ramazan Bayramı 2. gün", h: "Şevval 2, 1448" },
-  { d: "2027-03-11", en: "Eid al-Fitr (Day 3)", tr: "Ramazan Bayramı 3. gün", h: "Şevval 3, 1448" },
-  { d: "2027-05-15", en: "Eid al-Adha Eve", tr: "Kurban Bayramı arefesi", h: "Zilhicce 9, 1448" },
-  { d: "2027-05-16", en: "Eid al-Adha (Day 1)", tr: "Kurban Bayramı 1. gün", h: "Zilhicce 10, 1448" },
-  { d: "2027-05-17", en: "Eid al-Adha (Day 2)", tr: "Kurban Bayramı 2. gün", h: "Zilhicce 11, 1448" },
-  { d: "2027-05-18", en: "Eid al-Adha (Day 3)", tr: "Kurban Bayramı 3. gün", h: "Zilhicce 12, 1448" },
-  { d: "2027-05-19", en: "Eid al-Adha (Day 4)", tr: "Kurban Bayramı 4. gün", h: "Zilhicce 13, 1448" },
-  { d: "2027-06-06", en: "Islamic New Year (1449)", tr: "Hicri yılbaşı (1449)", h: "Muharrem 1, 1449" },
-  { d: "2027-06-15", en: "Day of Ashura", tr: "Aşure günü", h: "Muharrem 10, 1449" },
-  { d: "2027-08-13", en: "Mawlid — Prophet's birthday", tr: "Mevlid Kandili", h: "Rebiülevvel 12, 1449" },
-  { d: "2027-11-29", en: "The three holy months begin", tr: "Üç ayların başlangıcı", h: "Receb 1, 1449" },
-  { d: "2027-12-02", en: "Raghaib Night", tr: "Regaib Kandili", h: "Receb 4, 1449" },
-  { d: "2027-12-24", en: "Mi'raj Night", tr: "Miraç Kandili", h: "Receb 27, 1449" },
+  { d: "2026-12-10", en: "The three holy months begin", tr: "Üç ayların başlangıcı", fr: "Début des trois mois sacrés", h: "Receb 1, 1448", fr_h: "Rajab 1, 1448" },
+  { d: "2026-12-10", en: "Raghaib Night", tr: "Regaib Kandili", fr: "Nuit de Raghaïb", h: "Receb 1, 1448", fr_h: "Rajab 1, 1448" },
+  { d: "2027-01-04", en: "Mi'raj Night", tr: "Miraç Kandili", fr: "Nuit du Mi'raj", h: "Receb 27, 1448", fr_h: "Rajab 27, 1448" },
+  { d: "2027-01-22", en: "Night of Bara'ah", tr: "Berat Kandili", fr: "Nuit de Bara'ah", h: "Şaban 14, 1448", fr_h: "Cha'ban 14, 1448" },
+  { d: "2027-02-08", en: "Ramadan begins", tr: "Ramazan başlangıcı", fr: "Début du Ramadan", h: "Ramazan 1, 1448", fr_h: "Ramadan 1, 1448" },
+  { d: "2027-03-05", en: "Night of Decree", tr: "Kadir Gecesi", fr: "Nuit du Destin", h: "Ramazan 27, 1448", fr_h: "Ramadan 27, 1448" },
+  { d: "2027-03-08", en: "Eid al-Fitr Eve", tr: "Ramazan Bayramı arefesi", fr: "Veille de l'Aïd al-Fitr", h: "Ramazan 29, 1448", fr_h: "Ramadan 29, 1448" },
+  { d: "2027-03-09", en: "Eid al-Fitr (Day 1)", tr: "Ramazan Bayramı 1. gün", fr: "Aïd al-Fitr (Jour 1)", h: "Şevval 1, 1448", fr_h: "Chawwal 1, 1448" },
+  { d: "2027-03-10", en: "Eid al-Fitr (Day 2)", tr: "Ramazan Bayramı 2. gün", fr: "Aïd al-Fitr (Jour 2)", h: "Şevval 2, 1448", fr_h: "Chawwal 2, 1448" },
+  { d: "2027-03-11", en: "Eid al-Fitr (Day 3)", tr: "Ramazan Bayramı 3. gün", fr: "Aïd al-Fitr (Jour 3)", h: "Şevval 3, 1448", fr_h: "Chawwal 3, 1448" },
+  { d: "2027-05-15", en: "Eid al-Adha Eve", tr: "Kurban Bayramı arefesi", fr: "Veille de l'Aïd al-Adha", h: "Zilhicce 9, 1448", fr_h: "Dhou al-hijja 9, 1448" },
+  { d: "2027-05-16", en: "Eid al-Adha (Day 1)", tr: "Kurban Bayramı 1. gün", fr: "Aïd al-Adha (Jour 1)", h: "Zilhicce 10, 1448", fr_h: "Dhou al-hijja 10, 1448" },
+  { d: "2027-05-17", en: "Eid al-Adha (Day 2)", tr: "Kurban Bayramı 2. gün", fr: "Aïd al-Adha (Jour 2)", h: "Zilhicce 11, 1448", fr_h: "Dhou al-hijja 11, 1448" },
+  { d: "2027-05-18", en: "Eid al-Adha (Day 3)", tr: "Kurban Bayramı 3. gün", fr: "Aïd al-Adha (Jour 3)", h: "Zilhicce 12, 1448", fr_h: "Dhou al-hijja 12, 1448" },
+  { d: "2027-05-19", en: "Eid al-Adha (Day 4)", tr: "Kurban Bayramı 4. gün", fr: "Aïd al-Adha (Jour 4)", h: "Zilhicce 13, 1448", fr_h: "Dhou al-hijja 13, 1448" },
+  { d: "2027-06-06", en: "Islamic New Year (1449)", tr: "Hicri yılbaşı (1449)", fr: "Nouvel An islamique (1449)", h: "Muharrem 1, 1449", fr_h: "Mouharram 1, 1449" },
+  { d: "2027-06-15", en: "Day of Ashura", tr: "Aşure günü", fr: "Jour de l'Achoura", h: "Muharrem 10, 1449", fr_h: "Mouharram 10, 1449" },
+  { d: "2027-08-13", en: "Mawlid — Prophet's birthday", tr: "Mevlid Kandili", fr: "Mawlid — Naissance du Prophète", h: "Rebiülevvel 12, 1449", fr_h: "Rabi' al-awwal 12, 1449" },
+  { d: "2027-11-29", en: "The three holy months begin", tr: "Üç ayların başlangıcı", fr: "Début des trois mois sacrés", h: "Receb 1, 1449", fr_h: "Rajab 1, 1449" },
+  { d: "2027-12-02", en: "Raghaib Night", tr: "Regaib Kandili", fr: "Nuit de Raghaïb", h: "Receb 4, 1449", fr_h: "Rajab 4, 1449" },
+  { d: "2027-12-24", en: "Mi'raj Night", tr: "Miraç Kandili", fr: "Nuit du Mi'raj", h: "Receb 27, 1449", fr_h: "Rajab 27, 1449" },
 ];
 function renderHolyDays() {
   const box = document.getElementById("holyDaysList");
@@ -2124,7 +2124,7 @@ function renderHolyDays() {
     const nx = upcoming[0];
     const days = Math.floor((nx.date - today) / 86400000);
     const when = days === 0 ? t("holyDaysToday") : days === 1 ? t("holyDaysTomorrow") : days + " " + t("holyDaysInDays");
-    html += `<div class="rrow hd-next"><span>🌙 <b>${esc(nx[lang] || nx.en)}</b><br><span class="dim">${esc(nx.date.toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric", weekday: "long" }))} · ${esc(nx.h)}</span></span><span class="hd-when">${esc(when)}</span></div>`;
+    html += `<div class="rrow hd-next"><span>🌙 <b>${esc(nx[lang] || nx.en)}</b><br><span class="dim">${esc(nx.date.toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric", weekday: "long" }))} · ${esc(lang === "fr" ? (nx.fr_h || nx.h) : nx.h)}</span></span><span class="hd-when">${esc(when)}</span></div>`;
   }
   let lastYear = "";
   items.forEach(e => {
@@ -2132,7 +2132,7 @@ function renderHolyDays() {
     if (y !== lastYear) { html += `<div class="hd-year">${y}</div>`; lastYear = y; }
     const past = e.date < today;
     const isNext = upcoming.length && e.d === upcoming[0].d && e[lang] === upcoming[0][lang];
-    html += `<div class="rrow${past ? " hd-past" : ""}${isNext ? " hd-isnext" : ""}"><span><b>${esc(e[lang] || e.en)}</b><br><span class="dim">${esc(e.h)}</span></span><span class="hd-date">${esc(e.date.toLocaleDateString(loc, { day: "numeric", month: "short", weekday: "short" }))}</span></div>`;
+    html += `<div class="rrow${past ? " hd-past" : ""}${isNext ? " hd-isnext" : ""}"><span><b>${esc(e[lang] || e.en)}</b><br><span class="dim">${esc(lang === "fr" ? (e.fr_h || e.h) : e.h)}</span></span><span class="hd-date">${esc(e.date.toLocaleDateString(loc, { day: "numeric", month: "short", weekday: "short" }))}</span></div>`;
   });
   box.innerHTML = html;
 }
@@ -2301,16 +2301,23 @@ function cardApplyBg() {
 }
 function cardMsgFor(hd, lang) {
   const nm = (hd[lang] || hd.en || "").toLowerCase();
-  const isKandil = /kandil|mi'raj|bara'ah|raghaib|qadr|mawlid|decree|night/i.test(nm);
-  const isFitr = /fitr|ramazan bayram/i.test(nm);
-  const isAdha = /adha|kurban/i.test(nm);
-  const isRamadan = /ramadan begins|ramazan ba/i.test(nm);
+  const isKandil = /kandil|mi'raj|bara'ah|raghaib|qadr|mawlid|decree|night|nuit|raghaïb|destin/i.test(nm);
+  const isFitr = /fitr|ramazan bayram|aïd al-fitr/i.test(nm);
+  const isAdha = /adha|kurban|aïd al-adha/i.test(nm);
+  const isRamadan = /ramadan begins|ramazan ba|début du ramadan/i.test(nm);
   if (lang === "tr") {
     if (isFitr) return ["Ramazan Bayramınız mübarek olsun", "Hayırlı bayramlar"];
     if (isAdha) return ["Kurban Bayramınız mübarek olsun", "Hayırlı bayramlar"];
     if (isRamadan) return ["Hayırlı Ramazanlar", "Ramazanınız mübarek olsun"];
     if (isKandil) return ["Kandiliniz mübarek olsun", "Dualarınız kabul olsun"];
     return ["Mübarek olsun", "Hayırlı günler"];
+  }
+  if (lang === "fr") {
+    if (isFitr) return ["Aïd Moubarak", "Joyeux Aïd al-Fitr"];
+    if (isAdha) return ["Aïd Moubarak", "Joyeux Aïd al-Adha"];
+    if (isRamadan) return ["Ramadan Moubarak", "Bon Ramadan"];
+    if (isKandil) return ["Nuit bénie", "Qu'Allah accepte vos prières"];
+    return ["Journée bénie", "Avec nos meilleurs vœux"];
   }
   if (isFitr || isAdha) return ["Eid Mubarak", "Blessed Eid"];
   if (isRamadan) return ["Blessed Ramadan", "Ramadan Kareem"];
@@ -3137,25 +3144,25 @@ document.getElementById("voiceModal").addEventListener("click", e => { if (e.tar
 document.getElementById("voiceSearchBtn").onclick = openVoiceWindow;
 /* Library shelf: in-app books + trusted free external libraries. */
 const LIB_BOOKS = [
-  { ic: "📖", t: { en: "Ya-Sin", tr: "Yasin" }, s: { en: "Surah 36, in the reader", tr: "36. sure, okuyucuda" }, act: "yasin" },
-  { ic: "\uD83D\uDD4C", t: { en: "Prayer Guide", tr: "Namaz Hocası" }, s: { en: "How to pray, step by step", tr: "Adım adım namaz" }, act: "prayer" },
-  { ic: "\uD83D\uDCFF", t: { en: "Tesbihat", tr: "Tesbihat" }, s: { en: "Dhikr counter", tr: "Zikir sayacı" }, act: "tasbih" },
-  { ic: "\uD83D\uDCDC", t: { en: "Select Passages", tr: "Aşr-ı Şerifler" }, s: { en: "Beloved verses to recite", tr: "Seçkin ayetler" }, act: "asr" },
-  { ic: "\uD83D\uDCDA", t: { en: "The Six Books", tr: "Kütüb-i Sitte" }, s: { en: "Hadith collections", tr: "Hadis koleksiyonları" }, act: "kutub" },
-  { ic: "\uD83E\uDD32", t: { en: "Hisnul Muslim", tr: "Hisnul Muslim" }, s: { en: "Authentic daily duas", tr: "Sahih günlük dualar" }, act: "hisnul" },
-  { ic: "\uD83D\uDD4C", t: { en: "Diyanet Tafsir", tr: "Diyanet Meal-Tefsir" }, s: { en: "Official TR portal", tr: "Resmî TR portal" }, act: "url", url: "https://kuran.diyanet.gov.tr/" },
-  { ic: "📖", t: { en: "Elmalılı Tafsir", tr: "Elmalılı Tefsiri" }, s: { en: "10 vols, free", tr: "10 cilt, ücretsiz" }, act: "url", url: "https://archive.org/details/hak-dini-kuran-dili-cilt-1-elmalili-hamdi-yazir" },
-  { ic: "\uD83C\uDF10", t: { en: "More Free Books", tr: "Ücretsiz Kitaplar" }, s: { en: "IslamHouse library", tr: "IslamHouse kütüphanesi" }, act: "url", url: { en: "https://islamhouse.com/en", tr: "https://islamhouse.com/tr" } }
+  { ic: "📖", t: { en: "Ya-Sin", tr: "Yasin" , fr: "Ya-Sin" }, s: { en: "Surah 36, in the reader", tr: "36. sure, okuyucuda" , fr: "Sourate 36, dans le lecteur" }, act: "yasin" },
+  { ic: "\uD83D\uDD4C", t: { en: "Prayer Guide", tr: "Namaz Hocası" , fr: "Guide de prière" }, s: { en: "How to pray, step by step", tr: "Adım adım namaz" , fr: "Comment prier, étape par étape" }, act: "prayer" },
+  { ic: "\uD83D\uDCFF", t: { en: "Tesbihat", tr: "Tesbihat" , fr: "Tesbihat" }, s: { en: "Dhikr counter", tr: "Zikir sayacı" , fr: "Compteur de dhikr" }, act: "tasbih" },
+  { ic: "\uD83D\uDCDC", t: { en: "Select Passages", tr: "Aşr-ı Şerifler" , fr: "Passages choisis" }, s: { en: "Beloved verses to recite", tr: "Seçkin ayetler" , fr: "Versets à réciter" }, act: "asr" },
+  { ic: "\uD83D\uDCDA", t: { en: "The Six Books", tr: "Kütüb-i Sitte" , fr: "Les Six Livres" }, s: { en: "Hadith collections", tr: "Hadis koleksiyonları" , fr: "Recueils de hadiths" }, act: "kutub" },
+  { ic: "\uD83E\uDD32", t: { en: "Hisnul Muslim", tr: "Hisnul Muslim" , fr: "Hisnul Muslim" }, s: { en: "Authentic daily duas", tr: "Sahih günlük dualar" , fr: "Dou'as authentiques du quotidien" }, act: "hisnul" },
+  { ic: "\uD83D\uDD4C", t: { en: "Diyanet Tafsir", tr: "Diyanet Meal-Tefsir" , fr: "Tafsir Diyanet" }, s: { en: "Official TR portal", tr: "Resmî TR portal" , fr: "Portail officiel TR" }, act: "url", url: "https://kuran.diyanet.gov.tr/" },
+  { ic: "📖", t: { en: "Elmalılı Tafsir", tr: "Elmalılı Tefsiri" , fr: "Tafsir Elmalılı" }, s: { en: "10 vols, free", tr: "10 cilt, ücretsiz" , fr: "10 volumes, gratuit" }, act: "url", url: "https://archive.org/details/hak-dini-kuran-dili-cilt-1-elmalili-hamdi-yazir" },
+  { ic: "\uD83C\uDF10", t: { en: "More Free Books", tr: "Ücretsiz Kitaplar" , fr: "Plus de livres gratuits" }, s: { en: "IslamHouse library", tr: "IslamHouse kütüphanesi" , fr: "Bibliothèque IslamHouse" }, act: "url", url: { en: "https://islamhouse.com/en", tr: "https://islamhouse.com/tr", fr: "https://islamhouse.com/fr" } }
 ];
 const ASR_ITEMS = [
-  { t: { en: "Al-Fatiha", tr: "Fatiha Suresi" }, vk: "1:1" },
-  { t: { en: "Ayat al-Kursi", tr: "Ayet-el Kürsi" }, vk: "2:255" },
-  { t: { en: "Amana ar-Rasul", tr: "Amenerresulü" }, vk: "2:285" },
-  { t: { en: "Ya-Sin 58", tr: "Yasin 58" }, vk: "36:58" },
-  { t: { en: "Al-Hashr 22–24", tr: "Haşr 22–24" }, vk: "59:22" },
-  { t: { en: "Al-Ikhlas", tr: "İhlas Suresi" }, ch: 112 },
-  { t: { en: "Al-Falaq", tr: "Felak Suresi" }, ch: 113 },
-  { t: { en: "An-Nas", tr: "Nas Suresi" }, ch: 114 }
+  { t: { en: "Al-Fatiha", tr: "Fatiha Suresi" , fr: "Al-Fatiha" }, vk: "1:1" },
+  { t: { en: "Ayat al-Kursi", tr: "Ayet-el Kürsi" , fr: "Ayat al-Koursi" }, vk: "2:255" },
+  { t: { en: "Amana ar-Rasul", tr: "Amenerresulü" , fr: "Amana ar-Rassoul" }, vk: "2:285" },
+  { t: { en: "Ya-Sin 58", tr: "Yasin 58" , fr: "Ya-Sin 58" }, vk: "36:58" },
+  { t: { en: "Al-Hashr 22–24", tr: "Haşr 22–24" , fr: "Al-Hachr 22–24" }, vk: "59:22" },
+  { t: { en: "Al-Ikhlas", tr: "İhlas Suresi" , fr: "Al-Ikhlas" }, ch: 112 },
+  { t: { en: "Al-Falaq", tr: "Felak Suresi" , fr: "Al-Falaq" }, ch: 113 },
+  { t: { en: "An-Nas", tr: "Nas Suresi" , fr: "An-Nas" }, ch: 114 }
 ];
 function libLang(o) { return (o && (o[state.lang] || o.en)) || ""; }
 function renderLibrary(resetView) {
