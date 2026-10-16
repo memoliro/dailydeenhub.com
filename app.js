@@ -641,7 +641,7 @@ function load() {
   // Language preference: "system" (the default) follows the device language; an explicit
   // EN/TR choice (including one saved by older versions) always wins. The /tr path counts
   // as a Turkish signal only on a true first visit (nothing saved yet).
-  const pref = saved.langPref || saved.lang || "system";
+  const pref = saved.langPref || saved.lang || (() => { try { return localStorage.getItem("ddh-lang"); } catch (e) { return null; } })() || "system";
   const firstVisit = !saved.lang && !saved.langPref;
   const st = {
     langPref: pref,
