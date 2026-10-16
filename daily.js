@@ -4,93 +4,135 @@ const DAILY_VERSES = [
     ar: "أَفَمَن يَعْلَمُ أَنَّمَا أُنزِلَ إِلَيْكَ مِن رَّبِّكَ الْحَقُّ كَمَنْ هُوَ أَعْمَىٰ ۚ إِنَّمَا يَتَذَكَّرُ أُولُو الْأَلْبَابِ",
     trans: "Afa man ya'lamu annamā unzila ilayka min rabbikal-ḥaqqu kaman huwa a'mā, innamā yatadhakkaru ulul-albāb.",
     en: "Then is he who knows that what has been revealed to you from your Lord is the truth like one who is blind? They will only be reminded who are people of understanding.",
-    tr: "Rabbinden sana indirilenin gerçek olduğunu bilen kişi, kör olan gibi midir? Ancak akıl sahipleri öğüt alıp düşünür." },
+    tr: "Rabbinden sana indirilenin gerçek olduğunu bilen kişi, kör olan gibi midir? Ancak akıl sahipleri öğüt alıp düşünür.",
+    fr_ref: "Ar-Ra'd 13:19",
+    fr: "Celui qui sait que ce qui t'a été révélé de la part de ton Seigneur est la vérité, est-il semblable à l'aveugle ? Seuls les doués d'intelligence s'en souviennent." },
   { ref: "Al-Baqarah 2:152", tr_ref: "Bakara 2:152",
     ar: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ",
     trans: "Fadhkurūnī adhkurkum washkurū lī wa lā takfurūn.",
     en: "So remember Me; I will remember you. And be grateful to Me and do not deny Me.",
-    tr: "Öyleyse Beni anın, Ben de sizi anayım. Bana şükredin, nankörlük etmeyin." },
+    tr: "Öyleyse Beni anın, Ben de sizi anayım. Bana şükredin, nankörlük etmeyin.",
+    fr_ref: "Al-Baqara 2:152",
+    fr: "Souvenez-vous de Moi, Je Me souviendrai de vous. Remerciez-Moi et ne soyez pas ingrats envers Moi." },
   { ref: "Ash-Sharh 94:6", tr_ref: "İnşirah 94:6",
     ar: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
     trans: "Inna ma'a al-'usri yusrā.",
     en: "Indeed, with hardship comes ease.",
-    tr: "Gerçekten, güçlükle beraber kolaylık vardır." },
+    tr: "Gerçekten, güçlükle beraber kolaylık vardır.",
+    fr_ref: "Ash-Sharh 94:6",
+    fr: "En vérité, avec la difficulté vient la facilité." },
   { ref: "Al-Ankabut 29:69", tr_ref: "Ankebut 29:69",
     ar: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا ۚ وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ",
     trans: "Walladhīna jāhadū fīnā lanahdiyannahum subulanā, wa inna Allāha lama'a al-muḥsinīn.",
     en: "And those who strive for Us – We will surely guide them to Our ways. And indeed, Allah is with the doers of good.",
-    tr: "Bizim uğrumuzda çaba gösterenleri elbette yollarımıza iletiriz. Şüphesiz Allah iyilik edenlerle beraberdir." },
+    tr: "Bizim uğrumuzda çaba gösterenleri elbette yollarımıza iletiriz. Şüphesiz Allah iyilik edenlerle beraberdir.",
+    fr_ref: "Al-Ankabout 29:69",
+    fr: "Et ceux qui luttent pour Notre cause, Nous les guiderons sur Nos chemins. Allah est en vérité avec les bienfaisants." },
   { ref: "Al-Hadid 57:17", tr_ref: "Hadid 57:17",
     ar: "اعْلَمُوا أَنَّ اللَّهَ يُحْيِي الْأَرْضَ بَعْدَ مَوْتِهَا ۚ قَدْ بَيَّنَّا لَكُمُ الْآيَاتِ لَعَلَّكُمْ تَعْقِلُونَ",
     trans: "I'lamū anna Allāha yuḥyī al-arḍa ba'da mawtihā, qad bayyannā lakumu al-āyāti la'allakum ta'qilūn.",
     en: "Know that Allah gives life to the earth after its lifelessness. We have made clear to you the signs; perhaps you will understand.",
-    tr: "Bilin ki Allah, yeryüzünü ölümünden sonra diriltir. Düşünesiniz diye size ayetleri açıkladık." },
+    tr: "Bilin ki Allah, yeryüzünü ölümünden sonra diriltir. Düşünesiniz diye size ayetleri açıkladık.",
+    fr_ref: "Al-Hadid 57:17",
+    fr: "Sachez qu'Allah redonne vie à la terre après sa mort. Nous vous avons exposé clairement les signes, afin que vous raisonniez." },
   { ref: "Az-Zumar 39:53", tr_ref: "Zümer 39:53",
     ar: "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا ۚ إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ",
     trans: "Lā taqnaṭū min raḥmatillāh, inna Allāha yaghfiru adh-dhunūba jamī'ā, innahu huwal-ghafūrur-raḥīm.",
     en: "Do not despair of the mercy of Allah. Indeed, Allah forgives all sins. Indeed, it is He who is the Forgiving, the Merciful.",
-    tr: "Allah'ın rahmetinden ümit kesmeyin. Şüphesiz Allah bütün günahları bağışlar. Çünkü O, çok bağışlayandır, çok merhamet edendir." },
+    tr: "Allah'ın rahmetinden ümit kesmeyin. Şüphesiz Allah bütün günahları bağışlar. Çünkü O, çok bağışlayandır, çok merhamet edendir.",
+    fr_ref: "Az-Zoumar 39:53",
+    fr: "Ne désespérez pas de la miséricorde d'Allah. Allah pardonne tous les péchés. C'est Lui le Pardonneur, le Très Miséricordieux." },
   { ref: "Al-Baqarah 2:286", tr_ref: "Bakara 2:286",
     ar: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
     trans: "Lā yukallifu Allāhu nafsan illā wus'ahā.",
     en: "Allah does not burden a soul beyond that it can bear.",
-    tr: "Allah hiçbir nefse gücünün üstünde bir şey yüklemez." },
+    tr: "Allah hiçbir nefse gücünün üstünde bir şey yüklemez.",
+    fr_ref: "Al-Baqara 2:286",
+    fr: "Allah n'impose à aucune âme une charge supérieure à sa capacité." },
   { ref: "Al-Fatiha 1:2", tr_ref: "Fâtiha 1:2",
     ar: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
     en: "All praise is due to Allah, Lord of the worlds.",
-    tr: "Hamd, âlemlerin Rabbi Allah'adır." },
+    tr: "Hamd, âlemlerin Rabbi Allah'adır.",
+    fr_ref: "Al-Fatiha 1:2",
+    fr: "Louange à Allah, Seigneur des mondes." },
   { ref: "Al-Baqarah 2:153", tr_ref: "Bakara 2:153",
     ar: "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
     en: "O you who believe, seek help through patience and prayer. Indeed, Allah is with the patient.",
-    tr: "Ey iman edenler! Sabır ve namazla yardım dileyin. Şüphesiz Allah sabredenlerle beraberdir." },
+    tr: "Ey iman edenler! Sabır ve namazla yardım dileyin. Şüphesiz Allah sabredenlerle beraberdir.",
+    fr_ref: "Al-Baqara 2:153",
+    fr: "Ô vous qui croyez ! Cherchez secours dans la patience et la prière. Allah est avec les patients." },
   { ref: "Aal Imran 3:139", tr_ref: "Âl-i İmrân 3:139",
     ar: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنْتُمُ الْأَعْلَوْنَ إِنْ كُنْتُمْ مُؤْمِنِينَ",
     en: "Do not lose heart and do not grieve, for you will be superior if you are believers.",
-    tr: "Gevşemeyin, üzülmeyin; eğer iman etmişseniz üstün olan sizsiniz." },
+    tr: "Gevşemeyin, üzülmeyin; eğer iman etmişseniz üstün olan sizsiniz.",
+    fr_ref: "Al-Imran 3:139",
+    fr: "Ne perdez pas courage et ne vous affligez pas : vous aurez le dessus, si vous êtes croyants." },
   { ref: "An-Nisa 4:110", tr_ref: "Nisâ 4:110",
     ar: "وَمَنْ يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ ثُمَّ يَسْتَغْفِرِ اللَّهَ يَجِدِ اللَّهَ غَفُورًا رَحِيمًا",
     en: "Whoever does evil or wrongs himself then seeks Allah's forgiveness will find Allah Forgiving, Merciful.",
-    tr: "Kim bir kötülük yapar veya kendine zulmeder de sonra Allah'tan bağışlanma dilerse, Allah'ı çok bağışlayıcı ve merhametli bulur." },
+    tr: "Kim bir kötülük yapar veya kendine zulmeder de sonra Allah'tan bağışlanma dilerse, Allah'ı çok bağışlayıcı ve merhametli bulur.",
+    fr_ref: "An-Nissa 4:110",
+    fr: "Quiconque fait le mal ou se fait du tort à lui-même, puis implore le pardon d'Allah, trouvera Allah Pardonneur et Miséricordieux." },
   { ref: "Al-Ma'idah 5:8", tr_ref: "Mâide 5:8",
     ar: "وَلَا يَجْرِمَنَّكُمْ شَنَآنُ قَوْمٍ عَلَىٰ أَلَّا تَعْدِلُوا ۚ اعْدِلُوا هُوَ أَقْرَبُ لِلتَّقْوَىٰ",
     en: "Let not hatred of a people prevent you from being just. Be just; that is nearer to righteousness.",
-    tr: "Bir topluluğa olan kininiz, sizi adaletsizliğe sevk etmesin. Adil olun; bu, takvaya daha yakındır." },
+    tr: "Bir topluluğa olan kininiz, sizi adaletsizliğe sevk etmesin. Adil olun; bu, takvaya daha yakındır.",
+    fr_ref: "Al-Ma'ida 5:8",
+    fr: "Que la haine envers un peuple ne vous incite pas à être injustes. Soyez équitables : c'est plus proche de la piété." },
   { ref: "Al-An'am 6:160", tr_ref: "En'âm 6:160",
     ar: "مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا",
     en: "Whoever comes with a good deed will have ten times the like thereof.",
-    tr: "Kim bir iyilikle gelirse, ona on katı vardır." },
+    tr: "Kim bir iyilikle gelirse, ona on katı vardır.",
+    fr_ref: "Al-An'am 6:160",
+    fr: "Quiconque viendra avec une bonne action en aura dix fois autant." },
   { ref: "Al-A'raf 7:56", tr_ref: "A'râf 7:56",
     ar: "إِنَّ رَحْمَتَ اللَّهِ قَرِيبٌ مِنَ الْمُحْسِنِينَ",
     en: "Indeed, the mercy of Allah is near to the doers of good.",
-    tr: "Şüphesiz Allah'ın rahmeti, iyilik edenlere yakındır." },
+    tr: "Şüphesiz Allah'ın rahmeti, iyilik edenlere yakındır.",
+    fr_ref: "Al-A'raf 7:56",
+    fr: "La miséricorde d'Allah est proche des bienfaisants." },
   { ref: "At-Tawbah 9:51", tr_ref: "Tevbe 9:51",
     ar: "قُلْ لَنْ يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا ۚ وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ",
     en: "Say: Nothing will befall us except what Allah has decreed for us; He is our Protector. And in Allah let the believers put their trust.",
-    tr: "De ki: Bize Allah'ın yazdığından başkası isabet etmez. O bizim Mevlamızdır. Müminler yalnız Allah'a tevekkül etsinler." },
+    tr: "De ki: Bize Allah'ın yazdığından başkası isabet etmez. O bizim Mevlamızdır. Müminler yalnız Allah'a tevekkül etsinler.",
+    fr_ref: "At-Tawba 9:51",
+    fr: "Dis : « Rien ne nous atteindra, en dehors de ce qu'Allah a prescrit pour nous. Il est notre Protecteur. » C'est en Allah que les croyants doivent placer leur confiance." },
   { ref: "Yunus 10:62", tr_ref: "Yûnus 10:62",
     ar: "أَلَا إِنَّ أَوْلِيَاءَ اللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
     en: "Unquestionably, for the allies of Allah there is no fear, nor shall they grieve.",
-    tr: "İyi bilin ki Allah'ın dostlarına korku yoktur ve onlar üzülmeyeceklerdir." },
+    tr: "İyi bilin ki Allah'ın dostlarına korku yoktur ve onlar üzülmeyeceklerdir.",
+    fr_ref: "Younous 10:62",
+    fr: "En vérité, les alliés d'Allah ne connaîtront ni crainte ni tristesse." },
   { ref: "Ar-Ra'd 13:28", tr_ref: "Ra'd 13:28",
     ar: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
     en: "Unquestionably, by the remembrance of Allah hearts find rest.",
-    tr: "İyi bilin ki kalpler ancak Allah'ı anmakla huzur bulur." },
+    tr: "İyi bilin ki kalpler ancak Allah'ı anmakla huzur bulur.",
+    fr_ref: "Ar-Ra'd 13:28",
+    fr: "En vérité, c'est par le rappel d'Allah que les cœurs s'apaisent." },
   { ref: "Ibrahim 14:7", tr_ref: "İbrâhim 14:7",
     ar: "لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
     en: "If you are grateful, I will surely increase you.",
-    tr: "Eğer şükrederseniz, elbette size artırırım." },
+    tr: "Eğer şükrederseniz, elbette size artırırım.",
+    fr_ref: "Ibrahim 14:7",
+    fr: "Si vous êtes reconnaissants, Je vous comblerai davantage." },
   { ref: "Al-Isra 17:82", tr_ref: "İsrâ 17:82",
     ar: "وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ",
     en: "We send down of the Quran that which is healing and mercy for the believers.",
-    tr: "Kur'an'dan, müminler için şifa ve rahmet olanı indiriyoruz." },
+    tr: "Kur'an'dan, müminler için şifa ve rahmet olanı indiriyoruz.",
+    fr_ref: "Al-Isra 17:82",
+    fr: "Nous révélons du Coran ce qui est guérison et miséricorde pour les croyants." },
   { ref: "Taha 20:114", tr_ref: "Tâhâ 20:114",
     ar: "رَبِّ زِدْنِي عِلْمًا",
     en: "My Lord, increase me in knowledge.",
-    tr: "Rabbim! İlmimi artır." },
+    tr: "Rabbim! İlmimi artır.",
+    fr_ref: "Ta-Ha 20:114",
+    fr: "Seigneur, accrois mes connaissances." },
   { ref: "Al-Furqan 25:74", tr_ref: "Furkân 25:74",
     ar: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
     en: "Our Lord, grant us from our spouses and offspring comfort to our eyes, and make us leaders of the righteous.",
-    tr: "Rabbimiz! Bize eşlerimizden ve soyumuzdan göz aydınlığı ver; bizi takva sahiplerine önder kıl." },
+    tr: "Rabbimiz! Bize eşlerimizden ve soyumuzdan göz aydınlığı ver; bizi takva sahiplerine önder kıl.",
+    fr_ref: "Al-Fourqane 25:74",
+    fr: "Seigneur, accorde-nous de nos épouses et de notre descendance la joie de nos yeux, et fais de nous des guides pour les pieux." },
 ];
 const DAILY_HADITH = [
   { ref: "Tabarani, el-Mujemul Kabir", tr_ref: "Taberânî, el-Mu'cemü'l-Kebîr",
@@ -186,25 +228,39 @@ const ASMA = [
 const DAILY_DUAS = [
   { ar: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", src: "Tirmidhi",
     en: "In the name of Allah, with whose name nothing on earth or in heaven can cause harm — and He is the All-Hearing, the All-Knowing.",
-    tr: "İsmiyle yerde ve gökte hiçbir şeyin zarar veremeyeceği Allah'ın adıyla. O, hakkıyla işiten, hakkıyla bilendir." },
+    tr: "İsmiyle yerde ve gökte hiçbir şeyin zarar veremeyeceği Allah'ın adıyla. O, hakkıyla işiten, hakkıyla bilendir.",
+    fr_ref: "Tirmidhi",
+    fr: "Au nom d'Allah, avec le nom Duquel rien sur terre ni dans le ciel ne peut nuire — et Il est l'Audient, l'Omniscient." },
   { ar: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", src: "Muslim",
     en: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
-    tr: "Yarattıklarının şerrinden Allah'ın eksiksiz kelimelerine sığınırım." },
+    tr: "Yarattıklarının şerrinden Allah'ın eksiksiz kelimelerine sığınırım.",
+    fr_ref: "Muslim",
+    fr: "Je cherche refuge dans les paroles parfaites d'Allah contre le mal de ce qu'Il a créé." },
   { ar: "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ", src: "Abu Dawud",
     en: "O Allah, grant me health in my body; O Allah, grant me health in my hearing; O Allah, grant me health in my sight. There is no deity but You.",
-    tr: "Allah'ım! Bedenime âfiyet ver; Allah'ım! Kulağıma âfiyet ver; Allah'ım! Gözüme âfiyet ver. Senden başka ilâh yoktur." },
+    tr: "Allah'ım! Bedenime âfiyet ver; Allah'ım! Kulağıma âfiyet ver; Allah'ım! Gözüme âfiyet ver. Senden başka ilâh yoktur.",
+    fr_ref: "Abou Dawoud",
+    fr: "Ô Allah, accorde-moi la santé dans mon corps ; ô Allah, accorde-moi la santé dans mon ouïe ; ô Allah, accorde-moi la santé dans ma vue. Il n'y a de divinité que Toi." },
   { ar: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", src: "Abu Dawud",
     en: "Allah is sufficient for me; there is no deity but Him. In Him I put my trust, and He is the Lord of the Mighty Throne.",
-    tr: "Allah bana yeter; O'ndan başka ilâh yoktur. O'na tevekkül ettim; O, büyük Arş'ın Rabbidir." },
+    tr: "Allah bana yeter; O'ndan başka ilâh yoktur. O'na tevekkül ettim; O, büyük Arş'ın Rabbidir.",
+    fr_ref: "Abou Dawoud",
+    fr: "Allah me suffit ; il n'y a de divinité que Lui. En Lui je place ma confiance, et Il est le Seigneur du Trône immense." },
   { ar: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ", src: "Abu Dawud",
     en: "O Allah, protect me from Your punishment on the Day You resurrect Your servants.",
-    tr: "Allah'ım! Kullarını dirilteceğin gün beni azabından koru." },
+    tr: "Allah'ım! Kullarını dirilteceğin gün beni azabından koru.",
+    fr_ref: "Abou Dawoud",
+    fr: "Ô Allah, protège-moi de Ton châtiment le Jour où Tu ressusciteras Tes serviteurs." },
   { ar: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا", src: "Abu Dawud",
     en: "I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.",
-    tr: "Rab olarak Allah'tan, din olarak İslâm'dan, peygamber olarak Muhammed'den (sallallahu aleyhi ve sellem) razı oldum." },
+    tr: "Rab olarak Allah'tan, din olarak İslâm'dan, peygamber olarak Muhammed'den (sallallahu aleyhi ve sellem) razı oldum.",
+    fr_ref: "Abou Dawoud",
+    fr: "Je suis satisfait d'Allah comme Seigneur, de l'Islam comme religion, et de Muhammad (que la paix soit sur lui) comme Prophète." },
   { ar: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", src: "Muslim",
     en: "O Allah, You are Peace and from You comes peace. Blessed are You, O Possessor of majesty and honor.",
-    tr: "Allah'ım! Sen Selâm'sın, selâmet Sendendir. Ey celâl ve ikram sahibi, Sen münezzehsin." },
+    tr: "Allah'ım! Sen Selâm'sın, selâmet Sendendir. Ey celâl ve ikram sahibi, Sen münezzehsin.",
+    fr_ref: "Muslim",
+    fr: "Ô Allah, Tu es la Paix et de Toi vient la paix. Béni sois-Tu, ô Détenteur de la majesté et de la gloire." },
 ];
 const DAILY_NAMES = [
   ["Yusuf","The prophet famed for patience, beauty and forgiveness.","Sabır, güzellik ve affediciliğiyle tanınan peygamber.","Maryam","The only woman named in the Quran; a symbol of purity and devotion.","Kur'an'da adı geçen tek kadın; saflık ve adanmışlığın simgesi."],
@@ -244,21 +300,24 @@ function renderDaily() {
   const day = Math.floor(Date.now() / 864e5);
   const lang = (window.DDHLang && window.DDHLang()) || document.documentElement.lang || 'en';
   const tr = lang === 'tr';
+  const fr = lang === 'fr';
+  const pick = (o) => fr ? (o.fr || o.en) : tr ? o.tr : o.en;
+  const pickRef = (o) => fr ? (o.fr_ref || o.ref) : tr ? (o.tr_ref || o.ref) : o.ref;
   const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
   const setBg = (id, cardIdx) => { const el = document.getElementById(id); if (el) el.src = momentBg(cardIdx); };
   // backgrounds rotate daily, offset per card
   setBg('mDuaBg', 0); setBg('mHadithBg', 1); setBg('mAyahBg', 2); setBg('mAsmaBg', 3);
   const du = DAILY_DUAS[day % DAILY_DUAS.length];
   set('mDuaAr', du.ar);
-  set('mDuaTx', '"' + (tr ? du.tr : du.en) + '"');
+  set('mDuaTx', '"' + pick(du) + '"');
   set('mDuaRef', du.src);
   const h = DAILY_HADITH[day % DAILY_HADITH.length];
-  set('mHadithTx', '"' + (tr ? h.tr : h.en) + '"');
-  set('mHadithRef', tr ? h.tr_ref : h.ref);
+  set('mHadithTx', '"' + pick(h) + '"');
+  set('mHadithRef', pickRef(h));
   const v = DAILY_VERSES[day % DAILY_VERSES.length];
   set('mAyahAr', v.ar);
-  set('mAyahTx', '"' + (tr ? v.tr : v.en) + '"');
-  set('mAyahRef', tr ? v.tr_ref : v.ref);
+  set('mAyahTx', '"' + pick(v) + '"');
+  set('mAyahRef', pickRef(v));
   const a = ASMA[day % ASMA.length];
   set('mAsmaAr', a[0]);
   set('mAsmaTx', a[1]);
@@ -283,13 +342,16 @@ function dailyCardData(type) {
   const day = Math.floor(Date.now() / 864e5);
   const lang = (window.DDHLang && window.DDHLang()) || document.documentElement.lang || 'en';
   const tr = lang === 'tr';
+  const fr = lang === 'fr';
+  const pk = (o) => fr ? (o.fr || o.en) : tr ? o.tr : o.en;
+  const pkR = (o) => fr ? (o.fr_ref || o.ref) : tr ? (o.tr_ref || o.ref) : o.ref;
   if (type === 'verse') {
     const v = DAILY_VERSES[day % DAILY_VERSES.length];
-    return { ar: v.ar, text: tr ? v.tr : v.en, ref: tr ? v.tr_ref : v.ref, tr };
+    return { ar: v.ar, text: pk(v), ref: pkR(v), tr };
   }
   if (type === 'hadith') {
     const h = DAILY_HADITH[day % DAILY_HADITH.length];
-    return { ar: null, text: tr ? h.tr : h.en, ref: tr ? h.tr_ref : h.ref, tr };
+    return { ar: null, text: pk(h), ref: pkR(h), tr };
   }
   if (type === 'asma') {
     const a = ASMA[day % ASMA.length];
