@@ -3344,6 +3344,7 @@ document.getElementById("mqAddPrayer").onclick = () => suggestPlace("prayer");
 // Weather via Open-Meteo (free, no key) for header
 const WX_CODE = {0:"Clear",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Fog",51:"Drizzle",53:"Drizzle",55:"Drizzle",61:"Rain",63:"Rain",65:"Rain",71:"Snow",73:"Snow",75:"Snow",77:"Snow",80:"Showers",81:"Showers",82:"Showers",95:"Thunderstorm",96:"Storm",99:"Storm"};
 const WX_CODE_TR = {0:"Açık",1:"Çoğunlukla açık",2:"Parçalı bulutlu",3:"Kapalı",45:"Sis",48:"Sis",51:"Çisenti",53:"Çisenti",55:"Çisenti",61:"Yağmur",63:"Yağmur",65:"Yağmur",71:"Kar",73:"Kar",75:"Kar",77:"Kar",80:"Sağanak",81:"Sağanak",82:"Sağanak",95:"Gök gürültüsü",96:"Fırtına",99:"Fırtına"};
+const WX_CODE_FR = {0:"Dégagé",1:"Plutôt dégagé",2:"Partiellement nuageux",3:"Couvert",45:"Brouillard",48:"Brouillard",51:"Bruine",53:"Bruine",55:"Bruine",61:"Pluie",63:"Pluie",65:"Pluie",71:"Neige",73:"Neige",75:"Neige",77:"Neige",80:"Averses",81:"Averses",82:"Averses",95:"Orage",96:"Tempête",99:"Tempête"};
 const WX_ICON = {0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"🌨️",80:"🌧️",81:"🌧️",82:"🌧️",95:"⛈️",96:"⛈️",99:"⛈️"};
 let wxCache = { t: 0, html: "", lang: "" };
 async function loadWeather() {
@@ -3356,12 +3357,11 @@ async function loadWeather() {
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max&timezone=auto&forecast_days=3`);
     if (!r.ok) throw 0;
     const j = await r.json();
-    const tr = state.lang === "tr";
-    const loc = tr ? "tr-TR" : "en-US";
+    const loc = pickL("tr-TR", "fr-FR", "en-US");
     // Day 0 = current conditions; days 1-2 = daily max
     const days = j.daily.time.map((ds, i) => {
       const [y, m, d] = ds.split("-").map(Number);
-      const name = i === 0 ? (tr ? "Bugün" : "Today")
+      const name = i === 0 ? pickL("Bugün", "Aujourd'hui", "Today")
         : new Date(y, m - 1, d).toLocaleDateString(loc, { weekday: "short" });
       const code = i === 0 ? j.current.weather_code : j.daily.weather_code[i];
       const temp = i === 0 ? Math.round(j.current.temperature_2m) : Math.round(j.daily.temperature_2m_max[i]);
