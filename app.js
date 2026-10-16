@@ -410,7 +410,7 @@ function plainTranslation(v) {
   const stripped = String(v || "").replace(/<sup[\s\S]*?<\/sup>/gi, "").replace(/<[^>]*>/g, "");
   return escapeHtml(decodeEnt(stripped));
 }
-function t(key) { return I18N[state.lang][key]; }
+function t(key) { var b = I18N[state.lang] || I18N.en; return b[key] !== undefined ? b[key] : I18N.en[key]; }
 /* Extra reminders (More tile): sahur/tahajjud = minutes before Fajr;
    fast = Mon/Thu minutes before Fajr (+ optional 9 PM evening-before nudge);
    jumuah = minutes before Friday Dhuhr. All off by default. */
