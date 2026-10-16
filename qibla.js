@@ -2,7 +2,7 @@ const KAABA = { lat: 21.4225, lon: 39.8262 };
 const params = new URLSearchParams(location.search);
 if (params.get("embed") === "1") document.body.classList.add("embed");
 /* Map page language: ?lang=tr from the parent app, English default */
-const LANG = params.get("lang") === "tr" ? "tr" : "en";
+const LANG = params.get("lang") === "tr" ? "tr" : params.get("lang") === "fr" ? "fr" : "en";
 const T = {
   en: { docTitle: "Qibla map", home: "Home", back: "Back", barTitle: "Qibla",
     searchPh: "Search a city", locate: "Locate",
@@ -13,7 +13,12 @@ const T = {
     searchPh: "\u015eehir aray\u0131n", locate: "Bul",
     bearing: "GER\u00c7EK KIBLE", distance: "MESAFE", you: "S\u0130Z", line: "HAT",
     dragMap: "Haritay\u0131 s\u00fcr\u00fckleyin", locUnavailable: "Konum al\u0131namad\u0131",
-    locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi", liveLabel: "Canl\u0131 konum" }
+    locating: "Konum bulunuyor\u2026", myLocation: "Konumum", locBlocked: "Konum engellendi", liveLabel: "Canl\u0131 konum" },
+  fr: { docTitle: "Carte Qibla", home: "Accueil", back: "Retour", barTitle: "Qibla",
+    searchPh: "Rechercher une ville", locate: "Localiser",
+    bearing: "VRAIE QIBLA", distance: "DISTANCE", you: "VOUS", line: "LIGNE",
+    dragMap: "Faites glisser la carte", locUnavailable: "Localisation indisponible",
+    locating: "Localisation en cours\u2026", myLocation: "Ma position", locBlocked: "Localisation bloqu\u00e9e", liveLabel: "En direct" }
 }[LANG];
 (function applyMapI18n() {
   document.documentElement.lang = LANG;
@@ -22,7 +27,7 @@ const T = {
   set("home", T.home); set("back", T.back); set("barTitle", T.barTitle); set("locate", T.locate);
   set("lblBearing", T.bearing); set("lblDistance", T.distance); set("lblYou", T.you); set("lblLine", T.line);
   const q = document.getElementById("q"); if (q) q.placeholder = T.searchPh;
-  const st = document.getElementById("status"); if (st && st.textContent === "Drag the map") st.textContent = T.dragMap;
+  const st = document.getElementById("status"); if (st && ["Drag the map", "Haritay\u0131 s\u00fcr\u00fckleyin", "Faites glisser la carte"].includes(st.textContent)) st.textContent = T.dragMap;
 })();
 const start = {
   lat: Number(params.get("lat")) || 45.5017,
