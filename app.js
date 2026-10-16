@@ -208,11 +208,97 @@ const I18N = {
     loading: "Vakitler yükleniyor…", noResults: "Sonuç yok.", searching: "Aranıyor…", gpsFail: "Konum alınamadı.",
     compassUnavailable: "Bu cihazda pusula yok — lütfen aşağıdaki haritayı kullanın.",
     left: "sol", right: "sağ", facing: "Kıbleye dönüksünüz.", loadFail: "Vakitler alınamadı.", audioFail: "Ses açılamadı."
-  }
+  },
+  fr: {
+    monthTitle: "Ce mois-ci",
+    ramadanNote: "Ce n'est pas le Ramadan en ce moment. Voici l'horaire du prochain Ramadan.",
+    radioTitle: "Radio Coran",
+    thDate: "Date",
+    fajr: "Fajr",
+    ayahTitle: "Verset du jour",
+    mapBody: "Glissez la carte. La courbe montre le chemin le plus court vers la Kaaba, recalculé depuis le centre.",
+    quranTitle: "Coran",
+    trackerTitle: "Prières d'aujourd'hui",
+    cardHint: "Touchez le ✓ d'une carte après avoir prié",
+    congrats: "Félicitations ! Qu'Allah accepte vos prières.",
+    ramadanHub: "Ramadan",
+    mosquesTab: "Recherche",
+    mosquesFind: "Trouver une mosquée près de moi",
+    mosquesRetrying: "Nouvelle tentative…",
+    halalFind: "Trouver un restaurant halal près de moi",
+    mqMosqueTmpl: "🕌 Nouvelle suggestion de mosquée\nNom du lieu : \nAdresse : \nNotes (horaires des prières, Joumou'a, stationnement…) :",
+    mqPrayerTmpl: "🛐 Nouvelle suggestion de salle de prière\nNom du lieu (p. ex. centre commercial, aéroport, bâtiment universitaire) : \nDescription de l'emplacement — pour les personnes qui ne connaissent pas l'endroit (quel étage, près de quoi, comment y aller) : \nNotes (heures d'ouverture, ablutions…) :",
+    footTag: "Horaires des prières gratuits, qibla, Coran et plus. Sans compte, sans pub.",
+    footFeatures: "Fonctionnalités",
+    paidNote: "(payant · sans compte)",
+    supportUs: "Nous soutenir",
+    apkNoticeTitle: "Bienvenue dans la nouvelle app ! 🎉",
+    apkNoticeBody: "Si l'ancienne icône DailyDeenHub est encore sur votre écran d'accueil, appuyez dessus longuement et désinstallez-la — cette nouvelle app la remplace.",
+    apkNoticeOk: "Compris",
+    adhanAtTime: "Jouer l'adhan à l'heure de la prière",
+    focusTitle: "Sans pub",
+    method: "Méthode de calcul",
+    searchPh: "Rechercher une ville",
+    qadhaTitle: "Prières qada",
+    qadhaOwed: "prières à rattraper",
+    qadhaRakats: "rakats",
+    qadhaRecent: "Activité récente",
+    qadhaNow: "à l'instant",
+    qadhaRamadanNote: "Vous jeûnez aussi ? Suivez vos jeûnes du Ramadan de la même façon →",
+    resTitle: "Kutub al-Sittah",
+    ramTimes: "Horaires des prières",
+    fastCaughtUp: "Rien à rattraper — tous les jeûnes sont comptabilisés.",
+    fastFasted: "Jeûné",
+    fastRecent: "Activité récente",
+    remindBefore: "Minutes avant la prière",
+    extraRem: "Rappels supplémentaires",
+    holyDays: "Jours saints",
+    cardsTile: "Cartes de vœux",
+    extraHonest: "Ce sont des rappels, pas des alarmes — les notifications ne sont pas garanties, surtout quand l'app est fermée. Gardez une alarme de téléphone pour le sahur.",
+    xSahur: "Sahur",
+    xBeforeFajr: "avant le Fajr",
+    xFastEve: "Rappel la veille au soir (21 h)",
+    pushLbl: "Alertes de prière (même quand l'app est fermée)",
+    pushOn: "Alertes activées — vous recevrez des notifications même si l'app est fermée.",
+    pushOff: "Alertes désactivées.",
+    pushError: "Impossible d'activer les alertes. Réessayez.",
+    pushBlocked: "Les notifications sont bloquées pour ce site — autorisez-les dans les paramètres de votre navigateur.",
+    pushUnsupported: "Les alertes push ne sont pas prises en charge par ce navigateur.",
+    pushEnabled: "Alertes de prière activées",
+    installHint: "📲 Installez l'app sur votre appareil pour des alertes fiables.",
+    installBtn: "Installer l'app",
+    installIOS: "📲 Les alertes sur iPhone nécessitent l'app installée — ça prend 10 secondes :<br><span class=\\\"steps\\\">1.</span> Touchez <b>Partager</b> dans ce navigateur<br><span class=\\\"steps\\\">2.</span> Touchez <b>« Sur l'écran d'accueil »</b><br><span class=\\\"steps\\\">3.</span> Ouvrez DailyDeenHub depuis votre écran d'accueil — les alertes y fonctionneront.",
+    installPopTitle: "Installer DailyDeenHub",
+    installPopBody: "Recevez des alertes de prière même quand votre navigateur est fermé. Gratuit, rapide, sans compte.",
+    installPopLater: "Plus tard",
+    soundLbl: "Son d'alerte",
+    soundAdhan: "Adhan (appel à la prière)",
+    soundMobile: "Alerte mobile",
+    soundChick: "Poussin",
+    soundCustom: "Personnalisé",
+    soundSystemNeedNotif: "Activez les notifications pour entendre le son du système",
+    uploadNote: "Sur iPhone, toucher Importer peut demander l'accès aux photos — l'app ne voit jamais vos photos ; choisissez Fichiers pour sélectionner un fichier audio.",
+    inMinutes: "il reste {n} min",
+    soundTooBig: "Fichier trop volumineux (max 1,5 Mo)",
+    terms: "Conditions",
+    methodNote: "Les horaires sont calculés, pas un flux officiel de mosquée. Diyanet convient à la Turquie ; ISNA est le réglage par défaut à Montréal.",
+    remaining: "restant",
+    kerahat: "Moment déconseillé — le soleil se lève, est à son zénith ou se couche.",
+    qiblaHint: "Le repère de la Kaaba suit le cap orthodromique, mesuré depuis le nord vrai.",
+    compassUnavailable: "Boussole indisponible sur cet appareil — utilisez la carte ci-dessous.",
+    howBody: "La petite Kaaba est fixée sur le cap vérifié. Tournez jusqu'à ce qu'elle rejoigne la flèche dorée en haut. Les boussoles de téléphone sont magnétiques et peuvent dévier de quelques degrés près du métal.",
+    tasbihNote: "33 Subhanallah, 33 Alhamdulillah, 34 Allahu akbar. Enregistré sur cet appareil.",
+    focusBody: "Horaires des prières, qibla, le mois et un lecteur du Coran. Sans compte, sans pub, sans suivi.",
+    footer: "Horaires calculés par le moteur Aladhan. Texte et audio du Coran via Quran.com. Votre mosquée locale peut différer d'une minute.",
+    loading: "Chargement des horaires…",
+    left: "restant",
+  },
+
 };
 const WEEKDAYS = {
   en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-  tr: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"]
+  tr: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+  fr: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
 };
 const WEEKDAYS_SHORT = {
   en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -269,7 +355,10 @@ const STATIONS = [
   ["trtrans", "Quran — Turkish translation", "https://backup.qurango.net/radio/translation_quran_turkish"]
 ];
 
-function sysLang() { return (navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en"; }
+function langPath(l) { return l === "tr" ? "/tr/" : l === "fr" ? "/fr/" : "/"; }
+function pickL(trV, frV, enV, l) { l = l || (typeof state !== "undefined" ? state.lang : "en"); return l === "tr" ? trV : l === "fr" ? frV : enV; }
+function pathLang() { const p = location.pathname; return p.startsWith("/tr") ? "tr" : p.startsWith("/fr") ? "fr" : "en"; }
+function sysLang() { const l = (navigator.language || "").toLowerCase(); return l.startsWith("tr") ? "tr" : l.startsWith("fr") ? "fr" : "en"; }
 function load() {
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem("ezan-vakti") || "{}") || {}; } catch { saved = {}; }
@@ -280,7 +369,7 @@ function load() {
   const firstVisit = !saved.lang && !saved.langPref;
   const st = {
     langPref: pref,
-    lang: pref === "system" ? ((firstVisit && location.pathname.startsWith("/tr")) ? "tr" : sysLang()) : pref,
+    lang: pref === "system" ? ((firstVisit && pathLang() !== "en") ? pathLang() : sysLang()) : pref,
     theme: "night", // Dark only — any saved Day/System choice migrates to Dark
     method: saved.method ?? 2,
     school: saved.school ?? 0,
@@ -354,7 +443,7 @@ document.addEventListener("click", e => {
 window.DDHLang = () => state.lang;
 function nameOf(key) {
   // On Fridays, Dhuhr is Jumu'ah (Friday prayer)
-  if (key === "Dhuhr" && isFridayToday()) return state.lang === "tr" ? "Cuma" : "Jumu'ah";
+  if (key === "Dhuhr" && isFridayToday()) return pickL("Cuma", "Joumou'a", "Jumu'ah");
   return I18N[state.lang].names[key] || key;
 }
 function isFridayToday() {
@@ -445,7 +534,7 @@ function applyI18n() {
   if (typeof refreshLearnView === "function") refreshLearnView();
   if (typeof renderLibrary === "function") renderLibrary(false);
   const bw = document.getElementById("brandWord");
-  if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = state.lang === "tr" ? "Günlük Din" : "Daily Deen Hub"; }
+  if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = pickL("Günlük Din", "Daily Deen Hub", "Daily Deen Hub"); }
   const _fn = document.getElementById("footerNote"); if (_fn) _fn.textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
@@ -685,7 +774,8 @@ function monthName(day) {
 /* ---------- Hijri month calendar ---------- */
 const HIJRI_MONTHS_EN = ["Muharram","Safar","Rabiʿ al-awwal","Rabiʿ al-thani","Jumada al-awwal","Jumada al-thani","Rajab","Shaʿban","Ramadan","Shawwal","Dhu al-Qaʿdah","Dhu al-Hijjah"];
 const HIJRI_MONTHS_TR = ["Muharrem","Safer","Rebiülevvel","Rebiülâhir","Cemaziyelevvel","Cemaziyelâhir","Receb","Şaban","Ramazan","Şevval","Zilkade","Zilhicce"];
-function hijriName(m) { return (state.lang === "tr" ? HIJRI_MONTHS_TR : HIJRI_MONTHS_EN)[m - 1] || ""; }
+const HIJRI_MONTHS_FR = ["Mouharram","Safar","Rabi\u02bf al-awwal","Rabi\u02bf ath-thani","Joumada al-oula","Joumada ath-thania","Rajab","Cha\u02bfban","Ramadan","Chawwal","Dhou al-qi\u02bfda","Dhou al-hijja"];
+function hijriName(m) { return pickL(HIJRI_MONTHS_TR, HIJRI_MONTHS_FR, HIJRI_MONTHS_EN)[m - 1] || ""; }
 function gToHLocal(y, m, d) {
   if (typeof PrayerCalc !== "undefined" && PrayerCalc.gToH) return PrayerCalc.gToH(y, m, d);
   return null;
@@ -728,7 +818,7 @@ function renderDualCal() {
   document.querySelector("#panel-month thead").style.display = "none";
   const daysInMonth = new Date(calY, calM, 0).getDate();
   const startDow = (new Date(calY, calM - 1, 1).getDay() + 6) % 7; // Monday-first
-  const wd = state.lang === "tr" ? ["Pzt","Sal","\u00c7ar","Per","Cum","Cmt","Paz"] : ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const wd = pickL(["Pzt","Sal","\u00c7ar","Per","Cum","Cmt","Paz"], ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"], ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]);
   let html = `<tr>${wd.map(w => `<th>${w}</th>`).join("")}</tr><tr>`;
   for (let i = 0; i < startDow; i++) html += "<td></td>";
   for (let d = 1; d <= daysInMonth; d++) {
@@ -885,7 +975,7 @@ function renderQibla() {
   const local = qiblaBearing(qp.lat, qp.lon);
   const atKaaba = Math.abs(qp.lat - 21.4225) < 0.05 && Math.abs(qp.lon - 39.8262) < 0.05;
   const b = atKaaba ? 0 : local;
-  const _qdeg = document.getElementById("qiblaDeg"); if (_qdeg) _qdeg.textContent = atKaaba ? (state.lang === "tr" ? "Kâbe" : "Kaaba") : `${b.toFixed(1)}°`;
+  const _qdeg = document.getElementById("qiblaDeg"); if (_qdeg) _qdeg.textContent = atKaaba ? pickL("Kâbe", "Kaaba", "Kaaba") : `${b.toFixed(1)}°`;
   const qn = document.getElementById("qiblaNeedle");
   if (qn) qn.setAttribute("transform", `rotate(${b} 110 110)`);
   const dl = document.getElementById("dial");
@@ -901,10 +991,10 @@ function renderQibla() {
     if (open) open.href = `/qibla?lat=${qp.lat}&lon=${qp.lon}&name=${encodeURIComponent(qp.name)}&lang=${state.lang}`;
   }
   document.getElementById("qiblaCheck").textContent = atKaaba
-    ? (state.lang === "tr" ? "Kâbe’desiniz." : "You are at the Kaaba.")
-    : `${b.toFixed(1)}° · ${state.lang === "tr" ? "gerçek kuzeye göre" : "from true north"}`;
+    ? pickL("Kâbe’desiniz.", "Vous êtes à la Kaaba.", "You are at the Kaaba.")
+    : `${b.toFixed(1)}° · ${pickL("gerçek kuzeye göre", "du nord vrai", "from true north")}`;
   const km = kaabaKm(qp.lat, qp.lon);
-  document.getElementById("qiblaDistance").textContent = atKaaba ? "" : `${km.toFixed(0)} km · ${state.lang === "tr" ? "Kâbe mesafesi" : "to the Kaaba"}`;
+  document.getElementById("qiblaDistance").textContent = atKaaba ? "" : `${km.toFixed(0)} km · ${pickL("Kâbe mesafesi", "distance à la Kaaba", "to the Kaaba")}`;
   // Warn when the compass uses GPS because the manual location is a test location.
   const qloc = document.getElementById("qiblaLocNote");
   if (qloc) {
@@ -952,7 +1042,7 @@ function renderBeadText() {
   const bp = document.getElementById("beadPhrase"); if (bp) bp.textContent = tasbihPhraseFor(n);
   const bc = document.getElementById("beadCount"); if (bc) bc.textContent = String(inSet);
   const bt = document.getElementById("beadTarget"); if (bt) bt.textContent = "/ " + target;
-  const bl = document.getElementById("beadLoop"); if (bl) bl.textContent = (state.lang === "tr" ? "Tur " : "Loop ") + ((state.tasbihLoops || 0) + 1);
+  const bl = document.getElementById("beadLoop"); if (bl) bl.textContent = pickL("Tur ", "Tour ", "Loop ") + ((state.tasbihLoops || 0) + 1);
 }
 /* ---------- Tasbih beads mode ---------- */
 const BEAD_STYLES = {
@@ -1121,7 +1211,7 @@ function finderQuery(kind, lat, lon) {
     : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
 }
 function finderFallbackName(kind) {
-  return kind === "halal" ? (state.lang === "tr" ? "Helal restoran" : "Halal restaurant") : kind === "market" ? (state.lang === "tr" ? "Helal market" : "Halal market") : (state.lang === "tr" ? "Cami" : "Mosque");
+  return kind === "halal" ? pickL("Helal restoran", "Restaurant halal", "Halal restaurant") : kind === "market" ? pickL("Helal market", "Marché halal", "Halal market") : pickL("Cami", "Mosquée", "Mosque");
 }
 // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
 // (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
@@ -1373,7 +1463,7 @@ function loadLiveFrames() {
 })();
 async function loadChapters() {
   try {
-    const res = await fetch(`https://api.quran.com/api/v4/chapters?language=${state.lang === "tr" ? "tr" : "en"}`);
+    const res = await fetch(`https://api.quran.com/api/v4/chapters?language=${pickL("tr", "fr", "en")}`);
     if (!res.ok) throw new Error("chapters " + res.status);
     const json = await res.json();
     chapters = json.chapters || [];
@@ -1420,7 +1510,7 @@ async function openChapter(id, keepAudio = false) {
   const verses = document.getElementById("verses");
   const previousHeight = verses.scrollTop;
   verses.innerHTML = `<p class="hint">${t("loading")}</p>`;
-  const translation = state.lang === "tr" ? 77 : 20;
+  const translation = pickL(77, 31, 20);
   let uthmani, meal;
   try {
     [uthmani, meal] = await Promise.all([
@@ -1749,7 +1839,7 @@ function renderHolyDays() {
   const box = document.getElementById("holyDaysList");
   if (!box) return;
   const lang = (typeof state !== "undefined" && state.lang) || "en";
-  const loc = lang === "tr" ? "tr-TR" : "en-US";
+  const loc = pickL("tr-TR", "fr-FR", "en-US", lang);
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const items = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") }));
   const upcoming = items.filter(e => e.date >= today);
@@ -1970,7 +2060,7 @@ function openCardEditor(bg) {
   const lang = state.lang || "en";
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today)[0];
-  const sugg = up ? cardMsgFor(up, lang) : (lang === "tr" ? ["Kandiliniz mübarek olsun"] : ["Blessed day"]);
+  const sugg = up ? cardMsgFor(up, lang) : pickL(["Kandiliniz mübarek olsun"], ["Journée bénie"], ["Blessed day"], lang);
   document.getElementById("cardsGalleryWrap").classList.add("hidden");
   document.getElementById("cardsEditor").classList.remove("hidden");
   const img = document.getElementById("cardBgImg");
@@ -2440,8 +2530,8 @@ function applyLangImmediate(v) {
   state.langPref = v;
   state.lang = v === "system" ? sysLang() : v;
   save();
-  const target = state.lang === "tr" ? "/tr/" : "/";
-  const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  const target = langPath(state.lang);
+  const here = langPath(pathLang());
   if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
   applyI18n();
   if (typeof renderDaily === "function") renderDaily();
@@ -2471,8 +2561,8 @@ document.getElementById("setClose").onclick = () => {
   var langVal = document.getElementById("langSel").value;
   state.langPref = langVal;
   state.lang = langVal === "system" ? sysLang() : langVal;
-  const _lt2 = state.lang === "tr" ? "/tr/" : "/";
-  const _lh2 = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  const _lt2 = langPath(state.lang);
+  const _lh2 = langPath(pathLang());
   if (_lt2 !== _lh2) { try { history.replaceState(null, "", _lt2); } catch {} }
   state.vibration = document.getElementById("vibChk").checked;
   save();
@@ -2494,7 +2584,7 @@ document.getElementById("setLocBtn").onclick = () => {
 // tapped it — localize it on display so it always matches the current language.
 function displayPlaceName() {
   const n = state.place.name;
-  return (n === "Konumum" || n === "My location") ? (state.lang === "tr" ? "Konumum" : "My location") : n;
+  return (n === "Konumum" || n === "My location") ? pickL("Konumum", "Ma position", "My location") : n;
 }
 // A past GPS tap may have saved only the fallback name ("My location") because the
 // reverse-geocode lookup was blocked. If so, try once per session to resolve the
@@ -2506,7 +2596,7 @@ async function healFallbackPlaceName() {
   const p = state.place;
   if (!p || (p.name !== "My location" && p.name !== "Konumum") || typeof p.lat !== "number" || typeof p.lon !== "number") return;
   try {
-    const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+    const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lon}&localityLanguage=${pickL("tr", "fr", "en")}`)).json();
     const label = j.city || j.locality || j.principalSubdivision;
     if (label && label !== p.name) {
       state.place.name = label;
@@ -2531,11 +2621,11 @@ document.getElementById("gpsBtn").onclick = () => {
   if (!navigator.geolocation) return toast(t("gpsFail"));
   navigator.geolocation.getCurrentPosition(async pos => {
     const lat = pos.coords.latitude, lon = pos.coords.longitude;
-    const fallback = state.lang === "tr" ? "Konumum" : "My location";
+    const fallback = pickL("Konumum", "Ma position", "My location");
     const tz = state.place.tz;
     let name = null;
     try {
-      const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${state.lang === "tr" ? "tr" : "en"}`)).json();
+      const j = await (await fetch(`https://api-bdc.io/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${pickL("tr", "fr", "en")}`)).json();
       name = j.city || j.locality || j.principalSubdivision || null;
     } catch {}
     if (!name) {
@@ -2552,8 +2642,8 @@ function setLanguage(lang) {
   state.lang = lang;
   save();
   // keep the URL in sync without reloading, so the user stays exactly where they are
-  const target = lang === "tr" ? "/tr/" : "/";
-  const here = location.pathname.startsWith("/tr") ? "/tr/" : "/";
+  const target = langPath(lang);
+  const here = langPath(pathLang());
   if (target !== here) { try { history.replaceState(null, "", target); } catch {} }
   applyI18n();
   if (typeof renderDaily === "function") renderDaily();
@@ -2619,7 +2709,7 @@ function qNorm(s) {
 }
 /* Original query (UI language) + concept expansions across both languages. */
 function verseSearchQueries(q) {
-  const uiLang = state.lang === "tr" ? "tr" : "en";
+  const uiLang = pickL("tr", "fr", "en");
   const out = [], seen = {};
   const add = (term, lang) => { const k = lang + "|" + term.toLowerCase(); if (!seen[k]) { seen[k] = 1; out.push({ term, lang }); } };
   add(q, uiLang);
@@ -2880,8 +2970,8 @@ async function openVerseWindow(vk) {
   document.getElementById("vmTr").textContent = "";
   document.getElementById("verseModal").classList.remove("hidden");
   try {
-    const trId = state.lang === "tr" ? 77 : 20;
-    const j = await (await fetch(`https://api.quran.com/api/v4/verses/by_key/${vk}?words=false&translations=${trId}&language=${state.lang === "tr" ? "tr" : "en"}&fields=text_uthmani`)).json();
+    const trId = pickL(77, 31, 20);
+    const j = await (await fetch(`https://api.quran.com/api/v4/verses/by_key/${vk}?words=false&translations=${trId}&language=${pickL("tr", "fr", "en")}&fields=text_uthmani`)).json();
     if (vmKey !== vk) return;
     const v = j.verse || {};
     document.getElementById("vmAr").textContent = v.text_uthmani || "";
@@ -3075,7 +3165,7 @@ document.getElementById("compassBtn").onclick = async () => {
       // Only use GPS if it meaningfully differs from the manual location (>1km).
       const dLat = Math.abs(glat - state.place.lat), dLon = Math.abs(glon - state.place.lon);
       if (dLat > 0.01 || dLon > 0.01) {
-        qiblaLoc = { name: state.lang === "tr" ? "GPS konumu" : "GPS location", lat: glat, lon: glon };
+        qiblaLoc = { name: pickL("GPS konumu", "Position GPS", "GPS location"), lat: glat, lon: glon };
         updateDeclination(glat, glon); // declination must match the physical location too
       }
     } catch (e) {}
