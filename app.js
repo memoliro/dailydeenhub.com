@@ -3535,4 +3535,61 @@ if (vg) vg.addEventListener("click", e => {
   const b = e.target.closest("[data-trk]");
   if (b) togglePrayer(b.dataset.trk);
 });
+/* Swipe between main tabs: left = next tab, right = previous (back).
+   Follows the bottom-nav order: home, quran, qibla, tasbih, mosques, settings, more.
+   Skips zones with their own gestures: the prayer grid (day swipe), the greeting
+   card editor (drag/resize), form fields, and horizontally scrolling strips.
+   On a Settings sub-screen, right swipe closes it (back). On a More sub-panel,
+   right swipe returns to More. */
+(function () {
+  const ORDER = ["home", "quran", "qibla", "quiet", "mosques", "settings", "more"];
+  const MIN = 80;
+  let sx = 0, sy = 0, ok = false;
+  const EXCL = "#vaktGrid, #cardStage, input, textarea, select";
+  function hScrollable(el) {
+    let n = el instanceof Element ? el : null;
+    while (n && n !== document.body) {
+      if (n.scrollWidth > n.clientWidth + 4) {
+        const ov = getComputedStyle(n).overflowX;
+        if (ov === "auto" || ov === "scroll") return true;
+      }
+      n = n.parentElement;
+    }
+    return false;
+  }
+  document.addEventListener("touchstart", e => {
+    ok = false;
+    if (e.touches.length !== 1) return;
+    if (e.target.closest(EXCL) || hScrollable(e.target)) return;
+    const t = e.touches[0];
+    sx = t.clientX; sy = t.clientY; ok = true;
+  }, { passive: true });
+  document.addEventListener("touchend", e => {
+    if (!ok) return;
+    ok = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) < MIN || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const back = dx > 0;
+    const subOpen = ["loc", "calc", "remind", "appear", "notif"].some(k => {
+      const el = document.getElementById("setSub-" + k);
+      return el && !el.classList.contains("hidden");
+    });
+    if (subOpen) { if (back && typeof setShow === "function") setShow(null); return; }
+    const cur = typeof visibleTab === "function" ? visibleTab() : "home";
+    const i = ORDER.indexOf(cur);
+    if (i < 0) { if (back) showTab("more"); return; }
+    const n = back ? i - 1 : i + 1;
+    if (n < 0 || n >= ORDER.length) return;
+    const id = ORDER[n];
+    if (id === "settings") {
+      showTab("settings");
+      if (typeof syncSetControls === "function") syncSetControls();
+      if (typeof setShow === "function") setShow(null);
+    } else {
+      showTab(id);
+    }
+    window.scrollTo(0, 0);
+  }, { passive: true });
+})();
 setInterval(renderTimes, 1000);
