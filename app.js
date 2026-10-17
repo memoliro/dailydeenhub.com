@@ -1553,8 +1553,21 @@ async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
-  // 0) Instant path: a fresh saved search for this grid needs no GPS and no network
+  list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
+  // 0) Locate first: GPS when available (fast attempt), else the saved place.
+  //    Everything below (cache key, distances, server query) uses these coords,
+  //    so being out and about correctly misses the home grid instead of
+  //    showing home mosques with home distances.
   let lat = state.place.lat, lon = state.place.lon;
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3500, maximumAge: 60000 });
+      });
+      lat = pos.coords.latitude; lon = pos.coords.longitude;
+    } catch {} // fall back to selected place
+  }
+  // 1) Instant path: a fresh saved search for THIS grid needs no network
   const ck = finderCacheKey(kind, lat, lon);
   const cache = readFinderCache();
   const hit = cache[ck];
@@ -1564,16 +1577,6 @@ async function nearbySearch(kind) {
     renderFinder();
     btn.disabled = false;
     return;
-  }
-  // 1) Prefer GPS location, fall back to selected place
-  list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
-  if (navigator.geolocation) {
-    try {
-      const pos = await new Promise((res, rej) => {
-        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000, maximumAge: 600000 });
-      });
-      lat = pos.coords.latitude; lon = pos.coords.longitude;
-    } catch {} // fall back to selected place
   }
   // 2) Ask the map servers
   const q = finderQuery(kind, lat, lon);
