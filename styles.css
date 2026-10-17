@@ -598,6 +598,9 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
 #panel-qibla .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel, #panel-live .panel, #panel-feedback .panel { padding: 14px 10px; }
 /* Quran reader: let the verses use nearly the full device width */
 #panel-quran .panel { padding: 14px 6px; }
+/* Follow-recitation toggle: pill button so the option is easy to spot */
+.follow-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--gold-2); background: rgba(212, 165, 116, 0.14); border: 1px solid rgba(212, 165, 116, 0.55); border-radius: 999px; padding: 8px 14px; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.follow-toggle input { width: 18px; height: 18px; margin: 0; accent-color: var(--gold); }
 
 /* Settings page */
 #panel-settings { padding: 0 2px; }
