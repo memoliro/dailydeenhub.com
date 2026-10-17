@@ -1554,12 +1554,15 @@ async function nearbySearch(kind) {
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
-  // 0) Locate first: GPS when available (fast attempt), else the saved place.
-  //    Everything below (cache key, distances, server query) uses these coords,
-  //    so being out and about correctly misses the home grid instead of
-  //    showing home mosques with home distances.
+  // 0) Locate first: the silently-tracked live position when fresh (<2 min),
+  //    else a quick GPS fix, else the saved place. Everything below (cache key,
+  //    distances, server query) uses these coords, so being out and about
+  //    correctly misses the home grid instead of showing home mosques with
+  //    home distances.
   let lat = state.place.lat, lon = state.place.lon;
-  if (navigator.geolocation) {
+  if (livePosFresh(120000)) {
+    lat = livePos.lat; lon = livePos.lon;
+  } else if (navigator.geolocation) {
     try {
       const pos = await new Promise((res, rej) => {
         navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3500, maximumAge: 60000 });
@@ -1632,6 +1635,36 @@ async function warmFinderCache() {
     } catch {}
     await new Promise(r => setTimeout(r, 3000)); // stagger: polite to the free servers
   }
+}
+/* ---------- Live position: silently tracked while the app is open ----------
+   The finder (mosques/halal/markets) should "just know" where he is when he
+   taps it — no GPS wait, no stale home results. A low-power watchPosition
+   (no high accuracy, 30s max age) keeps an in-memory fix fresh; it never
+   changes state.place (his chosen city for prayer times) and never leaves
+   the device except inside the map queries the finder already makes. */
+const livePos = { lat: null, lon: null, t: 0, watching: false };
+function livePosFresh(maxAgeMs) {
+  return livePos.lat != null && Date.now() - livePos.t < maxAgeMs;
+}
+async function startLiveTracking() {
+  if (!navigator.geolocation || livePos.watching) return;
+  try {
+    // Never pop a permission prompt silently: only watch when already granted.
+    if (navigator.permissions && navigator.permissions.query) {
+      const s = await navigator.permissions.query({ name: "geolocation" });
+      if (s.state !== "granted") return;
+    }
+    livePos.watching = true;
+    navigator.geolocation.watchPosition(
+      pos => {
+        livePos.lat = pos.coords.latitude;
+        livePos.lon = pos.coords.longitude;
+        livePos.t = Date.now();
+      },
+      () => { /* keep the last fix; a failed watch just means no live update */ },
+      { enableHighAccuracy: false, maximumAge: 30000, timeout: 20000 }
+    );
+  } catch { livePos.watching = false; }
 }
 /* ---------- Ramadan hub: Suhoor/Iftar countdown during Ramadan ---------- */
 function isRamadan(entry) {
@@ -2935,6 +2968,7 @@ document.getElementById("gpsBtn").onclick = () => {
       name = (cur && cur !== "Konumum" && cur !== "My location") ? cur : fallback;
     }
     choosePlace({ name, latitude: lat, longitude: lon, timezone: tz });
+    try { startLiveTracking(); } catch {}
   }, () => toast(t("gpsFail")), { enableHighAccuracy: true, timeout: 8000 });
 };
 function setLanguage(lang) {
@@ -3522,6 +3556,7 @@ maybeShowApkNotice();
 // Warm the Find-near-me cache quietly in the background (mosques, halal, markets):
 // pre-searches the saved place a few seconds after load so first taps are instant.
 setTimeout(() => { try { warmFinderCache(); } catch {} }, 8000);
+setTimeout(() => { try { startLiveTracking(); } catch {} }, 5000);
 // Fetch magnetic declination for the saved location (cached in localStorage).
 if (state.place && typeof state.place.lat === 'number') updateDeclination(state.place.lat, state.place.lon);
 // prayer-card checkboxes use delegation (cards re-render every second)
