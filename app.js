@@ -1515,10 +1515,10 @@ function finderFallbackName(kind) {
 // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
 // (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
 async function fetchOverpass(q) {
-  // Only the German cluster: z.overpass-api.de is the same operator as
-  // overpass-api.de. (maps.mail.ru was removed 2026-10-17 — it returned
-  // geographically wrong results, e.g. Tunisia/Ghana for a Montreal query.)
-  const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter"];
+  // German cluster + French mirror for redundancy. (maps.mail.ru was removed
+  // 2026-10-17 — it returned geographically wrong results, e.g. Tunisia/Ghana
+  // for a Montreal query.)
+  const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter", "https://overpass.openstreetmap.fr/api/interpreter"];
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 30000);
   try {
