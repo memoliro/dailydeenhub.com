@@ -1560,20 +1560,29 @@ async function nearbySearch(kind) {
   btn.disabled = true;
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
   // 0) Locate first: the silently-tracked live position when fresh (<2 min),
-  //    else a quick GPS fix, else the saved place. Everything below (cache key,
+  //    else a persistent GPS fix, else the saved place. Everything below (cache key,
   //    distances, server query) uses these coords, so being out and about
   //    correctly misses the home grid instead of showing home mosques with
-  //    home distances.
+  //    home distances. Tries hard: 10s getCurrentPosition + 5s tracker wait.
   let lat = state.place.lat, lon = state.place.lon;
+  try { startLiveTracking(); } catch {}
   if (livePosFresh(120000)) {
     lat = livePos.lat; lon = livePos.lon;
   } else if (navigator.geolocation) {
     try {
       const pos = await new Promise((res, rej) => {
-        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3500, maximumAge: 60000 });
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 10000, maximumAge: 60000 });
       });
       lat = pos.coords.latitude; lon = pos.coords.longitude;
-    } catch {} // fall back to selected place
+    } catch {
+      // getCurrentPosition failed (denied, timeout, or prompt dismissed):
+      // give the background tracker up to 5s to produce a fix.
+      for (let i = 0; i < 10 && !livePosFresh(120000); i++) {
+        await new Promise(r => setTimeout(r, 500));
+      }
+      if (livePosFresh(120000)) { lat = livePos.lat; lon = livePos.lon; }
+      // else fall back to selected place
+    }
   }
   // 1) Instant path: a fresh saved search for THIS grid needs no network
   const ck = finderCacheKey(kind, lat, lon);
