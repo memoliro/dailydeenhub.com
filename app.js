@@ -1512,7 +1512,10 @@ function finderFallbackName(kind) {
 // Ask every Overpass mirror at once — the first good answer wins, stragglers are cancelled.
 // (kumi/private.coffee mirror retired: it answers 3-4x slower than the German cluster.)
 async function fetchOverpass(q) {
-  const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter", "https://maps.mail.ru/osm/tools/overpass/api/interpreter"];
+  // Only the German cluster: z.overpass-api.de is the same operator as
+  // overpass-api.de. (maps.mail.ru was removed 2026-10-17 — it returned
+  // geographically wrong results, e.g. Tunisia/Ghana for a Montreal query.)
+  const endpoints = ["https://overpass-api.de/api/interpreter", "https://z.overpass-api.de/api/interpreter"];
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 20000);
   try {
@@ -1531,11 +1534,15 @@ function finderItemsFromData(data, lat, lon, fallbackName) {
   const seen = new Set();
   return (data.elements || []).map(el => {
     const mlat = el.lat ?? el.center?.lat, mlon = el.lon ?? el.center?.lon;
-    if (mlat == null) return null;
+    if (mlat == null || mlon == null) return null;
+    const d = mosqueDistKm(lat, lon, mlat, mlon);
+    // Safety net: the query asks for 10km radius — drop anything absurdly far
+    // (a misbehaving mirror once returned Tunisia/Ghana for a Montreal query).
+    if (d > 15) return null;
     const key = mlat.toFixed(5) + "," + mlon.toFixed(5);
     if (seen.has(key)) return null;
     seen.add(key);
-    return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d: mosqueDistKm(lat, lon, mlat, mlon) };
+    return { name: el.tags?.name || fallbackName, lat: mlat, lon: mlon, d };
   }).filter(Boolean).sort((a, b) => a.d - b.d).slice(0, 15);
 }
 // Merge fresh items into the saved grid: keep old, add new, refresh names. Returns merged list.
