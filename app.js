@@ -3547,16 +3547,14 @@ if (vg) vg.addEventListener("click", e => {
 /* Swipe between main tabs: left = next tab, right = previous (back).
    Follows the bottom-nav order: home, quran, qibla, tasbih, mosques, settings, more.
    Skips zones with their own gestures: the prayer grid (day swipe), the greeting
-   card editor (drag/resize), the Quran reader and Qibla page (finger drag is for
-   reading/scrolling there — tab swipes felt like the page was moving around),
-   form fields, and horizontally scrolling strips.
+   card editor (drag/resize), form fields, and horizontally scrolling strips.
    On a Settings sub-screen, right swipe closes it (back). On a More sub-panel,
    right swipe returns to More. */
 (function () {
   const ORDER = ["home", "quran", "qibla", "quiet", "mosques", "settings", "more"];
   const MIN = 80;
   let sx = 0, sy = 0, ok = false;
-  const EXCL = "#vaktGrid, #cardStage, #panel-quran, #panel-qibla, input, textarea, select";
+  const EXCL = "#vaktGrid, #cardStage, input, textarea, select";
   function hScrollable(el) {
     let n = el instanceof Element ? el : null;
     while (n && n !== document.body) {
