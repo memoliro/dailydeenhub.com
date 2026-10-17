@@ -1619,10 +1619,7 @@ async function findMarkets() { return nearbySearch("market"); }
 // (would pop a permission prompt), no UI — a failed warm just means the button
 // tap fetches normally.
 let finderWarmed = false;
-async function warmFinderCache() {
-  if (finderWarmed) return;
-  finderWarmed = true;
-  const lat = state.place.lat, lon = state.place.lon;
+async function warmFinderGrid(lat, lon) {
   for (const kind of ["mosque", "halal", "market"]) {
     try {
       const ck = finderCacheKey(kind, lat, lon);
@@ -1635,6 +1632,24 @@ async function warmFinderCache() {
     } catch {}
     await new Promise(r => setTimeout(r, 3000)); // stagger: polite to the free servers
   }
+}
+async function warmFinderCache() {
+  if (finderWarmed) return;
+  finderWarmed = true;
+  await warmFinderGrid(state.place.lat, state.place.lon);
+  // Then warm the LIVE position too, so the Finder is instant even when he's
+  // out: by the time he taps it, the search for his real grid is already done.
+  // Only when the silent tracker is actually running (permission granted) —
+  // never trigger a location prompt from a background warm-up.
+  if (!livePos.watching && !livePosFresh(120000)) return;
+  for (let i = 0; i < 20 && !livePosFresh(120000); i++) {
+    await new Promise(r => setTimeout(r, 500));
+  }
+  if (!livePosFresh(120000)) return;
+  // Same ~1km grid as the saved place? Already warmed above — skip.
+  if (finderCacheKey("mosque", livePos.lat, livePos.lon) ===
+      finderCacheKey("mosque", state.place.lat, state.place.lon)) return;
+  await warmFinderGrid(livePos.lat, livePos.lon);
 }
 /* ---------- Live position: silently tracked while the app is open ----------
    The finder (mosques/halal/markets) should "just know" where he is when he
