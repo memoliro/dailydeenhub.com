@@ -537,9 +537,14 @@ body[data-theme="day"] .dcard { background: #fff; }
 }
 .bnav button {
   background: none; border: 0; font-size: 26px; padding: 8px 12px;
-  cursor: pointer; opacity: .55; border-radius: 12px;
+  cursor: pointer; opacity: .55; border-radius: 50%;
+  transition: opacity .25s, box-shadow .25s, transform .25s, background .25s;
 }
-.bnav button.on { opacity: 1; }
+.bnav button.on {
+  opacity: 1; transform: scale(1.12);
+  background: radial-gradient(circle, rgba(45,212,191,.38) 0%, rgba(45,212,191,0) 72%);
+  box-shadow: 0 0 16px 3px rgba(45,212,191,.5);
+}
 body[data-theme="day"] .bnav { background: #fffdf8; }
 
 .verse-ar { font-family: var(--arab); font-size: 26px; text-align: right; direction: rtl; line-height: 1.9; margin: 4px 0 8px; }
