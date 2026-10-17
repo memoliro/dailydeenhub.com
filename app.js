@@ -720,14 +720,19 @@ function normalizeExtra(s) {
 }
 // Early nav: event delegation so bottom nav works even if later JS fails
 document.addEventListener("click", e => {
+  // Settings gear needs its controls synced — check BEFORE the generic
+  // data-goto handler, because the gear also carries data-goto="settings"
+  // (the generic branch returns early and would skip the sync).
+  if (e.target.closest("#bnavSet")) {
+    e.preventDefault();
+    if (typeof showTab === "function") { showTab("settings"); if (typeof syncSetControls === "function") syncSetControls(); if (typeof setShow === "function") setShow(null); window.scrollTo({ top: 0 }); }
+    return;
+  }
   const g = e.target.closest("[data-goto]");
   if (g) {
     e.preventDefault();
     if (typeof showTab === "function") { showTab(g.dataset.goto); window.scrollTo(0, 0); }
     return;
-  }
-  if (e.target.closest("#bnavSet")) {
-    if (typeof showTab === "function") { showTab("settings"); if (typeof syncSetControls === "function") syncSetControls(); if (typeof setShow === "function") setShow(null); window.scrollTo({ top: 0 }); }
   }
 });
 
