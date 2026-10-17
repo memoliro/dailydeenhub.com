@@ -1504,7 +1504,10 @@ function finderQuery(kind, lat, lon) {
     ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
     : kind === "market"
     ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:10000,${lat},${lon}););out center 20;`
-    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon}););out center 20;`;
+    // Mosques: catch the three common OSM taggings — (1) amenity=place_of_worship
+    // + religion=muslim, (2) building=mosque, (3) place_of_worship with a
+    // mosque-like name (some mappers skip the religion tag).
+    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:10000,${lat},${lon});node["building"="mosque"](around:10000,${lat},${lon});way["building"="mosque"](around:10000,${lat},${lon});node["amenity"="place_of_worship"]["name"~"mosque|masjid|camii|mosquee|mosquée",i](around:10000,${lat},${lon});way["amenity"="place_of_worship"]["name"~"mosque|masjid|camii|mosquee|mosquée",i](around:10000,${lat},${lon}););out center 20;`;
 }
 function finderFallbackName(kind) {
   return kind === "halal" ? pickL("Helal restoran", "Restaurant halal", "Halal restaurant") : kind === "market" ? pickL("Helal market", "Marché halal", "Halal market") : pickL("Cami", "Mosquée", "Mosque");
