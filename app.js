@@ -1410,11 +1410,70 @@ function bumpTasbih(withSound) {
 }
 function applyTasbihMode() {
   const beads = state.tasbihMode === "beads";
-  document.getElementById("tasbihClassic").classList.toggle("hidden", beads);
+  const frame = document.getElementById("tasbihFrame");
+  if (frame) frame.classList.toggle("hidden", beads);
+  else document.getElementById("tasbihClassic").classList.toggle("hidden", beads);
   document.getElementById("tasbihBeads").classList.toggle("hidden", !beads);
   document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.classList.toggle("on", b.dataset.tm === state.tasbihMode));
   if (beads) { buildBeads(); renderBeads(false); }
+  else setTimeout(layoutBeadFrame, 60);
 }
+/* ===== Tasbih bead frame: 33 turquoise beads, silver divider every 11 ===== */
+function beadFramePoint(segs, r, total, d) {
+  d = ((d % total) + total) % total;
+  for (const g of segs) {
+    if (d <= g.len) {
+      const f = g.len ? d / g.len : 0;
+      if (g.t === "line") return [g.x1 + (g.x2 - g.x1) * f, g.y1 + (g.y2 - g.y1) * f];
+      const a = g.a0 + (g.a1 - g.a0) * f;
+      return [g.cx + r * Math.cos(a), g.cy + r * Math.sin(a)];
+    }
+    d -= g.len;
+  }
+  return [0, 0];
+}
+function layoutBeadFrame() {
+  const wrap = document.getElementById("tasbihFrame"), layer = document.getElementById("tasbihBeadFrame");
+  if (!wrap || !layer || wrap.classList.contains("hidden")) return;
+  const W = wrap.offsetWidth, H = wrap.offsetHeight;
+  if (W < 60 || H < 60) return;
+  if (!layer.children.length) {
+    for (let i = 0; i < 36; i++) {
+      const isSilver = (i === 11 || i === 23 || i === 35);
+      const el = document.createElement("img");
+      el.src = isSilver ? "img/bead-ag.png" : "img/bead-tq.png";
+      el.alt = ""; el.draggable = false;
+      layer.appendChild(el);
+    }
+  }
+  const bs = Math.round(Math.max(22, Math.min(34, W / 11)));
+  const ss = Math.round(bs * 0.94);
+  const r = bs * 1.25, pad = bs / 2 + 4;
+  const x0 = pad, y0 = pad, w = W - pad * 2, h = H - pad * 2;
+  const st = Math.max(1, w - 2 * r), sv = Math.max(1, h - 2 * r), arc = Math.PI * r / 2;
+  const segs = [
+    { t: "line", x1: x0 + r, y1: y0, x2: x0 + w - r, y2: y0, len: st },
+    { t: "arc", cx: x0 + w - r, cy: y0 + r, a0: -Math.PI / 2, a1: 0, len: arc },
+    { t: "line", x1: x0 + w, y1: y0 + r, x2: x0 + w, y2: y0 + h - r, len: sv },
+    { t: "arc", cx: x0 + w - r, cy: y0 + h - r, a0: 0, a1: Math.PI / 2, len: arc },
+    { t: "line", x1: x0 + w - r, y1: y0 + h, x2: x0 + r, y2: y0 + h, len: st },
+    { t: "arc", cx: x0 + r, cy: y0 + h - r, a0: Math.PI / 2, a1: Math.PI, len: arc },
+    { t: "line", x1: x0, y1: y0 + h - r, x2: x0, y2: y0 + r, len: sv },
+    { t: "arc", cx: x0 + r, cy: y0 + r, a0: Math.PI, a1: Math.PI * 1.5, len: arc }
+  ];
+  const total = 2 * st + 2 * sv + 4 * arc, n = 36;
+  [...layer.children].forEach((el, i) => {
+    const isSilver = (i === 11 || i === 23 || i === 35);
+    const sz = isSilver ? ss : bs, p = beadFramePoint(segs, r, total, i / n * total);
+    el.style.width = sz + "px"; el.style.height = sz + "px";
+    el.style.left = (p[0] - sz / 2) + "px"; el.style.top = (p[1] - sz / 2) + "px";
+  });
+}
+let beadFrameRT = 0;
+window.addEventListener("resize", () => {
+  clearTimeout(beadFrameRT);
+  beadFrameRT = setTimeout(layoutBeadFrame, 200);
+});
 /* ---------- prayer tracker with streaks ---------- */
 const TRACKABLE = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 function todayKey(d) { return d ? `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` : todayKey(new Date()); }
@@ -1784,6 +1843,7 @@ function showTab(id) {
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
     b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles"))));
+  if (id === "quiet") setTimeout(layoutBeadFrame, 60);
   if (id === "quran") {
     wireQuranPosTracking();
     if (!chapters.length) loadChapters().then(refreshQuranResume);
