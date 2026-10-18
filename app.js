@@ -76,7 +76,11 @@ const I18N = {
     qadhaRecent: "Recent activity", qadhaMadeUpLog: "made up", qadhaMissedLog: "missed", qadhaFullDay: "Full day",
     qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago",
     qadhaRamadanNote: "Fasting too? Track your Ramadan fasts the same way \u2192",
-    qadhaCalcTitle: "Estimate missed prayers", qadhaCalcSince: "Missed since (date)", qadhaCalcDays: "Or missed days (estimate)", qadhaCalcAdd: "Calculate & add", qadhaCalcConfirm: "Tap again to confirm", qadhaCalcPrev: "~{d} days x 6 prayers = {n} to add.", qadhaCalcNone: "Pick a date or enter days first.", qadhaCalcEst: "Estimate added",
+    qadhaCalcTitle: "Estimate missed prayers", qadhaCalcSince: "Missed since (date)", qadhaCalcDays: "Or missed days (estimate)", qadhaCalcAdd: "Calculate & add", qadhaCalcConfirm: "Tap again to confirm", qadhaCalcPrev: "~{d} days x 5 prayers = {n} to add.", qadhaCalcNone: "Pick a date or enter days first.", qadhaCalcEst: "Estimate added",
+    zikirTile: "Zikir", zikirTitle: "Zikirmatik", zikirSub: "Pick a dhikr, then count it on the tasbih.",
+    zikirAdd: "+ Add my own dhikr", zikirNameL: "Dhikr", zikirCountL: "Count", zikirSaveB: "Save",
+    zikirHusna: "Esmaül Hüsna", zikirMine: "My dhikrs", zikirBack: "Back",
+    zikirNames: { salavat: "Salawat", laHavle: "La hawla", kelimeTevhid: "Kalima Tawhid", bismillah: "Bismillah", subhanallah: "Subhanallah", elhamdulillah: "Alhamdulillah", allahuEkber: "Allahu akbar", laIlahe: "La ilaha illallah", estagfirullah: "Astaghfirullah" },
     resTitle: "Kutub al-Sittah", resSub: "The six canonical hadith collections.", resHadith: "hadith", hdBack: "Books", hdBackCh: "Chapters", hdChapters: "chapters", hdSearchPh: "Search all hadith\u2026", hdLoading: "Downloading the book\u2026 (one time only)", hdContinue: "Continue reading", hdNoRes: "No hadith found for this search.", hdResults: "results", hdGeneralNote: "The source data did not specify a chapter for these hadith.", hdRetry: "Try again", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "Download", hdDlLater: "Not now", resSearchPh: "Search all six books\u2026", resSearching: "Searching downloaded books\u2026", resNoRes: "No results found.", resDlToSearch: "Download a book to include it in search", hdDlOnce: "downloaded once to your device. Read anytime, even offline.", hdAttrAr: "Arabic text: public domain", hdAttrEn: "English translation", 
     ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
     fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
@@ -162,7 +166,11 @@ const I18N = {
     qadhaRakats: "rekat", qadhaMadeUp: "Birini kıldım", qadhaMissed: "Birini kaçırdım", qadhaMissDay: "+ Koskoca bir gün kaçırdım",
     qadhaRecent: "Son hareketler", qadhaMadeUpLog: "kılındı", qadhaMissedLog: "kaçırıldı", qadhaFullDay: "Tüm gün",
     qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce",
-    qadhaCalcTitle: "Ka\u00e7\u0131r\u0131lan namazlar\u0131 hesapla", qadhaCalcSince: "Ka\u00e7\u0131rd\u0131\u011f\u0131m tarih", qadhaCalcDays: "veya ka\u00e7\u0131r\u0131lan g\u00fcn (tahmini)", qadhaCalcAdd: "Hesapla & ekle", qadhaCalcConfirm: "Onaylamak i\u00e7in tekrar dokun", qadhaCalcPrev: "~{d} g\u00fcn x 6 namaz = eklenecek {n}.", qadhaCalcNone: "\u00d6nce tarih se\u00e7 veya g\u00fcn gir.", qadhaCalcEst: "Tahmin eklendi",
+    qadhaCalcTitle: "Ka\u00e7\u0131r\u0131lan namazlar\u0131 hesapla", qadhaCalcSince: "Ka\u00e7\u0131rd\u0131\u011f\u0131m tarih", qadhaCalcDays: "veya ka\u00e7\u0131r\u0131lan g\u00fcn (tahmini)", qadhaCalcAdd: "Hesapla & ekle", qadhaCalcConfirm: "Onaylamak i\u00e7in tekrar dokun", qadhaCalcPrev: "~{d} g\u00fcn x 5 namaz = eklenecek {n}.", qadhaCalcNone: "\u00d6nce tarih se\u00e7 veya g\u00fcn gir.", qadhaCalcEst: "Tahmin eklendi",
+    zikirTile: "Zikir", zikirTitle: "Zikirmatik", zikirSub: "Bir zikir se\u00e7, sonra tesbihte say.",
+    zikirAdd: "+ Kendi zikrimi ekle", zikirNameL: "Zikir", zikirCountL: "Adet", zikirSaveB: "Kaydet",
+    zikirHusna: "Esma\u00fcl H\u00fcsna", zikirMine: "Zikirlerim", zikirBack: "Geri",
+    zikirNames: { salavat: "Salavat", laHavle: "La Havle", kelimeTevhid: "Kelime-i Tevhid", bismillah: "Bismillahirrahmanirrahim", subhanallah: "Subh\u00e2nall\u00e2h", elhamdulillah: "Elhamd\u00fclillah", allahuEkber: "Allahu ekber", laIlahe: "L\u00e2 ilahe illallah", estagfirullah: "Esta\u011ffirull\u00e2h" },
     qadhaRamadanNote: "Oru\u00e7 da tutuyor musun? Ramazan oru\u00e7lar\u0131n\u0131 da ayn\u0131 \u015fekilde takip et \u2192",
     resTitle: "K\u00fct\u00fcb-i Sitte", resSub: "Alt\u0131 sahih hadis kitab\u0131.", resHadith: "hadis", hdBack: "Kitaplar", hdBackCh: "B\u00f6l\u00fcmler", hdChapters: "b\u00f6l\u00fcm", hdSearchPh: "T\u00fcm hadislerde ara\u2026", hdLoading: "Kitap indiriliyor\u2026 (yaln\u0131zca bir kez)", hdContinue: "Okumaya devam et", hdNoRes: "Bu aramada hadis bulunamad\u0131.", hdResults: "sonu\u00e7", hdGeneralNote: "Kaynak veride bu hadislerin b\u00f6l\u00fcm\u00fc belirtilmemi\u015f.", hdRetry: "Tekrar dene", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "\u0130ndir", hdDlLater: "\u015eimdi de\u011fil", resSearchPh: "Alt\u0131 kitapta ara\u2026", resSearching: "\u0130ndirilen kitaplarda aran\u0131yor\u2026", resNoRes: "Sonu\u00e7 bulunamad\u0131.", resDlToSearch: "Aramaya dahil etmek i\u00e7in kitap indir", hdDlOnce: "cihaz\u0131na bir kez indirilir. \u00c7evrimd\u0131\u015f\u0131yken bile diledi\u011fin zaman oku.", hdAttrAr: "Arap\u00e7a metin: kamu mal\u0131", hdAttrEn: "\u0130ngilizce \u00e7eviri", 
     ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
@@ -246,6 +254,10 @@ const I18N = {
     qadhaTitle: "Prières qada",
     qadhaOwed: "prières à rattraper",
     qadhaCalcTitle: "Estimer les prières manquées", qadhaCalcSince: "Manquées depuis (date)", qadhaCalcDays: "Ou jours manqués (estimation)", qadhaCalcAdd: "Calculer & ajouter", qadhaCalcConfirm: "Touchez à nouveau pour confirmer", qadhaCalcPrev: "~{d} jours x 6 prières = {n} à ajouter.", qadhaCalcNone: "Choisissez une date ou entrez des jours.", qadhaCalcEst: "Estimation ajoutée",
+    zikirTile: "Zikir", zikirTitle: "Zikirmatik", zikirSub: "Choisissez un dhikr, puis comptez-le sur le tasbih.",
+    zikirAdd: "+ Ajouter mon dhikr", zikirNameL: "Dhikr", zikirCountL: "Nombre", zikirSaveB: "Enregistrer",
+    zikirHusna: "Esmaül Hüsna", zikirMine: "Mes dhikrs", zikirBack: "Retour",
+    zikirNames: { salavat: "Salawat", laHavle: "La hawla", kelimeTevhid: "Kalima Tawhid", bismillah: "Bismillah", subhanallah: "Subhanallah", elhamdulillah: "Alhamdulillah", allahuEkber: "Allahu akbar", laIlahe: "La ilaha illallah", estagfirullah: "Astaghfirullah" },
     qadhaRakats: "rakats",
     qadhaRecent: "Activité récente",
     qadhaNow: "à l'instant",
@@ -1841,12 +1853,12 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays", "cards", "khatm", "articles"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays", "cards", "khatm", "articles", "zikir"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles" || id === "zikir"))));
   if (id === "quiet") setTimeout(layoutBeadFrame, 60);
   if (id === "quran") {
     wireQuranPosTracking();
@@ -1856,6 +1868,7 @@ function showTab(id) {
   if (id === "library") renderLibrary(true);
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
   if (id === "qadha" && typeof renderQadha === "function") renderQadha();
+  if (id === "zikir" && typeof renderZikir === "function") renderZikir();
   if (id === "resources" && typeof renderResources === "function") renderResources();
   if (id === "hadith" && typeof renderHadith === "function") renderHadith();
   if (id === "live") loadLiveFrames();

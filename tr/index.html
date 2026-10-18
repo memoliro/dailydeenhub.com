@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=151" />
+  <link rel="stylesheet" href="/styles.css?v=152" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -250,7 +250,7 @@
           <div id="tasbihBeadFrame" aria-hidden="true"></div>
           <div id="tasbihClassic" class="tasbih-stage">
           <p class="sub" id="tasbihPhrase">Subhanallah</p>
-          <div class="tasbih-bigcount"><b id="tasbihCount">0</b></div>
+          <div class="tasbih-bigcount"><b id="tasbihCount">0</b><span id="tasbihTarget" class="tasbih-target"></span></div>
           <p class="tasbih-hint"><span data-i="tap">Saymak için her yere dokunun</span></p>
           <p class="note" id="tasbihNote"></p>
           <div class="row" style="justify-content:center"><button class="ghost" id="tasbihReset" type="button" data-i="reset">Sıfırla</button></div>
@@ -412,6 +412,7 @@
           <button class="tile" data-goto="qibla" type="button"><span class="tic">🧭</span><span class="tlabel" data-i="qiblaTab">Kıble</span></button>
           <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Camiler</span></button>
           <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tesbih</span></button>
+          <button class="tile" data-goto="zikir" type="button"><span class="tic">🔢</span><span class="tlabel" data-i="zikirTile">Zikir</span></button>
           <button class="tile" data-goto="live" type="button"><span class="tic">📺</span><span class="tlabel" data-i="watchLive">Canlı İzle</span></button>
           <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Geri Bildirim</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
@@ -423,6 +424,20 @@
           <button class="tile" data-goto="articles" type="button"><span class="tic">📰</span><span class="tlabel" data-i="articles">Makaleler</span></button>
         </div>
         <p class="more-legal"><a href="/tr/about.html" data-i="aboutL">Hakkında</a> · <a href="/tr/privacy.html" data-i="privacyL">Gizlilik</a> · <a href="/tr/terms.html" data-i="termsL">Şartlar</a></p>
+      </div>
+    </section>
+
+    <section id="panel-zikir" class="layout hidden">
+      <div class="panel pad narrow">
+        <h3 data-i="zikirTitle">Zikirmatik</h3>
+        <p class="note" data-i="zikirSub">Pick a dhikr, then count it on the tasbih.</p>
+        <div id="zikirList" class="zikir-list"></div>
+        <button class="ghost" id="zikirAddBtn" type="button"><span data-i="zikirAdd">+ Add my own dhikr</span></button>
+        <div id="zikirForm" class="zikir-form hidden">
+          <label><span data-i="zikirNameL">Dhikr</span><input type="text" id="zikirName" maxlength="80"></label>
+          <label><span data-i="zikirCountL">Count</span><input type="number" id="zikirCount" min="1" max="100000"></label>
+          <button class="primary" id="zikirSave" type="button"><span data-i="zikirSaveB">Save</span></button>
+        </div>
       </div>
     </section>
 
@@ -663,10 +678,12 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=202"></script>
+  <script src="/app.js?v=203"></script>
   <script src="/learn.js?v=8"></script>
   <script src="/hisnul.js?v=3"></script>
-  <script src="/qadha.js?v=2"></script>
+  <script src="/qadha.js?v=3"></script>
+    <script src="husna-ebced.js?v=1"></script>
+    <script src="zikir.js?v=2"></script>
   <script src="/khatm.js?v=1"></script>
   <script src="/articles.js?v=3"></script>
   <script src="/ramadan.js?v=1"></script>

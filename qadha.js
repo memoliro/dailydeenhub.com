@@ -119,16 +119,16 @@ function renderQadhaCalc() {
       days = daysVal;
     }
     if (!(days > 0)) { prev.textContent = t("qadhaCalcNone"); return; }
-    const per = days, total = days * QADHA_PRAYERS.length;
+    const per = days, total = days * 5;
     prev.textContent = t("qadhaCalcPrev").replace("{d}", days).replace("{n}", total);
     if (!prev.dataset.armed) {
       prev.dataset.armed = "1";
       go.textContent = t("qadhaCalcConfirm");
       return;
     }
-    // confirmed: add to each prayer
+    // confirmed: add to the 5 fard prayers only (Witr excluded from auto-estimate)
     const q = getQadha();
-    QADHA_PRAYERS.forEach(p => { q[p.key] = (q[p.key] || 0) + per; });
+    QADHA_PRAYERS.filter(p => p.key !== "Witr").forEach(p => { q[p.key] = (q[p.key] || 0) + per; });
     saveQadha(q);
     logQadha("EST", total);
     delete prev.dataset.armed;
