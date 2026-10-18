@@ -1033,7 +1033,11 @@ function renderTimes() {
       try { const a = new Audio("/audio/adhan-prayer-call.mp3"); a.play().catch(() => {}); } catch {}
     }
   }
-  if (dayOffset === 0 && state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted") {
+  // Only fire from a VISIBLE tab: a backgrounded tab's reminder would double
+  // up with the push notification (the service worker shows push only when
+  // no tab is visible, so visible-tab ⟺ local and hidden-tab ⟺ push are
+  // mutually exclusive — exactly one notification ever fires).
+  if (dayOffset === 0 && state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted" && document.visibilityState === "visible") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
@@ -2228,6 +2232,9 @@ function renderExtraRows() {
 }
 let extraFired = {};
 function checkExtraReminders(slots, nowMin, now) {
+  // Same dedup rule as the prayer reminder: only a visible tab fires locally,
+  // otherwise the push notification handles it (never both).
+  if (document.visibilityState !== "visible") return;
   const ex = normalizeExtra(state.extraRemind);
   if (!ex.sahur.on && !ex.tahajjud.on && !ex.fast.on && !ex.jumuah.on) return;
   const fajr = slots.find(s => s.key === "Fajr"), dhuhr = slots.find(s => s.key === "Dhuhr");
