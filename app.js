@@ -2280,14 +2280,13 @@ function verseAtTime(cur, dur) {
       if (state.quranFollow && i !== lastShadeVerse) {
         lastShadeVerse = i;
         box.querySelectorAll(".verse.on, .mverse.on").forEach(el => el.classList.remove("on"));
-        const se = box.querySelector(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`);
-        if (se) se.classList.add("on");
+        box.querySelectorAll(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`).forEach(se => se.classList.add("on"));
       }
       if (Date.now() - lastManualScroll < 10000) return; // user is reading, don't yank
       if (i === lastScrollVerse) return;
       lastScrollVerse = i;
       const el = box.querySelector(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`);
-      if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      if (el) el.scrollIntoView({ block: "center", behavior: "smooth" });
     } catch { /* never break playback */ }
   });
 })();

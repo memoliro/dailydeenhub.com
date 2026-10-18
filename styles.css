@@ -173,8 +173,8 @@ tr.today td { color: var(--gold-2); background: color-mix(in srgb, var(--gold) 1
   padding: 6px 30px; font-family: var(--arab); font-size: 26px; color: #6b4d1c; background: #fbf6e8; }
 .mushaf-basmala { text-align: center; font-family: var(--arab); font-size: 23px; margin: 10px 0 6px; }
 .mline { text-align: justify; font-family: var(--arab); font-size: 21px; line-height: 2.15; }
-.mverse { border-radius: 6px; transition: background .3s; user-select: none; -webkit-user-select: none; }
-.mverse.on { background: rgba(185,138,47,.32); }
+.mverse { border-radius: 6px; transition: background .3s; user-select: none; -webkit-user-select: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.mverse.on { background: rgba(185,138,47,.38); box-shadow: 0 0 0 2px rgba(185,138,47,.18); }
 .mw { white-space: normal; }
 .ayah-end { display: inline-block; min-width: 1.6em; text-align: center; border: 1.5px solid #b98a2f;
   border-radius: 50%; color: #8a5f1c; font-size: .68em; padding: .05em .2em; margin: 0 .2em; }
