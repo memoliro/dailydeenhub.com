@@ -1350,7 +1350,8 @@ const BEAD_STYLES = {
   onyx: ["radial-gradient(circle at 35% 32%, #7a7a7a, #1c1c1e 55%, #000000 100%)", "#333333"],
   pearl: ["radial-gradient(circle at 35% 32%, #ffffff, #e3e7ea 55%, #a7b0b8 100%)", "#c3ccd2"],
   amber: ["radial-gradient(circle at 35% 32%, #ffe082, #f0a202 58%, #96650a 100%)", "#b57e10"],
-  wood: ["radial-gradient(circle at 35% 32%, #d29a55, #8a5a24 58%, #54340e 100%)", "#6e4517"]
+  wood: ["radial-gradient(circle at 35% 32%, #d29a55, #8a5a24 58%, #54340e 100%)", "#6e4517"],
+  turquoise: ["radial-gradient(circle at 35% 32%, #8ff0e8, #2bb8b0 55%, #0d6b66 100%)", "#147a72"]
 };
 let beadCtx = null;
 function beadSound() {
