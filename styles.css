@@ -686,7 +686,7 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .surah-picker { position: relative; }
 .surah-drop { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 40; max-height: 320px; overflow-y: auto; background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0,0,0,.35); padding: 6px; }
 .surah-drop.hidden { display: none; }
-.surah-drop button { width: 100%; text-align: left; }
+.surah-drop button { width: 100%; text-align: left; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 /* ===== Quran verse search results ===== */
 .vres { display: block; width: 100%; text-align: left; background: transparent; border: 0;
   border-bottom: 1px solid var(--line); padding: 10px 8px; cursor: pointer; color: inherit; }
