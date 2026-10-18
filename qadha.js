@@ -89,7 +89,54 @@ function renderQadha() {
   });
   const md = document.getElementById("qadhaMissDay");
   if (md) md.onclick = qadhaMissDay;
+  renderQadhaCalc();
   renderQadhaRecent();
+}
+/* Qadha auto-estimate: date-based ("missed since") or manual day count.
+   Adds N days x 6 prayers to the per-prayer counts (one-time seed). */
+function renderQadhaCalc() {
+  const box = document.getElementById("qadhaCalc");
+  if (!box) return;
+  box.innerHTML =
+    "<h4 class=\"qadha-calc-h\">" + escapeHtml(t("qadhaCalcTitle")) + "</h4>" +
+    "<div class=\"qadha-calc-row\"><label>" + escapeHtml(t("qadhaCalcSince")) +
+    "<input type=\"date\" id=\"qadhaCalcDate\"></label></div>" +
+    "<div class=\"qadha-calc-row\"><label>" + escapeHtml(t("qadhaCalcDays")) +
+    "<input type=\"number\" id=\"qadhaCalcDays\" min=\"1\" placeholder=\"30\"></label></div>" +
+    "<button class=\"primary\" id=\"qadhaCalcGo\" type=\"button\">" +
+    escapeHtml(t("qadhaCalcAdd")) + "</button>" +
+    "<p class=\"qadha-calc-prev\" id=\"qadhaCalcPrev\"></p>";
+  const go = document.getElementById("qadhaCalcGo");
+  go.onclick = () => {
+    const prev = document.getElementById("qadhaCalcPrev");
+    let days = 0;
+    const dateVal = document.getElementById("qadhaCalcDate").value;
+    const daysVal = parseInt(document.getElementById("qadhaCalcDays").value, 10);
+    if (dateVal) {
+      const d0 = new Date(dateVal + "T12:00:00"), now = new Date();
+      days = Math.floor((now - d0) / 86400000);
+    } else if (daysVal > 0) {
+      days = daysVal;
+    }
+    if (!(days > 0)) { prev.textContent = t("qadhaCalcNone"); return; }
+    const per = days, total = days * QADHA_PRAYERS.length;
+    prev.textContent = t("qadhaCalcPrev").replace("{d}", days).replace("{n}", total);
+    if (!prev.dataset.armed) {
+      prev.dataset.armed = "1";
+      go.textContent = t("qadhaCalcConfirm");
+      return;
+    }
+    // confirmed: add to each prayer
+    const q = getQadha();
+    QADHA_PRAYERS.forEach(p => { q[p.key] = (q[p.key] || 0) + per; });
+    saveQadha(q);
+    logQadha("EST", total);
+    delete prev.dataset.armed;
+    go.textContent = t("qadhaCalcAdd");
+    document.getElementById("qadhaCalcDate").value = "";
+    document.getElementById("qadhaCalcDays").value = "";
+    renderQadha();
+  };
 }
 const _qadhaGoRamadan = document.getElementById("qadhaGoRamadan");
 if (_qadhaGoRamadan) _qadhaGoRamadan.onclick = () => {
@@ -104,7 +151,7 @@ function renderQadhaRecent() {
   if (!l.length) { el.innerHTML = ""; return; }
   el.innerHTML = "<h4 class=\"qadha-recent-h\">" + escapeHtml(t("qadhaRecent")) + "</h4>" +
     l.map(e => {
-      const what = e.k === "DAY" ? t("qadhaFullDay") : qadhaName(e.k);
+      const what = e.k === "DAY" ? t("qadhaFullDay") : e.k === "EST" ? t("qadhaCalcEst") : qadhaName(e.k);
       const act = e.d > 0 ? t("qadhaMissedLog") : t("qadhaMadeUpLog");
       const ic = e.d > 0 ? "+" : "✓";
       return "<div class=\"qadha-logrow\"><span class=\"qadha-logtx\">" + ic + " " + escapeHtml(what) +

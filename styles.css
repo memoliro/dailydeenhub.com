@@ -1036,3 +1036,11 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
   40% { transform: scale(1.3); }
   100% { transform: scale(1); }
 }
+
+/* qadha auto-estimate calculator */
+.qadha-calc { margin: 14px 0 4px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(212,165,116,.06); }
+.qadha-calc-h { margin: 0 0 8px; font-size: 15px; }
+.qadha-calc-row { margin-bottom: 8px; }
+.qadha-calc-row label { display: block; font-size: 13px; opacity: .85; }
+.qadha-calc-row input { width: 100%; margin-top: 4px; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: inherit; font-size: 15px; color-scheme: dark; }
+.qadha-calc-prev { margin: 8px 0 0; font-size: 14px; color: #d4a574; min-height: 1.2em; }
