@@ -2170,7 +2170,7 @@ async function ensureVerseAudio() {
 function markVerse(i) {
   document.querySelectorAll("#verses .verse.on, #verses .mverse.on").forEach(el => el.classList.remove("on"));
   const els = document.querySelectorAll(`#verses .verse[data-v="${i}"], #verses .mverse[data-v="${i}"]`);
-  els.forEach((el, k) => { el.classList.add("on"); if (k === 0) el.scrollIntoView({ block: "center", behavior: "smooth" }); });
+  els.forEach((el, k) => { if (state.quranFollow) el.classList.add("on"); if (k === 0) el.scrollIntoView({ block: "center", behavior: "smooth" }); });
 }
 function setPlayLabel(txt) { const b = document.getElementById("playBtn"); if (b) b.textContent = txt; }
 function stopFollow() {
@@ -2207,7 +2207,6 @@ async function toggleFollow() {
 }
 document.getElementById("audio").addEventListener("play", () => {
   const radio = document.getElementById("radioAudio"); if (radio) radio.pause();
-  if (state.quranFollow && !followState.playing) { document.getElementById("audio").pause(); toggleFollow(); }
 });
 document.getElementById("audio").addEventListener("ended", () => {
   if (!followState.playing) return;
@@ -2219,7 +2218,7 @@ document.getElementById("audio").addEventListener("ended", () => {
    scrolls. Estimate the current verse from playback position, weighted by
    verse word count, and gently scroll to it — without the .on shading. */
 let chapWeights = null, chapWeightsKey = "";
-let lastScrollVerse = -1, lastManualScroll = 0;
+let lastScrollVerse = -1, lastManualScroll = 0, lastShadeVerse = -1;
 function verseWeights() {
   if (!chapterData || !chapterData.uthmani || !chapterData.uthmani.length) return null;
   if (chapWeightsKey === chapterData.id && chapWeights) return chapWeights;
@@ -2249,11 +2248,19 @@ function verseAtTime(cur, dur) {
   audio.addEventListener("seeked", () => { lastScrollVerse = -1; });
   audio.addEventListener("timeupdate", () => {
     try {
-      if (state.quranFollow || followState.playing) return; // per-verse mode scrolls itself
+      if (followState.playing) return; // per-verse mode shades/scrolls itself
       if (audio.paused || !(audio.duration > 0)) return;
-      if (Date.now() - lastManualScroll < 10000) return; // user is reading, don't yank
       const i = verseAtTime(audio.currentTime, audio.duration);
-      if (i < 0 || i === lastScrollVerse) return;
+      if (i < 0) return;
+      // Visual shade follows the recitation when the toggle is on — audio untouched
+      if (state.quranFollow && i !== lastShadeVerse) {
+        lastShadeVerse = i;
+        box.querySelectorAll(".verse.on, .mverse.on").forEach(el => el.classList.remove("on"));
+        const se = box.querySelector(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`);
+        if (se) se.classList.add("on");
+      }
+      if (Date.now() - lastManualScroll < 10000) return; // user is reading, don't yank
+      if (i === lastScrollVerse) return;
       lastScrollVerse = i;
       const el = box.querySelector(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`);
       if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -3654,67 +3661,14 @@ document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async
 });
 const _fc = document.getElementById("followChk");
 if (_fc) _fc.onchange = () => {
-  const on = _fc.checked;
-  state.quranFollow = on; save();
-  const aud = document.getElementById("audio");
-  if (!on) {
-    // Switching to smooth mode: keep listening, drop the shading, continue
-    // the full chapter from the estimated position of the current verse.
-    const idx = followState.idx, wasPlaying = followState.playing;
-    stopFollow();
-    if (wasPlaying && idx >= 0) {
-      const p = RECITER_PATHS[state.reciter];
-      if (p) {
-        try {
-          aud.src = `https://download.quranicaudio.com/qdc/${p}/${currentChapter}.mp3`;
-          aud.load();
-          aud.onloadedmetadata = () => {
-            try {
-              const t = estimateTimeForVerse(idx);
-              if (t > 1) aud.currentTime = t;
-            } catch {}
-            aud.play().catch(() => {});
-          };
-        } catch {}
-      }
-    }
-  } else if (!aud.paused && aud.getAttribute("src") && !followState.playing) {
-    // Switching to shaded mode mid-playback: pick up per-verse from the
-    // verse being heard, seeking into it proportionally (no restart).
-    const idx = verseAtTime(aud.currentTime, aud.duration);
-    if (idx >= 0) (async () => {
-      try {
-        const verseStart = estimateTimeForVerse(idx);
-        const verseDurEst = estimateTimeForVerse(idx + 1) - verseStart;
-        const offsetInVerse = Math.max(0, aud.currentTime - verseStart);
-        const targetRatio = (verseDurEst > 1 && offsetInVerse > 1)
-          ? Math.min(offsetInVerse / verseDurEst, 0.95) : 0;
-        await ensureVerseAudio();
-        playVerseAt(idx);
-        if (targetRatio > 0) {
-          const onMeta = () => {
-            try {
-              aud.removeEventListener("loadedmetadata", onMeta);
-              if (aud.duration > 0) aud.currentTime = targetRatio * aud.duration;
-            } catch {}
-          };
-          aud.addEventListener("loadedmetadata", onMeta);
-          if (aud.readyState >= 1) onMeta();
-        }
-      } catch {}
-    })();
+  // Visual only: shade follows the recitation when on, nothing when off.
+  // The audio (full-chapter or per-verse) keeps playing untouched.
+  state.quranFollow = _fc.checked; save();
+  if (!state.quranFollow) {
+    document.querySelectorAll("#verses .verse.on, #verses .mverse.on").forEach(el => el.classList.remove("on"));
   }
+  lastShadeVerse = -1; // re-shade on next tick
 };
-/* Estimate the audio timestamp where verse i begins (for seamless mode switches). */
-function estimateTimeForVerse(i) {
-  const ws = verseWeights();
-  const aud = document.getElementById("audio");
-  if (!ws || !(aud.duration > 0) || i < 0) return 0;
-  const total = ws.reduce((a, b) => a + b, 0);
-  let acc = 0;
-  for (let k = 0; k < i && k < ws.length; k++) acc += ws[k];
-  return Math.max(0, (acc / total) * aud.duration - 1);
-}
 /* Big play button: large tap target with a pop animation. Toggles the same
    playback the audio bar controls (follow mode or full-chapter). */
 (function () {
@@ -3726,7 +3680,7 @@ function estimateTimeForVerse(i) {
     bpb.classList.remove("pop");
     void bpb.offsetWidth; // restart the animation
     bpb.classList.add("pop");
-    if (state.quranFollow) { toggleFollow(); return; }
+    if (followState.playing) { toggleFollow(); return; }
     if (aud.paused) aud.play().catch(() => {});
     else aud.pause();
   });
