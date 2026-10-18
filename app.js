@@ -1572,6 +1572,11 @@ async function nearbySearch(kind) {
   const list = document.getElementById("mosqueList");
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
+  // Highlight the active finder button so it's clear which search ran
+  for (const id of ["mosqueFind", "halalFind", "marketFind"]) {
+    const b = document.getElementById(id);
+    if (b) b.classList.toggle("on", b === btn);
+  }
   list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
   // 0) Locate first: the silently-tracked live position when fresh (<2 min),
   //    else a persistent GPS fix, else the saved place. Everything below (cache key,
@@ -1892,6 +1897,9 @@ function renderChapters() {
     openChapter(+btn.dataset.id);
     setSurahLabel(+btn.dataset.id);
     list.classList.add("hidden");
+    // Drop focus so Android doesn't select the label text in the input
+    const inp = document.getElementById("surahSearch");
+    if (inp) inp.blur();
   });
 }
 function surahDropShow(open) {

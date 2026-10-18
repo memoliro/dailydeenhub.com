@@ -157,6 +157,7 @@ tr.today td { color: var(--gold-2); background: color-mix(in srgb, var(--gold) 1
 .chapters button, .results button {
   width: 100%; text-align: left; background: transparent; border: 0;
   border-bottom: 1px solid var(--line); padding: 10px 4px; border-radius: 0;
+  user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .chapters small, .results small { color: var(--muted); display: block; }
 .verse { padding: 14px 0; border-bottom: 1px solid var(--line); }
@@ -343,6 +344,7 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 /* green identity accents */
 .primary { background: linear-gradient(135deg, var(--green), var(--green-deep)); border-color: var(--green); color: #fff; font-weight: 700; }
 .primary:active { filter: brightness(1.15); }
+.primary.on { background: linear-gradient(135deg, #e8734a, #c85a34); border-color: #e8734a; box-shadow: 0 0 0 2px rgba(232, 115, 74, .35); }
 .tabs button.on { background: var(--green); border-color: var(--green); color: #fff; }
 .vakt.on { border-color: var(--green-bright); box-shadow: 0 0 0 1px var(--green-bright), 0 8px 24px rgba(14, 107, 74, 0.25); }
 .vakt.on .nm { color: var(--green-bright); }
@@ -689,7 +691,8 @@ body[data-theme="day"] .hero-k { color: #b45309; }
 .surah-drop button { width: 100%; text-align: left; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 /* ===== Quran verse search results ===== */
 .vres { display: block; width: 100%; text-align: left; background: transparent; border: 0;
-  border-bottom: 1px solid var(--line); padding: 10px 8px; cursor: pointer; color: inherit; }
+  border-bottom: 1px solid var(--line); padding: 10px 8px; cursor: pointer; color: inherit;
+  user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .vres:last-child { border-bottom: 0; }
 .vres-key { display: inline-block; font-size: 12px; color: var(--gold); border: 1px solid var(--gold);
   border-radius: 8px; padding: 1px 8px; margin-bottom: 6px; }
