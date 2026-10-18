@@ -1842,16 +1842,24 @@ async function loadChapters() {
   if (!document.getElementById("verses").childElementCount) openChapter(1);
 }
 let surahDropOpen = false, chapterFilter = "", surahActive = -1;
+/* Surah display name in the selected language: TR/FR use the API's translated
+   name (Fâtiha, Bakara… / L'ouverture, La vache…); EN keeps name_simple. */
+function surahName(c) {
+  if (!c) return "";
+  const lang = (typeof state !== "undefined" && state.lang) || "en";
+  if (lang !== "en" && c.translated_name && c.translated_name.name) return c.translated_name.name;
+  return c.name_simple;
+}
 function setSurahLabel(id) {
   const c = chapters.find(x => x.id === id);
   const inp = document.getElementById("surahSearch");
-  if (c && inp) inp.value = `${c.id}. ${c.name_simple}`;
+  if (c && inp) inp.value = `${c.id}. ${surahName(c)}`;
 }
 function renderChapters() {
   const q = chapterFilter.toLowerCase();
   const list = document.getElementById("chapterList");
   list.innerHTML = chapters.filter(c => `${c.id} ${c.name_simple} ${c.name_arabic} ${c.translated_name?.name || ""}`.toLowerCase().includes(q)).map(c =>
-    `<button type="button" data-id="${c.id}"><b>${c.id}. ${escapeHtml(c.name_simple)}</b><small>${escapeHtml(c.name_arabic)} · ${escapeHtml(c.translated_name?.name || "")} · ${c.verses_count}</small></button>`
+    `<button type="button" data-id="${c.id}"><b>${c.id}. ${escapeHtml(surahName(c))}</b><small>${escapeHtml(c.name_arabic)} · ${escapeHtml(c.name_simple)} · ${c.verses_count}</small></button>`
   ).join("") || `<p class="hint" style="padding:8px">—</p>`;
   list.classList.toggle("hidden", !surahDropOpen);
   surahActive = -1;
@@ -1872,7 +1880,7 @@ async function openChapter(id, keepAudio = false) {
   currentChapter = id;
   const token = ++chapterToken;
   const chapter = chapters.find(c => c.id === id);
-  document.getElementById("surahTitle").textContent = chapter ? chapter.name_simple : `Surah ${id}`;
+  document.getElementById("surahTitle").textContent = chapter ? surahName(chapter) : `Surah ${id}`;
   const verses = document.getElementById("verses");
   const previousHeight = verses.scrollTop;
   verses.innerHTML = `<p class="hint">${t("loading")}</p>`;
@@ -3245,6 +3253,36 @@ function closeVoiceWindow() {
   voiceRec = null;
   setVoiceUI("idle");
 }
+/* Voice surah matching: if the transcript looks like a surah name (Arabic,
+   transliterated, or in the UI language), open that surah directly. */
+function normArSr(s) {
+  return (s || "").replace(/[ً-ٰٖ]/g, "").replace(/[أإآٱ]/g, "ا")
+    .replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/^ال/, "").trim();
+}
+function normLatSr(s) {
+  return (s || "").toLowerCase()
+    .replace(/[âàáä]/g, "a").replace(/[îìíï]/g, "i").replace(/[ûùúü]/g, "u")
+    .replace(/[ôòóö]/g, "o").replace(/[êèéë]/g, "e")
+    .replace(/ç/g, "c").replace(/ğ/g, "g").replace(/ş/g, "s").replace(/ı/g, "i")
+    .replace(/^al-/, "").replace(/[^a-z]/g, "");
+}
+function findSurahByVoice(txt) {
+  if (!chapters || !chapters.length) return 0;
+  const t = (txt || "").trim();
+  if (!t || t.split(/\s+/).length > 4) return 0; // too long to be a surah name
+  const tAr = normArSr(t), tLat = normLatSr(t);
+  for (const c of chapters) {
+    const arNames = [normArSr(c.name_arabic)];
+    if (arNames[0] === "يس") arNames.push("ياسين"); // Ya-Sin full form
+    const arHit = arNames.some(ar => tAr && ar && (tAr.includes(ar) || ar.includes(tAr)));
+    if (arHit) return c.id;
+    const simple = normLatSr(c.name_simple);
+    const trans = normLatSr(c.translated_name && c.translated_name.name);
+    if (tLat && ((simple && (tLat.includes(simple) || simple.includes(tLat))) ||
+                 (trans && (tLat.includes(trans) || trans.includes(tLat))))) return c.id;
+  }
+  return 0;
+}
 function startVoiceListening() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { toast(t("voiceUnsupported")); return; }
@@ -3258,6 +3296,13 @@ function startVoiceListening() {
     const txt = (e.results && e.results[0] && e.results[0][0] && e.results[0][0].transcript || "").trim();
     voiceRec = null;
     closeVoiceWindow();
+    const surahId = findSurahByVoice(txt);
+    if (surahId) {
+      const c = chapters.find(x => x.id === surahId);
+      openChapter(surahId);
+      toast(c ? surahName(c) : "");
+      return;
+    }
     const inp = document.getElementById("verseSearch");
     if (inp) inp.value = txt;
     if (txt) doVerseSearch(txt); else toast(t("voiceNoSpeech"));
@@ -3455,6 +3500,25 @@ document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async
 });
 const _fc = document.getElementById("followChk");
 if (_fc) _fc.onchange = () => { state.quranFollow = _fc.checked; save(); if (!state.quranFollow) stopFollow(); };
+/* Big play button: large tap target with a pop animation. Toggles the same
+   playback the audio bar controls (follow mode or full-chapter). */
+(function () {
+  const bpb = document.getElementById("bigPlayBtn");
+  const aud = document.getElementById("audio");
+  if (!bpb || !aud) return;
+  const syncIcon = () => { bpb.textContent = aud.paused ? "\u25b6" : "\u23f8"; };
+  bpb.addEventListener("click", () => {
+    bpb.classList.remove("pop");
+    void bpb.offsetWidth; // restart the animation
+    bpb.classList.add("pop");
+    if (state.quranFollow) { toggleFollow(); return; }
+    if (aud.paused) aud.play().catch(() => {});
+    else aud.pause();
+  });
+  aud.addEventListener("play", syncIcon);
+  aud.addEventListener("pause", syncIcon);
+  syncIcon();
+})();
 // (menu guard closed above)
 const _tstage = document.getElementById("tasbihClassic");
 if (_tstage) _tstage.addEventListener("click", e => {
