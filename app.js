@@ -1628,7 +1628,7 @@ async function nearbySearch(kind) {
       renderFinder();
       return;
     }
-    list.innerHTML = `<p class="hint">${t("mosquesError")}</p><p style="margin-top:10px"><button type="button" class="btn" data-retry="${kind}">${t("tryAgain")}</button></p>`;
+    list.innerHTML = `<p class="hint">${t("mosquesError")}</p><p style="margin-top:10px"><button type="button" class="primary" data-retry="${kind}">${t("tryAgain")}</button></p>`;
     list.querySelector("[data-retry]").onclick = () => nearbySearch(kind);
     return;
   }
