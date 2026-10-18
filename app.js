@@ -3527,10 +3527,28 @@ if (_fc) _fc.onchange = () => {
     }
   } else if (!aud.paused && aud.getAttribute("src") && !followState.playing) {
     // Switching to shaded mode mid-playback: pick up per-verse from the
-    // verse being heard.
+    // verse being heard, seeking into it proportionally (no restart).
     const idx = verseAtTime(aud.currentTime, aud.duration);
     if (idx >= 0) (async () => {
-      try { await ensureVerseAudio(); playVerseAt(idx); } catch {}
+      try {
+        const verseStart = estimateTimeForVerse(idx);
+        const verseDurEst = estimateTimeForVerse(idx + 1) - verseStart;
+        const offsetInVerse = Math.max(0, aud.currentTime - verseStart);
+        const targetRatio = (verseDurEst > 1 && offsetInVerse > 1)
+          ? Math.min(offsetInVerse / verseDurEst, 0.95) : 0;
+        await ensureVerseAudio();
+        playVerseAt(idx);
+        if (targetRatio > 0) {
+          const onMeta = () => {
+            try {
+              aud.removeEventListener("loadedmetadata", onMeta);
+              if (aud.duration > 0) aud.currentTime = targetRatio * aud.duration;
+            } catch {}
+          };
+          aud.addEventListener("loadedmetadata", onMeta);
+          if (aud.readyState >= 1) onMeta();
+        }
+      } catch {}
     })();
   }
 };
