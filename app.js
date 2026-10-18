@@ -2219,11 +2219,19 @@ document.getElementById("audio").addEventListener("ended", () => {
    verse word count, and gently scroll to it — without the .on shading. */
 let chapWeights = null, chapWeightsKey = "";
 let lastScrollVerse = -1, lastManualScroll = 0, lastShadeVerse = -1;
+// Verse-timing model: words + a pause allowance per verse. Reciters pause
+// briefly between verses (waqf); ignoring it makes the estimate run ahead of
+// the actual recitation. Expressed in word-equivalents (~0.5s per word).
+const VERSE_PAUSE_WORDS = 3;
+// Conservative lag so the shade trails a hair behind instead of jumping ahead —
+// a shade that changes just as you hear the verse feels synced; one that jumps
+// early feels broken.
+const SHADE_LAG_SEC = 1.2;
 function verseWeights() {
   if (!chapterData || !chapterData.uthmani || !chapterData.uthmani.length) return null;
   if (chapWeightsKey === chapterData.id && chapWeights) return chapWeights;
   chapWeights = chapterData.uthmani.map(v =>
-    Math.max(String(v.text_uthmani || "").trim().split(/\s+/).length, 1));
+    Math.max(String(v.text_uthmani || "").trim().split(/\s+/).length, 1) + VERSE_PAUSE_WORDS);
   chapWeightsKey = chapterData.id;
   lastScrollVerse = -1;
   return chapWeights;
@@ -2250,7 +2258,7 @@ function verseAtTime(cur, dur) {
     try {
       if (followState.playing) return; // per-verse mode shades/scrolls itself
       if (audio.paused || !(audio.duration > 0)) return;
-      const i = verseAtTime(audio.currentTime, audio.duration);
+      const i = verseAtTime(Math.max(0, audio.currentTime - SHADE_LAG_SEC), audio.duration);
       if (i < 0) return;
       // Visual shade follows the recitation when the toggle is on — audio untouched
       if (state.quranFollow && i !== lastShadeVerse) {
