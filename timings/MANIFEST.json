@@ -1,0 +1,71 @@
+{
+ "built_at": "2026-10-18T23:14:34.332111+00:00",
+ "method": "everyayah.com per-verse MP3: Xing/Info frame count (VBR) or file-size/bitrate (CBR); cumulative start fractions rounded to 4dp",
+ "reciters": {
+  "7": {
+   "edition": "Alafasy_128kbps",
+   "chapters_expected": 114,
+   "chapters_built": 114,
+   "failed_chapters": [],
+   "verses_total": 6236,
+   "estimated_verses_by_chapter": {}
+  },
+  "3": {
+   "edition": "Abdurrahmaan_As-Sudais_192kbps",
+   "chapters_expected": 114,
+   "chapters_built": 114,
+   "failed_chapters": [],
+   "verses_total": 6236,
+   "estimated_verses_by_chapter": {}
+  },
+  "9": {
+   "edition": "Minshawy_Murattal_128kbps",
+   "chapters_expected": 114,
+   "chapters_built": 114,
+   "failed_chapters": [],
+   "verses_total": 6236,
+   "estimated_verses_by_chapter": {}
+  },
+  "2": {
+   "edition": "Abdul_Basit_Murattal_192kbps",
+   "chapters_expected": 114,
+   "chapters_built": 114,
+   "failed_chapters": [],
+   "verses_total": 6236,
+   "estimated_verses_by_chapter": {
+    "5": [
+     16
+    ],
+    "9": [
+     12
+    ],
+    "17": [
+     25
+    ],
+    "6": [
+     47
+    ],
+    "4": [
+     48,
+     109
+    ],
+    "21": [
+     111
+    ],
+    "27": [
+     77
+    ],
+    "2": [
+     76,
+     98
+    ],
+    "44": [
+     53
+    ],
+    "40": [
+     8
+    ]
+   }
+  }
+ }
+}

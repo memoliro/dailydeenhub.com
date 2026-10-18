@@ -2000,6 +2000,7 @@ async function openChapter(id, keepAudio = false) {
   verses.scrollTop = previousHeight;
   refreshQuranResume();
   if (!keepAudio) { const a = document.getElementById("audio"); const p = RECITER_PATHS[state.reciter]; if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${id}.mp3`; a.load(); } else a.removeAttribute("src"); }
+  loadChapterTimings();
   if (state.quranView === "pron" || state.quranView === "both") ensurePron().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
   if (state.quranView === "mushaf") ensureMushaf().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
 }
@@ -2083,8 +2084,13 @@ function wireQuranPosTracking() {
     const doSeek = () => {
       try {
         if (currentChapter !== targetChapter) return; // user moved to another surah
+        if (!(aud.duration > 0)) return;
+        if (chapterTimings && targetVerse < chapterTimings.length) {
+          aud.currentTime = Math.max(0, chapterTimings[targetVerse] * aud.duration - 0.3);
+          return;
+        }
         const ws = verseWeights();
-        if (!ws || !(aud.duration > 0)) return;
+        if (!ws) return;
         const total = ws.reduce((a, b) => a + b, 0);
         let acc = 0;
         for (let k = 0; k < targetVerse && k < ws.length; k++) acc += ws[k];
@@ -2252,7 +2258,30 @@ function verseWeights() {
   lastScrollVerse = -1;
   return chapWeights;
 }
+/* Measured verse timings: per-chapter JSON of start-time fractions (0..1),
+   built from real per-verse MP3 durations. Beats word-count guessing. */
+let chapterTimings = null;
+async function loadChapterTimings() {
+  chapterTimings = null;
+  try {
+    const r = await fetch(`timings/${state.reciter}/${currentChapter}.json`);
+    if (r.ok) {
+      const arr = await r.json();
+      if (Array.isArray(arr) && arr.length > 1) chapterTimings = arr;
+    }
+  } catch {}
+}
 function verseAtTime(cur, dur) {
+  if (chapterTimings && dur > 0) {
+    const target = cur / dur;
+    let lo = 0, hi = chapterTimings.length - 1, ans = 0;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (chapterTimings[mid] <= target) { ans = mid; lo = mid + 1; }
+      else hi = mid - 1;
+    }
+    return ans;
+  }
   const ws = verseWeights();
   if (!ws || !(dur > 0)) return -1;
   const total = ws.reduce((a, b) => a + b, 0);
@@ -3741,7 +3770,7 @@ if (_ramFastsBtn) _ramFastsBtn.onclick = () => { ramadanSub = "fasts"; renderMon
 renderStations();
 document.getElementById("audio").addEventListener("pause", () => { if (!startingAudio) setPlayLabel(t("play")); });
 document.getElementById("audio").addEventListener("ended", () => { if (!followState.playing) setPlayLabel(t("play")); });
-document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); stopFollow(); followState.urls = null; followState.idx = 0; const p = RECITER_PATHS[state.reciter]; const a = document.getElementById("audio"); if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${currentChapter}.mp3`; a.load(); } };
+document.getElementById("reciterSel").onchange = e => { state.reciter = +e.target.value; save(); stopFollow(); followState.urls = null; followState.idx = 0; const p = RECITER_PATHS[state.reciter]; const a = document.getElementById("audio"); if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${currentChapter}.mp3`; a.load(); } loadChapterTimings(); };
 document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async () => {
   state.quranView = b.dataset.qv; save();
   if (state.quranView === "pron" || state.quranView === "both") { await ensurePron(); }
