@@ -1346,6 +1346,7 @@ function renderBeadText() {
 }
 /* ---------- Tasbih beads mode ---------- */
 const BEAD_STYLES = {
+  pink: ["radial-gradient(circle at 35% 32%, #ffd3e8, #f271b0 55%, #a8246b 100%)", "#c2438a"],
   melon: ["radial-gradient(circle at 35% 32%, #ff9a86, #e03222 52%, #8f130c 100%)", "#2f7d32"],
   onyx: ["radial-gradient(circle at 35% 32%, #7a7a7a, #1c1c1e 55%, #000000 100%)", "#333333"],
   pearl: ["radial-gradient(circle at 35% 32%, #ffffff, #e3e7ea 55%, #a7b0b8 100%)", "#c3ccd2"],
@@ -2303,7 +2304,8 @@ function verseAtTime(cur, dur) {
     try {
       if (followState.playing) return; // per-verse mode shades/scrolls itself
       if (audio.paused || !(audio.duration > 0)) return;
-      const i = verseAtTime(Math.max(0, audio.currentTime - SHADE_LAG_SEC), audio.duration);
+      const lag = chapterTimings ? 0.5 : SHADE_LAG_SEC; // real timings need only a hair of lag
+      const i = verseAtTime(Math.max(0, audio.currentTime - lag), audio.duration);
       if (i < 0) return;
       // Visual shade follows the recitation when the toggle is on — audio untouched
       if (state.quranFollow && i !== lastShadeVerse) {
