@@ -1897,6 +1897,7 @@ async function openChapter(id, keepAudio = false) {
   }
   if (token !== chapterToken) return; // user already opened another surah
   stopFollow();
+  followState.idx = 0; // new chapter starts from the first verse, not a stale position
   chapterData = { id, uthmani: uthmani.verses || [], meal: meal.translations || [], pron: null };
   renderVerses();
   verses.scrollTop = previousHeight;
