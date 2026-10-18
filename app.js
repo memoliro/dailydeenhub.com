@@ -3354,9 +3354,20 @@ function verseArHL(words) {
   }).join(" ");
 }
 /* Direct verse jump: "2:255", "2.255", "bakara 255", "bakara:255" */
+/* Famous verses by their traditional names — keyword search can't find these
+   since they're titles, not verse text. */
+const VERSE_NICKNAMES = [
+  [/^ayet[eu]l?\s*k[üu]rsi$/, { s: 2, v: 255 }],
+  [/^ayat\s+al-?kursi$/, { s: 2, v: 255 }],
+  [/^amene[r]?s?\s*resul[üu]?$/, { s: 2, v: 285 }],
+  [/^amana\s+ar-?rasul$/, { s: 2, v: 285 }],
+];
 function parseVerseRef(q) {
-  q = (q || "").trim().toLowerCase();
+  q = (q || "").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   if (!q || !chapters.length) return null;
+  for (const [re, ref] of VERSE_NICKNAMES) {
+    if (re.test(q)) return ref;
+  }
   // "2:255" / "2.255" / "2 255"
   let m = q.match(/^(\d{1,3})\s*[:.]\s*(\d{1,3})$/);
   if (!m) m = q.match(/^(\d{1,3})\s+(\d{1,3})$/);
