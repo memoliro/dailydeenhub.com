@@ -1594,7 +1594,8 @@ async function nearbySearch(kind) {
       // else fall back to selected place
     }
   }
-  // 1) Instant path: a fresh saved search for THIS grid needs no network
+  // 1) Instant path: show fresh saved results right away, then keep looking
+  // in the background — the cache might hold 2-3 while the servers know 10.
   const ck = finderCacheKey(kind, lat, lon);
   const cache = readFinderCache();
   const hit = cache[ck];
@@ -1603,6 +1604,23 @@ async function nearbySearch(kind) {
     lastFinder = { kind, stale: false, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
     renderFinder();
     btn.disabled = false;
+    // Background refresh: don't block the UI, just update if more turn up.
+    (async () => {
+      try {
+        const bgData = await fetchOverpass(finderQuery(kind, lat, lon));
+        if (!bgData) return;
+        const bgItems = finderItemsFromData(bgData, lat, lon, finderFallbackName(kind));
+        if (!bgItems.length) return;
+        const before = lastFinder.items.length;
+        const merged = mergeFinderCache(ck, bgItems);
+        const nowItems = merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15);
+        if (nowItems.length > before) {
+          lastFinder = { kind, stale: false, items: nowItems };
+          // Only re-render if the user is still looking at this finder tab
+          if (document.getElementById("panel-mosques") && !document.getElementById("panel-mosques").classList.contains("hidden")) renderFinder();
+        }
+      } catch {}
+    })();
     return;
   }
   // 2) Ask the map servers
