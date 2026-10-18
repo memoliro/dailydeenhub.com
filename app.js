@@ -2055,6 +2055,52 @@ document.getElementById("audio").addEventListener("ended", () => {
   if (followState.single) { stopFollow(); setPlayLabel(t("play")); return; }
   playVerseAt(followState.idx + 1);
 });
+/* ===== Auto-scroll for full-chapter audio (no shading) =====
+   When "Follow recitation" is OFF, the smooth chapter MP3 plays but nothing
+   scrolls. Estimate the current verse from playback position, weighted by
+   verse word count, and gently scroll to it — without the .on shading. */
+let chapWeights = null, chapWeightsKey = "";
+let lastScrollVerse = -1, lastManualScroll = 0;
+function verseWeights() {
+  if (!chapterData || !chapterData.uthmani || !chapterData.uthmani.length) return null;
+  if (chapWeightsKey === chapterData.id && chapWeights) return chapWeights;
+  chapWeights = chapterData.uthmani.map(v =>
+    Math.max(String(v.text_uthmani || "").trim().split(/\s+/).length, 1));
+  chapWeightsKey = chapterData.id;
+  lastScrollVerse = -1;
+  return chapWeights;
+}
+function verseAtTime(cur, dur) {
+  const ws = verseWeights();
+  if (!ws || !(dur > 0)) return -1;
+  const total = ws.reduce((a, b) => a + b, 0);
+  let acc = 0;
+  const target = (cur / dur) * total;
+  for (let i = 0; i < ws.length; i++) { acc += ws[i]; if (target < acc) return i; }
+  return ws.length - 1;
+}
+(function () {
+  const box = document.getElementById("verses");
+  const audio = document.getElementById("audio");
+  if (!box || !audio) return;
+  const markManual = () => { lastManualScroll = Date.now(); };
+  box.addEventListener("wheel", markManual, { passive: true });
+  box.addEventListener("touchmove", markManual, { passive: true });
+  audio.addEventListener("play", () => { lastScrollVerse = -1; });
+  audio.addEventListener("seeked", () => { lastScrollVerse = -1; });
+  audio.addEventListener("timeupdate", () => {
+    try {
+      if (state.quranFollow || followState.playing) return; // per-verse mode scrolls itself
+      if (audio.paused || !(audio.duration > 0)) return;
+      if (Date.now() - lastManualScroll < 10000) return; // user is reading, don't yank
+      const i = verseAtTime(audio.currentTime, audio.duration);
+      if (i < 0 || i === lastScrollVerse) return;
+      lastScrollVerse = i;
+      const el = box.querySelector(`.verse[data-v="${i}"], .mverse[data-v="${i}"]`);
+      if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    } catch { /* never break playback */ }
+  });
+})();
 /* Verse menu: long-press (touch) or right-click a verse -> "Play from here"
    (per-verse audio from that ayah onward, auto-advancing) or "Play this verse". */
 let vmenuTarget = -1;
