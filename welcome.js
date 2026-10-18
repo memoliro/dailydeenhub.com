@@ -81,9 +81,21 @@
   };
   document.getElementById('wLcYes').onclick = function(){
     document.getElementById('wLocConsent').classList.remove('open');
-    // Ask for geolocation (non-blocking — main app handles fallback)
+    // Ask for geolocation and SAVE it — the main app picks it up from
+    // storage, so the user is never asked twice.
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(){ goNext(); }, function(){ goNext(); }, { timeout: 8000 });
+      navigator.geolocation.getCurrentPosition(function(pos){
+        try {
+          var s = JSON.parse(localStorage.getItem('ezan-vakti') || '{}') || {};
+          s.place = {
+            name: 'My location', country: '',
+            lat: pos.coords.latitude, lon: pos.coords.longitude,
+            tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC'
+          };
+          localStorage.setItem('ezan-vakti', JSON.stringify(s));
+        } catch (e) {}
+        goNext();
+      }, function(){ goNext(); }, { timeout: 8000 });
       setTimeout(goNext, 9000); // don't strand the user
     } else {
       goNext();

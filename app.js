@@ -40,7 +40,7 @@ const AYAH = [
 ];
 const I18N = {
   en: { kaabaHint: "Hold your phone upright and turn until the Kaaba is centered.", moreTitle: "More",
-    home: "Home", tasbihTab: "Tasbih", findTab: "Find", settingsTab: "Settings", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", articlesTitle: "About & FAQ", articlesSub: "How DailyDeenHub works, and answers to common questions.", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widgets come with the Android app — long-press your home screen, tap Widgets, then choose DailyDeenHub.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", duaOfDay: "Dua of the Day", momentTitle: "A moment for today", momentSub: "Read, reflect, then share with someone you love.", momentLang: "Cards follow your selected language", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", khatmTitle: "Khatms", khatmSub: "Track your Quran completions, Juz by Juz. Tap a Juz to mark it read.", khatmNew: "+ New khatm", khatmNamePh: "Khatm name\u2026", khatmDelete: "Delete", khatmDelConfirm: "Delete this khatm?", khatmDone: "Khatm complete! \uD83C\uDF89 May Allah accept it.", khatmDefault: "My Khatm", khatmJuz: "Juz", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceTile: "Voice search", libraryTile: "Library", libraryTitle: "Library", librarySub: "In-app books open instantly; external links open trusted free libraries.", vmPlay: "Play verse", vmPause: "Pause", vmOpen: "Open in reader", voiceWinTitle: "Find a recited verse", voiceTapToStart: "Tap the microphone and recite", voiceLangName: "Arabic (Saudi Arabia)", vPlayFrom: "Play from here", vPlayOne: "Play this verse", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Follow recitation", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
+    home: "Home", tasbihTab: "Tasbih", findTab: "Find", settingsTab: "Settings", dualCal: "Dual calendar", resources: "Resources", articles: "Articles", articlesTitle: "About & FAQ", articlesSub: "How DailyDeenHub works, and answers to common questions.", aboutL: "About", privacyL: "Privacy", termsL: "Terms", openMap: "Open Qibla map", widgetLbl: "Widget", widgetNote: "Home-screen widgets come with the Android app — long-press your home screen, tap Widgets, then choose DailyDeenHub.", verseOfDay: "Verse of the Day", hadithOfDay: "Hadith of the Day", duaOfDay: "Dua of the Day", momentTitle: "A moment for today", momentSub: "Read, reflect, then share with someone you love.", momentLang: "Cards follow your selected language", asmaDay: "Asma-ul Husna", brand: "Daily Deen Hub", namesDay: "Names of the Day", namesSub: "Newborn name ideas", tileMosques: "Mosques", tileTasbih: "Tasbih", hisnul: "Hisnul Muslim", qadha: "Qadha prayers", khatm: "Khatms", khatmTitle: "Khatms", khatmSub: "Track your Quran completions, Juz by Juz. Tap a Juz to mark it read.", khatmNew: "+ New khatm", khatmNamePh: "Khatm name\u2026", khatmDelete: "Delete", khatmDelConfirm: "Delete this khatm?", khatmDone: "Khatm complete! \uD83C\uDF89 May Allah accept it.", khatmDefault: "My Khatm", khatmJuz: "Juz", qvNone: "None", qvTrans: "Translation", qvPron: "Pronunciation", qvBoth: "Both", qvMushaf: "Mushaf", juzLbl: "Juz", verseSearchPh: "Search verses\u2026", voiceTile: "Voice search", libraryTile: "Library", libraryTitle: "Library", librarySub: "In-app books open instantly; external links open trusted free libraries.", vmPlay: "Play verse", vmPause: "Pause", vmOpen: "Open in reader", voiceWinTitle: "Find a recited verse", voiceTapToStart: "Tap the microphone and recite", voiceLangName: "Arabic (Saudi Arabia)", vPlayFrom: "Play from here", vPlayOne: "Play this verse", voiceBtn: "Find a recited verse", voiceListening: "Listening\u2026 recite the verse", voiceUnsupported: "Voice search needs Chrome on Android", voiceMicDenied: "Microphone is blocked \u2014 allow it to use voice search", voiceNoSpeech: "Didn't catch that \u2014 please try again", voiceError: "Voice search failed \u2014 please try again", voiceNote: "Recite a verse and we'll find it \u2014 your voice is transcribed by Google's speech service.", followLbl: "Shade verses", tmClassic: "Classic", tmBeads: "Beads", beadTap: "Tap anywhere — each tap moves one bead", monthTab: "Month", qiblaTab: "Qibla", quranTab: "Quran",
     monthTitle: "This month", thisMonth: "This month", ramadan: "Ramadan", nextRamadan: "Next Ramadan", prevMonth: "Previous month", nextMonth: "Next month",
     ramadanNote: "It is not Ramadan now. This is the next Ramadan timetable.",
     radioTitle: "Quran radio", radioPlay: "Listen", radioStop: "Stop",
@@ -126,7 +126,7 @@ const I18N = {
     left: "left", right: "right", facing: "You are facing qibla.", loadFail: "Could not load times.", audioFail: "Could not play audio."
   },
   tr: { kaabaHint: "Telefonunuzu dik tutun ve Kâbe ortalanana kadar dönün.", moreTitle: "Daha fazla",
-    home: "Ana Sayfa", tasbihTab: "Tesbih", findTab: "Bul", settingsTab: "Ayarlar", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", articlesTitle: "Hakk\u0131nda & SSS", articlesSub: "DailyDeenHub nas\u0131l \u00e7al\u0131\u015f\u0131r ve s\u0131k sorulan sorular\u0131n yan\u0131tlar\u0131.", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget'ları Android uygulaması ile gelir — ana ekrana uzun basın, Widget'ler\u2019e dokunun ve DailyDeenHub\u2019ı seçin.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", duaOfDay: "Günün Duası", momentTitle: "Bugün için bir an", momentSub: "Oku, tefekkür et, sonra sevdiğin biriyle paylaş.", momentLang: "Kartlar seçtiğin dili takip eder", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", khatmTitle: "Hatimler", khatmSub: "Kur'an hatimlerinizi c\u00fcz c\u00fcz takip edin. Okudu\u011funuz c\u00fcze dokunun.", khatmNew: "+ Yeni hatim", khatmNamePh: "Hatim ad\u0131\u2026", khatmDelete: "Sil", khatmDelConfirm: "Bu hatim silinsin mi?", khatmDone: "Hatim tamamland\u0131! \uD83C\uDF89 Allah kabul etsin.", khatmDefault: "Hatmim", khatmJuz: "C\u00fcz", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceTile: "Sesli arama", libraryTile: "K\u00fcthane", libraryTitle: "K\u00fcthane", librarySub: "Uygulama i\u00e7i kitaplar an\u0131nda a\u00e7\u0131l\u0131r; d\u0131\u015f ba\u011flant\u0131lar g\u00fcvenilir \u00fccretsiz k\u00fct\u00fcphanelere gider.", vmPlay: "Ayeti dinle", vmPause: "Duraklat", vmOpen: "Okuyucuda a\u00e7", voiceWinTitle: "Okunan Ayeti Bul", voiceTapToStart: "Mikrofona dokunun ve okuyun", voiceLangName: "Arap\u00e7a (Suudi Arabistan)", vPlayFrom: "Buradan dinle", vPlayOne: "Bu ayeti dinle", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Okumayı takip et", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
+    home: "Ana Sayfa", tasbihTab: "Tesbih", findTab: "Bul", settingsTab: "Ayarlar", dualCal: "Çift takvim", resources: "Kaynaklar", articles: "Makaleler", articlesTitle: "Hakk\u0131nda & SSS", articlesSub: "DailyDeenHub nas\u0131l \u00e7al\u0131\u015f\u0131r ve s\u0131k sorulan sorular\u0131n yan\u0131tlar\u0131.", aboutL: "Hakkında", privacyL: "Gizlilik", termsL: "Şartlar", openMap: "Kıble haritasını aç", widgetLbl: "Widget", widgetNote: "Ana ekran widget'ları Android uygulaması ile gelir — ana ekrana uzun basın, Widget'ler\u2019e dokunun ve DailyDeenHub\u2019ı seçin.", verseOfDay: "Günün Ayeti", hadithOfDay: "Günün Hadisi", duaOfDay: "Günün Duası", momentTitle: "Bugün için bir an", momentSub: "Oku, tefekkür et, sonra sevdiğin biriyle paylaş.", momentLang: "Kartlar seçtiğin dili takip eder", asmaDay: "Esma-ül Hüsna", brand: "Günlük Din Merkezi", namesDay: "Günün İsimleri", namesSub: "Yenidoğan isim önerileri", tileMosques: "Camiler", tileTasbih: "Tesbih", hisnul: "Hisnul Muslim", qadha: "Kaza namazı", khatm: "Hatimler", khatmTitle: "Hatimler", khatmSub: "Kur'an hatimlerinizi c\u00fcz c\u00fcz takip edin. Okudu\u011funuz c\u00fcze dokunun.", khatmNew: "+ Yeni hatim", khatmNamePh: "Hatim ad\u0131\u2026", khatmDelete: "Sil", khatmDelConfirm: "Bu hatim silinsin mi?", khatmDone: "Hatim tamamland\u0131! \uD83C\uDF89 Allah kabul etsin.", khatmDefault: "Hatmim", khatmJuz: "C\u00fcz", qvNone: "Yok", qvTrans: "Meal", qvPron: "Okunuş", qvBoth: "İkisi", qvMushaf: "Mushaf", juzLbl: "Cüz", verseSearchPh: "Ayetlerde ara\u2026", voiceTile: "Sesli arama", libraryTile: "K\u00fcthane", libraryTitle: "K\u00fcthane", librarySub: "Uygulama i\u00e7i kitaplar an\u0131nda a\u00e7\u0131l\u0131r; d\u0131\u015f ba\u011flant\u0131lar g\u00fcvenilir \u00fccretsiz k\u00fct\u00fcphanelere gider.", vmPlay: "Ayeti dinle", vmPause: "Duraklat", vmOpen: "Okuyucuda a\u00e7", voiceWinTitle: "Okunan Ayeti Bul", voiceTapToStart: "Mikrofona dokunun ve okuyun", voiceLangName: "Arap\u00e7a (Suudi Arabistan)", vPlayFrom: "Buradan dinle", vPlayOne: "Bu ayeti dinle", voiceBtn: "Okunan ayeti bul", voiceListening: "Dinleniyor\u2026 ayeti okuyun", voiceUnsupported: "Sesli arama i\u00e7in Android'de Chrome gerekli", voiceMicDenied: "Mikrofon engelli \u2014 sesli arama i\u00e7in izin verin", voiceNoSpeech: "Anla\u015f\u0131lmad\u0131 \u2014 l\u00fctfen tekrar deneyin", voiceError: "Sesli arama ba\u015far\u0131s\u0131z \u2014 l\u00fctfen tekrar deneyin", voiceNote: "Bir ayet okuyun, bulal\u0131m \u2014 sesiniz Google'\u0131n konu\u015fma servisiyle yaz\u0131ya \u00e7evrilir.", followLbl: "Ayetleri g\u00f6lgelendir", tmClassic: "Klasik", tmBeads: "Tesbih", beadTap: "Her yere dokunun — her dokunuş bir boncuk ilerletir", monthTab: "Ay", qiblaTab: "Kıble", quranTab: "Kur'an",
     monthTitle: "Bu ay", thisMonth: "Bu ay", ramadan: "Ramazan", nextRamadan: "Sonraki Ramazan", prevMonth: "Önceki ay", nextMonth: "Sonraki ay",
     ramadanNote: "Şu an Ramazan değil. Bu, sonraki Ramazan imsakiyesidir.",
     radioTitle: "Kur'an radyosu", radioPlay: "Dinle", radioStop: "Durdur",
@@ -451,7 +451,7 @@ const I18N = {
     vPlayOne: "Lire ce verset",
     mqFavTitle: "★ Favoris",
     fbEmpty: "Veuillez d'abord écrire un message.",
-    followLbl: "Suivre la récitation",
+    followLbl: "Ombrer les versets",
     resources: "Ressources",
     compass: "Utiliser la boussole",
     soundSystem: "Système par défaut",
@@ -3500,7 +3500,50 @@ document.querySelectorAll("#quranViewSeg button").forEach(b => b.onclick = async
   renderVerses();
 });
 const _fc = document.getElementById("followChk");
-if (_fc) _fc.onchange = () => { state.quranFollow = _fc.checked; save(); if (!state.quranFollow) stopFollow(); };
+if (_fc) _fc.onchange = () => {
+  const on = _fc.checked;
+  state.quranFollow = on; save();
+  const aud = document.getElementById("audio");
+  if (!on) {
+    // Switching to smooth mode: keep listening, drop the shading, continue
+    // the full chapter from the estimated position of the current verse.
+    const idx = followState.idx, wasPlaying = followState.playing;
+    stopFollow();
+    if (wasPlaying && idx >= 0) {
+      const p = RECITER_PATHS[state.reciter];
+      if (p) {
+        try {
+          aud.src = `https://download.quranicaudio.com/qdc/${p}/${currentChapter}.mp3`;
+          aud.load();
+          aud.onloadedmetadata = () => {
+            try {
+              const t = estimateTimeForVerse(idx);
+              if (t > 1) aud.currentTime = t;
+            } catch {}
+            aud.play().catch(() => {});
+          };
+        } catch {}
+      }
+    }
+  } else if (!aud.paused && aud.getAttribute("src") && !followState.playing) {
+    // Switching to shaded mode mid-playback: pick up per-verse from the
+    // verse being heard.
+    const idx = verseAtTime(aud.currentTime, aud.duration);
+    if (idx >= 0) (async () => {
+      try { await ensureVerseAudio(); playVerseAt(idx); } catch {}
+    })();
+  }
+};
+/* Estimate the audio timestamp where verse i begins (for seamless mode switches). */
+function estimateTimeForVerse(i) {
+  const ws = verseWeights();
+  const aud = document.getElementById("audio");
+  if (!ws || !(aud.duration > 0) || i < 0) return 0;
+  const total = ws.reduce((a, b) => a + b, 0);
+  let acc = 0;
+  for (let k = 0; k < i && k < ws.length; k++) acc += ws[k];
+  return Math.max(0, (acc / total) * aud.duration - 1);
+}
 /* Big play button: large tap target with a pop animation. Toggles the same
    playback the audio bar controls (follow mode or full-chapter). */
 (function () {
