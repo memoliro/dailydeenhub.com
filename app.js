@@ -3278,6 +3278,8 @@ surahInp.addEventListener("keydown", e => {
     items[surahActive].scrollIntoView({ block: "nearest" });
   } else if (e.key === "Enter") {
     e.preventDefault();
+    const ref = parseVerseRef(surahInp.value);
+    if (ref) { jumpToVerse(ref.s, ref.v); surahInp.blur(); return; }
     (items[surahActive] || items[0]).click();
   }
 });
@@ -3351,6 +3353,53 @@ function verseArHL(words) {
     return w.highlight ? `<span class="hd-hl">${inner}</span>` : inner;
   }).join(" ");
 }
+/* Direct verse jump: "2:255", "2.255", "bakara 255", "bakara:255" */
+function parseVerseRef(q) {
+  q = (q || "").trim().toLowerCase();
+  if (!q || !chapters.length) return null;
+  // "2:255" / "2.255" / "2 255"
+  let m = q.match(/^(\d{1,3})\s*[:.]\s*(\d{1,3})$/);
+  if (!m) m = q.match(/^(\d{1,3})\s+(\d{1,3})$/);
+  if (m) {
+    const s = +m[1], v = +m[2];
+    const c = chapters.find(c => c.id === s);
+    if (c && v >= 1 && v <= (c.verses_count || 286)) return { s, v };
+    return null;
+  }
+  // "bakara 255" / "bakara:255" — surah name + verse number
+  m = q.match(/^(.+?)\s*[:.]\s*(\d{1,3})$/) || q.match(/^(.+?)\s+(\d{1,3})$/);
+  if (m) {
+    const namePart = m[1].trim(), v = +m[2];
+    if (v >= 1 && namePart.length >= 2) {
+      const c = chapters.find(c =>
+        c.name_simple.toLowerCase().startsWith(namePart) ||
+        (c.translated_name && c.translated_name.name.toLowerCase().startsWith(namePart)) ||
+        surahName(c).toLowerCase().startsWith(namePart));
+      if (c && v <= (c.verses_count || 286)) return { s: c.id, v };
+    }
+  }
+  return null;
+}
+async function jumpToVerse(s, v) {
+  const idx = v - 1; // 0-based
+  await openChapter(s);
+  // Hide the search dropdowns
+  surahDropShow(false);
+  const vr = document.getElementById("verseResults");
+  if (vr) vr.classList.add("hidden");
+  const sel = `#verses .verse[data-v="${idx}"], #verses .mverse[data-v="${idx}"]`;
+  const el = document.querySelector(sel);
+  if (el) {
+    el.scrollIntoView({ block: "center" });
+    // Flash-highlight the jumped verse
+    document.querySelectorAll(sel).forEach(e => e.classList.add("on"));
+    setTimeout(() => {
+      if (!state.quranFollow) document.querySelectorAll(sel).forEach(e => e.classList.remove("on"));
+    }, 2500);
+  }
+  saveQuranPos(s, idx); // resume point follows the jump
+  refreshQuranResume();
+}
 async function doVerseSearch(q) {
   const box = document.getElementById("verseResults");
   if (!box) return;
@@ -3415,7 +3464,13 @@ if (_vs) {
     clearTimeout(deb);
     deb = setTimeout(() => doVerseSearch(_vs.value), 450);
   });
-  _vs.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("verseResults").classList.add("hidden"); });
+  _vs.addEventListener("keydown", e => {
+    if (e.key === "Escape") { document.getElementById("verseResults").classList.add("hidden"); return; }
+    if (e.key === "Enter") {
+      const ref = parseVerseRef(_vs.value);
+      if (ref) { e.preventDefault(); _vs.blur(); jumpToVerse(ref.s, ref.v); }
+    }
+  });
 }
 /* Voice verse search window: a Google-style dialog with a big tap-to-start mic.
    The user recites, Google's speech recognition (Arabic) transcribes, and the
