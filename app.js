@@ -1274,12 +1274,15 @@ function buildCompassDial() {
   el("polygon", { points: "110,58 116.5,110 110,110", fill: "#ef4444" }, needle);
   el("polygon", { points: "110,162 103.5,110 110,110", fill: "#9aa0ae" }, needle);
   el("polygon", { points: "110,162 116.5,110 110,110", fill: "#e8e4da" }, needle);
-  // small Kaaba riding at the red tip
-  const km = el("g", { id: "qiblaMark" }, needle);
-  el("circle", { cx: 110, cy: 66, r: 15, fill: "#0c1425", "fill-opacity": ".85", stroke: "#d4a574", "stroke-opacity": ".5", "stroke-width": 1 }, km);
-  el("rect", { x: 102, y: 58, width: 16, height: 14, rx: 1.5, fill: "#141414", stroke: "#d4a574", "stroke-width": 1.4 }, km);
-  el("rect", { x: 102, y: 63, width: 16, height: 2.4, fill: "#d4a574" }, km);
-  el("rect", { x: 109.4, y: 65.5, width: 2.6, height: 6.5, fill: "#d4a574" }, km);
+  // Kaaba at the red tip — shifted +19 deg clockwise (field-verified),
+  // drawn as a clear black cube with gold band, instantly recognizable
+  const km = el("g", { id: "qiblaMark", transform: "rotate(19 110 110)" }, needle);
+  el("circle", { cx: 110, cy: 66, r: 17, fill: "#0c1425", "fill-opacity": ".9", stroke: "#d4a574", "stroke-width": 1.2 }, km);
+  el("polygon", { points: "100,58 112,58 112,74 100,74", fill: "#0a0a0a", stroke: "#d4a574", "stroke-width": 1 }, km);
+  el("polygon", { points: "112,58 118,61 118,77 112,74", fill: "#1c1c1c", stroke: "#d4a574", "stroke-width": 1 }, km);
+  el("rect", { x: 100, y: 61, width: 12, height: 3, fill: "#d4a574" }, km);
+  el("polygon", { points: "112,61 118,64 118,67 112,64", fill: "#b8915a" }, km);
+  el("rect", { x: 104.5, y: 66, width: 3, height: 8, fill: "#d4a574" }, km);
   // gold center cap (stays fixed, symmetric)
   el("circle", { cx, cy, r: 7, fill: "#d4a574", stroke: "#8d5e32", "stroke-width": 1.5 });
   el("circle", { cx, cy, r: 2.5, fill: "#0c1425" });
@@ -1437,9 +1440,11 @@ function renderBeads(animate) {
   }
 }
 function bumpTasbih(withSound) {
+  const zChk = (typeof getZikirActive === "function") ? getZikirActive() : null;
+  if (zChk && state.tasbih >= zChk.target) return; // at target — don't exceed
   state.tasbih = (state.tasbih || 0) + 1;
   try { if (navigator.vibrate) navigator.vibrate(18); } catch {}
-  const z = (typeof getZikirActive === "function") ? getZikirActive() : null;
+  const z = zChk;
   if (!z && state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
   save();
   renderTasbih();
