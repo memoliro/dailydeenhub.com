@@ -4,15 +4,15 @@
    Custom dhikrs in localStorage "ddh-zikir-custom" as [{name, count}].
    Active dhikr in "ddh-zikir-active" as {name, target}. */
 const ZIKIR_PRESETS = [
-  { key: "salavat", count: 99 },
-  { key: "laHavle", count: 99 },
-  { key: "kelimeTevhid", count: 99 },
+  { key: "salawat", count: 99 },
+  { key: "hawqala", count: 99 },
+  { key: "tahlilWahdahu", count: 100 },
   { key: "bismillah", count: 99 },
   { key: "subhanallah", count: 99 },
-  { key: "elhamdulillah", count: 99 },
-  { key: "allahuEkber", count: 99 },
-  { key: "laIlahe", count: 99 },
-  { key: "estagfirullah", count: 99 }
+  { key: "alhamdulillah", count: 99 },
+  { key: "allahuAkbar", count: 99 },
+  { key: "tahlil", count: 99 },
+  { key: "istighfar", count: 99 }
 ];
 // HUSNA_EBCED (from husna-ebced.js): [["Allah",66],["Ar-Rahman",298],...]
 function getZikirCustom() {
