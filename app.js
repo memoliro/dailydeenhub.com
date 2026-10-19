@@ -1419,6 +1419,7 @@ function renderBeads(animate) {
 }
 function bumpTasbih(withSound) {
   state.tasbih = (state.tasbih || 0) + 1;
+  try { if (navigator.vibrate) navigator.vibrate(18); } catch {}
   if (state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
   save();
   renderTasbih();
@@ -3828,7 +3829,7 @@ if (_fc) _fc.onchange = () => {
 const _tstage = document.getElementById("tasbihClassic");
 if (_tstage) _tstage.addEventListener("click", e => {
   if (e.target.closest("#tasbihReset")) return; // reset must not count
-  bumpTasbih(false);
+  bumpTasbih(true);
 });
 document.getElementById("tasbihReset").onclick = () => { state.tasbih = 0; state.tasbihLoops = 0; save(); renderTasbih(); };
 document.querySelectorAll("#tasbihModeSeg button").forEach(b => b.onclick = () => { state.tasbihMode = b.dataset.tm; save(); applyTasbihMode(); });
