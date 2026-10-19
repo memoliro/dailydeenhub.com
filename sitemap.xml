@@ -133,4 +133,124 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://dailydeenhub.com/articles/prayer-times</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/namaz-vakitleri"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/heures-priere"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/articles/qibla-finder</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kible-bulma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/direction-qibla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/articles/tasbih-counter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/tesbih-sayaci"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/compteur-tasbih"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/articles/quran-reader</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kuran-okuma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/lire-coran"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/tr/articles/namaz-vakitleri</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/namaz-vakitleri"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/heures-priere"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/tr/articles/kible-bulma</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kible-bulma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/direction-qibla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/tr/articles/tesbih-sayaci</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/tesbih-sayaci"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/compteur-tasbih"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/tr/articles/kuran-okuma</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kuran-okuma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/lire-coran"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/fr/articles/heures-priere</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/namaz-vakitleri"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/heures-priere"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/prayer-times"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/fr/articles/direction-qibla</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kible-bulma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/direction-qibla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/qibla-finder"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/fr/articles/compteur-tasbih</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/tesbih-sayaci"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/compteur-tasbih"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/tasbih-counter"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dailydeenhub.com/fr/articles/lire-coran</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dailydeenhub.com/tr/articles/kuran-okuma"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dailydeenhub.com/fr/articles/lire-coran"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dailydeenhub.com/articles/quran-reader"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
