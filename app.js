@@ -1895,6 +1895,7 @@ function showTab(id) {
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
     b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles" || id === "zikir"))));
   if (id === "quiet") setTimeout(layoutBeadFrame, 60);
+  document.body.classList.toggle("quran-open", id === "quran");
   if (id === "quran") {
     wireQuranPosTracking();
     if (!chapters.length) loadChapters().then(refreshQuranResume);
