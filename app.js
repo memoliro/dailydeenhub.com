@@ -1933,11 +1933,22 @@ const LIVE_STREAMS = {
 };
 const livePlayers = {};
 function loadLiveFrames() {
-  [["liveHaramFrame", "haram"], ["liveNabawiFrame", "nabawi"]].forEach(([fid, key]) => {
-    const f = document.getElementById(fid);
-    if (f && !f.src && LIVE_STREAMS[key]) f.src = LIVE_STREAMS[key];
+  // Streams load only when the play overlay is tapped (no background data use)
+  // Play overlays: tap the YouTube-style button to load + autoplay that stream
+  document.querySelectorAll(".live-play").forEach(btn => {
+    if (btn.dataset.wired) return;
+    btn.dataset.wired = "1";
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.live;
+      const fid = key === "haram" ? "liveHaramFrame" : "liveNabawiFrame";
+      const f = document.getElementById(fid);
+      if (f && LIVE_STREAMS[key]) {
+        f.src = LIVE_STREAMS[key] + "&autoplay=1";
+        btn.classList.add("hidden");
+        initLiveApi();
+      }
+    });
   });
-  initLiveApi();
 }
 /* One stream at a time: when Haram starts playing, pause Nabawi and vice versa. */
 function initLiveApi() {
