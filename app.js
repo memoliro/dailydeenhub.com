@@ -60,7 +60,7 @@ const I18N = {
     mqMosqueTmpl: "🕌 New mosque suggestion\nPlace name: \nAddress: \nNotes (prayer times, Jumu'ah, parking…):",
     mqPrayerTmpl: "🛐 New prayer room suggestion\nPlace name (e.g. the mall, airport terminal, university building): \nLocation description — for people unfamiliar with this place (which floor, near what, how to find it): \nNotes (open hours, wudu facilities…):",
     footTag: "Free prayer times, qibla, Quran and more. No account, no ads.",
-    footFeatures: "Features", footResources: "Resources", footFreeTools: "Free tools",
+    footFeatures: "Features", footResources: "Resources", footGuides: "Guides", guidePrayerTimes: "Prayer Times", guideQibla: "Qibla Finder", guideTasbih: "Tasbih Counter", guideQuran: "Quran Reader", footFreeTools: "Free tools",
     paidNote: "(paid · no account needed)",
     supportUs: "Support us",
     apkNoticeTitle: "Welcome to the new app! 🎉",
@@ -151,7 +151,7 @@ const I18N = {
     mqMosqueTmpl: "🕌 Yeni cami önerisi\nYer adı: \nAdres: \nNotlar (namaz vakitleri, Cuma, otopark…):",
     mqPrayerTmpl: "🛐 Yeni namaz odası önerisi\nYer adı (örn. AVM, havaalanı terminali, üniversite binası): \nKonum tarifi — burayı bilmeyenler için (kaçıncı kat, neyin yanında, nasıl bulunur?): \nNotlar (açık saatler, abdest imkânı…):",
     footTag: "Ücretsiz namaz vakitleri, kıble, Kur'an ve daha fazlası. Hesap yok, reklam yok.",
-    footFeatures: "Özellikler", footResources: "Kaynaklar", footFreeTools: "Ücretsiz araçlar",
+    footFeatures: "Özellikler", footResources: "Kaynaklar", footGuides: "Rehberler", guidePrayerTimes: "Namaz Vakitleri", guideQibla: "Kıble Bulma", guideTasbih: "Tesbih Sayacı", guideQuran: "Kuran Okuma", footFreeTools: "Ücretsiz araçlar",
     paidNote: "(ücretli · hesap gerekmez)",
     supportUs: "Bize destek ol",
     apkNoticeTitle: "Yeni uygulamaya hoş geldin! 🎉",
@@ -314,7 +314,7 @@ const I18N = {
     facing: "Vous êtes face à la Qibla.",
     radioStop: "Arrêter",
     hdSearchPh: "Rechercher dans les hadiths…",
-    footResources: "Ressources",
+    footResources: "Ressources", footGuides: "Guides", guidePrayerTimes: "Heures de Prière", guideQibla: "Direction Qibla", guideTasbih: "Compteur Tasbih", guideQuran: "Lire le Coran",
     xFastEveTitle: "Jeûner demain",
     fbOptRequest: "Demande de fonctionnalité",
     brand: "Daily Deen Hub",
@@ -864,6 +864,7 @@ function applyI18n() {
   const audio = document.getElementById("audio");
   setPlayLabel(audio && !audio.paused && audio.getAttribute("src") ? t("pause") : t("play"));
   document.querySelectorAll("[data-cardinal]").forEach(el => { el.textContent = (COMPASS[state.lang] || COMPASS.en)[+el.dataset.cardinal]; });
+  if (typeof renderFootGuides === "function") renderFootGuides();
 }
 function fillSelects() {
   if (!METHODS.some(([id]) => id === state.method)) state.method = 2;
@@ -3963,6 +3964,22 @@ function panKaaba() {
     : `<span class="turn-dir">${rawDiff > 0 ? "→" : "←"}</span> <span class="turn-deg">${Math.abs(rawDiff).toFixed(0)}°</span>`;
 }
 
+
+const GUIDE_SLUGS = {
+  en: ["prayer-times", "qibla-finder", "tasbih-counter", "quran-reader"],
+  tr: ["namaz-vakitleri", "kible-bulma", "tesbih-sayaci", "kuran-okuma"],
+  fr: ["heures-priere", "direction-qibla", "compteur-tasbih", "lire-coran"]
+};
+const GUIDE_KEYS = ["guidePrayerTimes", "guideQibla", "guideTasbih", "guideQuran"];
+function renderFootGuides() {
+  const box = document.getElementById("footGuides");
+  if (!box) return;
+  const lang = state.lang || "en";
+  const base = lang === "en" ? "/articles/" : `/${lang}/articles/`;
+  const slugs = GUIDE_SLUGS[lang] || GUIDE_SLUGS.en;
+  box.innerHTML = `<h4 style="margin-top:14px">${t("footGuides")}</h4><ul>` +
+    slugs.map((slug, i) => `<li><a href="${base}${slug}">${t(GUIDE_KEYS[i])}</a></li>`).join("") + "</ul>";
+}
 const _tmute = document.getElementById("tasbihMute");
 if (_tmute) { _tmute.textContent = tasbihMuted() ? "🔇" : "🔊"; _tmute.onclick = () => setTasbihMuted(!tasbihMuted()); }
 const bnavSet = document.getElementById("bnavSet");
