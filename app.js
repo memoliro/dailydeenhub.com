@@ -3890,24 +3890,42 @@ if (_fc) _fc.onchange = () => {
   }
   lastShadeVerse = -1; // re-shade on next tick
 };
-/* Big play button: large tap target with a pop animation. Toggles the same
-   playback the audio bar controls (follow mode or full-chapter). */
+/* Custom gold player: play/pause + seek + times. Replaces the native audio
+   bar and the big round button. Same playback logic (follow mode aware). */
 (function () {
-  const bpb = document.getElementById("bigPlayBtn");
+  const btn = document.getElementById("qpPlay");
+  const seek = document.getElementById("qpSeek");
+  const cur = document.getElementById("qpCur");
+  const dur = document.getElementById("qpDur");
   const aud = document.getElementById("audio");
-  if (!bpb || !aud) return;
-  const syncIcon = () => { bpb.textContent = aud.paused ? "\u25b6" : "\u23f8"; };
-  bpb.addEventListener("click", () => {
-    bpb.classList.remove("pop");
-    void bpb.offsetWidth; // restart the animation
-    bpb.classList.add("pop");
-    if (followState.playing) { toggleFollow(); return; }
+  if (!btn || !seek || !aud) return;
+  const fmt = s => {
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60), ss = Math.floor(s % 60);
+    return m + ":" + String(ss).padStart(2, "0");
+  };
+  const syncIcon = () => { btn.textContent = aud.paused ? "\u25b6" : "\u23f8"; };
+  const syncTimes = () => {
+    if (cur) cur.textContent = fmt(aud.currentTime);
+    if (dur) dur.textContent = fmt(aud.duration);
+    if (aud.duration > 0 && document.activeElement !== seek) {
+      seek.value = Math.round((aud.currentTime / aud.duration) * 1000);
+    }
+  };
+  btn.addEventListener("click", () => {
+    if (typeof followState !== "undefined" && followState.playing) { if (typeof toggleFollow === "function") toggleFollow(); return; }
     if (aud.paused) aud.play().catch(() => {});
     else aud.pause();
   });
+  seek.addEventListener("input", () => {
+    if (aud.duration > 0) aud.currentTime = (seek.value / 1000) * aud.duration;
+  });
   aud.addEventListener("play", syncIcon);
   aud.addEventListener("pause", syncIcon);
-  syncIcon();
+  aud.addEventListener("timeupdate", syncTimes);
+  aud.addEventListener("loadedmetadata", syncTimes);
+  aud.addEventListener("durationchange", syncTimes);
+  syncIcon(); syncTimes();
 })();
 // (menu guard closed above)
 document.addEventListener("keydown", e => {

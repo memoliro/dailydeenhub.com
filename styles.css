@@ -1063,18 +1063,53 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .vres-pin { border: 1px solid rgba(212,165,116,.7); background: rgba(212,165,116,.12); }
 .vres-pin .vres-key { color: #d4a574; font-weight: 700; }
 
-/* Sticky Quran audio player: fixed bottom bar, only on the Quran tab */
+/* Custom gold Quran player: fixed bottom bar, only on the Quran tab */
 #audio { display: none; }
-body.quran-open #audio {
-  display: block;
+#quranPlayer { display: none; }
+body.quran-open #quranPlayer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   position: fixed;
   left: 0; right: 0; bottom: 66px;
   z-index: 60;
-  width: 100%;
-  margin: 0;
-  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
   background: rgba(10, 15, 30, .96);
-  border-top: 1px solid rgba(212, 165, 116, .35);
+  border-top: 1px solid rgba(212, 165, 116, .45);
   backdrop-filter: blur(8px);
 }
-body.quran-open #panel-quran { padding-bottom: 140px; }
+#qpPlay {
+  flex: 0 0 auto;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid #d4a574;
+  background: radial-gradient(circle at 35% 30%, #e8c48a, #d4a574 60%, #a87c3f);
+  color: #1a1206;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 12px rgba(212, 165, 116, .35);
+}
+#qpPlay:active { transform: scale(.94); }
+.qp-time { color: #d4a574; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 44px; text-align: center; }
+#qpSeek {
+  flex: 1;
+  -webkit-appearance: none; appearance: none;
+  height: 6px; border-radius: 3px;
+  background: rgba(212, 165, 116, .25);
+  outline: none; cursor: pointer;
+}
+#qpSeek::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f0d09a, #d4a574 65%, #a87c3f);
+  border: 1px solid #8d5e32;
+  box-shadow: 0 1px 6px rgba(212, 165, 116, .5);
+}
+#qpSeek::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f0d09a, #d4a574 65%, #a87c3f);
+  border: 1px solid #8d5e32;
+}
+#qpSeek::-moz-range-track { height: 6px; border-radius: 3px; background: rgba(212, 165, 116, .25); }
+body.quran-open #panel-quran { padding-bottom: 150px; }
