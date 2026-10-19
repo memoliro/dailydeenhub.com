@@ -3944,18 +3944,19 @@ function panKaaba() {
   if (!img || heading == null) return;
   const qp = qiblaPlace();
   const b = qiblaBearing(qp.lat, qp.lon);
-  const diff = ((b - heading + 540) % 360) - 180 + 15; // +15 deg field calibration; 0 = facing qibla
+  const rawDiff = ((b - heading + 540) % 360) - 180; // true offset, 0 = facing qibla
+  const visDiff = rawDiff + 15; // +15 deg visual calibration (field-verified)
   // Image is ~3x wider than viewport; Kaaba at center. Shift so Kaaba
-  // centers when diff=0, pans away as you turn.
+  // centers when visDiff=0, pans away as you turn.
   const maxShift = img.offsetWidth - img.parentElement.offsetWidth;
-  const shift = Math.max(0, Math.min(maxShift, maxShift / 2 - (diff / 180) * (maxShift / 2)));
+  const shift = Math.max(0, Math.min(maxShift, maxShift / 2 - (visDiff / 180) * (maxShift / 2)));
   img.style.transform = `translateX(${-shift}px)`;
   const kd = document.getElementById("kaabaDeg");
-  if (kd) kd.textContent = `${Math.abs(diff).toFixed(0)}°`;
+  if (kd) kd.textContent = `${Math.abs(rawDiff).toFixed(0)}°`;
   const kt = document.getElementById("kaabaTurn");
-  if (kt) kt.innerHTML = Math.abs(diff) < 6
+  if (kt) kt.innerHTML = Math.abs(rawDiff) < 6
     ? `<span class="turn-found">✓ ${t("facing")}</span>`
-    : `<span class="turn-dir">${diff > 0 ? "→" : "←"}</span> <span class="turn-deg">${Math.abs(diff).toFixed(0)}°</span>`;
+    : `<span class="turn-dir">${rawDiff > 0 ? "→" : "←"}</span> <span class="turn-deg">${Math.abs(rawDiff).toFixed(0)}°</span>`;
 }
 
 const bnavSet = document.getElementById("bnavSet");
@@ -3984,19 +3985,17 @@ document.getElementById("compassBtn").onclick = async () => {
   }
   if (compassOn) return; // already listening — don't stack listeners
   compassOn = true;
-  // Use the phone's real GPS position for the compass — the manual state.place
-  // may be a test location. Fall back to state.place if GPS is unavailable.
+  // GPS refines the location in the background — don't block the compass on it.
   if (navigator.geolocation) {
-    try {
-      const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000, maximumAge: 60000 }));
+    navigator.geolocation.getCurrentPosition(pos => {
       const glat = pos.coords.latitude, glon = pos.coords.longitude;
-      // Only use GPS if it meaningfully differs from the manual location (>1km).
       const dLat = Math.abs(glat - state.place.lat), dLon = Math.abs(glon - state.place.lon);
       if (dLat > 0.01 || dLon > 0.01) {
         qiblaLoc = { name: pickL("GPS konumu", "Position GPS", "GPS location"), lat: glat, lon: glon };
-        updateDeclination(glat, glon); // declination must match the physical location too
+        updateDeclination(glat, glon);
+        renderQibla();
       }
-    } catch (e) {}
+    }, () => {}, { timeout: 8000, maximumAge: 60000 });
   }
   let lastAbsMs = 0; // last time the absolute sensor fired
   const smooth = (prev, next) => {
