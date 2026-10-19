@@ -81,7 +81,7 @@ const I18N = {
     zikirAdd: "+ Add my own dhikr", zikirNameL: "Dhikr", zikirCountL: "Count", zikirSaveB: "Save",
     zikirHusna: "Esmaül Hüsna", zikirMine: "My dhikrs", zikirBack: "Back",
     zikirNames: { salawat: "Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid", hawqala: "La hawla wa la quwwata illa billah", tahlilWahdahu: "La ilaha illallah wahdahu la sharika lah", bismillah: "Bismillah ir-Rahman ir-Rahim", subhanallah: "Subhanallah", alhamdulillah: "Alhamdulillah", allahuAkbar: "Allahu Akbar", tahlil: "La ilaha illallah", istighfar: "Astaghfirullah" },
-    resTitle: "Kutub al-Sittah", resSub: "The six canonical hadith collections.", resHadith: "hadith", hdBack: "Books", hdBackCh: "Chapters", hdChapters: "chapters", hdSearchPh: "Search all hadith\u2026", hdLoading: "Downloading the book\u2026 (one time only)", hdContinue: "Continue reading", hdNoRes: "No hadith found for this search.", hdResults: "results", hdGeneralNote: "The source data did not specify a chapter for these hadith.", hdRetry: "Try again", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "Download", hdDlLater: "Not now", resSearchPh: "Search all six books\u2026", resSearching: "Searching downloaded books\u2026", resNoRes: "No results found.", resDlToSearch: "Download a book to include it in search", hdDlOnce: "downloaded once to your device. Read anytime, even offline.", hdAttrAr: "Arabic text: public domain", hdAttrEn: "English translation", 
+    resTitle: "Kutub al-Sittah", resSub: "The six canonical hadith collections.", resHadith: "hadith", hdBack: "Books", hdBackCh: "Chapters", hdChapters: "chapters", hdSearchPh: "Search all hadith\u2026", hdLoading: "Downloading the book\u2026 (one time only)", hdContinue: "Continue reading", hdNoRes: "No hadith found for this search.", hdResults: "results", hdGeneralNote: "The source data did not specify a chapter for these hadith.", hdRetry: "Try again", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "Download", hdDlLater: "Not now", resSearchPh: "Search all six books\u2026", resSearching: "Searching downloaded books\u2026", resNoRes: "No results found.", jumpToVerse: "Go to verse", jumpToVerse: "Go to verse", resDlToSearch: "Download a book to include it in search", hdDlOnce: "downloaded once to your device. Read anytime, even offline.", hdAttrAr: "Arabic text: public domain", hdAttrEn: "English translation", 
     ramTimes: "Prayer times", ramFasts: "My fasts", fastDay: "Day", fastOwed: "fasts to make up",
     fastCaughtUp: "Nothing owed — all fasts accounted for.", fastProgress: "fasted",
     fastFasted: "Fasted", fastMissed: "Missed", fastMadeUp: "Made up",
@@ -172,7 +172,7 @@ const I18N = {
     zikirHusna: "Esma\u00fcl H\u00fcsna", zikirMine: "Zikirlerim", zikirBack: "Geri",
     zikirNames: { salawat: "Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid", hawqala: "La hawla wa la quwwata illa billah", tahlilWahdahu: "La ilaha illallah wahdahu la sharika lah", bismillah: "Bismillah ir-Rahman ir-Rahim", subhanallah: "Subhanallah", alhamdulillah: "Alhamdulillah", allahuAkbar: "Allahu Akbar", tahlil: "La ilaha illallah", istighfar: "Astaghfirullah" },
     qadhaRamadanNote: "Oru\u00e7 da tutuyor musun? Ramazan oru\u00e7lar\u0131n\u0131 da ayn\u0131 \u015fekilde takip et \u2192",
-    resTitle: "K\u00fct\u00fcb-i Sitte", resSub: "Alt\u0131 sahih hadis kitab\u0131.", resHadith: "hadis", hdBack: "Kitaplar", hdBackCh: "B\u00f6l\u00fcmler", hdChapters: "b\u00f6l\u00fcm", hdSearchPh: "T\u00fcm hadislerde ara\u2026", hdLoading: "Kitap indiriliyor\u2026 (yaln\u0131zca bir kez)", hdContinue: "Okumaya devam et", hdNoRes: "Bu aramada hadis bulunamad\u0131.", hdResults: "sonu\u00e7", hdGeneralNote: "Kaynak veride bu hadislerin b\u00f6l\u00fcm\u00fc belirtilmemi\u015f.", hdRetry: "Tekrar dene", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "\u0130ndir", hdDlLater: "\u015eimdi de\u011fil", resSearchPh: "Alt\u0131 kitapta ara\u2026", resSearching: "\u0130ndirilen kitaplarda aran\u0131yor\u2026", resNoRes: "Sonu\u00e7 bulunamad\u0131.", resDlToSearch: "Aramaya dahil etmek i\u00e7in kitap indir", hdDlOnce: "cihaz\u0131na bir kez indirilir. \u00c7evrimd\u0131\u015f\u0131yken bile diledi\u011fin zaman oku.", hdAttrAr: "Arap\u00e7a metin: kamu mal\u0131", hdAttrEn: "\u0130ngilizce \u00e7eviri", 
+    resTitle: "K\u00fct\u00fcb-i Sitte", resSub: "Alt\u0131 sahih hadis kitab\u0131.", resHadith: "hadis", hdBack: "Kitaplar", hdBackCh: "B\u00f6l\u00fcmler", hdChapters: "b\u00f6l\u00fcm", hdSearchPh: "T\u00fcm hadislerde ara\u2026", hdLoading: "Kitap indiriliyor\u2026 (yaln\u0131zca bir kez)", hdContinue: "Okumaya devam et", hdNoRes: "Bu aramada hadis bulunamad\u0131.", hdResults: "sonu\u00e7", hdGeneralNote: "Kaynak veride bu hadislerin b\u00f6l\u00fcm\u00fc belirtilmemi\u015f.", hdRetry: "Tekrar dene", hdLangBoth: "AR + EN", hdLangAr: "\u0639\u0631\u0628\u064a", hdLangEn: "EN", hdDlBtn: "\u0130ndir", hdDlLater: "\u015eimdi de\u011fil", resSearchPh: "Alt\u0131 kitapta ara\u2026", resSearching: "\u0130ndirilen kitaplarda aran\u0131yor\u2026", resNoRes: "Sonu\u00e7 bulunamad\u0131.", jumpToVerse: "Ayete git", jumpToVerse: "Ayete git", resDlToSearch: "Aramaya dahil etmek i\u00e7in kitap indir", hdDlOnce: "cihaz\u0131na bir kez indirilir. \u00c7evrimd\u0131\u015f\u0131yken bile diledi\u011fin zaman oku.", hdAttrAr: "Arap\u00e7a metin: kamu mal\u0131", hdAttrEn: "\u0130ngilizce \u00e7eviri", 
     ramTimes: "Vakitler", ramFasts: "Oruçlarım", fastDay: "Gün", fastOwed: "kaza orucu",
     fastCaughtUp: "Borç yok — tüm oruçlar tamam.", fastProgress: "tutuldu",
     fastFasted: "Tuttum", fastMissed: "Kaçırdım", fastMadeUp: "Kaza ettim",
@@ -568,7 +568,7 @@ const I18N = {
     qadhaMadeUpLog: "rattrapée",
     asmaDay: "Asma-ul Husna",
     articlesTitle: "À propos et FAQ",
-    resNoRes: "Aucun résultat trouvé.",
+    resNoRes: "Aucun résultat trouvé.", jumpToVerse: "Aller au verset",
     dayToday: "Aujourd'hui",
     passed: "passé",
     cardsMnuBg: "Arrière-plan",
@@ -3516,7 +3516,14 @@ async function doVerseSearch(q) {
     }));
     const res = merged.slice(0, 25);
     if (!res.length) { box.innerHTML = `<p class="hint">${t("resNoRes")}</p>`; return; }
-    box.innerHTML = res.map(r => {
+    // Pin the exact verse reference to the top (e.g. "2:255" should not hide behind "2:205")
+    const ref = parseVerseRef(q);
+    const pinHtml = ref
+      ? `<button type="button" class="vres vres-pin" data-goto-verse="${ref.s}:${ref.v}">` +
+        `<span class="vres-key">${ref.s}:${ref.v}</span>` +
+        `<span class="vres-tr">${t("jumpToVerse") || "Go to verse"}</span></button>`
+      : "";
+    box.innerHTML = pinHtml + res.map(r => {
       const tr = r.translations && r.translations[0];
       return `<button type="button" class="vres" data-vk="${r.verse_key}">` +
         `<span class="vres-key">${escapeHtml(r.verse_key)}</span>` +
@@ -3528,6 +3535,7 @@ async function doVerseSearch(q) {
       box.classList.add("hidden");
       const inp = document.getElementById("verseSearch");
       if (inp) inp.value = "";
+      if (b.dataset.gotoVerse) { const [gs, gv] = b.dataset.gotoVerse.split(":").map(Number); jumpToVerse(gs, gv); return; }
       openVerseWindow(b.dataset.vk);
     });
   } catch {

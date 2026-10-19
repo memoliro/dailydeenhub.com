@@ -1060,3 +1060,5 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .tasbih-target { font-size: 22px; color: #d4a574; margin-left: 6px; }
 .zikir-form textarea { resize: vertical; min-height: 64px; font-family: inherit; }
 #kaabaImg { transition: transform .3s ease-out; will-change: transform; }
+.vres-pin { border: 1px solid rgba(212,165,116,.7); background: rgba(212,165,116,.12); }
+.vres-pin .vres-key { color: #d4a574; font-weight: 700; }
