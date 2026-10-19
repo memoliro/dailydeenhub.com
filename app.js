@@ -2242,6 +2242,7 @@ async function ensureVerseAudio() {
   return followState.urls;
 }
 function markVerse(i) {
+  document.querySelectorAll("#verses .verse.jump-hl, #verses .mverse.jump-hl").forEach(e => e.classList.remove("jump-hl", "on"));
   document.querySelectorAll("#verses .verse.on, #verses .mverse.on").forEach(el => el.classList.remove("on"));
   const els = document.querySelectorAll(`#verses .verse[data-v="${i}"], #verses .mverse[data-v="${i}"]`);
   els.forEach((el, k) => { if (state.quranFollow) el.classList.add("on"); if (k === 0) el.scrollIntoView({ block: "center", behavior: "smooth" }); });
@@ -3473,6 +3474,32 @@ function parseVerseRef(q) {
   }
   return null;
 }
+// Pre-seek chapter audio to a verse (0-based idx) so Play starts there, not at 0
+function preseekAudioToVerse(chapterId, verseIdx) {
+  const aud = document.getElementById("audio");
+  if (!aud) return;
+  const doSeek = () => {
+    try {
+      if (currentChapter !== chapterId) return;
+      if (!(aud.duration > 0)) return;
+      if (typeof chapterTimings !== "undefined" && chapterTimings && verseIdx < chapterTimings.length) {
+        aud.currentTime = Math.max(0, chapterTimings[verseIdx] * aud.duration - 0.3);
+        return;
+      }
+      if (typeof verseWeights === "function") {
+        const ws = verseWeights();
+        if (ws && verseIdx < ws.length) {
+          let frac = 0;
+          for (let i = 0; i < verseIdx; i++) frac += ws[i];
+          const total = ws.reduce((a, b) => a + b, 0);
+          aud.currentTime = Math.max(0, (frac / total) * aud.duration - 0.3);
+        }
+      }
+    } catch {}
+  };
+  if (aud.readyState >= 1 && aud.duration > 0) doSeek();
+  else aud.addEventListener("loadedmetadata", doSeek, { once: true });
+}
 async function jumpToVerse(s, v) {
   const idx = v - 1; // 0-based
   await openChapter(s);
@@ -3480,16 +3507,16 @@ async function jumpToVerse(s, v) {
   surahDropShow(false);
   const vr = document.getElementById("verseResults");
   if (vr) vr.classList.add("hidden");
+  // Clear any previous jump highlight
+  document.querySelectorAll("#verses .verse.jump-hl, #verses .mverse.jump-hl").forEach(e => e.classList.remove("jump-hl", "on"));
   const sel = `#verses .verse[data-v="${idx}"], #verses .mverse[data-v="${idx}"]`;
   const el = document.querySelector(sel);
   if (el) {
     el.scrollIntoView({ block: "center" });
-    // Flash-highlight the jumped verse
-    document.querySelectorAll(sel).forEach(e => e.classList.add("on"));
-    setTimeout(() => {
-      if (!state.quranFollow) document.querySelectorAll(sel).forEach(e => e.classList.remove("on"));
-    }, 2500);
+    // Persistent highlight — stays until the next jump or follow-mode takes over
+    document.querySelectorAll(sel).forEach(e => e.classList.add("on", "jump-hl"));
   }
+  preseekAudioToVerse(s, idx); // Play starts from this verse, not the beginning
   saveQuranPos(s, idx); // resume point follows the jump
   refreshQuranResume();
 }
