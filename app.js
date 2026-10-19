@@ -2080,6 +2080,10 @@ function renderVerses() {
   document.querySelectorAll("#quranViewSeg button").forEach(b => b.classList.toggle("on", b.dataset.qv === mode));
   const fc = document.getElementById("followChk");
   if (fc) fc.checked = !!state.quranFollow;
+  // Re-apply jump highlight after re-renders (pron/mushaf async loads wipe it)
+  if (typeof jumpHlIdx === "number" && jumpHlIdx >= 0) {
+    document.querySelectorAll(`#verses .verse[data-v="${jumpHlIdx}"], #verses .mverse[data-v="${jumpHlIdx}"]`).forEach(e => e.classList.add("on", "jump-hl"));
+  }
 }
 /* ===== Quran reading position: pick up where you left off ===== */
 const QPOS_KEY = "ddh-quran-pos";
@@ -3474,6 +3478,7 @@ function parseVerseRef(q) {
   }
   return null;
 }
+let jumpHlIdx = -1; // 0-based verse idx persistently highlighted after a jump
 // Pre-seek chapter audio to a verse (0-based idx) so Play starts there, not at 0
 function preseekAudioToVerse(chapterId, verseIdx) {
   const aud = document.getElementById("audio");
@@ -3508,12 +3513,14 @@ async function jumpToVerse(s, v) {
   const vr = document.getElementById("verseResults");
   if (vr) vr.classList.add("hidden");
   // Clear any previous jump highlight
+  jumpHlIdx = -1;
   document.querySelectorAll("#verses .verse.jump-hl, #verses .mverse.jump-hl").forEach(e => e.classList.remove("jump-hl", "on"));
   const sel = `#verses .verse[data-v="${idx}"], #verses .mverse[data-v="${idx}"]`;
   const el = document.querySelector(sel);
   if (el) {
     el.scrollIntoView({ block: "center" });
     // Persistent highlight — stays until the next jump or follow-mode takes over
+    jumpHlIdx = idx;
     document.querySelectorAll(sel).forEach(e => e.classList.add("on", "jump-hl"));
   }
   preseekAudioToVerse(s, idx); // Play starts from this verse, not the beginning
