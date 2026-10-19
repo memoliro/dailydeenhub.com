@@ -1,0 +1,2 @@
+# Block phantom/spam URL patterns — serve 404 instead of the app shell
+/blogs/* /404.html 404
