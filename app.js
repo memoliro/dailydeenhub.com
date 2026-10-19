@@ -1928,8 +1928,8 @@ function showTab(id) {
    is embeddable (playableInEmbed). If that stream ever restarts under a new id,
    update this one line. Nabawi's channel shortcut works, so it self-updates. */
 const LIVE_STREAMS = {
-  haram: "https://www.youtube-nocookie.com/embed/eC4LfEVxvKg?rel=0&enablejsapi=1",
-  nabawi: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw&enablejsapi=1"
+  haram: "https://www.youtube.com/embed/eC4LfEVxvKg?rel=0&enablejsapi=1",
+  nabawi: "https://www.youtube.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw&enablejsapi=1"
 };
 const livePlayers = {};
 function loadLiveFrames() {

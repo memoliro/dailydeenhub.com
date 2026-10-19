@@ -1115,11 +1115,14 @@ body.quran-open #quranPlayer {
 body.quran-open #panel-quran { padding-bottom: 150px; }
 
 .tile-live { position: relative; }
+.tile-live .tic { position: relative; display: inline-block; }
 .tile-play-badge {
-  position: absolute; top: 8px; right: 8px;
-  width: 26px; height: 19px;
-  background: #f00; border-radius: 5px;
-  color: #fff; font-size: 11px;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px; height: 22px;
+  background: #f00; border-radius: 6px;
+  color: #fff; font-size: 12px;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 1px 5px rgba(0,0,0,.4);
+  pointer-events: none;
 }
