@@ -3944,7 +3944,7 @@ function panKaaba() {
   if (!img || heading == null) return;
   const qp = qiblaPlace();
   const b = qiblaBearing(qp.lat, qp.lon);
-  const diff = ((b - heading + 540) % 360) - 180 + 17; // +17 deg field calibration; 0 = facing qibla
+  const diff = ((b - heading + 540) % 360) - 180 + 15; // +15 deg field calibration; 0 = facing qibla
   // Image is ~3x wider than viewport; Kaaba at center. Shift so Kaaba
   // centers when diff=0, pans away as you turn.
   const maxShift = img.offsetWidth - img.parentElement.offsetWidth;
