@@ -3500,6 +3500,20 @@ async function doVerseSearch(q) {
   if (q.length < 2) { box.classList.add("hidden"); box.innerHTML = ""; return; }
   const my = ++verseSearchToken;
   box.classList.remove("hidden");
+  // Exact verse reference (e.g. "2:255") — pin it immediately, don't wait for the API
+  const refNow = parseVerseRef(q);
+  if (refNow) {
+    box.innerHTML = `<button type="button" class="vres vres-pin" data-goto-verse="${refNow.s}:${refNow.v}">` +
+      `<span class="vres-key">${refNow.s}:${refNow.v}</span>` +
+      `<span class="vres-tr">${t("jumpToVerse") || "Go to verse"}</span></button>`;
+    box.querySelector(".vres-pin").onclick = () => {
+      box.classList.add("hidden");
+      const inp = document.getElementById("verseSearch");
+      if (inp) inp.value = "";
+      jumpToVerse(refNow.s, refNow.v);
+    };
+    return;
+  }
   box.innerHTML = `<p class="hint">${t("loading")}</p>`;
   const queries = verseSearchQueries(q);
   try {
@@ -3516,14 +3530,7 @@ async function doVerseSearch(q) {
     }));
     const res = merged.slice(0, 25);
     if (!res.length) { box.innerHTML = `<p class="hint">${t("resNoRes")}</p>`; return; }
-    // Pin the exact verse reference to the top (e.g. "2:255" should not hide behind "2:205")
-    const ref = parseVerseRef(q);
-    const pinHtml = ref
-      ? `<button type="button" class="vres vres-pin" data-goto-verse="${ref.s}:${ref.v}">` +
-        `<span class="vres-key">${ref.s}:${ref.v}</span>` +
-        `<span class="vres-tr">${t("jumpToVerse") || "Go to verse"}</span></button>`
-      : "";
-    box.innerHTML = pinHtml + res.map(r => {
+    box.innerHTML = res.map(r => {
       const tr = r.translations && r.translations[0];
       return `<button type="button" class="vres" data-vk="${r.verse_key}">` +
         `<span class="vres-key">${escapeHtml(r.verse_key)}</span>` +
