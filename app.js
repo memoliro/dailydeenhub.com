@@ -1346,15 +1346,19 @@ function renderQibla() {
 function tasbihPhraseFor(n) { return n < 33 ? "Subhanallah" : n < 66 ? "Alhamdulillah" : "Allahu akbar"; }
 function renderTasbih() {
   const n = state.tasbih % 100;
-  document.getElementById("tasbihPhrase").textContent = tasbihPhraseFor(n);
-  document.getElementById("tasbihCount").textContent = String(n);
+  const z = (typeof getZikirActive === "function") ? getZikirActive() : null;
+  document.getElementById("tasbihPhrase").textContent = z ? z.name : tasbihPhraseFor(n);
+  document.getElementById("tasbihCount").textContent = String(state.tasbih);
+  const tt = document.getElementById("tasbihTarget");
+  if (tt) tt.textContent = z ? " / " + z.target : "";
   renderBeadText();
 }
 function renderBeadText() {
+  const z = (typeof getZikirActive === "function") ? getZikirActive() : null;
   const n = state.tasbih % 100;
-  const inSet = n < 33 ? n : n < 66 ? n - 33 : n - 66;
-  const target = n < 66 ? 33 : 34;
-  const bp = document.getElementById("beadPhrase"); if (bp) bp.textContent = tasbihPhraseFor(n);
+  const inSet = z ? state.tasbih : (n < 33 ? n : n < 66 ? n - 33 : n - 66);
+  const target = z ? z.target : (n < 66 ? 33 : 34);
+  const bp = document.getElementById("beadPhrase"); if (bp) bp.textContent = z ? z.name : tasbihPhraseFor(n);
   const bc = document.getElementById("beadCount"); if (bc) bc.textContent = String(inSet);
   const bt = document.getElementById("beadTarget"); if (bt) bt.textContent = "/ " + target;
   const bl = document.getElementById("beadLoop"); if (bl) bl.textContent = pickL("Tur ", "Tour ", "Loop ") + ((state.tasbihLoops || 0) + 1);

@@ -153,22 +153,6 @@ function saveZikirCustomForm() {
 }
 function startZikir(name, target) {
   setZikirActive(name, target);
-  // show the dhikr name on the tasbih
-  const tp = document.getElementById("tasbihPhrase");
-  if (tp) tp.textContent = name;
-  const bp = document.getElementById("beadPhrase");
-  if (bp) bp.textContent = name;
-  renderTasbihTarget();
+  if (typeof renderTasbih === "function") renderTasbih();
   showTab("quiet");
-}
-function renderTasbihTarget() {
-  const z = getZikirActive();
-  const el = document.getElementById("tasbihTarget");
-  if (el) el.textContent = z ? ` / ${z.target}` : "";
-  const bc = document.getElementById("beadTarget");
-  if (bc && z) bc.textContent = ` / ${z.target}`;
-  if (z) {
-    const tp = document.getElementById("tasbihPhrase");
-    if (tp && !tp.dataset.zk) tp.textContent = z.name;
-  }
 }
