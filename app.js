@@ -1274,9 +1274,9 @@ function buildCompassDial() {
   el("polygon", { points: "110,58 116.5,110 110,110", fill: "#ef4444" }, needle);
   el("polygon", { points: "110,162 103.5,110 110,110", fill: "#9aa0ae" }, needle);
   el("polygon", { points: "110,162 116.5,110 110,110", fill: "#e8e4da" }, needle);
-  // Kaaba at the red tip — shifted +19 deg clockwise (field-verified),
+  // Kaaba at the red tip — shifted +17 deg clockwise (field-verified),
   // drawn as a clear black cube with gold band, instantly recognizable
-  const km = el("g", { id: "qiblaMark", transform: "rotate(19 110 110)" }, needle);
+  const km = el("g", { id: "qiblaMark", transform: "rotate(17 110 110)" }, needle);
   el("circle", { cx: 110, cy: 66, r: 17, fill: "#0c1425", "fill-opacity": ".9", stroke: "#d4a574", "stroke-width": 1.2 }, km);
   el("polygon", { points: "100,58 112,58 112,74 100,74", fill: "#0a0a0a", stroke: "#d4a574", "stroke-width": 1 }, km);
   el("polygon", { points: "112,58 118,61 118,77 112,74", fill: "#1c1c1c", stroke: "#d4a574", "stroke-width": 1 }, km);
@@ -3944,7 +3944,7 @@ function panKaaba() {
   if (!img || heading == null) return;
   const qp = qiblaPlace();
   const b = qiblaBearing(qp.lat, qp.lon);
-  const diff = ((b - heading + 540) % 360) - 180; // -180..180, 0 = facing qibla
+  const diff = ((b - heading + 540) % 360) - 180 + 17; // +17 deg field calibration; 0 = facing qibla
   // Image is ~3x wider than viewport; Kaaba at center. Shift so Kaaba
   // centers when diff=0, pans away as you turn.
   const maxShift = img.offsetWidth - img.parentElement.offsetWidth;
