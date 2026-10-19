@@ -1439,20 +1439,24 @@ function renderBeads(animate) {
     strip.style.transform = `translateX(${-n * 54}px)`;
   }
 }
+function tasbihMuted() { try { return localStorage.getItem("ddh-tasbih-muted") === "1"; } catch { return false; } }
+function setTasbihMuted(m) { try { localStorage.setItem("ddh-tasbih-muted", m ? "1" : "0"); } catch {} const b = document.getElementById("tasbihMute"); if (b) b.textContent = m ? "🔇" : "🔊"; }
 function bumpTasbih(withSound) {
   const zChk = (typeof getZikirActive === "function") ? getZikirActive() : null;
   if (zChk && state.tasbih >= zChk.target) return; // at target — don't exceed
   state.tasbih = (state.tasbih || 0) + 1;
-  try { if (navigator.vibrate) navigator.vibrate(18); } catch {}
+  if (!tasbihMuted()) {
+    try { if (navigator.vibrate) navigator.vibrate(18); } catch {}
+  }
   const z = zChk;
   if (!z && state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
   save();
   renderTasbih();
-  if (withSound) {
+  if (withSound && !tasbihMuted()) {
     if (state.tasbihMode === "beads") { renderBeads(true); beadSound(); }
     else tasbihTick();
   }
-  if (z && state.tasbih === z.target) { try { if (navigator.vibrate) navigator.vibrate([60,60,60,60,120]); } catch {} }
+  if (z && state.tasbih === z.target && !tasbihMuted()) { try { if (navigator.vibrate) navigator.vibrate([60,60,60,60,120]); } catch {} }
 }
 function applyTasbihMode() {
   const beads = state.tasbihMode === "beads";
@@ -3959,6 +3963,8 @@ function panKaaba() {
     : `<span class="turn-dir">${rawDiff > 0 ? "→" : "←"}</span> <span class="turn-deg">${Math.abs(rawDiff).toFixed(0)}°</span>`;
 }
 
+const _tmute = document.getElementById("tasbihMute");
+if (_tmute) { _tmute.textContent = tasbihMuted() ? "🔇" : "🔊"; _tmute.onclick = () => setTasbihMuted(!tasbihMuted()); }
 const bnavSet = document.getElementById("bnavSet");
 if (bnavSet) bnavSet.onclick = () => { showTab("settings"); syncSetControls(); setShow(null); };
 const _hsnBack = document.getElementById("hsnBack");

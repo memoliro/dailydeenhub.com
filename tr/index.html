@@ -242,9 +242,12 @@
     <section id="panel-quiet" class="layout hidden">
       <div class="panel pad">
         <h2 data-i="tasbihTitle">Tesbih</h2>
-        <div class="seg" id="tasbihModeSeg" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div class="seg" id="tasbihModeSeg" style="margin-bottom:0;flex:1">
           <button type="button" data-tm="classic" data-i="tmClassic">Klasik</button>
           <button type="button" data-tm="beads" data-i="tmBeads">Tesbih</button>
+        </div>
+          <button type="button" id="tasbihMute" class="ghost" style="font-size:20px;padding:6px 10px" title="Silent mode">🔊</button>
         </div>
         <div id="tasbihFrame" class="tasbih-frame">
           <div id="tasbihBeadFrame" aria-hidden="true"></div>
@@ -678,7 +681,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=212"></script>
+  <script src="/app.js?v=213"></script>
   <script src="/learn.js?v=8"></script>
   <script src="/hisnul.js?v=3"></script>
   <script src="/qadha.js?v=3"></script>
