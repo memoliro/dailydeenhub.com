@@ -773,6 +773,7 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .learn-article .tn { font-style: italic; opacity: .85; }
 .learn-article .dm { opacity: .72; font-size: 14px; }
 .learn-article .dua { border-left: 3px solid var(--gold, #d4a017); padding: 2px 0 2px 13px; margin: 12px 0; }
+.learn-article .learn-inlink { margin: 8px 0; }
 .learn-article .hsn-meta { display: flex; gap: 14px; font-size: 12.5px; opacity: .62; margin-top: 6px; }
 .qadha-total { text-align: center; margin: 22px 0 10px; }
 .qadha-num { font-size: 54px; font-weight: 800; color: var(--gold); display: block; line-height: 1.1; }
@@ -881,6 +882,7 @@ body:not([data-theme="day"]) .qibla-frame { filter: brightness(.9) saturate(.92)
 .qadha-row.done-mark { border-color: var(--green); }
 .learn-fig { margin: 10px 0; }
 .learn-fig img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); display: block; }
+.learn-fig figcaption { font-size: 12px; opacity: .55; text-align: center; margin-top: 6px; }
 .learn-support { margin-top: 20px; padding: 18px 16px 14px; border-radius: 16px; border: 1px solid var(--line); text-align: center; background: color-mix(in srgb, var(--ink) 4%, transparent); }
 .learn-support p { margin: 0 0 10px; font-size: 14px; opacity: .8; line-height: 1.6; }
 .learn-support a { color: var(--gold); font-weight: 600; }
