@@ -1374,6 +1374,21 @@ const BEAD_STYLES = {
   turquoise: ["radial-gradient(circle at 35% 32%, #8ff0e8, #2bb8b0 55%, #0d6b66 100%)", "#147a72"]
 };
 let beadCtx = null;
+function tasbihTick() {
+  try {
+    beadCtx = beadCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (beadCtx.state === "suspended") beadCtx.resume();
+    const t0 = beadCtx.currentTime;
+    const o = beadCtx.createOscillator(), g = beadCtx.createGain();
+    o.type = "triangle";
+    o.frequency.setValueAtTime(2200, t0);
+    o.frequency.exponentialRampToValueAtTime(900, t0 + 0.05);
+    g.gain.setValueAtTime(0.5, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.08);
+    o.connect(g); g.connect(beadCtx.destination);
+    o.start(t0); o.stop(t0 + 0.09);
+  } catch {}
+}
 function beadSound() {
   try {
     beadCtx = beadCtx || new (window.AudioContext || window.webkitAudioContext)();
@@ -1424,10 +1439,15 @@ function renderBeads(animate) {
 function bumpTasbih(withSound) {
   state.tasbih = (state.tasbih || 0) + 1;
   try { if (navigator.vibrate) navigator.vibrate(18); } catch {}
-  if (state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
+  const z = (typeof getZikirActive === "function") ? getZikirActive() : null;
+  if (!z && state.tasbih >= 100) { state.tasbih = 0; state.tasbihLoops = (state.tasbihLoops || 0) + 1; }
   save();
   renderTasbih();
-  if (state.tasbihMode === "beads") { renderBeads(true); if (withSound) beadSound(); }
+  if (withSound) {
+    if (state.tasbihMode === "beads") { renderBeads(true); beadSound(); }
+    else tasbihTick();
+  }
+  if (z && state.tasbih === z.target) { try { if (navigator.vibrate) navigator.vibrate([60,60,60,60,120]); } catch {} }
 }
 function applyTasbihMode() {
   const beads = state.tasbihMode === "beads";
@@ -3830,6 +3850,15 @@ if (_fc) _fc.onchange = () => {
   syncIcon();
 })();
 // (menu guard closed above)
+document.addEventListener("keydown", e => {
+  const qp = document.getElementById("panel-quiet");
+  if (!qp || qp.classList.contains("hidden")) return;
+  if (e.target.matches("input, textarea, select")) return;
+  if (e.code === "Space" || e.code === "ArrowUp" || e.code === "ArrowRight") {
+    e.preventDefault();
+    bumpTasbih(true);
+  }
+});
 const _tstage = document.getElementById("tasbihClassic");
 if (_tstage) _tstage.addEventListener("click", e => {
   if (e.target.closest("#tasbihReset")) return; // reset must not count
