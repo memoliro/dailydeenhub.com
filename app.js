@@ -1928,14 +1928,44 @@ function showTab(id) {
    is embeddable (playableInEmbed). If that stream ever restarts under a new id,
    update this one line. Nabawi's channel shortcut works, so it self-updates. */
 const LIVE_STREAMS = {
-  haram: "https://www.youtube-nocookie.com/embed/eC4LfEVxvKg?rel=0",
-  nabawi: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw"
+  haram: "https://www.youtube-nocookie.com/embed/eC4LfEVxvKg?rel=0&enablejsapi=1",
+  nabawi: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw&enablejsapi=1"
 };
+const livePlayers = {};
 function loadLiveFrames() {
   [["liveHaramFrame", "haram"], ["liveNabawiFrame", "nabawi"]].forEach(([fid, key]) => {
     const f = document.getElementById(fid);
     if (f && !f.src && LIVE_STREAMS[key]) f.src = LIVE_STREAMS[key];
   });
+  initLiveApi();
+}
+/* One stream at a time: when Haram starts playing, pause Nabawi and vice versa. */
+function initLiveApi() {
+  if (window._liveApiInit) return;
+  window._liveApiInit = true;
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = () => {
+    [["liveHaramFrame", "haram"], ["liveNabawiFrame", "nabawi"]].forEach(([fid, key]) => {
+      try {
+        livePlayers[key] = new YT.Player(fid, {
+          events: {
+            onStateChange: ev => {
+              if (ev.data === YT.PlayerState.PLAYING) {
+                // Pause the other stream
+                Object.keys(livePlayers).forEach(k => {
+                  if (k !== key && livePlayers[k] && livePlayers[k].pauseVideo) {
+                    try { livePlayers[k].pauseVideo(); } catch {}
+                  }
+                });
+              }
+            }
+          }
+        });
+      } catch {}
+    });
+  };
 }
 /* Feedback form: posts straight to the developer's inbox via FormSubmit
    (no account, no server of ours — the app keeps its no-data promise). */
