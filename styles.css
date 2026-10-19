@@ -1133,3 +1133,13 @@ body.quran-open #panel-quran { padding-bottom: 150px; }
   transition: transform .15s;
 }
 .live-play:active .live-play-btn { transform: scale(.92); }
+
+.tile-live { position: relative; }
+.tile-play-badge {
+  position: absolute; top: 8px; right: 8px;
+  width: 26px; height: 19px;
+  background: #f00; border-radius: 5px;
+  color: #fff; font-size: 11px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 5px rgba(0,0,0,.4);
+}
