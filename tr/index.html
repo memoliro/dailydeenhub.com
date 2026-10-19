@@ -241,13 +241,10 @@
     </section>
     <section id="panel-quiet" class="layout hidden">
       <div class="panel pad">
-        <h2 data-i="tasbihTitle">Tesbih</h2>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <div class="seg" id="tasbihModeSeg" style="margin-bottom:0;flex:1">
+        <div style="display:flex;align-items:center;justify-content:space-between"><h2 data-i="tasbihTitle" style="margin:0">Tesbih</h2><button type="button" id="tasbihMute" class="ghost" style="font-size:20px;padding:6px 10px" title="Silent mode">🔊</button></div>
+        <div class="seg" id="tasbihModeSeg" style="margin-bottom:12px">
           <button type="button" data-tm="classic" data-i="tmClassic">Klasik</button>
           <button type="button" data-tm="beads" data-i="tmBeads">Tesbih</button>
-        </div>
-          <button type="button" id="tasbihMute" class="ghost" style="font-size:20px;padding:6px 10px" title="Silent mode">🔊</button>
         </div>
         <div id="tasbihFrame" class="tasbih-frame">
           <div id="tasbihBeadFrame" aria-hidden="true"></div>
