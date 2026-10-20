@@ -67,6 +67,9 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
   var url = (event.notification.data && event.notification.data.url) || '/';
+  // Trust boundary: only ever open same-origin URLs from a notification tap.
+  try { if (new URL(url, self.location.origin).origin !== self.location.origin) url = '/'; }
+  catch (e) { url = '/'; }
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
       for (var i = 0; i < list.length; i++) {
