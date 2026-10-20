@@ -139,7 +139,15 @@ body: [
 ["h", "What breaks wudu"],
 ["p", "Sleep, using the toilet, passing wind, and any bleeding are among the things that nullify wudu. When any of these happen, perform wudu again before the next prayer."],
 ["h", "Good to know"],
-["p", "Keep the order, do not leave long gaps between the steps, and be thorough without wasting water \u2014 the Prophet \uFDFA warned against excess even at a flowing river."]
+["p", "Keep the order, do not leave long gaps between the steps, and be thorough without wasting water \u2014 the Prophet \uFDFA warned against excess even at a flowing river."],
+["h", "The dua after wudu"],
+["dua", { "ar": "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "tn": "Ashhadu an la ilaha illallah wahdahu la sharika lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh.", "mean": "I bear witness that there is no god but Allah alone, without partner, and I bear witness that Muhammad is His servant and Messenger." }],
+["p", "“Whoever performs wudu well and then says this, the eight gates of Paradise will be opened for him, to enter through whichever he wishes.” (Muslim) — and in another narration the Prophet ﷺ added: “Allahummaj'alni minat-tawwabin, waj'alni minal-mutatahhirin — O Allah, make me among those who repent and among those who purify themselves.” (Tirmidhi)"],
+["dua", { "ar": "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ", "tn": "Allahummaj'alni minat-tawwabin, waj'alni minal-mutatahhirin.", "mean": "O Allah, make me among those who constantly repent and among those who purify themselves. (Tirmidhi)" }],
+["h", "Sins fall away with the water"],
+["p", "“When the Muslim performs wudu and washes his face, every sin his eyes committed falls away with the water; when he washes his hands, every sin they committed falls away; when he washes his feet, every sin they walked toward falls away — until he comes out pure from sins.” (Muslim)"],
+["h", "Purity is half of faith"],
+["p", "“Purity is half of faith (iman).” (Muslim) — and on the Day of Judgment the Prophet ﷺ will recognize his followers by the radiant traces of wudu: “My nation will come with shining faces, hands and feet from the traces of wudu.” (Bukhari, Muslim)"]
 ] },
 { id: "prayer", icon: "🕌", title: "How to Pray \u2014 Step by Step", desc: "A two-rak'ah prayer from takbir to salam",
 body: [
@@ -186,13 +194,13 @@ body: [
 ["p", "The prayer does not end at the salam. The Prophet \uFDFA would seek forgiveness three times, then say:"],
 ["dua", { ar: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", tn: "Allahumma antas-salam wa minkas-salam, tabarakta ya dhal-jalali wal-ikram", mean: "O Allah, You are Peace and from You is peace. Blessed are You, O Possessor of majesty and honour." }],
 ["p", "Then: SubhanAllah 33 times, Alhamdulillah 33 times, Allahu Akbar 33 times (or 34), followed once by \u201CLa ilaha illa Allah wahdahu la sharika lah\u201D \u2014 \u201Cwhoever does this after every prayer will have his sins forgiven, even if they are like the foam of the sea.\u201D \u2014 Sahih Muslim"],
-["p", "And recite Ayat al-Kursi (Quran 2:255): \u201CWhoever recites it after every obligatory prayer, nothing stands between him and Paradise except death.\u201D \u2014 Sunan al-Nasa'i"],
+["p", "And recite Ayat al-Kursi (Quran 2:255): \u201CWhoever recites it after every obligatory prayer, nothing stands between him and Paradise except death.\u201D \u2014 Sunan al-Nasa'i"],,
 ["link", { to: "prayer-virtues", icon: "✨", title: "The Virtues of Prayer", desc: "Why the five daily prayers are a gift, not a burden" }]
 ] }
 ,
 { id: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "The foundation of the faith — tap a pillar for its detailed guide",
 body: [
-["p", "The Prophet \uFDFA said: \u201CIslam is built upon five: the testimony that there is no god but Allah and that Muhammad is the Messenger of Allah, establishing the prayer, giving zakat, fasting Ramadan, and Hajj to the House.\u201D (Sahih al-Bukhari, Sahih Muslim). Each pillar below opens its own detailed guide \u2014 with how-tos, virtues, duas and dhikr."],,
+["p", "The Prophet \uFDFA said: \u201CIslam is built upon five: the testimony that there is no god but Allah and that Muhammad is the Messenger of Allah, establishing the prayer, giving zakat, fasting Ramadan, and Hajj to the House.\u201D (Sahih al-Bukhari, Sahih Muslim). Each pillar below opens its own detailed guide \u2014 with how-tos, virtues, duas and dhikr."],,,
 ["link", { to: "shahada", icon: "\u261D\uFE0F", title: "1. Shahada \u2014 The Testimony", desc: "Its meaning, conditions and what it demands" }],
 ["link", { to: "prayer", icon: "🕌", title: "2. Salah \u2014 The Five Daily Prayers", desc: "Step-by-step guide, plus the virtues of prayer" }],
 ["link", { to: "zakat", icon: "🤲", title: "3. Zakat \u2014 Obligatory Charity", desc: "Nisab, rates, recipients and Zakat al-Fitr" }],
@@ -219,7 +227,14 @@ body: [
 ["dua", { ar: "\u0633\u064F\u0628\u0652\u062d\u064e\u0627\u0646\u064e \u0627\u0644\u0644\u0647\u0650 \u0648\u064e\u0628\u0650\u062d\u064e\u0645\u0652\u062f\u0650\u0647\u0650", tn: "SubhanAllahi wa bihamdihi", mean: "Glory be to Allah and praise Him." }],
 ["p", "The Prophet \uFDFA said: whoever says this one hundred times a day, his sins are forgiven even if they are like the foam of the sea."],
 ["h", "For protection \u2014 3 times"],
-["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "A'udhu bikalimatillah it-tammati min sharri ma khalaq", mean: "I seek refuge in the perfect words of Allah from the evil of what He created." }]
+["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "A'udhu bikalimatillah it-tammati min sharri ma khalaq", mean: "I seek refuge in the perfect words of Allah from the evil of what He created." }],
+["h", "La ilaha illallah — 100 times a day"],
+["dua", { "ar": "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "tn": "La ilaha illallah wahdahu la sharika lah, lahul-mulku wa lahul-hamdu, wa huwa 'ala kulli shay'in qadir.", "mean": "None has the right to be worshipped but Allah alone, without partner; to Him belongs dominion and praise, and He is able to do all things." }],
+["p", "“Whoever says this one hundred times a day will have the reward of freeing ten slaves, one hundred good deeds will be written for him, one hundred sins wiped away, and it will be a protection for him from Satan that day until evening.” (Bukhari, Muslim)"],
+["h", "For protection — morning and evening, 3 times"],
+["dua", { "ar": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", "tn": "Bismillahilladhi la yadurru ma'as-mihi shay'un fil-ardi wa la fis-sama', wa huwas-sami'ul-'alim.", "mean": "In the name of Allah, with Whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing. (Tirmidhi, Abu Dawud) — whoever says it three times in the morning and evening, nothing will harm him." }],
+["h", "Contentment with Allah — 3 times"],
+["dua", { "ar": "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا", "tn": "Raditu billahi rabban, wa bil-islami dinan, wa bi Muhammadin sallallahu 'alayhi wa sallama nabiyyan.", "mean": "I am content with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet. (Abu Dawud) — whoever says it three times in the morning and evening, Allah will please him on the Day of Judgment." }]
 ] },
 { id: "ramadan", icon: "🌙", title: "Ramadan Guide", desc: "Fasting, taraweeh, Laylat al-Qadr and Eid",
 body: [
@@ -233,6 +248,14 @@ body: [
 ["dua", { ar: "\u0627\u0644\u0644\u0647\u064f\u0645\u064e\u0651 \u0625\u0646\u064e\u0651\u0643\u064e \u0639\u064e\u0641\u064f\u0648\u064c\u0651 \u062a\u064f\u062d\u0650\u0628\u064f\u0651 \u0627\u0644\u0652\u0639\u064e\u0641\u0652\u0648\u064e \u0641\u064e\u0627\u0639\u0652\u0641\u064f \u0639\u064e\u0646\u0650\u0651\u064a", tn: "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni", mean: "O Allah, You are Pardoning and love to pardon, so pardon me." }],
 ["h", "Zakat al-Fitr and Eid"],
 ["p", "Before the Eid prayer, give Zakat al-Fitr \u2014 a measure of staple food (or its value) for each member of the household \u2014 so the poor can celebrate too. Eid al-Fitr begins with the congregational prayer and the takbirat, followed by days of joy: visiting family, sharing food, and remembering Allah."],,
+["h", "Laylat al-Qadr — better than a thousand months"],
+["p", "“The Night of Decree is better than a thousand months.” (Quran 97:3) — more than 83 years of worship packed into a single night. The Prophet ﷺ said: “Seek it in the odd nights of the last ten days of Ramadan.” (Bukhari) — the 21st, 23rd, 25th, 27th and 29th nights."],
+["h", "The dua of Laylat al-Qadr"],
+["dua", { "ar": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", "tn": "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni.", "mean": "O Allah, You are Pardoning and love to pardon, so pardon me. (Tirmidhi) — 'Aishah رضي الله عنها asked the Prophet ﷺ what to say if she found the Night, and he taught her this." }],
+["h", "I'tikaf — retreat in the mosque"],
+["p", "In the last ten days the Prophet ﷺ would retreat into the mosque (i'tikaf), cutting himself off from the world to devote himself entirely to worship. “The Prophet ﷺ used to perform i'tikaf in the last ten days of Ramadan until Allah took his soul.” (Bukhari, Muslim) — even a single night or day of i'tikaf carries immense reward."],
+["h", "Standing in prayer at night"],
+["p", "“Whoever stands (in prayer) during Ramadan out of faith and hoping for reward, his previous sins will be forgiven.” (Bukhari, Muslim) — this is the foundation of taraweeh: long, calm night prayers in congregation, with the Quran recited through the month."],
 ["link", { to: "fasting-virtues", icon: "🌙", title: "The Virtues of Fasting", desc: "Why fasting is among the most beloved deeds" }]
 ] },
 { id: "shahada", icon: "\u261D\uFE0F", title: "The Shahada \u2014 The Testimony of Faith", desc: "Its meaning, conditions and what it demands",
@@ -247,7 +270,7 @@ body: [
 ["h", "What contradicts it"],
 ["p", "The testimony is broken by its opposites \u2014 above all shirk (associating partners with Allah), and by mocking anything of the religion. Allah says: \u201CIndeed, Allah does not forgive association with Him...\u201D (Quran 4:48)."],
 ["h", "Living by it"],
-["p", "The testimony is not only words but a covenant: worship Allah alone in prayer, dua and reliance; love what He loves; and follow the Sunnah of His Messenger \uFDFA in daily life \u2014 in honesty, kindness and character. Each prayer, each fast, each act of charity is the testimony made visible."],
+["p", "The testimony is not only words but a covenant: worship Allah alone in prayer, dua and reliance; love what He loves; and follow the Sunnah of His Messenger \uFDFA in daily life \u2014 in honesty, kindness and character. Each prayer, each fast, each act of charity is the testimony made visible."],,
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
 { id: "prayer-virtues", icon: "✨", title: "The Virtues of Prayer", desc: "Why the five daily prayers are a gift, not a burden",
@@ -264,6 +287,14 @@ body: [
 ["p", "Every step taken toward the mosque raises a degree and erases a sin \u2014 Sahih Muslim. And waiting for the next prayer after finishing one is \u201Cribat\u201D (like guarding the frontiers) \u2014 Sahih Muslim."],
 ["h", "The first thing asked about"],
 ["p", "\u201CThe first deed for which a person will be brought to account on the Day of Resurrection is the prayer.\u201D \u2014 Sunan al-Tirmidhi"],,
+["h", "Waiting for prayer is itself worship"],
+["p", "“None of you ceases to be in prayer as long as he is waiting for the prayer, as long as nothing but the prayer keeps him from returning to his family.” (Bukhari, Muslim) — even the minutes spent sitting in the mosque before the iqamah are recorded as worship."],
+["h", "Prayer is light"],
+["p", "“Prayer is light (nur).” (Muslim) — a light in this life that guards the heart against darkness, and a light on the Day of Judgment guiding its people across the Sirat."],
+["h", "Dua: make me steadfast in prayer"],
+["dua", { "ar": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "tn": "Rabbi ij'alni muqimas-salati wa min dhurriyyati, Rabbana wa taqabbal du'a.", "mean": "My Lord, make me steadfast in prayer, and also my offspring. Our Lord, accept my supplication. (Quran 14:40) — the dua of Prophet Ibrahim عليه السلام." }],
+["h", "Dua: help me worship You well"],
+["dua", { "ar": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "tn": "Allahumma a'inni 'ala dhikrika, wa shukrika, wa husni 'ibadatik.", "mean": "O Allah, help me to remember You, to thank You, and to worship You in the best manner. (Abu Dawud, Nasa'i) — the Prophet ﷺ advised Mu'adh رضي الله عنه never to leave this dua after every prayer." }],
 ["link", { to: "prayer", icon: "🕌", title: "How to Pray \u2014 Step by Step", desc: "The practical guide to the prayer itself" }],
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
@@ -282,7 +313,7 @@ body: [
 ["h", "What wealth counts"],
 ["p", "Gold and silver (jewellery included), cash and bank savings, trade goods, and shares held as investment. Your home, car, furniture and clothes are exempt \u2014 they are personal use, not growing wealth. Livestock and crops have their own rates; ask a scholar for the details."],
 ["h", "How to calculate"],
-["p", "Choose one date each lunar year (many choose Ramadan). Add up all zakatable wealth, subtract debts due immediately, and if the remainder reaches the nisab, pay 2.5% of it. Example: $10,000 in savings \u2014 $250 of zakat. Pay promptly, and where possible give directly to eligible recipients."],
+["p", "Choose one date each lunar year (many choose Ramadan). Add up all zakatable wealth, subtract debts due immediately, and if the remainder reaches the nisab, pay 2.5% of it. Example: $10,000 in savings \u2014 $250 of zakat. Pay promptly, and where possible give directly to eligible recipients."],,
 ["link", { to: "sadaqah", icon: "💝", title: "Sadaqah \u2014 Voluntary Charity", desc: "Beyond the obligation: the virtues of giving" }],
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
@@ -301,7 +332,7 @@ body: [
 ["h", "Give in secret, give often"],
 ["p", "Secret charity is more virtuous and more sincere; but giving openly is also good when it encourages others. The best charity is what the soul can truly spare, given consistently."],
 ["h", "The etiquette of giving"],
-["p", "\u201CDo not invalidate your charities with reminders of generosity or with injury.\u201D (Quran 2:264) Give quietly and from what you love \u2014 \u201CYou will never attain righteousness until you spend from that which you love\u201D (Quran 3:92). And begin with family: charity to kin is both charity and upholding ties of kinship (Sunan al-Tirmidhi)."],
+["p", "\u201CDo not invalidate your charities with reminders of generosity or with injury.\u201D (Quran 2:264) Give quietly and from what you love \u2014 \u201CYou will never attain righteousness until you spend from that which you love\u201D (Quran 3:92). And begin with family: charity to kin is both charity and upholding ties of kinship (Sunan al-Tirmidhi)."],,
 ["link", { to: "zakat", icon: "🤲", title: "Zakat \u2014 The Obligatory Charity", desc: "The pillar of obligatory giving" }],
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
@@ -322,7 +353,7 @@ body: [
 ["h", "The fasting person's dua"],
 ["p", "\u201CThe supplications of three are not rejected: the fasting person until he breaks his fast, the just ruler, and the oppressed.\u201D \u2014 Sunan al-Tirmidhi. Save your most heartfelt duas for the moments before iftar."],
 ["h", "Guarding the fast"],
-["p", "\u201CWhoever does not give up false speech and acting upon it, Allah has no need of his giving up food and drink.\u201D \u2014 Sahih al-Bukhari. The fast trains the tongue and the limbs, not only the stomach \u2014 guard the eyes, the ears and the speech, and the fast guards you."],
+["p", "\u201CWhoever does not give up false speech and acting upon it, Allah has no need of his giving up food and drink.\u201D \u2014 Sahih al-Bukhari. The fast trains the tongue and the limbs, not only the stomach \u2014 guard the eyes, the ears and the speech, and the fast guards you."],,
 ["link", { to: "ramadan", icon: "🌙", title: "Ramadan Guide", desc: "Fasting, taraweeh, Laylat al-Qadr and Eid" }],
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
@@ -375,7 +406,7 @@ body: [
 ["h", "Farewell Tawaf"],
 ["p", "Before leaving Makkah, perform a final tawaf \u2014 the farewell circumambulation \u2014 making it your last act at the House (Sahih al-Bukhari, Sahih Muslim). Women in menstruation are exempted."],
 ["h", "Dhikr of the ten days"],
-["p", "The first ten days of Dhul-Hijjah are the most beloved days for good deeds \u2014 fill them with tahlil (La ilaha illa Allah), takbir (Allahu Akbar) and tahmid (Alhamdulillah). \u2014 Sahih al-Bukhari"],,
+["p", "The first ten days of Dhul-Hijjah are the most beloved days for good deeds \u2014 fill them with tahlil (La ilaha illa Allah), takbir (Allahu Akbar) and tahmid (Alhamdulillah). \u2014 Sahih al-Bukhari"],,,
 ["link", { to: "pillars", icon: "🕋", title: "The Five Pillars of Islam", desc: "Back to the pillars overview" }]
 ] },
 ],
@@ -396,7 +427,15 @@ body: [
 ["h", "Abdesti bozan şeyler"],
 ["p", "Uyku, tuvalet ihtiyacı, yellenme ve kanama abdesti bozan şeylerdendir. Bunlardan biri olursa bir sonraki namazdan önce yeniden abdest alın."],
 ["h", "Bilmekte fayda var"],
-["p", "Sıraya uyun, adımlar arasında uzun ara vermeyin; suyu israf etmeden ama eksiksiz yıkayın \u2014 Peygamberimiz \uFDFA, akan bir nehir kenarında bile israftan sakındırmıştır."]
+["p", "Sıraya uyun, adımlar arasında uzun ara vermeyin; suyu israf etmeden ama eksiksiz yıkayın \u2014 Peygamberimiz \uFDFA, akan bir nehir kenarında bile israftan sakındırmıştır."],
+["h", "Abdestten sonra okunan dua"],
+["dua", { "ar": "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "tn": "Ashhadu an la ilaha illallah wahdahu la sharika lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh.", "mean": "Şehadet ederim ki Allah'tan başka ilah yoktur, O tektir, ortağı yoktur; yine şehadet ederim ki Muhammed O'nun kulu ve Resulüdür." }],
+["p", "“Kim abdesti güzelce alır sonra bunu söylerse, cennetin sekiz kapısı ona açılır; dilediğinden girer.” (Müslim) — bir başka rivayette Efendimiz ﷺ şunu ekledi: “Allah'ım! Beni tevbe edenlerden ve temizlenenlerden eyle.” (Tirmizi)"],
+["dua", { "ar": "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ", "tn": "Allahummaj'alni minat-tawwabin, waj'alni minal-mutatahhirin.", "mean": "Allah'ım! Beni çokça tevbe edenlerden ve temizlenenlerden eyle. (Tirmizi)" }],
+["h", "Günahlar suyla dökülür"],
+["p", "“Müslüman abdest alıp yüzünü yıkadığında, gözlerinin işlediği her günah suyla birlikte dökülür; ellerini yıkadığında ellerinin işlediği her günah dökülür; ayaklarını yıkadığında ayaklarının yürüdüğü her günah dökülür — ta ki günahlardan arınmış olarak çıkar.” (Müslim)"],
+["h", "Temizlik imanın yarısıdır"],
+["p", "“Temizlik imanın yarısıdır.” (Müslim) — kıyamet günü Peygamberimiz ﷺ ümmetini abdestin bıraktığı parlak izlerden tanıyacak: “Ümmetim, abdest izlerinden yüzleri, elleri ve ayakları parlar halde gelecek.” (Buhari, Müslim)"]
 ] },
 { id: "prayer", icon: "🕌", title: "Namaz Nasıl Kılınır \u2014 Adım Adım", desc: "Tekbirden selama iki rekât namaz",
 body: [
@@ -443,12 +482,12 @@ body: [
 ["p", "Namaz selamla bitmez. Peygamber Efendimiz \uFDFA üç kez istiğfar eder, sonra şöyle derdi:"],
 ["dua", { ar: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", tn: "Allahümme entes-selâmü ve minkes-selâm, tebârekte yâ zel-celâli vel-ikrâm", mean: "Allah'ım, selam Sensin ve selam Sendendir. Mübareksin ey celal ve ikram sahibi." }],
 ["p", "Sonra: 33 kez Sübhanallah, 33 kez Elhamdülillah, 33 kez Allahu Ekber (veya 34), ardından bir kez \u201CLâ ilahe illallah vahdehû lâ şerîke leh\u201D \u2014 \u201CKim bunu her namazdan sonra yaparsa, günahları deniz köpüğü kadar da olsa bağışlanır.\u201D \u2014 Sahih-i Müslim"],
-["p", "Ve Âyetel Kürsi okunur (Bakara 2:255): \u201CKim her farz namazdan sonra onu okursa, cennetle arasında ölümden başka engel kalmaz.\u201D \u2014 Sünen-i Nesâî"],
+["p", "Ve Âyetel Kürsi okunur (Bakara 2:255): \u201CKim her farz namazdan sonra onu okursa, cennetle arasında ölümden başka engel kalmaz.\u201D \u2014 Sünen-i Nesâî"],,
 ["link", { to: "prayer-virtues", icon: "✨", title: "Namazın Faziletleri", desc: "Beş vakit namaz neden bir yük değil, bir nimettir" }]
 ] },
 { id: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Dinin temeli — detaylı rehber için bir şarta dokunun",
 body: [
-["p", "Peygamber Efendimiz \uFDFA buyurdu: \u201Cİslam beş esas üzerine kurulmuştur: Allah'tan başka ilah olmadığına ve Muhammed'in Allah'ın elçisi olduğuna şahitlik etmek, namazı kılmak, zekâtı vermek, Ramazan orucunu tutmak ve Beytullah'ı haccetmek.\u201D (Sahih-i Buhari, Sahih-i Müslim). Her şartın altında detaylı rehberi bulacaksınız \u2014 yapılışı, faziletleri, duaları ve zikirleriyle."],,
+["p", "Peygamber Efendimiz \uFDFA buyurdu: \u201Cİslam beş esas üzerine kurulmuştur: Allah'tan başka ilah olmadığına ve Muhammed'in Allah'ın elçisi olduğuna şahitlik etmek, namazı kılmak, zekâtı vermek, Ramazan orucunu tutmak ve Beytullah'ı haccetmek.\u201D (Sahih-i Buhari, Sahih-i Müslim). Her şartın altında detaylı rehberi bulacaksınız \u2014 yapılışı, faziletleri, duaları ve zikirleriyle."],,,
 ["link", { to: "shahada", icon: "\u261D\uFE0F", title: "1. Kelime-i Şehadet", desc: "Manası, şartları ve gerekleri" }],
 ["link", { to: "prayer", icon: "🕌", title: "2. Namaz \u2014 Beş Vakit", desc: "Adım adım kılınışı ve namazın faziletleri" }],
 ["link", { to: "zakat", icon: "🤲", title: "3. Zekât", desc: "Nisap, oranlar, kimlere verilir ve fitre" }],
@@ -475,7 +514,14 @@ body: [
 ["dua", { ar: "\u0633\u064F\u0628\u0652\u062d\u064e\u0627\u0646\u064e \u0627\u0644\u0644\u0647\u0650 \u0648\u064e\u0628\u0650\u062d\u064e\u0645\u0652\u062f\u0650\u0647\u0650", tn: "Sübhanallahi ve bihamdihi", mean: "Allah'ı hamd ile tesbih ederim." }],
 ["p", "Peygamberimiz \uFDFA buyurdu: Kim günde yüz kez bunu söylerse, günahları deniz köpüğü kadar da olsa bağışlanır."],
 ["h", "Korunma duası \u2014 3 kez"],
-["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "Eûzü bi kelimatillah-it-tâmmâti min şerri ma halak", mean: "Yarattıklarının şerrinden Allah'ın eksiksiz kelimelerine sığınırım." }]
+["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "Eûzü bi kelimatillah-it-tâmmâti min şerri ma halak", mean: "Yarattıklarının şerrinden Allah'ın eksiksiz kelimelerine sığınırım." }],
+["h", "La ilahe illallah — günde 100 defa"],
+["dua", { "ar": "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "tn": "La ilaha illallah wahdahu la sharika lah, lahul-mulku wa lahul-hamdu, wa huwa 'ala kulli shay'in qadir.", "mean": "Allah'tan başka ibadete layık hiçbir ilah yoktur, O tektir, ortağı yoktur; mülk O'nundur, hamd O'nundur ve O her şeye kadirdir." }],
+["p", "“Kim bunu günde yüz defa söylerse, on köle azat etmiş sevabı alır, kendisine yüz iyilik yazılır, yüz günahı silinir ve o gün akşama kadar şeytandan korunmuş olur.” (Buhari, Müslim)"],
+["h", "Korunma için — sabah akşam 3 defa"],
+["dua", { "ar": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", "tn": "Bismillahilladhi la yadurru ma'as-mihi shay'un fil-ardi wa la fis-sama', wa huwas-sami'ul-'alim.", "mean": "Yerde ve gökte hiçbir şeyin, ismiyle birlikte zarar veremeyeceği Allah'ın adıyla; O, hakkıyla işiten ve bilendir. (Tirmizi, Ebu Davud) — kim bunu sabah akşam üçer defa söylerse, ona hiçbir şey zarar veremez." }],
+["h", "Allah'tan razı olmak — 3 defa"],
+["dua", { "ar": "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا", "tn": "Raditu billahi rabban, wa bil-islami dinan, wa bi Muhammadin sallallahu 'alayhi wa sallama nabiyyan.", "mean": "Rab olarak Allah'tan, din olarak İslam'dan ve peygamber olarak Muhammed'den ﷺ razı oldum. (Ebu Davud) — kim bunu sabah akşam üçer defa söylerse, Allah kıyamet günü onu razı eder." }]
 ] },
 { id: "ramadan", icon: "🌙", title: "Ramazan Rehberi", desc: "Oruç, teravih, Kadir Gecesi ve bayram",
 body: [
@@ -489,6 +535,14 @@ body: [
 ["dua", { ar: "\u0627\u0644\u0644\u0647\u064f\u0645\u064e\u0651 \u0625\u0646\u064e\u0651\u0643\u064e \u0639\u064e\u0641\u064f\u0648\u064c\u0651 \u062a\u064f\u062d\u0650\u0628\u064f\u0651 \u0627\u0644\u0652\u0639\u064e\u0641\u0652\u0648\u064e \u0641\u064e\u0627\u0639\u0652\u0641\u064f \u0639\u064e\u0646\u0650\u0651\u064a", tn: "Allahümme inneke afüvvün tühibbül-afve fa'fü anni", mean: "Allah'ım, Sen affedicisin, affetmeyi seversin; beni affet." }],
 ["h", "Fitre ve bayram"],
 ["p", "Bayram namazından önce fitreyi verin \u2014 evdeki her kişi için bir ölçü temel gıda (veya bedeli) \u2014 ki yoksullar da bayramı yaşayabilsin. Ramazan Bayramı, cemaatle kılınan bayram namazı ve tekbirlerle başlar; ardından sevinç günleri gelir: akraba ziyareti, sofra paylaşımı ve Allah'ı anmak."],,
+["h", "Kadir Gecesi — bin aydan daha hayırlı"],
+["p", "“Kadir gecesi bin aydan daha hayırlıdır.” (Kur'an 97:3) — tek bir gecede 83 yıldan fazla ibadet sevabı. Peygamberimiz ﷺ buyurdu: “Onu Ramazan'ın son on gününün tek gecelerinde arayın.” (Buhari) — 21., 23., 25., 27. ve 29. geceler."],
+["h", "Kadir Gecesi duası"],
+["dua", { "ar": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", "tn": "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni.", "mean": "Allah'ım! Şüphesiz Sen affedicisin, affetmeyi seversin; beni affet. (Tirmizi) — Hz. Aişe رضي الله عنها, Kadir Gecesi'ne denk gelirse ne söylemesi gerektiğini sordu, Efendimiz ﷺ ona bunu öğretti." }],
+["h", "İtikaf — mescitte ibadete kapanma"],
+["p", "Efendimiz ﷺ Ramazan'ın son on gününde mescitte itikafa çekilir, dünyadan uzaklaşıp kendini tamamen ibadete verirdi. “Peygamber ﷺ, vefat edinceye kadar Ramazan'ın son on gününde itikaf yapardı.” (Buhari, Müslim) — bir gece ya da bir gün bile olsa itikafın sevabı büyüktür."],
+["h", "Gece namaza durmak"],
+["p", "“Kim Ramazan'da inanarak ve sevabını Allah'tan bekleyerek gece namaza durursa, geçmiş günahları bağışlanır.” (Buhari, Müslim) — teravihin temelidir bu: cemaatle, Kur'an okunarak kılınan uzun ve sakin gece namazları."],
 ["link", { to: "fasting-virtues", icon: "🌙", title: "Orucun Faziletleri", desc: "Oruç neden en sevimli amellerdendir" }]
 ] },
 { id: "shahada", icon: "\u261D\uFE0F", title: "Kelime-i Şehadet", desc: "Manası, şartları ve gerekleri",
@@ -503,7 +557,7 @@ body: [
 ["h", "Onu bozan şeyler"],
 ["p", "Şehadet, zıtlarıyla bozulur \u2014 başta şirk (Allah'a ortak koşmak) ve dinle alay etmek gelir. Allah buyurur: \u201CŞüphesiz Allah, kendisine ortak koşulmasını bağışlamaz...\u201D (Nisâ 4:48)."],
 ["h", "Onu yaşamak"],
-["p", "Şehadet yalnız söz değil, bir ahittir: namazda, duada ve tevekkülde yalnız Allah'a kulluk etmek; O'nun sevdiklerini sevmek; günlük hayatta Resulü'nün \uFDFA sünnetine uymak \u2014 dürüstlükte, merhamette, ahlakta. Her namaz, her oruç, her sadaka, şehadetin görünür halidir."],
+["p", "Şehadet yalnız söz değil, bir ahittir: namazda, duada ve tevekkülde yalnız Allah'a kulluk etmek; O'nun sevdiklerini sevmek; günlük hayatta Resulü'nün \uFDFA sünnetine uymak \u2014 dürüstlükte, merhamette, ahlakta. Her namaz, her oruç, her sadaka, şehadetin görünür halidir."],,
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
 { id: "prayer-virtues", icon: "✨", title: "Namazın Faziletleri", desc: "Beş vakit namaz neden bir yük değil, bir nimettir",
@@ -520,6 +574,14 @@ body: [
 ["p", "Camiye doğru atılan her adım bir derece yükseltir, bir günahı siler \u2014 Sahih-i Müslim. Bir namazı kılıp diğerini beklemek ise \u201Cribât\u201Dtır (nöbet tutmak gibidir) \u2014 Sahih-i Müslim."],
 ["h", "İlk sorulacak amel"],
 ["p", "\u201CKıyamet günü kulun ilk hesaba çekileceği amel namazdır.\u201D \u2014 Sünen-i Tirmizî"],,
+["h", "Namazı beklemek de ibadettir"],
+["p", "“Sizden biri, namazı beklediği sürece — onu ailesine dönmekten alıkoyan tek şey namaz olduğu müddetçe — namazda sayılmaya devam eder.” (Buhari, Müslim) — kametten önce mescitte oturarak geçirilen dakikalar bile ibadet olarak yazılır."],
+["h", "Namaz nurdur"],
+["p", "“Namaz nurdur.” (Müslim) — bu dünyada kalbi karanlıktan koruyan bir nur, kıyamet günü ise sahiplerini Sırat'tan geçiren bir ışık."],
+["h", "Dua: namazda daim kıl"],
+["dua", { "ar": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "tn": "Rabbi ij'alni muqimas-salati wa min dhurriyyati, Rabbana wa taqabbal du'a.", "mean": "Rabbim! Beni namaza devam eden bir kimse eyle, soyumdan da. Rabbimiz! Duamı kabul eyle. (Kur'an 14:40) — Hz. İbrahim'in duası." }],
+["h", "Dua: Sana güzel kulluk etmem için yardım et"],
+["dua", { "ar": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "tn": "Allahumma a'inni 'ala dhikrika, wa shukrika, wa husni 'ibadatik.", "mean": "Allah'ım! Seni zikretmek, Sana şükretmek ve Sana en güzel şekilde ibadet etmek için bana yardım et. (Ebu Davud, Nesai) — Peygamber Efendimiz ﷺ, Muaz'a رضي الله عنه her namazdan sonra bu duayı bırakmamasını tavsiye etti." }],
 ["link", { to: "prayer", icon: "🕌", title: "Namaz Nasıl Kılınır \u2014 Adım Adım", desc: "Namazın kılınışının pratik rehberi" }],
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
@@ -538,7 +600,7 @@ body: [
 ["h", "Hangi mallar sayılır"],
 ["p", "Altın ve gümüş (ziynet dahil), nakit ve banka birikimleri, ticaret malları, yatırım amaçlı hisseler. Eviniz, arabanız, eşyanız, elbiseleriniz muaftır \u2014 bunlar ihtiyaçtır, nema getiren mal değil. Hayvan ve toprak ürünlerinin kendi oranları vardır; detay için hocaya danışın."],
 ["h", "Nasıl hesaplanır"],
-["p", "Her kamerî yıl bir tarih belirleyin (çoğu Ramazan'ı seçer). Zekâta tabi tüm malı toplayın, vadesi gelmiş borçları çıkarın; kalan nisaba ulaşıyorsa %2,5'unu verin. Örnek: 10.000$ birikim \u2014 250$ zekât. Geciktirmeden verin; mümkünse doğrudan hak sahiplerine ulaştırın."],
+["p", "Her kamerî yıl bir tarih belirleyin (çoğu Ramazan'ı seçer). Zekâta tabi tüm malı toplayın, vadesi gelmiş borçları çıkarın; kalan nisaba ulaşıyorsa %2,5'unu verin. Örnek: 10.000$ birikim \u2014 250$ zekât. Geciktirmeden verin; mümkünse doğrudan hak sahiplerine ulaştırın."],,
 ["link", { to: "sadaqah", icon: "💝", title: "Sadaka", desc: "Farzın ötesinde: vermenin faziletleri" }],
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
@@ -557,7 +619,7 @@ body: [
 ["h", "Gizli ver, düzenli ver"],
 ["p", "Gizli sadaka daha faziletli ve daha ihlâslıdır; ancak başkalarını teşvik edecekse açıktan vermek de güzeldir. En hayırlı sadaka, gönlün gerçekten kıyabildiği ve düzenli olandır."],
 ["h", "Vermenin edebi"],
-["p", "\u201CSadakalarınızı başa kakmak ve eziyet etmek suretiyle boşa çıkarmayın.\u201D (Bakara 2:264) Gizli verin ve sevdiklerinizden verin \u2014 \u201CSevdiğiniz şeylerden infak etmedikçe iyiliğe eremezsiniz\u201D (Âl-i İmrân 3:92). Ve aileden başlayın: akrabaya sadaka hem sadaka hem sıla-i rahimdir (Sünen-i Tirmizî)."],
+["p", "\u201CSadakalarınızı başa kakmak ve eziyet etmek suretiyle boşa çıkarmayın.\u201D (Bakara 2:264) Gizli verin ve sevdiklerinizden verin \u2014 \u201CSevdiğiniz şeylerden infak etmedikçe iyiliğe eremezsiniz\u201D (Âl-i İmrân 3:92). Ve aileden başlayın: akrabaya sadaka hem sadaka hem sıla-i rahimdir (Sünen-i Tirmizî)."],,
 ["link", { to: "zakat", icon: "🤲", title: "Zekât", desc: "Farz olan vermenin şartı" }],
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
@@ -578,7 +640,7 @@ body: [
 ["h", "Oruçlunun duası"],
 ["p", "\u201CÜç kişinin duası reddedilmez: iftar edene kadar oruçlu, adil yönetici ve mazlum.\u201D \u2014 Sünen-i Tirmizî. En içten dualarınızı iftardan önceki dakikalara saklayın."],
 ["h", "Orucu korumak"],
-["p", "\u201CKim yalan sözü ve yalanla iş yapmayı bırakmazsa, Allah'ın onun yemesini içmesini bırakmasına ihtiyacı yoktur.\u201D \u2014 Sahih-i Buhari. Oruç yalnız mideyi değil, dili ve azaları da eğitir \u2014 gözü, kulağı ve sözü koruyun ki oruç da sizi korusun."],
+["p", "\u201CKim yalan sözü ve yalanla iş yapmayı bırakmazsa, Allah'ın onun yemesini içmesini bırakmasına ihtiyacı yoktur.\u201D \u2014 Sahih-i Buhari. Oruç yalnız mideyi değil, dili ve azaları da eğitir \u2014 gözü, kulağı ve sözü koruyun ki oruç da sizi korusun."],,
 ["link", { to: "ramadan", icon: "🌙", title: "Ramazan Rehberi", desc: "Oruç, teravih, Kadir Gecesi ve bayram" }],
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
@@ -630,7 +692,7 @@ body: [
 ["h", "Veda Tavafı"],
 ["p", "Mekke'den ayrılmadan önce son bir tavaf yapılır \u2014 Beytullah'taki son ameliniz olsun (Sahih-i Buhari, Sahih-i Müslim). Hayızlı kadınlar muaftır."],
 ["h", "On günün zikri"],
-["p", "Zilhicce'nin ilk on günü, salih amellerin en sevimli olduğu günlerdir \u2014 tehlil (Lâ ilahe illallah), tekbir (Allahu Ekber) ve tahmid (Elhamdülillah) ile doldurun. \u2014 Sahih-i Buhari"],,
+["p", "Zilhicce'nin ilk on günü, salih amellerin en sevimli olduğu günlerdir \u2014 tehlil (Lâ ilahe illallah), tekbir (Allahu Ekber) ve tahmid (Elhamdülillah) ile doldurun. \u2014 Sahih-i Buhari"],,,
 ["link", { to: "pillars", icon: "🕋", title: "İslam'ın Beş Şartı", desc: "Şartlara genel bakışa dön" }]
 ] },
 ],
@@ -651,7 +713,15 @@ body: [
 ["h", "Ce qui annule le wudu"],
 ["p", "Le sommeil, le fait d'aller aux toilettes, les gaz et tout saignement font partie des choses qui annulent le wudu. Si l'un de ces cas survient, refaites le wudu avant la prochaine pri\u00e8re."],
 ["h", "Bon \u00e0 savoir"],
-["p", "Respectez l'ordre, ne laissez pas de longs intervalles entre les \u00e9tapes, et soyez minutieux sans gaspiller l'eau \u2014 le Proph\u00e8te \ufdfa a mis en garde contre l'exc\u00e8s, m\u00eame au bord d'une rivi\u00e8re qui coule."],
+["p", "Respectez l'ordre, ne laissez pas de longs intervalles entre les \u00e9tapes, et soyez minutieux sans gaspiller l'eau \u2014 le Proph\u00e8te \ufdfa a mis en garde contre l'exc\u00e8s, m\u00eame au bord d'une rivi\u00e8re qui coule."],,
+["h", "La dou'a après les ablutions"],
+["dua", { "ar": "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "tn": "Ashhadu an la ilaha illallah wahdahu la sharika lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh.", "mean": "J'atteste qu'il n'y a de dieu qu'Allah, seul, sans associé, et j'atteste que Muhammad est Son serviteur et Son Messager." }],
+["p", "« Quiconque accomplit parfaitement ses ablutions puis prononce ceci, les huit portes du Paradis lui seront ouvertes, pour entrer par celle qu'il voudra. » (Muslim) — et dans une autre version, le Prophète ﷺ ajouta : « Ô Allah, fais-moi parmi ceux qui se repentent et parmi ceux qui se purifient. » (Tirmidhi)"],
+["dua", { "ar": "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ", "tn": "Allahummaj'alni minat-tawwabin, waj'alni minal-mutatahhirin.", "mean": "Ô Allah, fais-moi parmi ceux qui se repentent constamment et parmi ceux qui se purifient. (Tirmidhi)" }],
+["h", "Les péchés tombent avec l'eau"],
+["p", "« Quand le musulman fait ses ablutions et se lave le visage, chaque péché commis par ses yeux tombe avec l'eau ; quand il se lave les mains, chaque péché commis par elles tombe ; quand il se lave les pieds, chaque péché vers lequel ils ont marché tombe — jusqu'à ce qu'il ressorte pur de tout péché. » (Muslim)"],
+["h", "La pureté est la moitié de la foi"],
+["p", "« La pureté est la moitié de la foi. » (Muslim) — et au Jour du Jugement, le Prophète ﷺ reconnaîtra sa communauté aux traces rayonnantes des ablutions : « Ma communauté viendra avec les visages, les mains et les pieds éclatants des traces des ablutions. » (Bukhari, Muslim)"]
 ] },
 { id: "prayer", title: "Comment prier \u2014 \u00c9tape par \u00e9tape", desc: "Une pri\u00e8re de deux rak'ahs, du takbir au salam",
 body: [
@@ -698,12 +768,12 @@ body: [
 ["p", "La pri\u00E8re ne se termine pas au salam. Le Proph\u00E8te \uFDFA demandait pardon trois fois, puis disait :"],
 ["dua", { ar: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", tn: "Allahumma antas-salam wa minkas-salam, tabarakta ya dhal-jalali wal-ikram", mean: "\u00D4 Allah, Tu es la Paix et de Toi vient la paix. B\u00E9ni sois-Tu, \u00F4 Possesseur de majest\u00E9 et d'honneur." }],
 ["p", "Puis : SubhanAllah 33 fois, Alhamdulillah 33 fois, Allahu Akbar 33 fois (ou 34), suivi une fois de \u00AB La ilaha illa Allah wahdahu la sharika lah \u00BB \u2014 \u00AB quiconque fait cela apr\u00E8s chaque pri\u00E8re verra ses p\u00E9ch\u00E9s pardonn\u00E9s, fussent-ils comme l'\u00E9cume de la mer. \u00BB \u2014 Sahih Muslim"],
-["p", "Et r\u00E9citez Ayat al-Kursi (Coran 2:255) : \u00AB Quiconque la r\u00E9cite apr\u00E8s chaque pri\u00E8re obligatoire, rien ne se dresse entre lui et le Paradis sauf la mort. \u00BB \u2014 Sunan al-Nasa'i"],
+["p", "Et r\u00E9citez Ayat al-Kursi (Coran 2:255) : \u00AB Quiconque la r\u00E9cite apr\u00E8s chaque pri\u00E8re obligatoire, rien ne se dresse entre lui et le Paradis sauf la mort. \u00BB \u2014 Sunan al-Nasa'i"],,
 ["link", { to: "prayer-virtues", icon: "✨", title: "Les m\u00E9rites de la pri\u00E8re", desc: "Pourquoi les cinq pri\u00E8res sont un don, pas un fardeau" }]
 ] },
 { id: "pillars", title: "Les cinq piliers de l'islam", desc: "Le fondement de la foi — touchez un pilier pour son guide détaillé",
 body: [
-["p", "Le Prophète \uFDFA a dit : \u00ABL'islam est b\u00E2ti sur cinq : le t\u00E9moignage qu'il n'y a de dieu qu'Allah et que Muhammad est le Messager d'Allah, l'accomplissement de la pri\u00E8re, le versement de la zakat, le je\u00FBne de Ramadan, et le Hajj vers la Maison.\u00BB (Sahih al-Bukhari, Sahih Muslim). Chaque pilier ci-dessous ouvre son propre guide d\u00E9taill\u00E9 \u2014 avec modes d'emploi, m\u00E9rites, duas et dhikr."],,
+["p", "Le Prophète \uFDFA a dit : \u00ABL'islam est b\u00E2ti sur cinq : le t\u00E9moignage qu'il n'y a de dieu qu'Allah et que Muhammad est le Messager d'Allah, l'accomplissement de la pri\u00E8re, le versement de la zakat, le je\u00FBne de Ramadan, et le Hajj vers la Maison.\u00BB (Sahih al-Bukhari, Sahih Muslim). Chaque pilier ci-dessous ouvre son propre guide d\u00E9taill\u00E9 \u2014 avec modes d'emploi, m\u00E9rites, duas et dhikr."],,,
 ["link", { to: "shahada", icon: "\u261D\uFE0F", title: "1. Shahada \u2014 Le t\u00E9moignage", desc: "Son sens, ses conditions et ses exigences" }],
 ["link", { to: "prayer", icon: "🕌", title: "2. Salah \u2014 Les cinq pri\u00E8res", desc: "Guide \u00E9tape par \u00E9tape, et les m\u00E9rites de la pri\u00E8re" }],
 ["link", { to: "zakat", icon: "🤲", title: "3. Zakat \u2014 L'aum\u00F4ne obligatoire", desc: "Nisab, taux, b\u00E9n\u00E9ficiaires et Zakat al-Fitr" }],
@@ -730,7 +800,14 @@ body: [
 ["dua", { ar: "\u0633\u064F\u0628\u0652\u062d\u064e\u0627\u0646\u064e \u0627\u0644\u0644\u0647\u0650 \u0648\u064e\u0628\u0650\u062d\u064e\u0645\u0652\u062f\u0650\u0647\u0650", tn: "SubhanAllahi wa bihamdihi", mean: "Gloire \u00e0 Allah et louange \u00e0 Lui." }],
 ["p", "Le Proph\u00e8te \ufdfa a dit : quiconque dit cela cent fois par jour, ses p\u00e9ch\u00e9s sont pardonn\u00e9s, m\u00eame s'ils sont comme l'\u00e9cume de la mer."],
 ["h", "Pour la protection \u2014 3 fois"],
-["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "A'udhu bikalimatillah it-tammati min sharri ma khalaq", mean: "Je cherche refuge dans les paroles parfaites d'Allah contre le mal de ce qu'Il a cr\u00e9\u00e9." }],
+["dua", { ar: "\u0623\u064e\u0639\u064F\u0648\u0630\u064f \u0628\u0650\u0643\u064e\u0644\u0650\u0645\u064e\u0627\u062a\u0650 \u0627\u0644\u0644\u0647\u0650 \u0627\u0644\u062a\u064e\u0651\u0627\u0645\u064e\u0651\u0627\u062a\u0650 \u0645\u0650\u0646\u0652 \u0634\u064e\u0631\u0650\u0651 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e", tn: "A'udhu bikalimatillah it-tammati min sharri ma khalaq", mean: "Je cherche refuge dans les paroles parfaites d'Allah contre le mal de ce qu'Il a cr\u00e9\u00e9." }],,
+["h", "La ilaha illallah — 100 fois par jour"],
+["dua", { "ar": "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "tn": "La ilaha illallah wahdahu la sharika lah, lahul-mulku wa lahul-hamdu, wa huwa 'ala kulli shay'in qadir.", "mean": "Nul n'est digne d'être adoré sauf Allah, seul, sans associé ; à Lui la royauté et la louange, et Il est capable de toute chose." }],
+["p", "« Quiconque prononce ceci cent fois par jour aura la récompense d'avoir affranchi dix esclaves, cent bonnes actions lui seront inscrites, cent péchés effacés, et ce sera pour lui une protection contre Satan ce jour-là jusqu'au soir. » (Bukhari, Muslim)"],
+["h", "Pour la protection — matin et soir, 3 fois"],
+["dua", { "ar": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", "tn": "Bismillahilladhi la yadurru ma'as-mihi shay'un fil-ardi wa la fis-sama', wa huwas-sami'ul-'alim.", "mean": "Au nom d'Allah, avec le nom de Qui rien sur terre ni au ciel ne peut nuire, et Il est l'Audient, l'Omniscient. (Tirmidhi, Abu Dawud) — quiconque le dit trois fois le matin et le soir, rien ne lui nuira." }],
+["h", "L'agrément d'Allah — 3 fois"],
+["dua", { "ar": "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا", "tn": "Raditu billahi rabban, wa bil-islami dinan, wa bi Muhammadin sallallahu 'alayhi wa sallama nabiyyan.", "mean": "Je suis satisfait d'Allah comme Seigneur, de l'Islam comme religion et de Muhammad ﷺ comme Prophète. (Abu Dawud) — quiconque le dit trois fois le matin et le soir, Allah le satisfera au Jour du Jugement." }]
 ] },
 { id: "ramadan", title: "Guide du Ramadan", desc: "Je\u00fbne, tarawih, Laylat al-Qadr et l'A\u00efd",
 body: [
@@ -744,6 +821,14 @@ body: [
 ["dua", { ar: "\u0627\u0644\u0644\u0647\u064f\u0645\u064e\u0651 \u0625\u0646\u064e\u0651\u0643\u064e \u0639\u064e\u0641\u064f\u0648\u064c\u0651 \u062a\u064f\u062d\u0650\u0628\u064f\u0651 \u0627\u0644\u0652\u0639\u064e\u0641\u0652\u0648\u064e \u0641\u064e\u0627\u0639\u0652\u0641\u064f \u0639\u064e\u0646\u0650\u0651\u064a", tn: "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni", mean: "\u00d4 Allah, Tu es Pardonneur et Tu aimes pardonner, pardonne-moi donc." }],
 ["h", "Zakat al-Fitr et l'A\u00efd"],
 ["p", "Avant la pri\u00e8re de l'A\u00efd, versez la Zakat al-Fitr \u2014 une mesure d'aliment de base (ou sa valeur) pour chaque membre du foyer \u2014 afin que les pauvres puissent eux aussi c\u00e9l\u00e9brer. L'A\u00efd al-Fitr commence par la pri\u00e8re en congr\u00e9gation et les takbirat, suivies de jours de joie : visites en famille, partage de nourriture et rappel d'Allah."],,,
+["h", "Laylat al-Qadr — meilleure que mille mois"],
+["p", "« La Nuit du Destin vaut mieux que mille mois. » (Coran 97:3) — plus de 83 ans d'adoration en une seule nuit. Le Prophète ﷺ a dit : « Cherchez-la dans les nuits impaires des dix derniers jours de Ramadan. » (Bukhari) — les 21e, 23e, 25e, 27e et 29e nuits."],
+["h", "La dou'a de Laylat al-Qadr"],
+["dua", { "ar": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", "tn": "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni.", "mean": "Ô Allah, Tu es Pardonneur et Tu aimes pardonner, alors pardonne-moi. (Tirmidhi) — 'Aishah رضي الله عنها demanda au Prophète ﷺ que dire si elle trouvait cette Nuit, et il lui enseigna ceci." }],
+["h", "L'i'tikaf — retraite à la mosquée"],
+["p", "Durant les dix derniers jours, le Prophète ﷺ se retirait à la mosquée (i'tikaf), se coupant du monde pour se consacrer entièrement à l'adoration. « Le Prophète ﷺ pratiquait l'i'tikaf durant les dix derniers jours de Ramadan jusqu'à ce qu'Allah prenne son âme. » (Bukhari, Muslim) — même une seule nuit ou un seul jour d'i'tikaf porte une immense récompense."],
+["h", "Prier la nuit"],
+["p", "« Quiconque prie la nuit pendant Ramadan avec foi et en espérant la récompense, ses péchés passés lui seront pardonnés. » (Bukhari, Muslim) — c'est le fondement du taraweeh : de longues prières nocturnes calmes en congrégation, avec récitation du Coran tout au long du mois."],
 ["link", { to: "fasting-virtues", icon: "🌙", title: "Les m\u00E9rites du je\u00FBne", desc: "Pourquoi le je\u00FBne compte parmi les \u0153uvres les plus aim\u00E9es" }]
 ] },
 { id: "shahada", icon: "\u261D\uFE0F", title: "La Shahada \u2014 Le t\u00E9moignage de foi", desc: "Son sens, ses conditions et ses exigences",
@@ -758,7 +843,7 @@ body: [
 ["h", "Ce qui l'annule"],
 ["p", "Le t\u00E9moignage est annul\u00E9 par ses contraires \u2014 avant tout le shirk (associer des partenaires \u00E0 Allah), et le fait de se moquer de quoi que ce soit de la religion. Allah dit : \u00AB Certes, Allah ne pardonne pas qu'on Lui associe... \u00BB (Coran 4:48)."],
 ["h", "La vivre"],
-["p", "Le t\u00E9moignage n'est pas que des mots, c'est une alliance : adorer Allah seul dans la pri\u00E8re, la dua et la confiance ; aimer ce qu'Il aime ; et suivre la Sunnah de Son Messager \uFDFA au quotidien \u2014 dans l'honn\u00Eatet\u00E9, la bont\u00E9 et le caract\u00E8re. Chaque pri\u00E8re, chaque je\u00FBne, chaque aum\u00F4ne est le t\u00E9moignage rendu visible."],
+["p", "Le t\u00E9moignage n'est pas que des mots, c'est une alliance : adorer Allah seul dans la pri\u00E8re, la dua et la confiance ; aimer ce qu'Il aime ; et suivre la Sunnah de Son Messager \uFDFA au quotidien \u2014 dans l'honn\u00Eatet\u00E9, la bont\u00E9 et le caract\u00E8re. Chaque pri\u00E8re, chaque je\u00FBne, chaque aum\u00F4ne est le t\u00E9moignage rendu visible."],,
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
 { id: "prayer-virtues", icon: "✨", title: "Les m\u00E9rites de la pri\u00E8re", desc: "Pourquoi les cinq pri\u00E8res sont un don, pas un fardeau",
@@ -775,6 +860,14 @@ body: [
 ["p", "Chaque pas vers la mosqu\u00E9e \u00E9l\u00E8ve d'un degr\u00E9 et efface un p\u00E9ch\u00E9 \u2014 Sahih Muslim. Et attendre la pri\u00E8re suivante apr\u00E8s avoir termin\u00E9 l'une est un \u00AB ribat \u00BB \u2014 Sahih Muslim."],
 ["h", "La premi\u00E8re chose sur laquelle on sera interrog\u00E9"],
 ["p", "\u00AB La premi\u00E8re \u0153uvre sur laquelle une personne sera jug\u00E9e le Jour de la R\u00E9surrection est la pri\u00E8re. \u00BB \u2014 Sunan al-Tirmidhi"],,
+["h", "Attendre la prière est déjà une adoration"],
+["p", "« Aucun de vous ne cesse d'être en prière tant qu'il attend la prière, tant que rien d'autre que la prière ne l'empêche de retourner auprès des siens. » (Bukhari, Muslim) — même les minutes passées assis à la mosquée avant l'iqamah sont comptées comme adoration."],
+["h", "La prière est lumière"],
+["p", "« La prière est lumière (nur). » (Muslim) — une lumière en ce monde qui garde le cœur des ténèbres, et une lumière au Jour du Jugement guidant les siens sur le Sirat."],
+["h", "Doua : rends-moi assidu à la prière"],
+["dua", { "ar": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "tn": "Rabbi ij'alni muqimas-salati wa min dhurriyyati, Rabbana wa taqabbal du'a.", "mean": "Seigneur, rends-moi assidu à la prière, ainsi que ma descendance. Notre Seigneur, exauce ma supplication. (Coran 14:40) — la dou'a du prophète Ibrahim عليه السلام." }],
+["h", "Doua : aide-moi à T'adorer parfaitement"],
+["dua", { "ar": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "tn": "Allahumma a'inni 'ala dhikrika, wa shukrika, wa husni 'ibadatik.", "mean": "Ô Allah, aide-moi à Te mentionner, à Te remercier et à T'adorer de la meilleure manière. (Abu Dawud, Nasa'i) — le Prophète ﷺ a conseillé à Mou'adh رضي الله عنه de ne jamais délaisser cette dou'a après chaque prière." }],
 ["link", { to: "prayer", icon: "🕌", title: "Comment prier \u2014 \u00C9tape par \u00E9tape", desc: "Le guide pratique de la pri\u00E8re" }],
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
@@ -793,7 +886,7 @@ body: [
 ["h", "Quels biens comptent"],
 ["p", "L'or et l'argent (bijoux inclus), les liquidit\u00E9s et l'\u00E9pargne bancaire, les marchandises et les actions d\u00E9tenues en investissement. Votre maison, votre voiture, vos meubles et vos v\u00EAtements sont exempt\u00E9s \u2014 c'est l'usage personnel, pas une richesse qui fructifie. Le b\u00E9tail et les r\u00E9coltes ont leurs propres taux ; demandez \u00E0 un savant pour les d\u00E9tails."],
 ["h", "Comment calculer"],
-["p", "Choisissez une date chaque ann\u00E9e lunaire (beaucoup choisissent Ramadan). Additionnez tous les biens zakatables, soustrayez les dettes imm\u00E9diates, et si le reste atteint le nisab, versez-en 2,5 %. Exemple : 10 000 $ d'\u00E9pargne \u2014 250 $ de zakat. Payez sans tarder, et si possible remettez directement aux b\u00E9n\u00E9ficiaires \u00E9ligibles."],
+["p", "Choisissez une date chaque ann\u00E9e lunaire (beaucoup choisissent Ramadan). Additionnez tous les biens zakatables, soustrayez les dettes imm\u00E9diates, et si le reste atteint le nisab, versez-en 2,5 %. Exemple : 10 000 $ d'\u00E9pargne \u2014 250 $ de zakat. Payez sans tarder, et si possible remettez directement aux b\u00E9n\u00E9ficiaires \u00E9ligibles."],,
 ["link", { to: "sadaqah", icon: "💝", title: "Sadaqah \u2014 L'aum\u00F4ne volontaire", desc: "Au-del\u00E0 de l'obligation : les m\u00E9rites du don" }],
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
@@ -812,7 +905,7 @@ body: [
 ["h", "Donnez en secret, donnez souvent"],
 ["p", "L'aum\u00F4ne secr\u00E8te est plus m\u00E9ritoire et plus sinc\u00E8re ; mais donner ouvertement est aussi bien quand cela encourage les autres. La meilleure aum\u00F4ne est celle que l'\u00E2me peut vraiment offrir, donn\u00E9e avec r\u00E9gularit\u00E9."],
 ["h", "L'\u00E9tiquette du don"],
-["p", "\u00AB N'annulez pas vos aum\u00F4nes par des rappels de g\u00E9n\u00E9rosit\u00E9 ou par des vexations. \u00BB (Coran 2:264) Donnez discr\u00E8tement et de ce que vous aimez \u2014 \u00AB Vous n'atteindrez la pi\u00E9t\u00E9 que lorsque vous d\u00E9penserez de ce que vous aimez \u00BB (Coran 3:92). Et commencez par la famille : l'aum\u00F4ne aux proches est \u00E0 la fois aum\u00F4ne et maintien des liens (Sunan al-Tirmidhi)."],
+["p", "\u00AB N'annulez pas vos aum\u00F4nes par des rappels de g\u00E9n\u00E9rosit\u00E9 ou par des vexations. \u00BB (Coran 2:264) Donnez discr\u00E8tement et de ce que vous aimez \u2014 \u00AB Vous n'atteindrez la pi\u00E9t\u00E9 que lorsque vous d\u00E9penserez de ce que vous aimez \u00BB (Coran 3:92). Et commencez par la famille : l'aum\u00F4ne aux proches est \u00E0 la fois aum\u00F4ne et maintien des liens (Sunan al-Tirmidhi)."],,
 ["link", { to: "zakat", icon: "🤲", title: "La Zakat \u2014 L'aum\u00F4ne obligatoire", desc: "Le pilier du don obligatoire" }],
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
@@ -833,7 +926,7 @@ body: [
 ["h", "La dua du je\u00FBneur"],
 ["p", "\u00AB Les invocations de trois ne sont pas rejet\u00E9es : le je\u00FBneur jusqu'\u00E0 ce qu'il rompe son je\u00FBne, le dirigeant juste, et l'opprim\u00E9. \u00BB \u2014 Sunan al-Tirmidhi. Gardez vos duas les plus sinc\u00E8res pour les instants avant l'iftar."],
 ["h", "Prot\u00E9ger son je\u00FBne"],
-["p", "\u00AB Quiconque n'abandonne pas le mensonge et sa pratique, Allah n'a que faire de son abstinence de nourriture et de boisson. \u00BB \u2014 Sahih al-Bukhari. Le je\u00FBne \u00E9duque la langue et les membres, pas seulement l'estomac \u2014 gardez les yeux, les oreilles et la parole, et le je\u00FBne vous gardera."],
+["p", "\u00AB Quiconque n'abandonne pas le mensonge et sa pratique, Allah n'a que faire de son abstinence de nourriture et de boisson. \u00BB \u2014 Sahih al-Bukhari. Le je\u00FBne \u00E9duque la langue et les membres, pas seulement l'estomac \u2014 gardez les yeux, les oreilles et la parole, et le je\u00FBne vous gardera."],,
 ["link", { to: "ramadan", icon: "🌙", title: "Guide du Ramadan", desc: "Je\u00FBne, tarawih, Laylat al-Qadr et l'A\u00EEd" }],
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
@@ -886,7 +979,7 @@ body: [
 ["h", "Tawaf d'adieu"],
 ["p", "Avant de quitter La Mecque, accomplissez un dernier tawaf \u2014 la circumambulation d'adieu \u2014 pour en faire votre dernier acte aupr\u00E8s de la Maison (Sahih al-Bukhari, Sahih Muslim). Les femmes en menstruation en sont dispens\u00E9es."],
 ["h", "Le dhikr des dix jours"],
-["p", "Les dix premiers jours de Dhul-Hijjah sont les jours les plus aim\u00E9s pour les bonnes \u0153uvres \u2014 remplissez-les de tahlil (La ilaha illa Allah), takbir (Allahu Akbar) et tahmid (Alhamdulillah). \u2014 Sahih al-Bukhari"],,
+["p", "Les dix premiers jours de Dhul-Hijjah sont les jours les plus aim\u00E9s pour les bonnes \u0153uvres \u2014 remplissez-les de tahlil (La ilaha illa Allah), takbir (Allahu Akbar) et tahmid (Alhamdulillah). \u2014 Sahih al-Bukhari"],,,
 ["link", { to: "pillars", icon: "🕋", title: "Les cinq piliers de l'islam", desc: "Retour \u00E0 l'aper\u00E7u des piliers" }]
 ] },
 ]
