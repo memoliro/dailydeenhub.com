@@ -1902,16 +1902,16 @@ function showTab(id) {
     else refreshQuranResume();
   }
   if (id === "library") renderLibrary(true);
-  if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
-  if (id === "qadha" && typeof renderQadha === "function") renderQadha();
+  if (id === "hisnul") ensurePanel("hsnulList", "refreshHsnView");
+  if (id === "qadha") ensurePanel("qadhaList", "renderQadha");
   if (id === "zikir") ensureZikir();
-  if (id === "resources" && typeof renderResources === "function") renderResources();
-  if (id === "hadith" && typeof renderHadith === "function") renderHadith();
+  if (id === "resources") ensurePanel("kutubList", "renderResources");
+  if (id === "hadith") ensurePanel("hadithView", "renderHadith");
   if (id === "live") loadLiveFrames();
   if (id === "holydays") renderHolyDays();
   if (id === "cards") renderCardsHome();
   if (id === "khatm") renderKhatm();
-  if (id === "articles" && typeof renderArticles === "function") renderArticles();
+  if (id === "articles") ensurePanel("articlesList", "renderArticles");
   // New page must open at its top (iOS keeps the previous page's scroll otherwise)
   const toTop = () => {
     window.scrollTo(0, 0);
@@ -1924,19 +1924,31 @@ function showTab(id) {
 /* Zikir panel: if zikir.js failed to load (flaky network / bad cache entry),
    the list renders empty with no visible error. Retry the script live. */
 function ensureZikir() {
-  if (typeof renderZikir === "function") { renderZikir(); return; }
-  const box = document.getElementById("zikirList");
-  if (!box || box.dataset.retrying) return;
-  box.dataset.retrying = "1";
-  box.innerHTML = '<p class="hint">' + escapeHtml(t("loading")) + '</p>';
-  const tag = document.querySelector('script[src^="/zikir.js"]');
-  const src = tag ? tag.getAttribute("src") : "/zikir.js?v=5";
+  ensurePanel("zikirList", "renderZikir");
+}
+/* Generic self-healing panel loader: if a panel's script failed to load,
+   the typeof guard would silently leave an empty panel. Retry it live. */
+var PANEL_SCRIPTS = {
+  renderZikir: "zikir.js", refreshHsnView: "hisnul.js", renderQadha: "qadha.js",
+  renderResources: "resources.js", renderHadith: "hadith.js", renderArticles: "articles.js"
+};
+function ensurePanel(boxId, fnName) {
+  if (typeof window[fnName] === "function") { window[fnName](); return; }
+  const box = boxId ? document.getElementById(boxId) : null;
+  const scr = PANEL_SCRIPTS[fnName];
+  if (!scr || (box && box.dataset.retrying)) return;
+  if (box) {
+    box.dataset.retrying = "1";
+    box.innerHTML = '<p class="hint">' + escapeHtml(t("loading")) + '</p>';
+  }
+  const tag = document.querySelector('script[src^="/' + scr + '"]');
+  const src = tag ? tag.getAttribute("src") : "/" + scr;
   const sc = document.createElement("script");
   sc.src = src;
   const done = function (ok) {
-    delete box.dataset.retrying;
-    if (ok && typeof renderZikir === "function") renderZikir();
-    else box.innerHTML = "";
+    if (box) delete box.dataset.retrying;
+    if (ok && typeof window[fnName] === "function") window[fnName]();
+    else if (box) box.innerHTML = "";
   };
   sc.onload = function () { done(true); };
   sc.onerror = function () { done(false); };
