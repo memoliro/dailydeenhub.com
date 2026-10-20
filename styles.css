@@ -384,16 +384,6 @@ a { color: var(--green-bright); }
 }
 /* Month/Ramadan mode toggle row: centre the button group in the panel. */
 .mode-row { justify-content: center; }
-/* Back buttons everywhere: the same strong gold as the Find-nearby highlight (.primary.on) */
-#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back {
-  background: linear-gradient(135deg, #e8c476, #c9962e);
-  border: 1px solid #c9962e;
-  color: #1b140c;
-  font-weight: 700;
-  box-shadow: 0 0 0 2px rgba(212, 165, 116, .35);
-  border-radius: 999px;
-  padding: 9px 18px;
-}
 .zikir-back { text-align: center; }
 #learnBack:active, #asrBack:active, #hsnBack:active, .hd-back:active, .zikir-back:active { filter: brightness(1.07); }
 [data-setback] {
@@ -1180,4 +1170,16 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 1px 5px rgba(0,0,0,.4);
   pointer-events: none;
+}
+
+/* Back buttons: FINAL word (kept at end of file so no earlier per-button
+   rule can override) — same gold + dark text as the Find-nearby highlight. */
+#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back {
+  background: linear-gradient(135deg, #e8c476, #c9962e);
+  border: 1px solid #c9962e;
+  color: #1b140c;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(212, 165, 116, .35);
+  border-radius: 999px;
+  padding: 9px 18px;
 }
