@@ -23,6 +23,7 @@
   :root {
     --emerald: #0c1f1a;
     --gold: #d4a574;
+    --gold-bright: #f59e0b;
     --teal: #14b8a6;
     --ink: #1a1a1a;
   }
@@ -35,28 +36,43 @@
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
   .banner {
     width: 100%;
-    height: 32dvh;
-    min-height: 220px;
+    height: 26dvh;
+    min-height: 170px;
     background: url("/images/welcome-banner.webp") center/cover no-repeat;
     border-radius: 0 0 48px 48px;
     flex-shrink: 0;
   }
+  .viewport {
+    flex: 1;
+    display: flex;
+    overflow-x: hidden;
+    position: relative;
+  }
+  .screen {
+    min-width: 100%;
+    display: none;
+    flex-direction: column;
+    padding: 0 0 12px;
+    overflow-y: auto;
+  }
+  .screen.active { display: flex; }
   .card {
     background: #fff;
     color: var(--ink);
     border-radius: 32px;
-    margin: -56px 24px 0;
-    padding: 32px 24px 28px;
+    margin: -48px 24px 0;
+    padding: 28px 24px 26px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0,0,0,.35);
     position: relative;
     z-index: 1;
   }
   .greeting {
-    color: #f59e0b;
+    color: var(--gold-bright);
     font-size: 1.65rem;
     font-weight: 800;
     margin-bottom: 10px;
@@ -70,7 +86,19 @@
   .tagline {
     color: #666;
     font-size: 1.05rem;
-    margin-bottom: 24px;
+    margin-bottom: 4px;
+  }
+  .sectitle {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #0c1f1a;
+    margin-bottom: 8px;
+  }
+  .secbody {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
   }
   .langbtn {
     display: flex;
@@ -84,30 +112,78 @@
     font-size: 1.05rem;
     color: #333;
     cursor: pointer;
+    margin-top: 16px;
   }
   .langbtn .chev { color: #999; font-size: 1.3rem; }
-  .card.privacy {
-    margin: 16px 24px 0;
-    padding: 22px 24px 20px;
+  .promise, .feat {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    padding: 13px 4px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .promise:last-child, .feat:last-child { border-bottom: none; }
+  .promise .em, .feat .em { font-size: 1.5rem; line-height: 1.2; flex-shrink: 0; }
+  .promise .pt, .feat .pt { font-weight: 700; font-size: 1rem; color: #0c1f1a; margin-bottom: 2px; }
+  .promise .pd, .feat .pd { font-size: .92rem; color: #666; line-height: 1.45; }
+  .mission {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #f6faf9;
+    border: 1px solid #e2efe9;
+    border-radius: 16px;
+    font-size: .95rem;
+    line-height: 1.55;
+    color: #0c1f1a;
     text-align: left;
   }
-  .card.privacy .ptitle { font-size: 1.05rem; font-weight: 700; color: #0c1f1a; margin-bottom: 8px; }
-  .card.privacy .pbody { font-size: .95rem; line-height: 1.55; color: #555; }
-  .bottom {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 24px 32px calc(32px + env(safe-area-inset-bottom));
-    gap: 20px;
+  .locbtn {
+    display: block;
+    width: 100%;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    cursor: pointer;
+    margin: 6px 0 4px;
   }
+  .locskip {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--teal);
+    font-size: .95rem;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .locdone {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #eef7f4;
+    color: #0c7a6d;
+    border-radius: 16px;
+    padding: 14px;
+    font-weight: 700;
+    margin: 6px 0 4px;
+  }
+  .locdone.show { display: flex; }
   .terms {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: .92rem;
+    font-size: .9rem;
     line-height: 1.45;
     color: #e8e8e8;
+    text-align: left;
   }
   .terms input {
     width: 22px; height: 22px;
@@ -117,19 +193,59 @@
     cursor: pointer;
   }
   .terms a { color: var(--teal); }
-  .ctabtn {
-    background: var(--teal);
-    color: #fff;
+  .bottombar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 10px 32px calc(24px + env(safe-area-inset-bottom));
+    flex-shrink: 0;
+  }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .dots span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.28);
+    transition: background .2s;
+  }
+  .dots span.on { background: var(--gold-bright); }
+  .navrow {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .navbtn {
     border: none;
     border-radius: 16px;
-    padding: 18px;
-    font-size: 1.05rem;
+    padding: 16px;
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: .04em;
     cursor: pointer;
-    width: 100%;
   }
-  .ctabtn:disabled { opacity: .45; cursor: not-allowed; }
+  .navbtn.back {
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    flex: 0 0 auto;
+    padding: 16px 20px;
+  }
+  .navbtn.next {
+    background: var(--teal);
+    color: #fff;
+    flex: 1;
+    letter-spacing: .03em;
+  }
+  .navbtn:disabled { opacity: .45; cursor: not-allowed; }
+  .skipbtn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,.65);
+    font-size: .92rem;
+    cursor: pointer;
+    padding: 4px;
+  }
   .langmenu {
     position: fixed;
     inset: 0;
@@ -148,7 +264,12 @@
     max-height: 70dvh;
     overflow-y: auto;
   }
-  .langmenu button {
+  .langmenu .sheet.centered {
+    border-radius: 24px;
+    margin: 0 24px 40px;
+    padding: 28px 24px;
+  }
+  .langmenu button.opt {
     display: block;
     width: 100%;
     background: none;
@@ -159,7 +280,15 @@
     color: var(--ink);
     cursor: pointer;
   }
-  .langmenu button:active { background: #f0f0f0; }
+  .langmenu button.opt:active { background: #f0f0f0; }
+  .lcTitle { font-size: 1.25rem; font-weight: 700; margin-bottom: 14px; color: #1a1a1a; }
+  .lcBody { font-size: .98rem; line-height: 1.55; color: #444; margin-bottom: 24px; }
+  .lcBtns { display: flex; justify-content: flex-end; gap: 8px; }
+  .lcBtns button {
+    background: none; border: none;
+    color: var(--teal); font-weight: 700; font-size: .95rem;
+    padding: 12px 16px; cursor: pointer;
+  }
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
@@ -168,50 +297,87 @@
 <body>
   <div class="banner"></div>
 
-  <div class="card">
-    <div class="greeting" id="wGreet">Assalamu Alaikum</div>
-    <div class="appname">Daily Deen Hub</div>
-    <div class="tagline" id="wTag">Your companion for everyday life</div>
-    <button class="langbtn" id="wLangBtn" type="button">
-      <span id="wLangLabel">English</span><span class="chev">›</span>
-    </button>
+  <div class="viewport" id="wViewport">
+    <!-- Screen 1: greeting + language -->
+    <section class="screen active" data-screen="0">
+      <div class="card">
+        <div class="greeting" id="wGreet">Assalamu Alaikum</div>
+        <div class="appname">Daily Deen Hub</div>
+        <div class="tagline" id="wTag">Your companion for everyday life</div>
+        <div class="tagline" id="wLangQ" style="margin-top:10px;font-weight:600;color:#333">Choose your language</div>
+        <button class="langbtn" id="wLangBtn" type="button">
+          <span id="wLangLabel">English</span><span class="chev">›</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Screen 2: our promise -->
+    <section class="screen" data-screen="1">
+      <div class="card">
+        <div class="sectitle" id="wP2Title">Built to serve, not to sell</div>
+        <div class="secbody" id="wP2Body">Daily Deen Hub exists for one reason: to help you find the right resources and tools for your daily worship. Nothing more.</div>
+        <div id="wPromises"></div>
+      </div>
+    </section>
+
+    <!-- Screen 3: features -->
+    <section class="screen" data-screen="2">
+      <div class="card">
+        <div class="sectitle" id="wP3Title">Everything for your day</div>
+        <div class="secbody" id="wP3Body">A complete companion for your daily deen — all in one place.</div>
+        <div id="wFeats"></div>
+      </div>
+    </section>
+
+    <!-- Screen 4: location + terms + enter -->
+    <section class="screen" data-screen="3">
+      <div class="card">
+        <div class="sectitle" id="wP4Title">One last thing</div>
+        <div class="secbody" id="wP4Body">To calculate accurate prayer times, find the Qibla direction, and locate nearby mosques, the app needs your location.</div>
+        <button class="locbtn" id="wLocBtn" type="button">FIND MY LOCATION</button>
+        <button class="locskip" id="wLocSkip" type="button">I'll set it later</button>
+        <div class="locdone" id="wLocDone"><span>✓</span><span id="wLocDoneTxt">Location saved</span></div>
+      </div>
+      <div style="padding:18px 40px 0;">
+        <label class="terms">
+          <input type="checkbox" id="wTerms">
+          <span id="wTermsText">I agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.</span>
+        </label>
+      </div>
+    </section>
   </div>
 
-  <div class="card privacy">
-    <div class="ptitle" id="wPrivTitle">🔒 Your privacy comes first</div>
-    <div class="pbody" id="wPrivBody">We do not collect your personal information. Daily Deen Hub is completely free — no sign-in, no account, nothing to pay, no annoying ads. Your settings and location stay on your device, where they belong.</div>
-  </div>
-
-  <div class="bottom">
-    <label class="terms">
-      <input type="checkbox" id="wTerms">
-      <span id="wTermsText">I agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy Policy</a> of the Application.</span>
-    </label>
-    <button class="ctabtn" id="wCta" type="button" disabled>FIND MY LOCATION</button>
+  <div class="bottombar">
+    <div class="dots" id="wDots"><span class="on"></span><span></span><span></span><span></span></div>
+    <div class="navrow">
+      <button class="navbtn back" id="wBack" type="button" style="visibility:hidden">‹</button>
+      <button class="navbtn next" id="wNext" type="button">Continue</button>
+    </div>
+    <div style="text-align:center"><button class="skipbtn" id="wSkip" type="button">Skip</button></div>
   </div>
 
   <div class="langmenu" id="wLangMenu">
     <div class="sheet">
-      <button type="button" data-lang="en">English</button>
-      <button type="button" data-lang="tr">Türkçe</button>
-      <button type="button" data-lang="fr">Français</button>
-      <button type="button" disabled style="opacity:.4">العربية <small style="color:#999">— soon</small></button>
-      <button type="button" disabled style="opacity:.4">اردو <small style="color:#999">— soon</small></button>
-      <button type="button" disabled style="opacity:.4">Bahasa Indonesia <small style="color:#999">— soon</small></button>
+      <button type="button" class="opt" data-lang="en">English</button>
+      <button type="button" class="opt" data-lang="tr">Türkçe</button>
+      <button type="button" class="opt" data-lang="fr">Français</button>
+      <button type="button" class="opt" disabled style="opacity:.4">العربية <small style="color:#999">— soon</small></button>
+      <button type="button" class="opt" disabled style="opacity:.4">اردو <small style="color:#999">— soon</small></button>
+      <button type="button" class="opt" disabled style="opacity:.4">Bahasa Indonesia <small style="color:#999">— soon</small></button>
     </div>
   </div>
 
   <div class="langmenu" id="wLocConsent">
-    <div class="sheet" style="border-radius:24px;margin:0 24px 40px;padding:28px 24px;">
-      <div style="font-size:1.25rem;font-weight:700;margin-bottom:14px;color:#1a1a1a;" id="wLcTitle">For your information</div>
-      <div style="font-size:.98rem;line-height:1.55;color:#444;margin-bottom:24px;" id="wLcBody">Daily Deen Hub uses your location to calculate accurate prayer times, find the Qibla direction, and locate nearby mosques.</div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;">
-        <button type="button" id="wLcNo" style="color:#14b8a6;font-weight:700;font-size:.95rem;padding:12px 16px;">NOT NOW</button>
-        <button type="button" id="wLcYes" style="color:#14b8a6;font-weight:700;font-size:.95rem;padding:12px 16px;">AGREE</button>
+    <div class="sheet centered">
+      <div class="lcTitle" id="wLcTitle">For your information</div>
+      <div class="lcBody" id="wLcBody">Daily Deen Hub uses your location to calculate accurate prayer times, find the Qibla direction, and locate nearby mosques.</div>
+      <div class="lcBtns">
+        <button type="button" id="wLcNo">NOT NOW</button>
+        <button type="button" id="wLcYes">AGREE</button>
       </div>
     </div>
   </div>
 
-<script src="/welcome.js?v=6"></script>
+<script src="/welcome.js?v=7"></script>
 </body>
 </html>
