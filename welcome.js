@@ -29,7 +29,9 @@
         ['🧭', 'Qibla compass', 'Find the prayer direction wherever you are.'],
         ['📿', 'Tasbih & dhikr', 'Counter, daily dhikrs and the 99 Names.'],
         ['📚', 'Learning Center', 'Step-by-step guides for everyday Muslim life.'],
-        ['🌙', 'Ramadan hub', 'Fasting tracker, holy days and more.']
+        ['🌙', 'Ramadan hub', 'Fasting tracker, holy days and more.'],
+        ['📻', '24-hour Quran radio', 'Non-stop recitation day and night from beloved reciters.'],
+        ['📺', 'Live from Makkah & Madinah', 'Watch the Haram and the Prophet\u2019s Mosque live, anytime.']
       ],
       p4Title: 'One last thing',
       p4Body: 'To calculate accurate prayer times, find the Qibla direction, and locate nearby mosques, the app needs your location.',
@@ -60,7 +62,9 @@
         ['🧭', 'Kıble pusulası', 'Nerede olursanız olun namaz yönünü bulun.'],
         ['📿', 'Tesbih ve zikir', 'Sayaç, günlük zikirler ve Esmaül Hüsna.'],
         ['📚', 'Öğrenme Merkezi', 'Günlük Müslüman hayatı için adım adım rehberler.'],
-        ['🌙', 'Ramazan merkezi', 'Oruç takipçisi, kutsal günler ve daha fazlası.']
+        ['🌙', 'Ramazan merkezi', 'Oru\u00e7 takip\u00e7isi, kutsal g\u00fcnler ve daha fazlas\u0131.'],
+        ['📻', '24 saat Kur\u0027an radyosu', 'Sevilen haf\u0131zlardan gece g\u00fcnd\u00fcz kesintisiz tilavet.'],
+        ['📺', 'Mekke ve Medine\u0027den canl\u0131', 'Harem ve Mescid-i Nebevi\u0027yi diledi\u011finiz an canl\u0131 izleyin.']
       ],
       p4Title: 'Son bir şey',
       p4Body: 'Doğru namaz vakitlerini hesaplamak, kıble yönünü bulmak ve yakındaki camileri göstermek için uygulamanın konumunuza ihtiyacı var.',
@@ -91,7 +95,9 @@
         ['🧭', 'Boussole Qibla', 'Trouvez la direction de la prière où que vous soyez.'],
         ['📿', 'Tasbih et dhikr', 'Compteur, dhikrs quotidiens et les 99 Noms.'],
         ['📚', 'Centre d\'apprentissage', 'Des guides pas à pas pour la vie musulmane au quotidien.'],
-        ['🌙', 'Espace Ramadan', 'Suivi du jeûne, jours saints et bien plus.']
+        ['🌙', 'Espace Ramadan', 'Suivi du je\u00fbne, jours saints et bien plus.'],
+        ['📻', 'Radio Coran 24h/24', 'R\u00e9citation ininterrompue jour et nuit par des r\u00e9citateurs renomm\u00e9s.'],
+        ['📺', 'En direct de Makkah et M\u00e9dine', 'Regardez le Haram et la Mosqu\u00e9e du Proph\u00e8te en direct, \u00e0 tout moment.']
       ],
       p4Title: 'Une dernière chose',
       p4Body: "Pour calculer des horaires de prière précis, trouver la direction de la Qibla et localiser les mosquées à proximité, l'appli a besoin de votre position.",
@@ -156,24 +162,51 @@
   var backBtn = document.getElementById('wBack');
   var skipBtn = document.getElementById('wSkip');
 
+  // ---- auto-enter: after the user accepts the terms on the last screen,
+  // count down a few seconds, then enter automatically (tap enters at once)
+  var autoTimer = null;
+  function cancelAuto(){
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  }
+  function startAuto(){
+    cancelAuto();
+    var n = 5;
+    var tick = function(){
+      if (idx !== screens.length - 1) { cancelAuto(); return; }
+      if (n <= 0) { cancelAuto(); finish(); return; }
+      nextBtn.textContent = T[lang].enter + ' (' + n + ')';
+      n--;
+    };
+    tick();
+    autoTimer = setInterval(tick, 1000);
+  }
+
   function show(i){
+    cancelAuto();
     idx = Math.max(0, Math.min(screens.length - 1, i));
     screens.forEach(function(s, k){ s.classList.toggle('active', k === idx); });
     dots.forEach(function(dt, k){ dt.classList.toggle('on', k === idx); });
     backBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
     syncNav();
+    var last = idx === screens.length - 1;
+    var terms = document.getElementById('wTerms');
+    if (last && terms && terms.checked) startAuto();
   }
   function syncNav(){
     var last = idx === screens.length - 1;
-    nextBtn.textContent = last ? T[lang].enter : T[lang].next;
+    if (!autoTimer) nextBtn.textContent = last ? T[lang].enter : T[lang].next;
     var terms = document.getElementById('wTerms');
     nextBtn.disabled = last && !(terms && terms.checked);
     skipBtn.style.visibility = last ? 'hidden' : 'visible';
   }
-  nextBtn.onclick = function(){ if (idx < screens.length - 1) show(idx + 1); else finish(); };
+  nextBtn.onclick = function(){ cancelAuto(); if (idx < screens.length - 1) show(idx + 1); else finish(); };
   backBtn.onclick = function(){ show(idx - 1); };
   skipBtn.onclick = function(){ finish(); };
-  document.getElementById('wTerms').onchange = syncNav;
+  document.getElementById('wTerms').onchange = function(){
+    syncNav();
+    if (this.checked && idx === screens.length - 1) startAuto();
+    else { cancelAuto(); syncNav(); }
+  };
 
   // ---- language menu ----
   var menu = document.getElementById('wLangMenu');
@@ -234,6 +267,7 @@
   var went = false;
   function finish(){
     if (went) return; went = true;
+    cancelAuto();
     lsSet('ddh-onboarded', '1');
     if ('Notification' in window && Notification.permission === 'default') {
       try {
