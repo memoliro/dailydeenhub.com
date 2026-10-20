@@ -3219,6 +3219,7 @@ document.getElementById("soundSel").onchange = e => {
   if (state.sound === "system" && (!("Notification" in window) || Notification.permission !== "granted")) {
     toast(t("soundSystemNeedNotif"));
   }
+  playAlert(); // hear the picked sound right away (2026-10-20, his wife's request)
 };
 document.getElementById("soundPreview").onclick = () => {
   // Preview the real system sound by firing an actual OS notification.
@@ -3310,10 +3311,9 @@ document.getElementById("methodSel").addEventListener("change", e => {
 document.getElementById("schoolSel").addEventListener("change", e => {
   state.school = +e.target.value; save(); refresh(); setShow(null);
 });
-(function () {
-  const ss = document.getElementById("soundSel");
-  if (ss) ss.addEventListener("change", () => setShow(null)); // the value itself is saved by its onchange above
-})();
+// Alert-sound select: NO collapse-on-change (removed 2026-10-20, his wife's
+// report) — picking a sound must keep the Reminders screen open so the user
+// can hear it and use the preview button. The value is saved by its onchange.
 function applyLangImmediate(v) {
   state.langPref = v;
   state.lang = v === "system" ? sysLang() : v;
