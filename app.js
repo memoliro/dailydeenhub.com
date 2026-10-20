@@ -1904,7 +1904,7 @@ function showTab(id) {
   if (id === "library") renderLibrary(true);
   if (id === "hisnul" && typeof refreshHsnView === "function") refreshHsnView();
   if (id === "qadha" && typeof renderQadha === "function") renderQadha();
-  if (id === "zikir" && typeof renderZikir === "function") renderZikir();
+  if (id === "zikir") ensureZikir();
   if (id === "resources" && typeof renderResources === "function") renderResources();
   if (id === "hadith" && typeof renderHadith === "function") renderHadith();
   if (id === "live") loadLiveFrames();
@@ -1919,6 +1919,28 @@ function showTab(id) {
   };
   toTop();
   requestAnimationFrame(toTop);
+}
+
+/* Zikir panel: if zikir.js failed to load (flaky network / bad cache entry),
+   the list renders empty with no visible error. Retry the script live. */
+function ensureZikir() {
+  if (typeof renderZikir === "function") { renderZikir(); return; }
+  const box = document.getElementById("zikirList");
+  if (!box || box.dataset.retrying) return;
+  box.dataset.retrying = "1";
+  box.innerHTML = '<p class="hint">' + escapeHtml(t("loading")) + '</p>';
+  const tag = document.querySelector('script[src^="/zikir.js"]');
+  const src = tag ? tag.getAttribute("src") : "/zikir.js?v=5";
+  const sc = document.createElement("script");
+  sc.src = src;
+  const done = function (ok) {
+    delete box.dataset.retrying;
+    if (ok && typeof renderZikir === "function") renderZikir();
+    else box.innerHTML = "";
+  };
+  sc.onload = function () { done(true); };
+  sc.onerror = function () { done(false); };
+  document.head.appendChild(sc);
 }
 
 /* Watch Live: set the YouTube live-stream iframes' src only when the page is
