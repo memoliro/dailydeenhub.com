@@ -382,6 +382,8 @@ a { color: var(--green-bright); }
   #panel-month th { font-size: 10px; letter-spacing: .02em; padding: 7px 1px; }
   #panel-month td { padding: 7px 1px; }
 }
+/* Month/Ramadan mode toggle row: centre the button group in the panel. */
+.mode-row { justify-content: center; }
 
 /* professional 5-column footer */
 .foot { padding: 40px 20px 32px; }
