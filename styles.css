@@ -1123,7 +1123,7 @@ body.quran-open #panel-quran { padding-bottom: 20px; }
    reading area: #verses grows (viewport-relative cap) to fill the card
    instead of leaving empty green below the text. */
 body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
-#verses { max-height: max(480px, calc(100dvh - 260px)) !important; }
+#verses { max-height: max(480px, calc(100dvh - 170px)) !important; }
 
 .tile-live { position: relative; }
 .tile-live .tic { position: relative; display: inline-block; }
