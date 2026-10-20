@@ -55,7 +55,7 @@ const I18N = {
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", fasting: "Fasting now",
     mosquesTab: "Find", mosquesTitle: "Find nearby", mosquesSub: "Mosques and halal restaurants near you, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 20 km.", mosquesError: "Could not load mosques.",
-    mosquesRetrying: "Retrying…", tryAgain: "Try again", finderCached: "Showing saved results — the map server couldn't be reached.", finderOriginPlace: "These results are for your saved place, not your current location.", finderUseGps: "Use my current location", finderLocating: "Finding your location…",
+    mosquesRetrying: "Retrying…", tryAgain: "Try again", finderCached: "Showing saved results — the map server couldn't be reached.", finderOriginPlace: "These results are for your saved place, not your current location.", finderOriginGps: "Results based on your current location.", finderUseGps: "Use my current location", finderLocating: "Finding your location…",
     halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 20 km.", marketFind: "Find halal markets/butchers near me", marketNone: "No halal markets found within 20 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites", addMosque: "Add mosque", addPrayer: "Add prayer room",
     mqMosqueTmpl: "🕌 New mosque suggestion\nPlace name: \nAddress: \nNotes (prayer times, Jumu'ah, parking…):",
     mqPrayerTmpl: "🛐 New prayer room suggestion\nPlace name (e.g. the mall, airport terminal, university building): \nLocation description — for people unfamiliar with this place (which floor, near what, how to find it): \nNotes (open hours, wudu facilities…):",
@@ -146,7 +146,7 @@ const I18N = {
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", fasting: "Oruçlusun",
     mosquesTab: "Bul", mosquesTitle: "Yakında bul", mosquesSub: "Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "20 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
-    mosquesRetrying: "Tekrar deneniyor…", tryAgain: "Tekrar dene", finderCached: "Kaydedilmiş sonuçlar gösteriliyor — harita sunucusuna ulaşılamadı.", finderOriginPlace: "Bu sonuçlar kayıtlı yerinize göre, mevcut konumunuza göre değil.", finderUseGps: "Mevcut konumumu kullan", finderLocating: "Konumunuz bulunuyor…",
+    mosquesRetrying: "Tekrar deneniyor…", tryAgain: "Tekrar dene", finderCached: "Kaydedilmiş sonuçlar gösteriliyor — harita sunucusuna ulaşılamadı.", finderOriginPlace: "Bu sonuçlar kayıtlı yerinize göre, mevcut konumunuza göre değil.", finderOriginGps: "Sonuçlar mevcut konumunuza göre.", finderUseGps: "Mevcut konumumu kullan", finderLocating: "Konumunuz bulunuyor…",
     halalFind: "Yakınımdaki helal restoranları bul", halalNone: "20 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal market/kasapları bul", marketNone: "20 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler", addMosque: "Cami ekle", addPrayer: "Namaz odası ekle",
     mqMosqueTmpl: "🕌 Yeni cami önerisi\nYer adı: \nAdres: \nNotlar (namaz vakitleri, Cuma, otopark…):",
     mqPrayerTmpl: "🛐 Yeni namaz odası önerisi\nYer adı (örn. AVM, havaalanı terminali, üniversite binası): \nKonum tarifi — burayı bilmeyenler için (kaçıncı kat, neyin yanında, nasıl bulunur?): \nNotlar (açık saatler, abdest imkânı…):",
@@ -523,7 +523,7 @@ const I18N = {
     qvTrans: "Traduction",
     qadhaMissedLog: "manquée",
     qadhaHrsAgo: "il y a h",
-    finderCached: "Résultats enregistrés affichés — le serveur cartographique est injoignable.", finderOriginPlace: "Ces résultats concernent votre lieu enregistré, pas votre position actuelle.", finderUseGps: "Utiliser ma position actuelle", finderLocating: "Recherche de votre position…",
+    finderCached: "Résultats enregistrés affichés — le serveur cartographique est injoignable.", finderOriginPlace: "Ces résultats concernent votre lieu enregistré, pas votre position actuelle.", finderOriginGps: "Résultats basés sur votre position actuelle.", finderUseGps: "Utiliser ma position actuelle", finderLocating: "Recherche de votre position…",
     widgetNote: "Les widgets d'écran d'accueil sont inclus dans l'application Android — appui long sur l'écran d'accueil, touchez Widgets puis choisissez DailyDeenHub.",
     fastFastedLog: "jeûné",
     soundAdhanShort: "Adhan (court)",
@@ -1588,7 +1588,7 @@ function renderFinder() {
     `<button class="mq-fav${isFav(m) ? " on" : ""}" type="button" data-lat="${m.lat}" data-lon="${m.lon}" data-name="${escapeHtml(m.name)}" aria-label="${isFav(m) ? "★" : "☆"}">${isFav(m) ? "★" : "☆"}</button></div>`;
   list.innerHTML =
     (lastFinder.stale ? `<p class="hint">${t("finderCached")}</p>` : "") +
-    (lastFinder.origin === "place" ? `<p class="hint">\u{1F4CD} ${t("finderOriginPlace")} <button type="button" class="ghost" id="finderGpsBtn" style="margin-left:6px">${t("finderUseGps")}</button></p>` : "") +
+    (lastFinder.origin === "place" ? `<p class="hint">\u{1F4CD} ${t("finderOriginPlace")} <button type="button" class="ghost" id="finderGpsBtn" style="margin-left:6px">${t("finderUseGps")}</button></p>` : lastFinder.origin === "gps" ? `<p class="hint">\u{1F4CD} ${t("finderOriginGps")}</p>` : "") +
     (favs.length ? `<p class="mq-favhead" data-i="mqFavTitle">${t("mqFavTitle")}</p>` + favs.map(row).join("") : "") +
     rest.map(row).join("");
   const gb = document.getElementById("finderGpsBtn");
