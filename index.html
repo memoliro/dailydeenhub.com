@@ -29,7 +29,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=173" />
+  <link rel="stylesheet" href="/styles.css?v=174" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -294,6 +294,7 @@
 
     <section id="panel-live" class="layout hidden">
       <div class="panel pad">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h2 data-i="liveTitle">Watch Live</h2>
         <p class="sub" data-i="liveSub">Live broadcasts from the two holy mosques, via the official Saudi Quran TV and Sunnah TV channels.</p>
         <div class="live-card">
@@ -311,6 +312,7 @@
 
     <section id="panel-feedback" class="layout hidden">
       <div class="panel pad">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h2 data-i="fbTitle">Feedback &amp; requests</h2>
         <p class="sub" data-i="fbSub">Tell us what you think — report a problem, request a feature, or suggest an improvement. Your message goes straight to the developer.</p>
         <form id="fbForm" novalidate>
@@ -449,6 +451,7 @@
 
     <section id="panel-articles" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="articlesTitle">About &amp; FAQ</h3>
         <p class="note" data-i="articlesSub">How DailyDeenHub works, and answers to common questions.</p>
         <div id="articlesList" class="art-list"></div>
@@ -457,6 +460,7 @@
 
     <section id="panel-khatm" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="khatmTitle">Khatms</h3>
         <p class="note" data-i="khatmSub">Track your Quran completions, Juz by Juz. Tap a Juz to mark it read.</p>
         <div id="khatmTabs" class="khatm-tabs"></div>
@@ -475,6 +479,7 @@
 
     <section id="panel-extra" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="extraRem">Extra reminders</h3>
         <p class="note" data-i="extraSub">Wake-up and fasting reminders, anchored to prayer times.</p>
         <div id="extraRows" class="rrows"></div>
@@ -484,6 +489,7 @@
 
     <section id="panel-holydays" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="holyDays">Holy days</h3>
         <p class="note" data-i="holyDaysSub">Islamic holy days and kandil nights.</p>
         <div id="holyDaysList" class="rrows"></div>
@@ -493,6 +499,7 @@
 
     <section id="panel-cards" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="cardsTile">Greeting cards</h3>
         <p class="note" data-i="cardsSub">Pick a background, write your message, share it with loved ones.</p>
         <div id="cardsHoly"></div>
@@ -505,6 +512,7 @@
           <div id="cardsGallery" class="cards-grid"></div>
         </div>
         <div id="cardsEditor" class="hidden">
+          <button class="back-gold" id="cardsEditorBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <div id="cardStage" class="card-stage">
             <img id="cardBgImg" alt="">
             <div id="cardText" contenteditable="true" spellcheck="false" data-i-ph="cardsTapType" placeholder="Tap to write…"></div>
@@ -529,6 +537,7 @@
     <section id="panel-learn" class="layout hidden">
       <div class="panel pad narrow">
         <div id="learnListView">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="learnTitle">Learning Center</h3>
           <p class="note" data-i="learnSub">Step-by-step guides, daily duas and the essentials of the faith.</p>
           <div id="learnList" class="learn-list"></div>
@@ -545,6 +554,7 @@
     </section>
     <section id="panel-qadha" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="qadhaTitle">Qadha Prayers</h3>
         <p class="note" data-i="qadhaSub">Missed a prayer? Log it here, then mark each one as you make it up.</p>
         <div id="qadhaTotal" class="qadha-total"></div>
@@ -558,6 +568,7 @@
 
     <section id="panel-resources" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="resTitle">Kutub al-Sittah</h3>
         <p class="note" data-i="resSub">The six canonical hadith collections.</p>
         <div id="resSearchWrap"></div>
@@ -568,6 +579,7 @@
     <section id="panel-library" class="layout hidden">
       <div class="panel pad narrow">
         <div id="libMain">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="libraryTitle">Library</h3>
           <p class="note" data-i="librarySub">In-app books open instantly; external links open trusted free libraries.</p>
           <div id="libraryGrid" class="shelf"></div>
@@ -589,6 +601,7 @@
     <section id="panel-hisnul" class="layout hidden">
       <div class="panel pad narrow">
         <div id="hsnulCatsView">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="hisnulTitle">Hisnul Muslim</h3>
           <p class="note" data-i="hisnulSub">Authentic daily duas — Arabic, transliteration and translation.</p>
           <div id="hsnulList" class="learn-list"></div>
@@ -685,7 +698,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=232"></script>
+  <script src="/app.js?v=233"></script>
   <script src="/learn.js?v=12"></script>
   <script src="/hisnul.js?v=3"></script>
   <script src="/qadha.js?v=3"></script>

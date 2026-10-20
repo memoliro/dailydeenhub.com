@@ -2834,6 +2834,8 @@ function renderCardsHome() {
   const up = HOLY_DAYS.map(e => ({ ...e, date: new Date(e.d + "T12:00:00") })).filter(e => e.date >= today && (e.date - today) / 86400000 <= 30)[0];
   holy.innerHTML = up ? `<div class="rrow hd-next"><span>💌 <b>${esc(t("cardsForDay"))} ${esc(up[lang] || up.en)}</b></span></div>` : "";
 }
+const _ceb = document.getElementById("cardsEditorBack");
+if (_ceb) _ceb.onclick = () => renderCardsHome();
 function openCardEditor(bg) {
   cardState.bg = bg;
   const lang = state.lang || "en";

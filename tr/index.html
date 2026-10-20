@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=173" />
+  <link rel="stylesheet" href="/styles.css?v=174" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -293,6 +293,7 @@
 
     <section id="panel-live" class="layout hidden">
       <div class="panel pad">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h2 data-i="liveTitle">Canlı İzle</h2>
         <p class="sub" data-i="liveSub">İki kutsal mescidden canlı yayınlar — resmi Suudi Kur'an TV ve Sünnet TV kanallarından.</p>
         <div class="live-card">
@@ -310,6 +311,7 @@
 
     <section id="panel-feedback" class="layout hidden">
       <div class="panel pad">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h2 data-i="fbTitle">Geri bildirim ve istekler</h2>
         <p class="sub" data-i="fbSub">Düşüncelerinizi söyleyin — bir sorun bildirin, özellik isteyin veya iyileştirme önerin. Mesajınız doğrudan geliştiriciye gider.</p>
         <form id="fbForm" novalidate>
@@ -448,6 +450,7 @@
 
     <section id="panel-articles" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="articlesTitle">Hakkında &amp; SSS</h3>
         <p class="note" data-i="articlesSub">DailyDeenHub nasıl çalışır ve sık sorulan soruların yanıtları.</p>
         <div id="articlesList" class="art-list"></div>
@@ -456,6 +459,7 @@
 
     <section id="panel-khatm" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="khatmTitle">Hatimler</h3>
         <p class="note" data-i="khatmSub">Kur'an hatimlerinizi cüz cüz takip edin. Okuduğunuz cüze dokunun.</p>
         <div id="khatmTabs" class="khatm-tabs"></div>
@@ -474,6 +478,7 @@
 
     <section id="panel-extra" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="extraRem">Ek hatırlatıcılar</h3>
         <p class="note" data-i="extraSub">Namaz vakitlerine bağlı uyandırma ve oruç hatırlatıcıları.</p>
         <div id="extraRows" class="rrows"></div>
@@ -483,6 +488,7 @@
 
     <section id="panel-holydays" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="holyDays">Dini günler</h3>
         <p class="note" data-i="holyDaysSub">Dini günler ve kandil geceleri.</p>
         <div id="holyDaysList" class="rrows"></div>
@@ -492,6 +498,7 @@
 
     <section id="panel-cards" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="cardsTile">Tebrik kartları</h3>
         <p class="note" data-i="cardsSub">Bir arka plan seçin, mesajınızı yazın, sevdiklerinizle paylaşın.</p>
         <div id="cardsHoly"></div>
@@ -504,6 +511,7 @@
           <div id="cardsGallery" class="cards-grid"></div>
         </div>
         <div id="cardsEditor" class="hidden">
+          <button class="back-gold" id="cardsEditorBack" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <div id="cardStage" class="card-stage">
             <img id="cardBgImg" alt="">
             <div id="cardText" contenteditable="true" spellcheck="false" data-i-ph="cardsTapType" placeholder="Yazmak için dokunun…"></div>
@@ -528,6 +536,7 @@
     <section id="panel-learn" class="layout hidden">
       <div class="panel pad narrow">
         <div id="learnListView">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="learnTitle">Öğrenme Merkezi</h3>
           <p class="note" data-i="learnSub">Adım adım rehberler, günlük dualar ve dinin esasları.</p>
           <div id="learnList" class="learn-list"></div>
@@ -544,6 +553,7 @@
     </section>
     <section id="panel-qadha" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="qadhaTitle">Kaza Namazları</h3>
         <p class="note" data-i="qadhaSub">Kaçırdığın namazı buraya kaydet, kıldıkça işaretle.</p>
         <div id="qadhaTotal" class="qadha-total"></div>
@@ -557,6 +567,7 @@
 
     <section id="panel-resources" class="layout hidden">
       <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
         <h3 data-i="resTitle">Kütüb-i Sitte</h3>
         <p class="note" data-i="resSub">Altı sahih hadis kitabı.</p>
         <div id="resSearchWrap"></div>
@@ -567,6 +578,7 @@
     <section id="panel-library" class="layout hidden">
       <div class="panel pad narrow">
         <div id="libMain">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="libraryTitle">Kütüphane</h3>
           <p class="note" data-i="librarySub">Uygulama içi kitaplar anında açılır; dış bağlantılar güvenilir ücretsiz kütüphanelere gider.</p>
           <div id="libraryGrid" class="shelf"></div>
@@ -588,6 +600,7 @@
     <section id="panel-hisnul" class="layout hidden">
       <div class="panel pad narrow">
         <div id="hsnulCatsView">
+          <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
           <h3 data-i="hisnulTitle">Hisnül Müslim</h3>
           <p class="note" data-i="hisnulSub">Sahih günlük dualar — Arapça, okunuş ve meal.</p>
           <div id="hsnulList" class="learn-list"></div>
@@ -684,7 +697,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=232"></script>
+  <script src="/app.js?v=233"></script>
   <script src="/learn.js?v=12"></script>
   <script src="/hisnul.js?v=3"></script>
   <script src="/qadha.js?v=3"></script>
