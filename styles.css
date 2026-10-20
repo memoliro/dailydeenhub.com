@@ -372,6 +372,16 @@ a { color: var(--green-bright); }
 #monthBody td b { display: block; font-size: 16px; }
 #monthBody td span { font-size: 11px; color: var(--dim); }
 #monthBody td.today span { color: rgba(255,255,255,.8); }
+/* Month / Ramadan imsakiye table: fixed layout so all 7 columns (incl. Isha/Yatsi)
+   always fit the phone screen instead of overflowing past the right edge. */
+#panel-month table { table-layout: fixed; }
+#panel-month th:first-child, #panel-month td:first-child { width: 20%; white-space: normal; }
+#panel-month th:not(:first-child), #panel-month td:not(:first-child) { width: 13.33%; }
+@media (max-width: 560px) {
+  #panel-month table { font-size: 12.5px; }
+  #panel-month th { font-size: 10px; letter-spacing: .02em; padding: 7px 1px; }
+  #panel-month td { padding: 7px 1px; }
+}
 
 /* professional 5-column footer */
 .foot { padding: 40px 20px 32px; }
