@@ -1,4 +1,4 @@
-/* DailyDeenHub Zikirmatik — dhikr counter.
+/* DailyDeenHub Zikir — dhikr counter.
    Preset dhikrs + Esmaül Hüsna (ebced counts) + user custom dhikrs.
    Tapping a dhikr loads it into the Tasbih tab with its target count.
    Custom dhikrs in localStorage "ddh-zikir-custom" as [{name, count}].
@@ -154,6 +154,6 @@ function saveZikirCustomForm() {
 function startZikir(name, target) {
   setZikirActive(name, target);
   if (typeof renderTasbih === "function") renderTasbih();
-  window._tbFromZikir = true; // showTab("quiet") shows the "← Zikirmatik" back for this entry only
+  window._tbFromZikir = true; // showTab("quiet") shows the "← Zikir" back for this entry only
   showTab("quiet");
 }
