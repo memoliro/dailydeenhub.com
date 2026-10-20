@@ -600,6 +600,10 @@ body[data-theme="day"] .bnav { background: #fffdf8; }
 #panel-qibla .panel, #panel-quiet .panel, #panel-mosques .panel, #panel-month .panel, #panel-live .panel, #panel-feedback .panel { padding: 14px 10px; }
 /* Quran reader: let the verses use nearly the full device width */
 #panel-quran .panel { padding: 14px 6px; }
+/* Short surahs (e.g. Al-Fatiha) left a long empty patterned gap before the
+   footer — stretch the Quran card to fill the screen height instead. */
+#panel-quran .panel { min-height: calc(100dvh - 210px); }
+#verses { min-height: max(220px, calc(100dvh - 620px)); }
 /* Reciter dropdown must shrink inside its flex row instead of forcing the page wider */
 #reciterSel { min-width: 0; }
 /* Follow-recitation toggle: pill button so the option is easy to spot */
