@@ -1119,10 +1119,11 @@ body.quran-open #quranPlayer {
 }
 #qpSeek::-moz-range-track { height: 6px; border-radius: 3px; background: rgba(212, 165, 116, .25); }
 body.quran-open #panel-quran { padding-bottom: 20px; }
-/* The 150px player clearance lives INSIDE the reader card (dark padding at
-   its bottom) so the card runs long toward the footer instead of leaving a
-   floral void between the card and the footer. */
-body.quran-open #panel-quran .reader-card { padding-bottom: 150px; }
+/* The reader card's bottom clearance is small — the space belongs to the
+   reading area: #verses grows (viewport-relative cap) to fill the card
+   instead of leaving empty green below the text. */
+body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
+#verses { max-height: max(480px, calc(100dvh - 260px)) !important; }
 
 .tile-live { position: relative; }
 .tile-live .tic { position: relative; display: inline-block; }
