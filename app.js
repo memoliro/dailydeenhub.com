@@ -55,7 +55,7 @@ const I18N = {
     ramadanHub: "Ramadan", suhoorIn: "Suhoor in", iftarIn: "Iftar in", fasting: "Fasting now",
     mosquesTab: "Find", mosquesTitle: "Find nearby", mosquesSub: "Mosques and halal restaurants near you, from OpenStreetMap.",
     mosquesFind: "Find mosques near me", mosquesLoading: "Searching…", mosquesNone: "No mosques found within 20 km.", mosquesError: "Could not load mosques.",
-    mosquesRetrying: "Retrying…", tryAgain: "Try again", finderCached: "Showing saved results — the map server couldn't be reached.",
+    mosquesRetrying: "Retrying…", tryAgain: "Try again", finderCached: "Showing saved results — the map server couldn't be reached.", finderOriginPlace: "These results are for your saved place, not your current location.", finderUseGps: "Use my current location", finderLocating: "Finding your location…",
     halalFind: "Find halal restaurants near me", halalNone: "No halal restaurants found within 20 km.", marketFind: "Find halal markets/butchers near me", marketNone: "No halal markets found within 20 km.", mqSuggest: "Missing a place? Suggest it to us →", mqFavTitle: "★ Favorites", addMosque: "Add mosque", addPrayer: "Add prayer room",
     mqMosqueTmpl: "🕌 New mosque suggestion\nPlace name: \nAddress: \nNotes (prayer times, Jumu'ah, parking…):",
     mqPrayerTmpl: "🛐 New prayer room suggestion\nPlace name (e.g. the mall, airport terminal, university building): \nLocation description — for people unfamiliar with this place (which floor, near what, how to find it): \nNotes (open hours, wudu facilities…):",
@@ -146,7 +146,7 @@ const I18N = {
     ramadanHub: "Ramazan", suhoorIn: "Sahura", iftarIn: "İftara", fasting: "Oruçlusun",
     mosquesTab: "Bul", mosquesTitle: "Yakında bul", mosquesSub: "Yakındaki camiler ve helal restoranlar, OpenStreetMap'ten.",
     mosquesFind: "Yakınımdaki camileri bul", mosquesLoading: "Aranıyor…", mosquesNone: "20 km içinde cami bulunamadı.", mosquesError: "Camiler yüklenemedi.",
-    mosquesRetrying: "Tekrar deneniyor…", tryAgain: "Tekrar dene", finderCached: "Kaydedilmiş sonuçlar gösteriliyor — harita sunucusuna ulaşılamadı.",
+    mosquesRetrying: "Tekrar deneniyor…", tryAgain: "Tekrar dene", finderCached: "Kaydedilmiş sonuçlar gösteriliyor — harita sunucusuna ulaşılamadı.", finderOriginPlace: "Bu sonuçlar kayıtlı yerinize göre, mevcut konumunuza göre değil.", finderUseGps: "Mevcut konumumu kullan", finderLocating: "Konumunuz bulunuyor…",
     halalFind: "Yakınımdaki helal restoranları bul", halalNone: "20 km içinde helal restoran bulunamadı.", marketFind: "Yakınımdaki helal market/kasapları bul", marketNone: "20 km içinde helal market bulunamadı.", mqSuggest: "Eksik bir yer mi var? Bize önerin →", mqFavTitle: "★ Favoriler", addMosque: "Cami ekle", addPrayer: "Namaz odası ekle",
     mqMosqueTmpl: "🕌 Yeni cami önerisi\nYer adı: \nAdres: \nNotlar (namaz vakitleri, Cuma, otopark…):",
     mqPrayerTmpl: "🛐 Yeni namaz odası önerisi\nYer adı (örn. AVM, havaalanı terminali, üniversite binası): \nKonum tarifi — burayı bilmeyenler için (kaçıncı kat, neyin yanında, nasıl bulunur?): \nNotlar (açık saatler, abdest imkânı…):",
@@ -523,7 +523,7 @@ const I18N = {
     qvTrans: "Traduction",
     qadhaMissedLog: "manquée",
     qadhaHrsAgo: "il y a h",
-    finderCached: "Résultats enregistrés affichés — le serveur cartographique est injoignable.",
+    finderCached: "Résultats enregistrés affichés — le serveur cartographique est injoignable.", finderOriginPlace: "Ces résultats concernent votre lieu enregistré, pas votre position actuelle.", finderUseGps: "Utiliser ma position actuelle", finderLocating: "Recherche de votre position…",
     widgetNote: "Les widgets d'écran d'accueil sont inclus dans l'application Android — appui long sur l'écran d'accueil, touchez Widgets puis choisissez DailyDeenHub.",
     fastFastedLog: "jeûné",
     soundAdhanShort: "Adhan (court)",
@@ -1588,8 +1588,11 @@ function renderFinder() {
     `<button class="mq-fav${isFav(m) ? " on" : ""}" type="button" data-lat="${m.lat}" data-lon="${m.lon}" data-name="${escapeHtml(m.name)}" aria-label="${isFav(m) ? "★" : "☆"}">${isFav(m) ? "★" : "☆"}</button></div>`;
   list.innerHTML =
     (lastFinder.stale ? `<p class="hint">${t("finderCached")}</p>` : "") +
+    (lastFinder.origin === "place" ? `<p class="hint">\u{1F4CD} ${t("finderOriginPlace")} <button type="button" class="ghost" id="finderGpsBtn" style="margin-left:6px">${t("finderUseGps")}</button></p>` : "") +
     (favs.length ? `<p class="mq-favhead" data-i="mqFavTitle">${t("mqFavTitle")}</p>` + favs.map(row).join("") : "") +
     rest.map(row).join("");
+  const gb = document.getElementById("finderGpsBtn");
+  if (gb) gb.onclick = () => nearbySearch(kind, true);
   list.querySelectorAll(".mq-fav").forEach(b => b.onclick = () => {
     const lat = +b.dataset.lat, lon = +b.dataset.lon, key = favKey(lat, lon);
     const i = state.favs.findIndex(f => f.key === key);
@@ -1616,13 +1619,13 @@ function writeFinderCache(c) {
 }
 function finderQuery(kind, lat, lon) {
   return kind === "halal"
-    ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:20000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:20000,${lat},${lon}););out center 20;`
+    ? `[out:json][timeout:25];(node["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:20000,${lat},${lon});way["amenity"~"^(restaurant|fast_food|cafe)$"]["diet:halal"="yes"](around:20000,${lat},${lon}););out center 100;`
     : kind === "market"
-    ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:20000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:20000,${lat},${lon}););out center 20;`
+    ? `[out:json][timeout:25];(node["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:20000,${lat},${lon});way["shop"~"^(butcher|convenience|grocery|supermarket)$"]["diet:halal"="yes"](around:20000,${lat},${lon}););out center 100;`
     // Mosques: catch the two reliable OSM taggings — (1) amenity=place_of_worship
     // + religion=muslim, (2) building=mosque. (A name-regex third clause was
     // tried 2026-10-17 but made the query too heavy for the free servers.)
-    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:20000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:20000,${lat},${lon});node["building"="mosque"](around:20000,${lat},${lon});way["building"="mosque"](around:20000,${lat},${lon}););out center 20;`;
+    : `[out:json][timeout:25];(node["amenity"="place_of_worship"]["religion"="muslim"](around:20000,${lat},${lon});way["amenity"="place_of_worship"]["religion"="muslim"](around:20000,${lat},${lon});node["building"="mosque"](around:20000,${lat},${lon});way["building"="mosque"](around:20000,${lat},${lon}););out center 100;`;
 }
 function finderFallbackName(kind) {
   return kind === "halal" ? pickL("Helal restoran", "Restaurant halal", "Halal restaurant") : kind === "market" ? pickL("Helal market", "Marché halal", "Halal market") : pickL("Cami", "Mosquée", "Mosque");
@@ -1679,7 +1682,7 @@ function mergeFinderCache(ck, items) {
   writeFinderCache(cache);
   return merged;
 }
-async function nearbySearch(kind) {
+async function nearbySearch(kind, forceGps) {
   const list = document.getElementById("mosqueList");
   const btn = document.getElementById(kind === "halal" ? "halalFind" : kind === "market" ? "marketFind" : "mosqueFind");
   btn.disabled = true;
@@ -1694,23 +1697,36 @@ async function nearbySearch(kind) {
   //    distances, server query) uses these coords, so being out and about
   //    correctly misses the home grid instead of showing home mosques with
   //    home distances. Tries hard: 10s getCurrentPosition + 5s tracker wait.
-  let lat = state.place.lat, lon = state.place.lon;
+  let lat = state.place.lat, lon = state.place.lon, origin = "place";
   try { startLiveTracking(); } catch {}
-  if (livePosFresh(120000)) {
-    lat = livePos.lat; lon = livePos.lon;
+  if (forceGps && navigator.geolocation) {
+    // Explicit "use my location" tap: demand a strict fresh fix, no caches.
+    list.innerHTML = `<p class="hint">${t("finderLocating")}</p>`;
+    try {
+      const pos = await new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+      });
+      lat = pos.coords.latitude; lon = pos.coords.longitude; origin = "gps";
+    } catch {}
+    if (origin === "gps") list.innerHTML = `<p class="hint">${t("mosquesLoading")}</p>`;
+  }
+  if (origin === "gps") {
+    // strict fix obtained above — skip the cached-position paths
+  } else if (livePosFresh(120000)) {
+    lat = livePos.lat; lon = livePos.lon; origin = "gps";
   } else if (navigator.geolocation) {
     try {
       const pos = await new Promise((res, rej) => {
         navigator.geolocation.getCurrentPosition(res, rej, { timeout: 10000, maximumAge: 60000 });
       });
-      lat = pos.coords.latitude; lon = pos.coords.longitude;
+      lat = pos.coords.latitude; lon = pos.coords.longitude; origin = "gps";
     } catch {
       // getCurrentPosition failed (denied, timeout, or prompt dismissed):
       // give the background tracker up to 5s to produce a fix.
       for (let i = 0; i < 10 && !livePosFresh(120000); i++) {
         await new Promise(r => setTimeout(r, 500));
       }
-      if (livePosFresh(120000)) { lat = livePos.lat; lon = livePos.lon; }
+      if (livePosFresh(120000)) { lat = livePos.lat; lon = livePos.lon; origin = "gps"; }
       // else fall back to selected place
     }
   }
@@ -1721,7 +1737,7 @@ async function nearbySearch(kind) {
   const hit = cache[ck];
   const freshHit = hit && Date.now() - hit.t < FINDER_TTL && Array.isArray(hit.items) && hit.items.length;
   if (freshHit) {
-    lastFinder = { kind, stale: false, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
+    lastFinder = { kind, stale: false, origin, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
     renderFinder();
     btn.disabled = false;
     // Background refresh: don't block the UI, just update if more turn up.
@@ -1735,7 +1751,7 @@ async function nearbySearch(kind) {
         const merged = mergeFinderCache(ck, bgItems);
         const nowItems = merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15);
         if (nowItems.length > before) {
-          lastFinder = { kind, stale: false, items: nowItems };
+          lastFinder = { kind, stale: false, origin, items: nowItems };
           // Only re-render if the user is still looking at this finder tab
           if (document.getElementById("panel-mosques") && !document.getElementById("panel-mosques").classList.contains("hidden")) renderFinder();
         }
@@ -1762,7 +1778,7 @@ async function nearbySearch(kind) {
   if (items === null) {
     // Network failed everywhere — fall back to the last saved search for this grid, if any
     if (hit && Array.isArray(hit.items) && hit.items.length) {
-      lastFinder = { kind, stale: true, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
+      lastFinder = { kind, stale: true, origin, items: hit.items.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
       renderFinder();
       return;
     }
@@ -1772,7 +1788,7 @@ async function nearbySearch(kind) {
   }
   if (!items.length) { list.innerHTML = `<p class="hint">${t(noneKey)}</p>`; return; }
   const merged = mergeFinderCache(ck, items);
-  lastFinder = { kind, stale: false, items: merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
+  lastFinder = { kind, stale: false, origin, items: merged.map(m => ({ ...m, d: mosqueDistKm(lat, lon, m.lat, m.lon) })).sort((a, b) => a.d - b.d).slice(0, 15) };
   renderFinder();
 }
 async function findMosques() { return nearbySearch("mosque"); }
