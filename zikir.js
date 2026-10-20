@@ -154,5 +154,6 @@ function saveZikirCustomForm() {
 function startZikir(name, target) {
   setZikirActive(name, target);
   if (typeof renderTasbih === "function") renderTasbih();
+  window._tbFromZikir = true; // showTab("quiet") shows the "← Zikirmatik" back for this entry only
   showTab("quiet");
 }

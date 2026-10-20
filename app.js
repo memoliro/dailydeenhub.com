@@ -1911,6 +1911,13 @@ function showTab(id) {
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
     b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles" || id === "zikir"))));
   if (id === "quiet") setTimeout(layoutBeadFrame, 60);
+  if (id === "quiet") {
+    // "← Zikirmatik" back shows ONLY when the tasbih was entered from the
+    // Zikirmatik list (startZikir sets the flag); bottom-nav entry hides it.
+    const _tzb = document.getElementById("tasbihZikirBack");
+    if (_tzb) _tzb.classList.toggle("hidden", !window._tbFromZikir);
+    window._tbFromZikir = false;
+  }
   document.body.classList.toggle("quran-open", id === "quran");
   if (id === "quran") {
     wireQuranPosTracking();
@@ -2836,6 +2843,8 @@ function renderCardsHome() {
 }
 const _ceb = document.getElementById("cardsEditorBack");
 if (_ceb) _ceb.onclick = () => renderCardsHome();
+const _tzb2 = document.getElementById("tasbihZikirBack");
+if (_tzb2) _tzb2.onclick = () => showTab("zikir");
 function openCardEditor(bg) {
   cardState.bg = bg;
   const lang = state.lang || "en";
