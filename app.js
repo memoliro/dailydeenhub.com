@@ -3112,7 +3112,16 @@ function playRadio() {
   if (audio.getAttribute("src") !== url) audio.src = url;
   btn.textContent = t("radioStop");
   const pending = audio.play();
-  if (pending) pending.catch(() => { btn.textContent = t("radioPlay"); toast(t("audioFail")); });
+  if (pending) pending.catch(() => {
+    // The backup host is flaky and unreachable on some networks — retry once
+    // on the main mirror host before surfacing the error.
+    const alt = url.replace("backup.qurango.net", "qurango.net");
+    if (alt !== url && audio.getAttribute("src") !== alt) {
+      audio.src = alt;
+      const p2 = audio.play();
+      if (p2) p2.catch(() => { btn.textContent = t("radioPlay"); toast(t("audioFail")); });
+    } else { btn.textContent = t("radioPlay"); toast(t("audioFail")); }
+  });
 }
 async function ensureRamadan() {
   if (ramadan.length) return;
