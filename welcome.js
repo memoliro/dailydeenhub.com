@@ -20,7 +20,7 @@
         ['🔓', 'No account, no sign-in', 'Open the app and it just works.'],
         ['🔒', 'Privacy first', 'Your settings and location stay on your device, where they belong.'],
         ['💚', 'Completely free', 'Every feature, for everyone, forever.'],
-        ['📱', 'On every device', 'Phone, tablet, computer or TV — same app, everywhere.']
+        ['📱', 'On every device', 'Just open dailydeenhub.com — phone, tablet, computer or TV.']
       ],
       p3Title: 'Everything for your day',
       p3Body: 'A complete companion for your daily deen — all in one place.',
@@ -54,7 +54,7 @@
         ['🔓', 'Hesap yok, giriş yok', 'Uygulamayı açın, hemen çalışır.'],
         ['🔒', 'Önce gizlilik', 'Ayarlarınız ve konumunuz cihazınızda kalır.'],
         ['💚', 'Tamamen ücretsiz', 'Tüm özellikler, herkese, sonsuza dek.'],
-        ['📱', 'Her cihazda', 'Telefon, tablet, bilgisayar veya televizyon — aynı uygulama, her yerde.']
+        ['📱', 'Her cihazda', 'dailydeenhub.com adresini açmanız yeterli — telefon, tablet, bilgisayar veya televizyon.']
       ],
       p3Title: 'Gününüz için her şey',
       p3Body: 'Günlük dininiz için eksiksiz bir yol arkadaşı — hepsi tek yerde.',
@@ -88,7 +88,7 @@
         ['🔓', 'Ni compte, ni connexion', 'Ouvrez l\'appli et ça marche.'],
         ['🔒', 'La vie privée d\'abord', 'Vos réglages et votre position restent sur votre appareil.'],
         ['💚', 'Entièrement gratuit', 'Toutes les fonctionnalités, pour tous, pour toujours.'],
-        ['📱', 'Sur tous vos appareils', 'Téléphone, tablette, ordinateur ou TV — la même appli, partout.']
+        ['📱', 'Sur tous vos appareils', 'Ouvrez simplement dailydeenhub.com — téléphone, tablette, ordinateur ou TV.']
       ],
       p3Title: 'Tout pour votre journée',
       p3Body: 'Un compagnon complet pour votre deen quotidien — tout au même endroit.',
