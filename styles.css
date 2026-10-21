@@ -1248,3 +1248,6 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 .mcard-wm { color: rgba(27, 20, 12, .55); }
 .mcard-share { background: #1b140c !important; color: #f4d98c; box-shadow: 0 4px 14px rgba(27, 20, 12, .3); }
 .mcard-share svg { fill: #f4d98c; }
+/* Date pill under the countdown: same gold/black family, deeper tint so it
+   reads as its own element on the gold hero (2026-10-21). */
+.date-pill { background: rgba(27, 20, 12, .14); border-color: rgba(27, 20, 12, .5); color: #1b140c; font-weight: 600; }
