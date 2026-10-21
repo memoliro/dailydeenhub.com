@@ -1193,3 +1193,13 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 }
 .back-gold { margin-bottom: 10px; cursor: pointer; font-size: 15px; }
 #qiblaOpen { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+
+/* Round gold discs: Tasbih speaker + Quran reader microphones (2026-10-21). */
+#tasbihMute, #voiceSearchBtn, #voiceMicBig {
+  background: linear-gradient(135deg, #e8c476, #c9962e);
+  border: 1px solid #c9962e;
+  color: #1b140c;
+  box-shadow: 0 0 0 2px rgba(212, 165, 116, .35);
+  border-radius: 50%;
+}
+#tasbihMute { width: 42px; height: 42px; padding: 0; display: grid; place-items: center; font-size: 20px; }
