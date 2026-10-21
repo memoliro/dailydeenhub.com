@@ -3496,6 +3496,16 @@ function setLanguage(lang) {
   if (typeof renderDaily === "function") renderDaily();
   refreshQuranLanguage().catch(() => toast(t("loadFail")));
 }
+// Keep the URL honest about the active language from the first load, so
+// sharing the app from Chrome carries the right language's link preview
+// (his wife's report, 2026-10-20: Turkish UI, but shares arrived in English
+// because the URL still pointed at the English root). Silent, no reload.
+(function syncLangUrlOnBoot() {
+  try {
+    const target = langPath(state.lang);
+    if (target !== langPath(pathLang())) history.replaceState(null, "", target);
+  } catch {}
+})();
 const _le2 = document.getElementById("langEn"); if (_le2) _le2.onclick = () => setLanguage("en");
 const _lt2 = document.getElementById("langTr"); if (_lt2) _lt2.onclick = () => setLanguage("tr");
 const _tb2 = document.getElementById("themeBtn"); if (_tb2) _tb2.onclick = () => { state.theme = state.theme === "night" ? "day" : "night"; save(); applyI18n(); };
