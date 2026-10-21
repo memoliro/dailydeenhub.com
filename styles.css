@@ -1221,3 +1221,14 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 .hero-label { display: inline-block; background: linear-gradient(135deg, #e8c476, #c9962e); color: #1b140c; padding: 6px 18px; border-radius: 999px; }
 .date-pill { background: linear-gradient(135deg, #e8c476, #c9962e); border-color: #c9962e; color: #1b140c; font-weight: 600; }
 .mcard-pill, .mcard-names .mcard-pill { background: linear-gradient(135deg, #e8c476, #c9962e); border-color: transparent; color: #1b140c; }
+
+/* Previous/next day steppers on Home: round gold discs (2026-10-21). */
+#gridDayPrev, #gridDayNext {
+  background: linear-gradient(135deg, #e8c476, #c9962e);
+  border: 1px solid #c9962e;
+  color: #1b140c;
+  box-shadow: 0 0 0 2px rgba(212, 165, 116, .35);
+  border-radius: 50%;
+  width: 42px; height: 42px;
+  font-size: 17px; font-weight: 700;
+}
