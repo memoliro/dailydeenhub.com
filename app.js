@@ -3327,7 +3327,7 @@ function setDoneVisible(v) {
 }
 function setShow(name){
   document.getElementById("setMain").classList.toggle("hidden", !!name);
-  ["loc","calc","remind","appear","notif"].forEach(k => {
+  ["loc","calc","remind","appear"].forEach(k => {
     document.getElementById("setSub-"+k).classList.toggle("hidden", k !== name);
   });
 }
@@ -4359,7 +4359,7 @@ if (vg) vg.addEventListener("click", e => {
     const dx = t.clientX - sx, dy = t.clientY - sy;
     if (Math.abs(dx) < MIN || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     const back = dx > 0;
-    const subOpen = ["loc", "calc", "remind", "appear", "notif"].some(k => {
+    const subOpen = ["loc", "calc", "remind", "appear"].some(k => {
       const el = document.getElementById("setSub-" + k);
       return el && !el.classList.contains("hidden");
     });

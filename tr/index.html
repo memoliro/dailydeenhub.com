@@ -31,7 +31,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=177" />
+  <link rel="stylesheet" href="/styles.css?v=178" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -346,7 +346,6 @@
         <button class="menu-row" data-setgo="calc" type="button"><span>🕌 <span data-i="setCalc">Namaz Hesaplama</span></span><span>›</span></button>
         <button class="menu-row" data-setgo="remind" type="button"><span>⏰ <span data-i="setRemind">Hatırlatıcılar</span></span><span>›</span></button>
         <button class="menu-row" data-setgo="appear" type="button"><span>🌐 <span data-i="setAppear">Dil</span></span><span>›</span></button>
-        <button class="menu-row" data-setgo="notif" type="button"><span>🔔 <span data-i="setNotif">Bildirimler</span></span><span>›</span></button>
       </div>
       <div id="setSub-loc" class="hidden">
         <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setLoc">Konum</span></h3>
@@ -379,20 +378,8 @@
           <div class="sound-row"><select id="soundSel" class="field"></select><button class="icon-btn" id="soundPreview" type="button" aria-label="Preview sound">▶</button></div>
         </div>
         <label class="field" id="soundUploadRow" style="display:none"><span data-i="uploadLbl">Özel ses yükle</span><input id="soundFile" type="file" accept="audio/*" class="field" /><small id="soundUploadNote" class="muted" data-i="uploadNote">iPhone'da Yükle'ye dokununca fotoğraf erişimi istenebilir — uygulama fotoğraflarınızı asla görmez; ses dosyası seçmek için Dosyalar'ı seçin.</small></label>
-      </div>
-      <div id="setSub-appear" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setAppear">Dil</span></h3>
-        <label class="field">
-          <select id="langSel" class="field" aria-label="Dil">
-            <option value="system" data-i="langSystem">Sistem</option>
-            <option value="en">English</option>
-            <option value="tr">Türkçe</option>
-            <option value="fr">Français</option>
-          </select>
-        </label>
-      </div>
-      <div id="setSub-notif" class="hidden">
-        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setNotif">Bildirimler</span></h3>
+      
+        <h4 class="names-h"><span data-i="setNotif">Bildirimler</span></h4>
         <label class="field" style="display:flex;gap:8px;align-items:center"><input id="pushChk" type="checkbox" /> <span data-i="pushLbl">Namaz uyarıları (sekme kapalıyken bile)</span></label>
         <p class="note" id="pushNote" style="margin-top:-6px"></p>
         <div id="installRow" class="hidden" style="margin-top:2px">
@@ -405,6 +392,18 @@
         <label class="field" style="display:flex;gap:8px;align-items:center"><input id="vibChk" type="checkbox" /> <span data-i="vibLbl">Titreşim</span></label>
         <div class="field" style="margin-top:14px"><span data-i="widgetLbl">Widget</span><p class="note" data-i="widgetNote">Ana ekran widget ayarları yakında burada olacak.</p></div>
       </div>
+      <div id="setSub-appear" class="hidden">
+        <h3><button class="icon-btn" data-setback type="button">‹</button> <span data-i="setAppear">Dil</span></h3>
+        <label class="field">
+          <select id="langSel" class="field" aria-label="Dil">
+            <option value="system" data-i="langSystem">Sistem</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+            <option value="fr">Français</option>
+          </select>
+        </label>
+      </div>
+      
         <div class="set-foot hidden"><button class="primary" id="setClose" type="button" data-i="done">Tamam</button></div>
       </div>
     </section>
@@ -721,7 +720,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=240"></script>
+  <script src="/app.js?v=241"></script>
   <script src="/learn.js?v=12"></script>
   <script src="/hisnul.js?v=3"></script>
   <script src="/qadha.js?v=3"></script>

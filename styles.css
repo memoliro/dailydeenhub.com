@@ -101,7 +101,7 @@ body[data-theme="day"] .brand-mark, body[data-theme="day"] .brand-word { filter:
 .seg button { background: transparent; border: 0; padding: 8px 10px; color: var(--muted); }
 /* Quran reader view-mode buttons: slightly larger text */
 #quranViewSeg button { font-size: 16.5px; }
-.seg button.on { background: var(--gold); color: #1b140c; }
+.seg button.on { background: linear-gradient(135deg, #e8c476, #c9962e); color: #1b140c; font-weight: 700; }
 main { padding: 28px 0 64px; }
 .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; }
 .panel {
@@ -348,7 +348,7 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .tabs button.on { background: var(--green); border-color: var(--green); color: #fff; }
 .vakt.on { border-color: var(--green-bright); box-shadow: 0 0 0 1px var(--green-bright), 0 8px 24px rgba(14, 107, 74, 0.25); }
 .vakt.on .nm { color: var(--green-bright); }
-.seg button.on, .stations button.on, #ramadanMode.on, #monthMode.on { background: var(--green); border-color: var(--green); color: #fff; }
+.stations button.on, #ramadanMode.on, #monthMode.on { background: var(--green); border-color: var(--green); color: #fff; }
 #arc { stroke: var(--green-bright); }
 .prayer-name { color: var(--green-bright); }
 .kicker { color: var(--green-bright); }
@@ -1182,7 +1182,7 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 
 /* Back buttons: FINAL word (kept at end of file so no earlier per-button
    rule can override) — same gold + dark text as the Find-nearby highlight. */
-#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold {
+#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold, #radioBtn, #compassBtn, #qiblaOpen, #tasbihReset, #beadReset {
   background: linear-gradient(135deg, #e8c476, #c9962e);
   border: 1px solid #c9962e;
   color: #1b140c;
@@ -1192,3 +1192,4 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
   padding: 9px 18px;
 }
 .back-gold { margin-bottom: 10px; cursor: pointer; font-size: 15px; }
+#qiblaOpen { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
