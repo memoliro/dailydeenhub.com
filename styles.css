@@ -1242,3 +1242,8 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
    (was the last green on Home). */
 .vakt.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 8px 24px rgba(201, 150, 46, .25); }
 .vakt.on .nm { color: #e8c476; }
+
+/* Day labels in gold (2026-10-21): the day-stepper's Today/Tomorrow/
+   Yesterday label and the calendar's weekday header row. Labels only. */
+.grid-daylabel { color: #e8c476; }
+#monthBody tr:first-child th { color: #e8c476; }
