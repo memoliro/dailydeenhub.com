@@ -619,8 +619,12 @@ let chapters = [];
 let heading = null;
 let qiblaWasAligned = false;
 let lastBuzzMs = 0;
-let notifiedKey = "";
-let adhanPlayedKey = "";
+let notifiedKey = "", adhanPlayedKey = "";
+try {
+  notifiedKey = localStorage.getItem("ddh-notified") || "";
+  adhanPlayedKey = localStorage.getItem("ddh-adhan") || "";
+} catch {}
+function markFired(storeKey, val) { try { localStorage.setItem(storeKey, val); } catch {} }
 let searchTimer = 0;
 let currentChapter = 1;
 let startingAudio = false;
@@ -1062,7 +1066,7 @@ function renderTimes() {
     const adhanKey = `${g.date}-${prev.key}`;
     const sinceSecs = (nowMin - prev.min) * 60;
     if (sinceSecs >= 0 && sinceSecs < 60 && adhanPlayedKey !== adhanKey) {
-      adhanPlayedKey = adhanKey;
+      adhanPlayedKey = adhanKey; markFired("ddh-adhan", adhanKey);
       try { const a = new Audio("/audio/adhan-prayer-call.mp3"); a.play().catch(() => {}); } catch {}
     }
   }
@@ -1074,7 +1078,7 @@ function renderTimes() {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
-      notifiedKey = key;
+      notifiedKey = key; markFired("ddh-notified", key);
       playAlert();
       const title = rm === 0 ? `${nameOf(nextKey)} ${t("timeNow")}` : `${nameOf(nextKey)} — ${t("inMinutes").replace("{n}", rm)}`;
       showLocalNotification(title, "prayer-" + nextKey);
@@ -2580,6 +2584,7 @@ function renderExtraRows() {
   });
 }
 let extraFired = {};
+try { extraFired = JSON.parse(localStorage.getItem("ddh-xfired") || "{}"); } catch {}
 function checkExtraReminders(slots, nowMin, now) {
   // Same dedup rule as the prayer reminder: only a visible tab fires locally,
   // otherwise the push notification handles it (never both).
@@ -2594,6 +2599,7 @@ function checkExtraReminders(slots, nowMin, now) {
     const key = dateStr + "-" + id;
     if (atMin >= 0 && nowMin >= atMin && nowMin < atMin + 1 && !extraFired[key]) {
       extraFired[key] = 1;
+      try { localStorage.setItem("ddh-xfired", JSON.stringify(extraFired)); } catch {}
       playAlert();
       showLocalNotification(title);
     }
