@@ -1247,3 +1247,7 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
    Yesterday label and the calendar's weekday header row. Labels only. */
 .grid-daylabel { color: #e8c476; }
 #monthBody tr:first-child th { color: #e8c476; }
+
+/* Day-stepper label: soft shade so the gold label reads over the floral
+   art (2026-10-21, his suggestion). */
+.grid-daylabel { background: rgba(8, 12, 22, .42); box-shadow: 0 2px 10px rgba(0, 0, 0, .25); backdrop-filter: blur(3px); }
