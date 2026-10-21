@@ -271,6 +271,37 @@ function resync() {
 async function doResync() {
   var sub = await currentSub();
   if (!sub) return;
+  // VAPID key heal (2026-10-21): if the server rotated its VAPID key, an old
+  // subscription can never receive again — Apple rejects every send with
+  // VapidPkHashMismatch while the app still shows alerts "on". Detect the
+  // mismatch here (every boot + settings change funnels through doResync)
+  // and replace the subscription wholesale.
+  try {
+    var kr = await fetch(PUSH_API + '/api/vapid-key');
+    var kj = await kr.json();
+    if (kj && kj.key) {
+      var want = b64ToBytes(kj.key);
+      var have = sub.options && sub.options.applicationServerKey
+        ? new Uint8Array(sub.options.applicationServerKey) : null;
+      var match = have && have.length === want.length &&
+        have.every(function (b, i) { return b === want[i]; });
+      if (!match) {
+        var oldEndpoint = sub.endpoint;
+        try { await sub.unsubscribe(); } catch (e) {}
+        try {
+          await fetch(PUSH_API + '/api/unsubscribe', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ endpoint: oldEndpoint }),
+          });
+        } catch (e) {}
+        var reg2 = await getReg();
+        sub = await reg2.pushManager.subscribe({
+          userVisibleOnly: true, applicationServerKey: want,
+        });
+        try { localStorage.removeItem('ddh-push-synced'); } catch (e) {}
+      }
+    }
+  } catch (e) { /* heal is best-effort; the normal sync below still runs */ }
   var payload = JSON.stringify(settingsPayload());
   if (payload === lastSynced) return;
   try {
