@@ -2658,18 +2658,50 @@ const GREETINGS = [
   ["greetings/png-transparent-friday-jumu-ah-islam-ar-friday-jumu-ah-islam.webp", "friday"],
   ["greetings/pngtree-eid-mubarak-and-ramadan-kareem.webp", "eid"],
   ["greetings/pngtree-nice-eid-mubarak.webp", "eid"],
+  ["greetings/ramadan-en.webp", "ramadan"],
+  ["greetings/ramadan-tr.webp", "ramadan"],
+  ["greetings/kadir-en.webp", "kadir"],
+  ["greetings/kadir-tr.webp", "kadir"],
+  ["greetings/kandil-tr.webp", "kandil"],
+  ["greetings/kandil-en.webp", "kandil"],
+  ["greetings/fitr-en.webp", "fitr"],
+  ["greetings/fitr-tr.webp", "fitr"],
+  ["greetings/adha-en.webp", "adha"],
+  ["greetings/adha-tr.webp", "adha"],
+  ["greetings/newyear-en.webp", "newyear"],
+  ["greetings/newyear-tr.webp", "newyear"],
+  ["greetings/ashura-tr.webp", "ashura"],
+  ["greetings/friday-en-5.webp", "friday"],
+  ["greetings/friday-en-6.webp", "friday"],
 ];
+/* Which occasion's cards should surface now? The holy day within the next
+   10 days (or yesterday) decides; cards of that category float up. */
+function greetOccasionCat() {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  for (const e of HOLY_DAYS) {
+    const diff = Math.round((new Date(e.d + "T12:00:00") - today) / 86400000);
+    if (diff < -1 || diff > 10) continue;
+    const n = e.en;
+    if (/Ramadan begins/.test(n)) return "ramadan";
+    if (/Night of Decree/.test(n)) return "kadir";
+    if (/Raghaib|Mi'raj|Bara'ah|Mawlid/.test(n)) return "kandil";
+    if (/Eid al-Fitr/.test(n)) return "fitr";
+    if (/Eid al-Adha/.test(n)) return "adha";
+    if (/Islamic New Year/.test(n)) return "newyear";
+    if (/Ashura/.test(n)) return "ashura";
+  }
+  return null;
+}
 function renderGreetings() {
   const wrap = document.getElementById("greetGallery");
   if (!wrap) return;
   const lang = state.lang || "en";
   const isFriday = new Date().getDay() === 5;
-  // Friday images first on Fridays, Eid images surface near holy days
-  const sorted = [...GREETINGS].sort((a, b) => {
-    if (isFriday && a[1] === "friday" && b[1] !== "friday") return -1;
-    if (isFriday && b[1] === "friday" && a[1] !== "friday") return 1;
-    return 0;
-  });
+  // Friday cards first on Fridays; the upcoming occasion's cards next
+  const occ = greetOccasionCat();
+  const rank = c => (isFriday && c === "friday") ? 0
+    : (occ && (c === occ || (c === "eid" && (occ === "fitr" || occ === "adha")))) ? 1 : 2;
+  const sorted = [...GREETINGS].sort((a, b) => rank(a[1]) - rank(b[1]));
   const SHARE_ICON = `<svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>`;
   const BTN_COLORS = ["#3b82f6", "#22c55e", "#a855f7", "#f87171", "#f59e0b", "#06b6d4"];
   wrap.innerHTML = sorted.map(([f], i) =>
