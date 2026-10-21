@@ -1203,3 +1203,10 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
   border-radius: 50%;
 }
 #tasbihMute { width: 42px; height: 42px; padding: 0; display: grid; place-items: center; font-size: 20px; }
+
+/* Merged Reminders page: Notifications section at the same scale as the
+   Reminders block above it (2026-10-21, his consistency note). */
+#setSub-remind h3.sub { margin-top: 26px; }
+.notif-row { display: flex; gap: 10px; align-items: center; margin: 13px 0; font-size: 17px; color: var(--ink); }
+.notif-row input { width: 20px; height: 20px; flex: 0 0 auto; }
+.notif-head { font-size: 17px; }
