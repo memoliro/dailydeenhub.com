@@ -1214,3 +1214,37 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 
 /* Muted speaker: dark, dim disc — the state must read at a glance (2026-10-21). */
 #tasbihMute.muted { background: #232f47; border-color: #3c4c6e; color: #8fa1bd; box-shadow: none; opacity: .8; }
+
+/* ===== Home gold family (2026-10-21, his polish pass): the hero (next
+   prayer + today's dates), the next-prayer cell and the moment cards
+   (verse / hadith / names of the day + dua / asma) share one look —
+   gold gradient, black text. ===== */
+.hero {
+  background: linear-gradient(150deg, #f0cd85, #dfb45e 55%, #c9962e);
+  color: #1b140c;
+  border: 1px solid #c9962e;
+  border-radius: 26px;
+  margin: 12px 12px 4px;
+  padding-bottom: 22px;
+  box-shadow: 0 14px 34px rgba(201, 150, 46, .22);
+}
+.hero-label { color: #1b140c; }
+.hero-k { color: #8a3b12; }
+.hero .note { color: rgba(27, 20, 12, .72); }
+.date-pill { border-color: rgba(27, 20, 12, .35); background: rgba(255, 255, 255, .28); color: #1b140c; }
+.vakt.on { background: linear-gradient(135deg, #e8c476, #c9962e); border-color: #c9962e; color: #1b140c; box-shadow: 0 8px 24px rgba(201, 150, 46, .28); }
+.vakt.on .nm { color: rgba(27, 20, 12, .72); }
+.vakt.on .st { color: rgba(27, 20, 12, .68); }
+.vakt.on .vakt-check { border-color: rgba(27, 20, 12, .45); color: #1b140c; background: rgba(255, 255, 255, .25); }
+.vakt.on .vakt-check.on { background: #1b140c; border-color: #1b140c; color: #f4d98c; }
+.mcard { background: linear-gradient(160deg, #f0cd85, #dfb45e 55%, #c9962e); border-color: #c9962e; min-height: 0; justify-content: flex-start; }
+.mcard-bg, .mcard-veil { display: none; }
+.mcard-pill { background: #1b140c; border-color: transparent; color: #f4d98c; backdrop-filter: none; }
+.mcard-names .mcard-pill { background: #1b140c; border-color: transparent; color: #f4d98c; }
+.mcard-names { color: #1b140c; }
+.mcard-body { padding: 62px 20px 4px; }
+.mcard-ar, .mcard-tx { color: #1b140c; text-shadow: none; }
+.mcard-ref { color: rgba(27, 20, 12, .72); }
+.mcard-wm { color: rgba(27, 20, 12, .55); }
+.mcard-share { background: #1b140c !important; color: #f4d98c; box-shadow: 0 4px 14px rgba(27, 20, 12, .3); }
+.mcard-share svg { fill: #f4d98c; }
