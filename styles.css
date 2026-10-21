@@ -1258,3 +1258,8 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 #installPopup #installPopIOS { line-height: 2; }
 #installPopup .steps { color: #e8c476; font-weight: 800; }
 #installPopup .row button { font-size: 16px; padding: 12px 20px; }
+
+/* Settings install block: same readable size as the install popup
+   (2026-10-21) — the hint/steps were 12px notes. */
+#installRow #installHint { font-size: 16px; line-height: 1.9; color: var(--ink); }
+#installRow .steps { color: #e8c476; font-weight: 800; }

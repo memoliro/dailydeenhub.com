@@ -65,6 +65,10 @@ function isIOS() {
 
 function refreshInstallHint() {
   var row = $('installRow'), hint = $('installHint'), btn = $('installBtn');
+  // Settings menu row mirrors the block: visible only when this device has
+  // not installed the app AND installing is possible (prompt or iOS steps).
+  var mrow = $('installMenuRow');
+  if (mrow) mrow.classList.toggle('hidden', isInstalled() || (!deferredPrompt && !isIOS()));
   if (!row) return;
   if (isInstalled()) { row.classList.add('hidden'); row.classList.remove('ios-install-box'); return; }
   if (deferredPrompt) {
@@ -291,6 +295,13 @@ function boot() {
   });
   var ibtn = $('installBtn');
   if (ibtn) ibtn.addEventListener('click', doInstall);
+  var mrow = $('installMenuRow');
+  if (mrow) mrow.addEventListener('click', function () {
+    if (deferredPrompt) { doInstall(); return; }
+    // iOS: the steps live on the Reminders page — go there and show them.
+    try { setShow('remind'); } catch (e) {}
+    setTimeout(function () { var r = $('installRow'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 90);
+  });
   var popBtn = $('installPopBtn');
   if (popBtn) popBtn.addEventListener('click', function () { doInstall(); hideInstallPopup(true); });
   var popLater = $('installPopLater');
