@@ -1183,7 +1183,7 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 
 /* Back buttons: FINAL word (kept at end of file so no earlier per-button
    rule can override) — same gold + dark text as the Find-nearby highlight. */
-#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold, #radioBtn, #compassBtn, #qiblaOpen, #tasbihReset, #beadReset, #voiceClose, #locClose, #vmClose {
+#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold, #radioBtn, #compassBtn, #qiblaOpen, #tasbihReset, #beadReset, #voiceClose, #locClose, #vmClose, #gpsBtn {
   background: linear-gradient(135deg, #e8c476, #c9962e);
   border: 1px solid #c9962e;
   color: #1b140c;
