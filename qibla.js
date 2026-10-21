@@ -24,7 +24,7 @@ const T = {
   document.documentElement.lang = LANG;
   document.title = T.docTitle;
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  set("home", T.home); set("back", T.back); set("barTitle", T.barTitle); set("locate", T.locate);
+  set("back", T.back); set("barTitle", T.barTitle); set("locate", T.locate);
   set("lblBearing", T.bearing); set("lblDistance", T.distance); set("lblYou", T.you); set("lblLine", T.line);
   const q = document.getElementById("q"); if (q) q.placeholder = T.searchPh;
   const st = document.getElementById("status"); if (st && ["Drag the map", "Haritay\u0131 s\u00fcr\u00fckleyin", "Faites glisser la carte"].includes(st.textContent)) st.textContent = T.dragMap;

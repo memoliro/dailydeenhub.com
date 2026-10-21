@@ -76,7 +76,7 @@ header.top {
 .brand-mark { width: 44px !important; height: 44px !important; border-radius: 0 !important; }
 .brand-word { width: auto !important; height: 30px !important; border-radius: 0 !important; }
 /* wordmark/mark are dark-navy artwork: render white on the dark theme */
-.brand-mark, .brand-word { filter: brightness(0) invert(1); }
+/* Brand art is gold-on-transparent, made for the dark header — no filter. */
 body[data-theme="day"] .brand-mark, body[data-theme="day"] .brand-word { filter: none; }
 .brand b { font-family: var(--serif); font-weight: 560; font-size: 20px; }
 .brand small { display: block; color: var(--muted); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
