@@ -1074,7 +1074,7 @@ function renderTimes() {
   // up with the push notification (the service worker shows push only when
   // no tab is visible, so visible-tab ⟺ local and hidden-tab ⟺ push are
   // mutually exclusive — exactly one notification ever fires).
-  if (dayOffset === 0 && state.notify && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted" && document.visibilityState === "visible") {
+  if (dayOffset === 0 && state.notify && !pushActiveLocal() && !(state.remindOn && state.remindOn[nextKey] === false) && "Notification" in window && Notification.permission === "granted" && document.visibilityState === "visible") {
     const minsLeft = nextAt - nowMin, rm = (state.remind && state.remind[nextKey] != null) ? state.remind[nextKey] : 15;
     const key = `${g.date}-${nextKey}-r${rm}`;
     if (minsLeft <= rm + 0.02 && minsLeft > -1 && notifiedKey !== key) {
@@ -1087,6 +1087,14 @@ function renderTimes() {
   if (dayOffset === 0 && state.notify && "Notification" in window && Notification.permission === "granted") {
     try { checkExtraReminders(slots, nowMin, now); } catch (e) { /* extras never break the main render */ }
   }
+}
+function pushActiveLocal() {
+  // Server push is the primary channel whenever a subscription exists; the
+  // local engine is only a fallback for devices without one. On iOS a locked
+  // phone's app can still look "visible" to its own timers, which let BOTH
+  // fire for the same prayer (2026-10-21: Yatsı twice — 19:04 local + 19:05
+  // push). One channel only: push wins.
+  try { return localStorage.getItem("ddh-push") === "1"; } catch (e) { return false; }
 }
 function showLocalNotification(title, tag) {
   const fallback = () => { try { new Notification(title); } catch {} };
@@ -2589,6 +2597,7 @@ function checkExtraReminders(slots, nowMin, now) {
   // Same dedup rule as the prayer reminder: only a visible tab fires locally,
   // otherwise the push notification handles it (never both).
   if (document.visibilityState !== "visible") return;
+  if (pushActiveLocal()) return; // server pushes the extras too — one channel only
   const ex = normalizeExtra(state.extraRemind);
   if (!ex.sahur.on && !ex.tahajjud.on && !ex.fast.on && !ex.jumuah.on) return;
   const fajr = slots.find(s => s.key === "Fajr"), dhuhr = slots.find(s => s.key === "Dhuhr");

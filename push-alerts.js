@@ -47,6 +47,13 @@ async function refreshUI() {
   }
   var sub = await currentSub();
   chk.checked = !!sub;
+  // Keep the app's push-active flag truthful (app.js's local reminder engine
+  // stands down when it's set): sync it from the real subscription state on
+  // every refresh, not just on the enable/disable taps.
+  try {
+    if (sub) { localStorage.setItem('ddh-push', '1'); localStorage.removeItem('ddh-push-off'); }
+    else localStorage.removeItem('ddh-push');
+  } catch (e) {}
   if (note) note.textContent = sub ? t('pushOn') : t('pushOff');
   refreshInstallHint();
 }
