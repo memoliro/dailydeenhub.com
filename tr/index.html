@@ -31,7 +31,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png?v=2" />
   <link rel="preload" href="/fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/fonts.css?v=2" />
-  <link rel="stylesheet" href="/styles.css?v=176" />
+  <link rel="stylesheet" href="/styles.css?v=177" />
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDEZLDPY9Y"></script>
 <script src="/ga.js?v=1"></script>
@@ -424,6 +424,7 @@
           <button class="tile" data-goto="mosques" type="button"><span class="tic">🕌</span><span class="tlabel" data-i="tileMosques">Camiler</span></button>
           <button class="tile" data-goto="quiet" type="button"><span class="tic">📿</span><span class="tlabel" data-i="tileTasbih">Tesbih</span></button>
           <button class="tile" data-goto="zikir" type="button"><span class="tic">🔢</span><span class="tlabel" data-i="zikirTile">Zikir</span></button>
+          <button class="tile" data-goto="names" type="button"><span class="tic">👶</span><span class="tlabel" data-i="namesTile">Names</span></button>
           <button class="tile tile-live" data-goto="live" type="button"><span class="tic">📺<span class="tile-play-badge">▶</span></span><span class="tlabel" data-i="watchLive">Canlı İzle</span></button>
           <button class="tile" data-goto="feedback" type="button"><span class="tic">💬</span><span class="tlabel" data-i="feedback">Geri Bildirim</span></button>
           <button class="tile" data-gotoradio type="button"><span class="tic">📻</span><span class="tlabel" data-i="radioTitle">Kur'an radyosu</span></button>
@@ -449,6 +450,18 @@
           <label><span data-i="zikirCountL">Count</span><input type="number" id="zikirCount" min="1" max="100000"></label>
           <button class="primary" id="zikirSave" type="button"><span data-i="zikirSaveB">Save</span></button>
         </div>
+      </div>
+    </section>
+    <section id="panel-names" class="layout hidden">
+      <div class="panel pad narrow">
+        <button class="back-gold" data-goto="more" type="button">&larr; <span data-i="learnBack">Back</span></button>
+        <h3 data-i="namesTitle">Names</h3>
+        <p class="note" data-i="namesSub">Beautiful Muslim names for your baby, with their meanings.</p>
+        <label class="field"><input id="namesSearch" class="field" type="search" placeholder="Search names…"></label>
+        <h4 class="names-h" data-i="namesBoy">Boy names</h4>
+        <div id="namesBoys" class="rrows"></div>
+        <h4 class="names-h" data-i="namesGirl">Girl names</h4>
+        <div id="namesGirls" class="rrows"></div>
       </div>
     </section>
 
@@ -708,7 +721,7 @@
   <script src="/prayer-calc.js?v=3"></script>
   <script src="/prayer-api.js?v=6"></script>
   <script src="/push-alerts.js?v=14"></script>
-  <script src="/app.js?v=239"></script>
+  <script src="/app.js?v=240"></script>
   <script src="/learn.js?v=12"></script>
   <script src="/hisnul.js?v=3"></script>
   <script src="/qadha.js?v=3"></script>
@@ -719,7 +732,7 @@
   <script src="/ramadan.js?v=1"></script>
   <script src="/resources.js?v=7"></script>
 <script src="/hadith.js?v=10"></script>
-  <script src="/daily.js?v=16"></script>
+  <script src="/daily.js?v=17"></script>
 
   <div class="modal hidden" id="installPopup" style="z-index:60">
     <div class="sheet">

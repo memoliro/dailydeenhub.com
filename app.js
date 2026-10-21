@@ -77,7 +77,7 @@ const I18N = {
     qadhaNow: "just now", qadhaMinAgo: "min ago", qadhaHrsAgo: "h ago", qadhaDaysAgo: "d ago",
     qadhaRamadanNote: "Fasting too? Track your Ramadan fasts the same way \u2192",
     qadhaCalcTitle: "Estimate missed prayers", qadhaCalcSince: "Missed since (date)", qadhaCalcDays: "Or missed days (estimate)", qadhaCalcAdd: "Calculate & add", qadhaCalcConfirm: "Tap again to confirm", qadhaCalcPrev: "~{d} days x 5 prayers = {n} to add.", qadhaCalcNone: "Pick a date or enter days first.", qadhaCalcEst: "Estimate added",
-    zikirTile: "Zikir", zikirTitle: "Dhikr", zikirSub: "Pick a dhikr, then count it on the tasbih.",
+    zikirTile: "Zikir", namesTile: "Names", namesTitle: "Names", namesSub: "Beautiful Muslim names for your baby, with their meanings.", namesBoy: "Boy names", namesGirl: "Girl names", namesSearchPh: "Search names…", zikirTitle: "Dhikr", zikirSub: "Pick a dhikr, then count it on the tasbih.",
     zikirAdd: "+ Add my own dhikr", zikirNameL: "Dhikr", zikirCountL: "Count", zikirSaveB: "Save",
     zikirHusna: "Esmaül Hüsna", zikirMine: "My dhikrs", zikirBack: "Back",
     zikirNames: { salawat: "Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid", hawqala: "La hawla wa la quwwata illa billah", tahlilWahdahu: "La ilaha illallah wahdahu la sharika lah", bismillah: "Bismillah ir-Rahman ir-Rahim", subhanallah: "Subhanallah", alhamdulillah: "Alhamdulillah", allahuAkbar: "Allahu Akbar", tahlil: "La ilaha illallah", istighfar: "Astaghfirullah" },
@@ -167,7 +167,7 @@ const I18N = {
     qadhaRecent: "Son hareketler", qadhaMadeUpLog: "kılındı", qadhaMissedLog: "kaçırıldı", qadhaFullDay: "Tüm gün",
     qadhaNow: "az önce", qadhaMinAgo: "dk önce", qadhaHrsAgo: "sa önce", qadhaDaysAgo: "gün önce",
     qadhaCalcTitle: "Ka\u00e7\u0131r\u0131lan namazlar\u0131 hesapla", qadhaCalcSince: "Ka\u00e7\u0131rd\u0131\u011f\u0131m tarih", qadhaCalcDays: "veya ka\u00e7\u0131r\u0131lan g\u00fcn (tahmini)", qadhaCalcAdd: "Hesapla & ekle", qadhaCalcConfirm: "Onaylamak i\u00e7in tekrar dokun", qadhaCalcPrev: "~{d} g\u00fcn x 5 namaz = eklenecek {n}.", qadhaCalcNone: "\u00d6nce tarih se\u00e7 veya g\u00fcn gir.", qadhaCalcEst: "Tahmin eklendi",
-    zikirTile: "Zikir", zikirTitle: "Zikir", zikirSub: "Bir zikir se\u00e7, sonra tesbihte say.",
+    zikirTile: "Zikir", namesTile: "İsimler", namesTitle: "İsimler", namesSub: "Bebeğiniz için, anlamlarıyla birlikte güzel Müslüman isimleri.", namesBoy: "Erkek isimleri", namesGirl: "Kız isimleri", namesSearchPh: "İsim ara…", zikirTitle: "Zikir", zikirSub: "Bir zikir se\u00e7, sonra tesbihte say.",
     zikirAdd: "+ Kendi zikrimi ekle", zikirNameL: "Zikir", zikirCountL: "Adet", zikirSaveB: "Kaydet",
     zikirHusna: "Esma\u00fcl H\u00fcsna", zikirMine: "Zikirlerim", zikirBack: "Geri",
     zikirNames: { salawat: "Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid", hawqala: "La hawla wa la quwwata illa billah", tahlilWahdahu: "La ilaha illallah wahdahu la sharika lah", bismillah: "Bismillah ir-Rahman ir-Rahim", subhanallah: "Subhanallah", alhamdulillah: "Alhamdulillah", allahuAkbar: "Allahu Akbar", tahlil: "La ilaha illallah", istighfar: "Astaghfirullah" },
@@ -254,7 +254,7 @@ const I18N = {
     qadhaTitle: "Prières qada",
     qadhaOwed: "prières à rattraper",
     qadhaCalcTitle: "Estimer les prières manquées", qadhaCalcSince: "Manquées depuis (date)", qadhaCalcDays: "Ou jours manqués (estimation)", qadhaCalcAdd: "Calculer & ajouter", qadhaCalcConfirm: "Touchez à nouveau pour confirmer", qadhaCalcPrev: "~{d} jours x 6 prières = {n} à ajouter.", qadhaCalcNone: "Choisissez une date ou entrez des jours.", qadhaCalcEst: "Estimation ajoutée",
-    zikirTile: "Zikir", zikirTitle: "Dhikr", zikirSub: "Choisissez un dhikr, puis comptez-le sur le tasbih.",
+    zikirTile: "Zikir", namesTile: "Prénoms", namesTitle: "Prénoms", namesSub: "De beaux prénoms musulmans pour votre bébé, avec leur signification.", namesBoy: "Prénoms de garçon", namesGirl: "Prénoms de fille", namesSearchPh: "Rechercher un prénom…", zikirTitle: "Dhikr", zikirSub: "Choisissez un dhikr, puis comptez-le sur le tasbih.",
     zikirAdd: "+ Ajouter mon dhikr", zikirNameL: "Dhikr", zikirCountL: "Nombre", zikirSaveB: "Enregistrer",
     zikirHusna: "Esmaül Hüsna", zikirMine: "Mes dhikrs", zikirBack: "Retour",
     zikirNames: { salawat: "Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid", hawqala: "La hawla wa la quwwata illa billah", tahlilWahdahu: "La ilaha illallah wahdahu la sharika lah", bismillah: "Bismillah ir-Rahman ir-Rahim", subhanallah: "Subhanallah", alhamdulillah: "Alhamdulillah", allahuAkbar: "Allahu Akbar", tahlil: "La ilaha illallah", istighfar: "Astaghfirullah" },
@@ -1904,13 +1904,14 @@ function showTab(id) {
     const el = document.getElementById(hid);
     if (el) el.classList.toggle("hidden", !isHome);
   });
-  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays", "cards", "khatm", "articles", "zikir"].forEach(k => {
+  ["month", "qibla", "quran", "quiet", "mosques", "settings", "more", "live", "feedback", "learn", "hisnul", "qadha", "resources", "hadith", "library", "extra", "holydays", "cards", "khatm", "articles", "zikir", "names"].forEach(k => {
     const p = document.getElementById("panel-" + k);
     if (p) p.classList.toggle("hidden", k !== id);
   });
   document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on",
-    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles" || id === "zikir"))));
+    b.dataset.goto === id || (b.dataset.goto === "more" && (id === "month" || id === "live" || id === "feedback" || id === "learn" || id === "hisnul" || id === "qadha" || id === "resources" || id === "hadith" || id === "library" || id === "extra" || id === "holydays" || id === "cards" || id === "khatm" || id === "articles" || id === "zikir" || id === "names"))));
   if (id === "quiet") setTimeout(layoutBeadFrame, 60);
+  if (id === "names" && typeof renderNames === "function") renderNames();
   if (id === "quiet") {
     // "← Zikir" back shows ONLY when the tasbih was entered from the
     // Zikir list (startZikir sets the flag); bottom-nav entry hides it.
