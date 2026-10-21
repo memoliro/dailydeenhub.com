@@ -1182,7 +1182,7 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 
 /* Back buttons: FINAL word (kept at end of file so no earlier per-button
    rule can override) — same gold + dark text as the Find-nearby highlight. */
-#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold, #radioBtn, #compassBtn, #qiblaOpen, #tasbihReset, #beadReset {
+#learnBack, #asrBack, #hsnBack, .hd-back, .zikir-back, .back-gold, #radioBtn, #compassBtn, #qiblaOpen, #tasbihReset, #beadReset, #voiceClose, #locClose, #vmClose {
   background: linear-gradient(135deg, #e8c476, #c9962e);
   border: 1px solid #c9962e;
   color: #1b140c;
@@ -1210,3 +1210,6 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
 .notif-row { display: flex; gap: 10px; align-items: center; margin: 13px 0; font-size: 17px; color: var(--ink); }
 .notif-row input { width: 20px; height: 20px; flex: 0 0 auto; }
 .notif-head { font-size: 17px; }
+
+/* Muted speaker: dark, dim disc — the state must read at a glance (2026-10-21). */
+#tasbihMute.muted { background: #232f47; border-color: #3c4c6e; color: #8fa1bd; box-shadow: none; opacity: .8; }
