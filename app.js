@@ -823,8 +823,25 @@ function qiblaBearing(lat, lon) {
   return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 }
 
+
+// Cross-page links (About / Terms / Privacy) are baked into each language's
+// HTML file, so after an in-place language switch — or when the saved
+// language differs from the document's — they would open the wrong
+// language's page (his report, 2026-10-21). Retarget them to the selected
+// language on every applyI18n and at boot.
+function syncPageLinks() {
+  try {
+    const pre = langPath(state.lang);
+    document.querySelectorAll('a[href^="/"]').forEach(a => {
+      const h = a.getAttribute("href") || "";
+      const m = h.match(/^\/(?:tr\/|fr\/)?((?:about|terms|privacy)\.html)$/);
+      if (m) a.setAttribute("href", pre + m[1]);
+    });
+  } catch {}
+}
 function applyI18n() {
   document.documentElement.lang = state.lang;
+  syncPageLinks();
   document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t(el.dataset.i); });
   document.querySelectorAll("[data-i-ph]").forEach(el => { el.placeholder = t(el.dataset.iPh); });
   document.querySelectorAll("[data-i-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.iAria)); el.title = t(el.dataset.iAria); });
@@ -845,7 +862,7 @@ function applyI18n() {
   if (typeof refreshLearnView === "function") refreshLearnView();
   if (typeof renderLibrary === "function") renderLibrary(false);
   const bw = document.getElementById("brandWord");
-  if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr.png" : "/images/logo-text-en.png"; bw.alt = pickL("Günlük Din", "Daily Deen Hub", "Daily Deen Hub"); }
+  if (bw) { bw.src = state.lang === "tr" ? "/images/logo-text-tr-gold.png" : "/images/logo-text-en-gold.png"; bw.alt = pickL("Günlük Din", "Daily Deen Hub", "Daily Deen Hub"); }
   const _fn = document.getElementById("footerNote"); if (_fn) _fn.textContent = t("footer");
   const how = document.getElementById("howBody");
   if (how) how.textContent = t("howBody");
@@ -3502,6 +3519,7 @@ function setLanguage(lang) {
 // (his wife's report, 2026-10-20: Turkish UI, but shares arrived in English
 // because the URL still pointed at the English root). Silent, no reload.
 (function syncLangUrlOnBoot() {
+  syncPageLinks();
   try {
     const target = langPath(state.lang);
     if (target !== langPath(pathLang())) history.replaceState(null, "", target);

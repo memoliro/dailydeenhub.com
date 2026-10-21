@@ -348,7 +348,8 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 .tabs button.on { background: var(--green); border-color: var(--green); color: #fff; }
 .vakt.on { border-color: var(--green-bright); box-shadow: 0 0 0 1px var(--green-bright), 0 8px 24px rgba(14, 107, 74, 0.25); }
 .vakt.on .nm { color: var(--green-bright); }
-.stations button.on, #ramadanMode.on, #monthMode.on { background: var(--green); border-color: var(--green); color: #fff; }
+.stations button.on { background: var(--green); border-color: var(--green); color: #fff; }
+#ramadanMode.on, #monthMode.on { background: linear-gradient(135deg, #e8c476, #c9962e); border-color: #c9962e; color: #1b140c; font-weight: 700; }
 #arc { stroke: var(--green-bright); }
 .prayer-name { color: var(--green-bright); }
 .kicker { color: var(--green-bright); }
@@ -358,7 +359,7 @@ footer.foot { color: var(--dim); font-size: 12px; line-height: 1.5; padding-bott
 a { color: var(--green-bright); }
 
 /* Hijri calendar */
-#monthBody td.today { background: var(--green); color: #fff; border-radius: 10px; }
+#monthBody td.today { background: linear-gradient(135deg, #e8c476, #c9962e); color: #1b140c; border-radius: 10px; }
 #monthBody td[data-calday] { cursor: pointer; text-align: center; }
 #monthBody td span.hday { color: var(--gold); font-weight: 600; }
 #monthHeading .hh { color: var(--gold); font-size: .85em; font-weight: 400; }
@@ -371,7 +372,7 @@ a { color: var(--green-bright); }
 .cald-times span i { font-style: normal; opacity: .6; margin-right: 5px; }
 #monthBody td b { display: block; font-size: 16px; }
 #monthBody td span { font-size: 11px; color: var(--dim); }
-#monthBody td.today span { color: rgba(255,255,255,.8); }
+#monthBody td.today span { color: rgba(27,20,12,.75); }
 /* Month / Ramadan imsakiye table: fixed layout so all 7 columns (incl. Isha/Yatsi)
    always fit the phone screen instead of overflowing past the right edge. */
 #panel-month table { table-layout: fixed; }
