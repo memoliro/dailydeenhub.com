@@ -2720,7 +2720,7 @@ function openGreetViewer(f) {
 (function wireGreetViewer() {
   const v = document.getElementById("greetViewer");
   if (!v) return;
-  document.getElementById("greetViewerClose").onclick = () => v.classList.add("hidden");
+  document.getElementById("greetViewerBack").onclick = () => v.classList.add("hidden");
   v.addEventListener("click", e => { if (e.target === v) v.classList.add("hidden"); });
   document.getElementById("greetViewerShare").onclick = () => { if (_gvFile) shareGreeting(_gvFile); };
 })();
