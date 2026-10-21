@@ -1237,3 +1237,8 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
    Today label of the weather strip. Labels only — no cards change. */
 #locLabel { color: #e8c476; }
 .wx-day:first-child .wx-dn { color: #e8c476; opacity: 1; font-weight: 700; }
+
+/* Next-prayer cell: its name is a label — gold, with a gold ring to match
+   (was the last green on Home). */
+.vakt.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 8px 24px rgba(201, 150, 46, .25); }
+.vakt.on .nm { color: #e8c476; }
