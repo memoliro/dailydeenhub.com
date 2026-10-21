@@ -1232,3 +1232,8 @@ body.quran-open #panel-quran .reader-card { padding-bottom: 16px; }
   width: 42px; height: 42px;
   font-size: 17px; font-weight: 700;
 }
+
+/* Header labels in gold text (2026-10-21, pilot): the city name and the
+   Today label of the weather strip. Labels only — no cards change. */
+#locLabel { color: #e8c476; }
+.wx-day:first-child .wx-dn { color: #e8c476; opacity: 1; font-weight: 700; }
