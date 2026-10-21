@@ -29,9 +29,13 @@ function renderKhatm() {
   if (khatmActive >= khatms.length) khatmActive = 0;
   const k = khatms[khatmActive];
   if (!k.done) k.done = {};
-  // tabs
+  // tabs — a khatm still carrying the auto-default name (created under
+  // another UI language) displays the default in the CURRENT language;
+  // user-chosen names are shown as-is. (Wife's report, 2026-10-20.)
+  const KHATM_DEFAULTS = ["My Khatm", "Hatmim", "Mon Khatm"];
+  const khatmLabel = x => KHATM_DEFAULTS.includes(x.name) ? t("khatmDefault") : x.name;
   tabsEl.innerHTML = khatms.map((x, i) =>
-    `<button type="button" data-ki="${i}" class="khatm-tab${i === khatmActive ? " on" : ""}">${esc(x.name || ("#" + (i + 1)))}</button>`
+    `<button type="button" data-ki="${i}" class="khatm-tab${i === khatmActive ? " on" : ""}">${esc(khatmLabel(x) || ("#" + (i + 1)))}</button>`
   ).join("");
   tabsEl.querySelectorAll("[data-ki]").forEach(b => b.onclick = () => { khatmActive = +b.dataset.ki; renderKhatm(); });
   // progress
