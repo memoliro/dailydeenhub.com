@@ -763,8 +763,12 @@ function nameOf(key) {
 }
 function isFridayToday() {
   try {
-    const entry = calendar && calendar[zoneParts(state.place.tz).d];
-    return entry && entry.date && entry.date.gregorian && entry.date.gregorian.weekday.en === "Friday";
+    // Was: calendar[zoneParts().d] — a raw day-of-month index into a 0-based
+    // array, which reads TOMORROW's entry (Thu showed "Cuma", and real
+    // Fridays read Saturday and missed it). Use the same date-matched entry
+    // the hero renders, so the label always agrees with the day on screen.
+    const entry = todayEntry();
+    return !!(entry && entry.date && entry.date.gregorian && entry.date.gregorian.weekday.en === "Friday");
   } catch { return false; }
 }
 function pad(n) { return String(n).padStart(2, "0"); }
