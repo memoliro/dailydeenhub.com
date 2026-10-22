@@ -89,7 +89,7 @@ const HUSNA_EBCED = [
   ["Al-Afuww", 156],
   ["Ar-Ra'uf", 286],
   ["Malik-ul-Mulk", 212],
-  ["Dhul-Jalali-wal-Ikram", 1155],
+  ["Dhul-Jalali-wal-Ikram", 1100], // ebced value 1098; zikir count 1100 — memoli's ruling 2026-10-22
   ["Al-Muqsit", 209],
   ["Al-Jami", 114],
   ["Al-Ghaniyy", 1060],
