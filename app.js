@@ -2180,13 +2180,20 @@ async function openChapter(id, keepAudio = false) {
   stopFollow();
   followState.idx = 0; // new chapter starts from the first verse, not a stale position
   chapterData = { id, uthmani: uthmani.verses || [], meal: meal.translations || [], pron: null };
+  // Load the current view's extra data BEFORE the first render. Previously
+  // these loaded fire-and-forget after render, so a jump's scrollIntoView
+  // could run while the target verse wasn't in the DOM yet (Mushaf showed a
+  // "loading" placeholder) — the scroll silently did nothing and the reader
+  // stayed at the previous scroll position. That is how a 2:255 jump landed
+  // on 2:189 / 2:208 (each device's own old reading spot) instead.
+  if (state.quranView === "pron" || state.quranView === "both") await ensurePron();
+  if (state.quranView === "mushaf") await ensureMushaf();
+  if (token !== chapterToken) return; // user already opened another surah
   renderVerses();
   verses.scrollTop = previousHeight;
   refreshQuranResume();
   if (!keepAudio) { const a = document.getElementById("audio"); const p = RECITER_PATHS[state.reciter]; if (p) { a.src = `https://download.quranicaudio.com/qdc/${p}/${id}.mp3`; a.load(); } else a.removeAttribute("src"); }
   loadChapterTimings();
-  if (state.quranView === "pron" || state.quranView === "both") ensurePron().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
-  if (state.quranView === "mushaf") ensureMushaf().then(() => { if (chapterData && chapterData.id === id) renderVerses(); });
 }
 let chapterData = null;
 async function ensurePron() {
@@ -2199,6 +2206,10 @@ async function ensurePron() {
 function renderVerses() {
   const box = document.getElementById("verses");
   if (!box || !chapterData) return;
+  // Re-rendering replaces the DOM, which resets the scroll to the top.
+  // Keep the reader where it was (a jump's scroll, or the user's place).
+  const prevTop = box.scrollTop;
+  const restoreScroll = () => { box.scrollTop = prevTop; };
   const mode = state.quranView || "trans";
   if (mode === "mushaf") { renderMushaf(box); }
   else {
@@ -2216,6 +2227,7 @@ function renderVerses() {
   if (typeof jumpHlIdx === "number" && jumpHlIdx >= 0) {
     document.querySelectorAll(`#verses .verse[data-v="${jumpHlIdx}"], #verses .mverse[data-v="${jumpHlIdx}"]`).forEach(e => e.classList.add("on", "jump-hl"));
   }
+  restoreScroll();
 }
 /* ===== Quran reading position: pick up where you left off ===== */
 const QPOS_KEY = "ddh-quran-pos";
