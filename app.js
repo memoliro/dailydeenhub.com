@@ -1930,6 +1930,15 @@ function visibleTab() {
   }
   return "home";
 }
+// The Quran player bar sits directly above the bottom nav. The nav's height
+// varies by device (safe-area inset, font scaling), so a hardcoded 66px
+// offset overlapped the nav buttons on some phones. Measure it instead.
+function syncBnavH() {
+  const nav = document.querySelector(".bnav");
+  if (nav) document.documentElement.style.setProperty("--bnav-h", nav.offsetHeight + "px");
+}
+window.addEventListener("resize", syncBnavH);
+window.addEventListener("orientationchange", () => setTimeout(syncBnavH, 300));
 function showTab(id) {
   const homeIds = ["homeHero", "panel-home"];
   const isHome = (id === "home");
@@ -1953,6 +1962,7 @@ function showTab(id) {
     window._tbFromZikir = false;
   }
   document.body.classList.toggle("quran-open", id === "quran");
+  syncBnavH();
   if (id === "quran") {
     wireQuranPosTracking();
     if (!chapters.length) loadChapters().then(refreshQuranResume);
